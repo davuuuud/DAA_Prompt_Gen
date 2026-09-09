@@ -111,8 +111,8 @@
         src="{import.meta.env.BASE_URL}logo-144.png"
         srcset="{import.meta.env.BASE_URL}logo-144.png 1x, {import.meta.env
           .BASE_URL}logo-288.png 2x"
-        width="72"
-        height="72"
+        width="96"
+        height="96"
         alt="Logo {APP_ORG} – KI Genies"
       />
       <div class="kopftext">
@@ -318,16 +318,16 @@
 
   .logo {
     flex: none;
-    width: 4.5rem;
-    height: 4.5rem;
+    width: 6rem;
+    height: 6rem;
     border-radius: 12px;
     /* Auf dunklem Grund würde die blaue Kachel sonst hart abbrechen. */
     box-shadow: 0 0 0 1px var(--rand);
   }
 
   .traeger {
-    margin: 0 0 0.15rem;
-    font-size: 0.78rem;
+    margin: 0 0 0.2rem;
+    font-size: 0.95rem;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -336,13 +336,13 @@
 
   h1 {
     margin: 0;
-    font-size: 1.6rem;
-    line-height: 1.2;
+    font-size: 2.1rem;
+    line-height: 1.15;
   }
 
   .urheber {
-    margin: 0.2rem 0 0;
-    font-size: 0.78rem;
+    margin: 0.3rem 0 0;
+    font-size: 0.92rem;
     font-style: italic;
     color: var(--text-schwach);
   }
@@ -516,6 +516,38 @@
 
   footer a:hover {
     color: var(--akzent);
+  }
+
+  /* Der Titel ist ein einziges langes Wort und kann nicht umbrechen. Auf
+     schmalen Bildschirmen liefe er aus dem Textblock heraus, weil das Logo
+     daneben Platz belegt. Deshalb beides gestuft verkleinern - und nur so
+     weit, dass es größer bleibt als vor der Vergrößerung. */
+  @media (max-width: 30rem) {
+    .logo {
+      width: 5rem;
+      height: 5rem;
+    }
+
+    h1 {
+      font-size: 1.9rem;
+    }
+  }
+
+  @media (max-width: 22.5rem) {
+    .logo {
+      width: 4.25rem;
+      height: 4.25rem;
+    }
+
+    /* 1.7rem statt 1.75: Bei 1.75 fuellte der Titel den Platz exakt aus,
+       ohne jede Reserve fuer abweichende Schriftdarstellung. */
+    h1 {
+      font-size: 1.7rem;
+    }
+
+    .urheber {
+      font-size: 0.85rem;
+    }
   }
 
   @media (max-width: 30rem) {
