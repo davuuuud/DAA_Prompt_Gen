@@ -118,6 +118,7 @@
       <div class="kopftext">
         <p class="traeger">{APP_ORG}</p>
         <h1>{APP_NAME}</h1>
+        <p class="urheber">Eine Idee von Mick Jagger, John Lennon und Douglas Adams</p>
       </div>
     </div>
     <p class="anriss">Wer eine KI einfach so fragt, bekommt eine allgemeine Antwort.</p>
@@ -337,6 +338,13 @@
     margin: 0;
     font-size: 1.6rem;
     line-height: 1.2;
+  }
+
+  .urheber {
+    margin: 0.2rem 0 0;
+    font-size: 0.78rem;
+    font-style: italic;
+    color: var(--text-schwach);
   }
 
   /* Drei Stufen statt eines Blocks: Der Anriss trägt, die Erklärung stützt,
