@@ -33,7 +33,7 @@ export interface Settings {
 export function defaultSettings(): Settings {
   return {
     version: SETTINGS_VERSION,
-    beruf: 'allgemein',
+    beruf: 'kgq',
     aufgabe: 'erklaeren',
     niveau: 'pruefung',
     format: 'stichpunkte',

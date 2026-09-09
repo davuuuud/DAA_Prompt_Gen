@@ -53,8 +53,8 @@ describe('Quellenkatalog', () => {
   });
 
   it('versorgt jeden der vorgegebenen Berufe mit eigenen Quellen', () => {
-    // Der Auffangeintrag 'allgemein' hat naturgemäß keine eigenen.
-    for (const beruf of BERUFE.filter((b) => b.id !== 'allgemein')) {
+    // Die Grundqualifikation kommt mit den allgemeinen Quellen aus.
+    for (const beruf of BERUFE.filter((b) => b.id !== 'kgq')) {
       const eigene = QUELLEN.filter((q) => q.berufe?.includes(beruf.id));
       expect(eigene.length, `${beruf.id} hat keine berufsspezifische Quelle`).toBeGreaterThan(0);
     }
@@ -79,13 +79,13 @@ describe('Quellenkatalog', () => {
     expect(quellenBezeichnungen('immobilien', ['weg'])).toEqual([
       'WEG (Wohnungseigentumsgesetz)',
     ]);
-    expect(quellenBezeichnungen('allgemein', ['ihk-veroeffentlichungen'])).toEqual([
+    expect(quellenBezeichnungen('kgq', ['ihk-veroeffentlichungen'])).toEqual([
       'IHK-Veröffentlichungen',
     ]);
   });
 
   it('ignoriert unbekannte Bezeichner', () => {
-    expect(quellenBezeichnungen('allgemein', ['gibt-es-nicht', 'bgb'])).toEqual([
+    expect(quellenBezeichnungen('kgq', ['gibt-es-nicht', 'bgb'])).toEqual([
       'BGB (Bürgerliches Gesetzbuch)',
     ]);
   });
@@ -117,7 +117,7 @@ describe('Einstellungen', () => {
       quellen: ['bgb', 'unfug', 'bgb'],
       quellenFreitext: 17,
     });
-    expect(s.beruf).toBe('allgemein');
+    expect(s.beruf).toBe('kgq');
     expect(s.aufgabe).toBe('erklaeren');
     expect(s.niveau).toBe('pruefung');
     expect(s.format).toBe('stichpunkte');
@@ -130,7 +130,7 @@ describe('Einstellungen', () => {
   it('verkraftet null, undefined und falsche Typen', () => {
     for (const unsinn of [null, undefined, 42, 'text', []]) {
       expect(() => normalizeSettings(unsinn)).not.toThrow();
-      expect(normalizeSettings(unsinn).beruf).toBe('allgemein');
+      expect(normalizeSettings(unsinn).beruf).toBe('kgq');
     }
   });
 

@@ -6,23 +6,22 @@
 // Array-Indizes: Gespeicherte Einstellungen überleben damit jede spätere
 // Erweiterung der Kataloge.
 
-// Reihenfolge wie vom Bildungsträger vorgegeben; 'allgemein' steht als
-// Auffangeintrag voran.
+// Die kaufmännische Grundqualifikation steht voran, alle übrigen alphabetisch.
 export type BerufId =
-  | 'allgemein'
+  | 'kgq'
+  | 'fachinformatik'
+  | 'lagerlogistik'
+  | 'schutzsicherheit'
+  | 'immobilien'
   | 'industrie'
   | 'bueromanagement'
+  | 'spedition'
+  | 'ecommerce'
   | 'einzelhandel'
   | 'gesundheit'
   | 'grosshandel'
-  | 'immobilien'
-  | 'steuerfach'
-  | 'lagerlogistik'
-  | 'schutzsicherheit'
   | 'personaldienstleistung'
-  | 'ecommerce'
-  | 'spedition'
-  | 'fachinformatik';
+  | 'steuerfach';
 
 export type AufgabeId =
   | 'erklaeren'
@@ -59,7 +58,14 @@ export type QuellenGruppe = 'gesetz' | 'ihk' | 'fachverlag' | 'statistik';
 
 export interface Beruf {
   id: BerufId;
+  /** Anzeige in der Auswahlliste, in der Schreibweise des Bildungsträgers. */
   label: string;
+  /**
+   * Einzahlform für den Satz im Prompt („Umschulung zum/zur …"). Die Anzeige
+   * verwendet den geschlechtsneutralen Plural, der sich in diesen Satz nicht
+   * einsetzen ließe. Fehlt die Angabe, wird `label` verwendet.
+   */
+  singular?: string;
   /**
    * Zuständige Prüfungsstelle. Fehlt die Angabe, ist es die IHK — das trifft
    * auf die meisten zu. Steuerfachangestellte prüft dagegen die

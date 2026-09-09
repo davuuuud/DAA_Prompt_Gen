@@ -84,10 +84,13 @@ export function buildPrompt(input: PromptInput): string {
   abschnitt('ROLLE', [
     'Du bist eine erfahrene Lehrkraft für die berufliche Aus- und Weiterbildung in ' +
       `Deutschland und kennst die Prüfungsanforderungen der ${pruefstelle}.`,
-    beruf.id === 'allgemein'
-      ? 'Ich mache eine Umschulung und lerne für die Abschlussprüfung.'
-      : `Ich mache eine Umschulung zum/zur ${beruf.label} und lerne für die Abschlussprüfung ` +
-        `vor der ${pruefstelle}.`,
+    beruf.id === 'kgq'
+      ? 'Ich nehme an einer kaufmännischen Grundqualifikation teil und bereite mich damit ' +
+        'auf eine Ausbildung oder Umschulung vor.'
+      : // Einzahlform, weil sich der angezeigte Plural in diesen Satz nicht
+        // einsetzen ließe.
+        `Ich mache eine Umschulung zum/zur ${beruf.singular ?? beruf.label} und lerne für die ` +
+        `Abschlussprüfung vor der ${pruefstelle}.`,
   ]);
 
   // --- AUFGABE -------------------------------------------------------------

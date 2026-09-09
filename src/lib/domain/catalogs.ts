@@ -11,25 +11,69 @@ import type {
 } from './types';
 import { plural } from './text';
 
-// Die Auswahl und ihre Reihenfolge stammen vom Bildungsträger. Die dort
-// gebräuchlichen Kürzel stehen als Kommentar dabei, damit die Zuordnung
-// nachvollziehbar bleibt; angezeigt wird die ausgeschriebene Bezeichnung,
-// weil Umschülerinnen und Umschüler die Kürzel nicht zwingend kennen.
+// Auswahl und Schreibweise stammen vom Bildungsträger, die dort gebräuchlichen
+// Kürzel stehen als Kommentar dabei. Die kaufmännische Grundqualifikation steht
+// voran, alle übrigen alphabetisch nach der angezeigten Bezeichnung.
+//
+// Angezeigt wird der geschlechtsneutrale Plural. Für den Satz im Prompt
+// („Umschulung zum/zur …") wird die Einzahlform gebraucht, weil der Plural sich
+// dort nicht einsetzen ließe.
 export const BERUFE: Beruf[] = [
-  { id: 'allgemein', label: 'Allgemein / nicht aufgeführt' },
-  { id: 'industrie', label: 'Industriekaufmann/-frau' }, // IK
-  { id: 'bueromanagement', label: 'Kaufmann/-frau für Büromanagement' }, // KBM
-  { id: 'einzelhandel', label: 'Kaufmann/-frau im Einzelhandel' }, // EHK
-  { id: 'gesundheit', label: 'Kaufmann/-frau im Gesundheitswesen' }, // KiG
-  { id: 'grosshandel', label: 'Kaufmann/-frau für Groß- und Außenhandelsmanagement' }, // GAM
-  { id: 'immobilien', label: 'Immobilienkaufmann/-frau' }, // IMK
-  { id: 'steuerfach', label: 'Steuerfachangestellte/-r', pruefstelle: 'Steuerberaterkammer' }, // SFA
-  { id: 'lagerlogistik', label: 'Fachkraft für Lagerlogistik' }, // FK LaLo
-  { id: 'schutzsicherheit', label: 'Fachkraft für Schutz und Sicherheit' }, // FK SchuSi
-  { id: 'personaldienstleistung', label: 'Personaldienstleistungskaufmann/-frau' }, // PDK
-  { id: 'ecommerce', label: 'Kaufmann/-frau im E-Commerce' }, // KEC
-  { id: 'spedition', label: 'Kaufmann/-frau für Spedition und Logistikdienstleistung' }, // SL
-  { id: 'fachinformatik', label: 'Fachinformatiker/-in für Systemintegration' }, // FiSi
+  { id: 'kgq', label: 'Kaufmännische Grundqualifikation' }, // KGQ
+  {
+    id: 'fachinformatik', // FiSi
+    label: 'Fachinformatiker – Systemintegration',
+    singular: 'Fachinformatiker/-in für Systemintegration',
+  },
+  {
+    id: 'lagerlogistik', // FK LaLo
+    label: 'Fachkräfte für Lagerlogistik',
+    singular: 'Fachkraft für Lagerlogistik',
+  },
+  {
+    id: 'schutzsicherheit', // FK SchuSi
+    label: 'Fachkräfte für Schutz und Sicherheit',
+    singular: 'Fachkraft für Schutz und Sicherheit',
+  },
+  { id: 'immobilien', label: 'Immobilienkaufleute', singular: 'Immobilienkaufmann/-frau' }, // IMK
+  { id: 'industrie', label: 'Industriekaufleute', singular: 'Industriekaufmann/-frau' }, // IK
+  {
+    id: 'bueromanagement', // KBM
+    label: 'Kaufleute für Büromanagement',
+    singular: 'Kaufmann/-frau für Büromanagement',
+  },
+  {
+    id: 'spedition', // SL
+    label: 'Kaufleute für Spedition und Logistikdienstleistungen',
+    singular: 'Kaufmann/-frau für Spedition und Logistikdienstleistung',
+  },
+  { id: 'ecommerce', label: 'Kaufleute im E-Commerce', singular: 'Kaufmann/-frau im E-Commerce' }, // KEC
+  {
+    id: 'einzelhandel', // EHK
+    label: 'Kaufleute im Einzelhandel',
+    singular: 'Kaufmann/-frau im Einzelhandel',
+  },
+  {
+    id: 'gesundheit', // KiG
+    label: 'Kaufleute im Gesundheitswesen',
+    singular: 'Kaufmann/-frau im Gesundheitswesen',
+  },
+  {
+    id: 'grosshandel', // GAM
+    label: 'Kaufleute im Groß- und Außenhandelsmanagement',
+    singular: 'Kaufmann/-frau für Groß- und Außenhandelsmanagement',
+  },
+  {
+    id: 'personaldienstleistung', // PDK
+    label: 'Personaldienstleistungskaufleute',
+    singular: 'Personaldienstleistungskaufmann/-frau',
+  },
+  {
+    id: 'steuerfach', // SFA
+    label: 'Steuerfachangestellte',
+    singular: 'Steuerfachangestellte/-r',
+    pruefstelle: 'Steuerberaterkammer',
+  },
 ];
 
 export const AUFGABEN: Aufgabe[] = [

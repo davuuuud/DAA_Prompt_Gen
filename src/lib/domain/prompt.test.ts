@@ -19,24 +19,37 @@ function hatAbschnitt(prompt: string, titel: string): boolean {
 
 describe('Kataloge', () => {
   it('enthaelt genau die vom Bildungstraeger vorgegebenen Berufe', () => {
-    // Vorgabe des Bildungstraegers, in dieser Reihenfolge. Der Auffangeintrag
-    // 'allgemein' steht zusaetzlich voran.
+    // Kaufmaennische Grundqualifikation voran, alle uebrigen alphabetisch.
     expect(BERUFE.map((b) => b.id)).toEqual([
-      'allgemein',
+      'kgq', // KGQ
+      'fachinformatik', // FiSi
+      'lagerlogistik', // FK LaLo
+      'schutzsicherheit', // FK SchuSi
+      'immobilien', // IMK
       'industrie', // IK
       'bueromanagement', // KBM
+      'spedition', // SL
+      'ecommerce', // KEC
       'einzelhandel', // EHK
       'gesundheit', // KiG
       'grosshandel', // GAM
-      'immobilien', // IMK
-      'steuerfach', // SFA
-      'lagerlogistik', // FK LaLo
-      'schutzsicherheit', // FK SchuSi
       'personaldienstleistung', // PDK
-      'ecommerce', // KEC
-      'spedition', // SL
-      'fachinformatik', // FiSi
+      'steuerfach', // SFA
     ]);
+  });
+
+  it('ist ab dem zweiten Eintrag alphabetisch sortiert', () => {
+    const ohneGrundqualifikation = BERUFE.slice(1).map((b) => b.label);
+    const sortiert = [...ohneGrundqualifikation].sort((a, b) => a.localeCompare(b, 'de'));
+    expect(ohneGrundqualifikation).toEqual(sortiert);
+  });
+
+  it('fuehrt zu jedem Beruf ausser der Grundqualifikation eine Einzahlform', () => {
+    for (const beruf of BERUFE.filter((b) => b.id !== 'kgq')) {
+      expect(beruf.singular, `${beruf.id} hat keine Einzahlform`).toBeTruthy();
+      // Der Plural taugt nicht fuer "Umschulung zum/zur ...".
+      expect(beruf.singular).not.toBe(beruf.label);
+    }
   });
 
   it('haben durchgehend Beschriftungen und eindeutige Bezeichner', () => {
@@ -122,11 +135,17 @@ describe('Prompt-Aufbau', () => {
     expect(buildPrompt(basis())).not.toContain('\r');
   });
 
-  it('nennt den Beruf, aber nicht beim allgemeinen Fall', () => {
-    expect(buildPrompt(basis())).toContain('Immobilienkaufmann/-frau');
-    const allgemein = buildPrompt(basis({ beruf: 'allgemein' }));
-    expect(allgemein).not.toContain('zum/zur');
-    expect(allgemein).toContain('Umschulung');
+  it('setzt die Einzahlform in den Satz, nicht den angezeigten Plural', () => {
+    const prompt = buildPrompt(basis());
+    expect(prompt).toContain('Umschulung zum/zur Immobilienkaufmann/-frau');
+    // "Umschulung zum/zur Immobilienkaufleute" waere falsches Deutsch.
+    expect(prompt).not.toContain('zum/zur Immobilienkaufleute');
+  });
+
+  it('formuliert die Grundqualifikation als eigenen Fall', () => {
+    const kgq = buildPrompt(basis({ beruf: 'kgq' }));
+    expect(kgq).not.toContain('zum/zur');
+    expect(kgq).toContain('kaufmännischen Grundqualifikation');
   });
 
   it('nennt die zustaendige Pruefungsstelle', () => {
