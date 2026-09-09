@@ -6,19 +6,23 @@
 // Array-Indizes: Gespeicherte Einstellungen überleben damit jede spätere
 // Erweiterung der Kataloge.
 
+// Reihenfolge wie vom Bildungsträger vorgegeben; 'allgemein' steht als
+// Auffangeintrag voran.
 export type BerufId =
   | 'allgemein'
-  | 'immobilien'
-  | 'bueromanagement'
   | 'industrie'
-  | 'grosshandel'
+  | 'bueromanagement'
   | 'einzelhandel'
-  | 'spedition'
-  | 'ecommerce'
-  | 'bank'
-  | 'versicherung'
+  | 'gesundheit'
+  | 'grosshandel'
+  | 'immobilien'
   | 'steuerfach'
-  | 'personaldienstleistung';
+  | 'lagerlogistik'
+  | 'schutzsicherheit'
+  | 'personaldienstleistung'
+  | 'ecommerce'
+  | 'spedition'
+  | 'fachinformatik';
 
 export type AufgabeId =
   | 'erklaeren'
@@ -56,6 +60,12 @@ export type QuellenGruppe = 'gesetz' | 'ihk' | 'fachverlag' | 'statistik';
 export interface Beruf {
   id: BerufId;
   label: string;
+  /**
+   * Zuständige Prüfungsstelle. Fehlt die Angabe, ist es die IHK — das trifft
+   * auf die meisten zu. Steuerfachangestellte prüft dagegen die
+   * Steuerberaterkammer.
+   */
+  pruefstelle?: string;
 }
 
 export interface Aufgabe {

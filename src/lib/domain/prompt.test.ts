@@ -18,6 +18,27 @@ function hatAbschnitt(prompt: string, titel: string): boolean {
 }
 
 describe('Kataloge', () => {
+  it('enthaelt genau die vom Bildungstraeger vorgegebenen Berufe', () => {
+    // Vorgabe des Bildungstraegers, in dieser Reihenfolge. Der Auffangeintrag
+    // 'allgemein' steht zusaetzlich voran.
+    expect(BERUFE.map((b) => b.id)).toEqual([
+      'allgemein',
+      'industrie', // IK
+      'bueromanagement', // KBM
+      'einzelhandel', // EHK
+      'gesundheit', // KiG
+      'grosshandel', // GAM
+      'immobilien', // IMK
+      'steuerfach', // SFA
+      'lagerlogistik', // FK LaLo
+      'schutzsicherheit', // FK SchuSi
+      'personaldienstleistung', // PDK
+      'ecommerce', // KEC
+      'spedition', // SL
+      'fachinformatik', // FiSi
+    ]);
+  });
+
   it('haben durchgehend Beschriftungen und eindeutige Bezeichner', () => {
     for (const liste of [BERUFE, AUFGABEN, NIVEAUS, FORMATE, OPTIONEN]) {
       expect(liste.length).toBeGreaterThan(0);
@@ -105,7 +126,26 @@ describe('Prompt-Aufbau', () => {
     expect(buildPrompt(basis())).toContain('Immobilienkaufmann/-frau');
     const allgemein = buildPrompt(basis({ beruf: 'allgemein' }));
     expect(allgemein).not.toContain('zum/zur');
-    expect(allgemein).toContain('kaufmännische Umschulung');
+    expect(allgemein).toContain('Umschulung');
+  });
+
+  it('nennt die zustaendige Pruefungsstelle', () => {
+    // Der Regelfall ist die IHK.
+    expect(buildPrompt(basis({ beruf: 'industrie' }))).toContain('vor der IHK');
+
+    // Steuerfachangestellte pruefft die Steuerberaterkammer.
+    const sfa = buildPrompt(basis({ beruf: 'steuerfach' }));
+    expect(sfa).toContain('Steuerberaterkammer');
+    expect(sfa).not.toContain('der IHK');
+  });
+
+  it('spricht nicht pauschal von kaufmaennischer Ausbildung', () => {
+    // Fachinformatik, Schutz und Sicherheit sowie Lagerlogistik sind keine
+    // kaufmaennischen Berufe.
+    for (const beruf of ['fachinformatik', 'schutzsicherheit', 'lagerlogistik'] as const) {
+      const prompt = buildPrompt(basis({ beruf, aufgabe: 'erklaeren' }));
+      expect(prompt, beruf).not.toContain('kaufmännische');
+    }
   });
 
   it('hält mehrzeilige Themen lesbar', () => {
@@ -167,10 +207,10 @@ describe('Quellen im Prompt', () => {
   });
 
   it('verwirft Quellen, die zum gewählten Beruf nicht passen', () => {
-    // WEG gilt nur für Immobilienkaufleute.
-    const prompt = buildPrompt(basis({ beruf: 'bank', quellen: ['weg', 'kwg'] }));
+    // WEG gilt nur für Immobilienkaufleute, UrhG nur in der Systemintegration.
+    const prompt = buildPrompt(basis({ beruf: 'fachinformatik', quellen: ['weg', 'urhg'] }));
     expect(prompt).not.toContain('Wohnungseigentumsgesetz');
-    expect(prompt).toContain('KWG (Kreditwesengesetz)');
+    expect(prompt).toContain('UrhG (Urheberrecht, u. a. Softwarelizenzen)');
   });
 });
 

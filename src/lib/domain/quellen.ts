@@ -48,15 +48,23 @@ export const QUELLEN: Quelle[] = [
   { id: 'geg', label: 'GEG', group: 'gesetz', hint: 'Gebäudeenergiegesetz', berufe: ['immobilien'] },
   { id: 'betrkv', label: 'BetrKV', group: 'gesetz', hint: 'Betriebskostenverordnung', berufe: ['immobilien'] },
 
-  // --- Bank und Versicherung ----------------------------------------------
-  { id: 'kwg', label: 'KWG', group: 'gesetz', hint: 'Kreditwesengesetz', berufe: ['bank'] },
-  { id: 'wphg', label: 'WpHG', group: 'gesetz', hint: 'Wertpapierhandelsgesetz', berufe: ['bank'] },
-  { id: 'zag', label: 'ZAG', group: 'gesetz', hint: 'Zahlungsdiensteaufsichtsgesetz', berufe: ['bank'] },
-  { id: 'vvg', label: 'VVG', group: 'gesetz', hint: 'Versicherungsvertragsgesetz', berufe: ['versicherung'] },
-  { id: 'vag', label: 'VAG', group: 'gesetz', hint: 'Versicherungsaufsichtsgesetz', berufe: ['versicherung'] },
-  { id: 'bafin', label: 'BaFin-Rundschreiben', group: 'ihk', berufe: ['bank', 'versicherung'] },
+  // --- Gesundheitswesen ----------------------------------------------------
+  // Startbestand, noch nicht fachlich geprüft - siehe Issue #1.
+  { id: 'sgb5', label: 'SGB V', group: 'gesetz', hint: 'Gesetzliche Krankenversicherung', berufe: ['gesundheit'] },
+  { id: 'sgb11', label: 'SGB XI', group: 'gesetz', hint: 'Soziale Pflegeversicherung', berufe: ['gesundheit'] },
+
+  // --- Schutz und Sicherheit -----------------------------------------------
+  { id: 'bewachv', label: 'BewachV', group: 'gesetz', hint: 'Bewachungsverordnung', berufe: ['schutzsicherheit'] },
+  { id: 'stgb', label: 'StGB', group: 'gesetz', hint: 'Strafgesetzbuch, u. a. Notwehr', berufe: ['schutzsicherheit'] },
+  { id: 'stpo', label: 'StPO', group: 'gesetz', hint: 'Strafprozessordnung, u. a. vorläufige Festnahme', berufe: ['schutzsicherheit'] },
+
+  // --- Systemintegration ---------------------------------------------------
+  { id: 'bsi', label: 'BSI IT-Grundschutz', group: 'fachverlag', berufe: ['fachinformatik'] },
+  { id: 'urhg', label: 'UrhG', group: 'gesetz', hint: 'Urheberrecht, u. a. Softwarelizenzen', berufe: ['fachinformatik'] },
 
   // --- Handel und Logistik -------------------------------------------------
+  { id: 'arbschg', label: 'ArbSchG', group: 'gesetz', hint: 'Arbeitsschutzgesetz', berufe: ['lagerlogistik', 'schutzsicherheit'] },
+  { id: 'gefahrgut', label: 'GGVSEB', group: 'gesetz', hint: 'Gefahrgutverordnung Straße, Eisenbahn, Binnenschiff', berufe: ['lagerlogistik', 'spedition'] },
   { id: 'pangv', label: 'PAngV', group: 'gesetz', hint: 'Preisangabenverordnung', berufe: ['einzelhandel', 'ecommerce', 'grosshandel'] },
   { id: 'incoterms', label: 'Incoterms', group: 'fachverlag', hint: 'ICC-Lieferklauseln', berufe: ['grosshandel', 'spedition'] },
   { id: 'awv', label: 'AWV und AWG', group: 'gesetz', hint: 'Außenwirtschaft', berufe: ['grosshandel'] },

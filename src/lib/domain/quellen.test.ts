@@ -41,15 +41,23 @@ describe('Quellenkatalog', () => {
   });
 
   it('blendet berufsfremde Quellen aus', () => {
-    const bank = quellenFuerBeruf('bank').map((q) => q.id);
-    expect(bank).toContain('kwg');
-    expect(bank).not.toContain('weg');
-    expect(bank).not.toContain('cmr');
+    const systemintegration = quellenFuerBeruf('fachinformatik').map((q) => q.id);
+    expect(systemintegration).toContain('urhg');
+    expect(systemintegration).not.toContain('weg');
+    expect(systemintegration).not.toContain('cmr');
 
     const immo = quellenFuerBeruf('immobilien').map((q) => q.id);
     expect(immo).toContain('weg');
     expect(immo).toContain('mabv');
-    expect(immo).not.toContain('kwg');
+    expect(immo).not.toContain('urhg');
+  });
+
+  it('versorgt jeden der vorgegebenen Berufe mit eigenen Quellen', () => {
+    // Der Auffangeintrag 'allgemein' hat naturgemäß keine eigenen.
+    for (const beruf of BERUFE.filter((b) => b.id !== 'allgemein')) {
+      const eigene = QUELLEN.filter((q) => q.berufe?.includes(beruf.id));
+      expect(eigene.length, `${beruf.id} hat keine berufsspezifische Quelle`).toBeGreaterThan(0);
+    }
   });
 
   it('liefert jedem Beruf eine brauchbare Auswahl', () => {
@@ -127,12 +135,12 @@ describe('Einstellungen', () => {
   });
 
   it('entfernt Quellen, die nach einem Berufswechsel nicht mehr passen', () => {
-    const s = normalizeSettings({ beruf: 'bank', quellen: ['weg', 'kwg', 'bgb'] });
-    expect(s.quellen).toEqual(['kwg', 'bgb']);
+    const s = normalizeSettings({ beruf: 'fachinformatik', quellen: ['weg', 'urhg', 'bgb'] });
+    expect(s.quellen).toEqual(['urhg', 'bgb']);
   });
 
   it('fällt auf passende Vorgabequellen zurück, wenn nichts Gültiges übrig bleibt', () => {
-    const s = normalizeSettings({ beruf: 'bank', quellen: ['weg', 'mabv'] });
+    const s = normalizeSettings({ beruf: 'fachinformatik', quellen: ['weg', 'mabv'] });
     expect(s.quellen.length).toBeGreaterThan(0);
     expect(s.quellen).not.toContain('weg');
   });

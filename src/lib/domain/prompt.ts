@@ -77,12 +77,17 @@ export function buildPrompt(input: PromptInput): string {
   const fundstellen = input.fundstellen ?? [];
 
   // --- ROLLE ---------------------------------------------------------------
+  // Die Prüfungsstelle wird benannt statt pauschal "IHK": Steuerfachangestellte
+  // prüft die Steuerberaterkammer, und nicht alle Berufe im Katalog sind
+  // kaufmännisch.
+  const pruefstelle = beruf.pruefstelle ?? 'IHK';
   abschnitt('ROLLE', [
-    'Du bist eine erfahrene Lehrkraft für die kaufmännische Aus- und Weiterbildung in ' +
-      'Deutschland und kennst die Prüfungsanforderungen der IHK.',
+    'Du bist eine erfahrene Lehrkraft für die berufliche Aus- und Weiterbildung in ' +
+      `Deutschland und kennst die Prüfungsanforderungen der ${pruefstelle}.`,
     beruf.id === 'allgemein'
-      ? 'Ich mache eine kaufmännische Umschulung und lerne für die IHK-Prüfung.'
-      : `Ich mache eine Umschulung zum/zur ${beruf.label} und lerne für die IHK-Prüfung.`,
+      ? 'Ich mache eine Umschulung und lerne für die Abschlussprüfung.'
+      : `Ich mache eine Umschulung zum/zur ${beruf.label} und lerne für die Abschlussprüfung ` +
+        `vor der ${pruefstelle}.`,
   ]);
 
   // --- AUFGABE -------------------------------------------------------------

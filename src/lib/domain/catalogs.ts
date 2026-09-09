@@ -11,19 +11,25 @@ import type {
 } from './types';
 import { plural } from './text';
 
+// Die Auswahl und ihre Reihenfolge stammen vom Bildungsträger. Die dort
+// gebräuchlichen Kürzel stehen als Kommentar dabei, damit die Zuordnung
+// nachvollziehbar bleibt; angezeigt wird die ausgeschriebene Bezeichnung,
+// weil Umschülerinnen und Umschüler die Kürzel nicht zwingend kennen.
 export const BERUFE: Beruf[] = [
-  { id: 'allgemein', label: 'Allgemein kaufmännisch' },
-  { id: 'immobilien', label: 'Immobilienkaufmann/-frau' },
-  { id: 'bueromanagement', label: 'Kaufmann/-frau für Büromanagement' },
-  { id: 'industrie', label: 'Industriekaufmann/-frau' },
-  { id: 'grosshandel', label: 'Kaufmann/-frau für Groß- und Außenhandelsmanagement' },
-  { id: 'einzelhandel', label: 'Kaufmann/-frau im Einzelhandel' },
-  { id: 'spedition', label: 'Kaufmann/-frau für Spedition und Logistikdienstleistung' },
-  { id: 'ecommerce', label: 'Kaufmann/-frau im E-Commerce' },
-  { id: 'bank', label: 'Bankkaufmann/-frau' },
-  { id: 'versicherung', label: 'Kaufmann/-frau für Versicherungen und Finanzanlagen' },
-  { id: 'steuerfach', label: 'Steuerfachangestellte/-r' },
-  { id: 'personaldienstleistung', label: 'Personaldienstleistungskaufmann/-frau' },
+  { id: 'allgemein', label: 'Allgemein / nicht aufgeführt' },
+  { id: 'industrie', label: 'Industriekaufmann/-frau' }, // IK
+  { id: 'bueromanagement', label: 'Kaufmann/-frau für Büromanagement' }, // KBM
+  { id: 'einzelhandel', label: 'Kaufmann/-frau im Einzelhandel' }, // EHK
+  { id: 'gesundheit', label: 'Kaufmann/-frau im Gesundheitswesen' }, // KiG
+  { id: 'grosshandel', label: 'Kaufmann/-frau für Groß- und Außenhandelsmanagement' }, // GAM
+  { id: 'immobilien', label: 'Immobilienkaufmann/-frau' }, // IMK
+  { id: 'steuerfach', label: 'Steuerfachangestellte/-r', pruefstelle: 'Steuerberaterkammer' }, // SFA
+  { id: 'lagerlogistik', label: 'Fachkraft für Lagerlogistik' }, // FK LaLo
+  { id: 'schutzsicherheit', label: 'Fachkraft für Schutz und Sicherheit' }, // FK SchuSi
+  { id: 'personaldienstleistung', label: 'Personaldienstleistungskaufmann/-frau' }, // PDK
+  { id: 'ecommerce', label: 'Kaufmann/-frau im E-Commerce' }, // KEC
+  { id: 'spedition', label: 'Kaufmann/-frau für Spedition und Logistikdienstleistung' }, // SL
+  { id: 'fachinformatik', label: 'Fachinformatiker/-in für Systemintegration' }, // FiSi
 ];
 
 export const AUFGABEN: Aufgabe[] = [
@@ -43,10 +49,10 @@ export const AUFGABEN: Aufgabe[] = [
   },
   {
     id: 'pruefungsaufgabe',
-    label: 'IHK-Prüfungsaufgabe erstellen',
+    label: 'Prüfungsaufgabe erstellen',
     needsCount: true,
     instruction: ({ anzahl }) =>
-      `Erstelle ${anzahl} realistische, IHK-orientierte ` +
+      `Erstelle ${anzahl} realistische, prüfungsnahe ` +
       `${plural(anzahl, 'Prüfungsaufgabe', 'Prüfungsaufgaben')} zum unten genannten Thema, ` +
       'jeweils mit Ausgangssituation, Arbeitsauftrag, Punktevorschlag und Bearbeitungszeit. ' +
       'Gib die Musterlösung erst nach allen Aufgaben in einem klar getrennten Abschnitt aus.',
@@ -59,7 +65,7 @@ export const AUFGABEN: Aufgabe[] = [
       'Kontrolliere meine Lösung zum unten genannten Thema. Sie steht im Abschnitt ' +
       '"ZUSÄTZLICHE ANGABEN". Nenne zuerst, was fachlich richtig ist, danach die Fehler mit ' +
       'Begründung, dann die fehlenden Punkte und zuletzt eine vollständige Musterlösung. ' +
-      'Schätze abschließend, wie viele Punkte die Lösung in einer IHK-Prüfung bekäme.',
+      'Schätze abschließend, wie viele Punkte die Lösung in der Abschlussprüfung bekäme.',
   },
   {
     id: 'karteikarten',
@@ -88,7 +94,7 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Mündliche Prüfung simulieren',
     needsCount: true,
     instruction: ({ anzahl }) =>
-      `Simuliere eine mündliche IHK-Prüfung zum unten genannten Thema. Stelle mir ${anzahl} ` +
+      `Simuliere eine mündliche Abschlussprüfung zum unten genannten Thema. Stelle mir ${anzahl} ` +
       `${plural(anzahl, 'Frage', 'Fragen')} nacheinander und warte nach jeder Frage auf meine Antwort. ` +
       'Gib den Erwartungshorizont erst am Ende in einem eigenen Abschnitt aus.',
   },
@@ -143,7 +149,7 @@ export const OPTIONEN: Option[] = [
     label: 'Fachbegriffe erklären',
     defaultOn: true,
     rule:
-      'Verwende die korrekten kaufmännischen Fachbegriffe und erkläre jeden neuen Begriff beim ' +
+      'Verwende die korrekten Fachbegriffe deines Berufsfelds und erkläre jeden neuen Begriff beim ' +
       'ersten Auftreten in einem Halbsatz.',
   },
   {
@@ -155,10 +161,11 @@ export const OPTIONEN: Option[] = [
   },
   {
     id: 'ihk-bezug',
-    label: 'IHK-Prüfungsbezug',
+    label: 'Prüfungsbezug',
     defaultOn: true,
     rule:
-      'Richte Inhalt, Begriffswahl und Schwerpunkte an den typischen IHK-Prüfungsanforderungen aus ' +
+      'Richte Inhalt, Begriffswahl und Schwerpunkte an den typischen Anforderungen der ' +
+      'Abschlussprüfung aus ' +
       'und benenne, worauf es in der Prüfung besonders ankommt.',
   },
   {
@@ -172,7 +179,7 @@ export const OPTIONEN: Option[] = [
 export const NIVEAUS: Niveau[] = [
   { id: 'einstieg', label: 'Sehr einfach / Einstieg' },
   { id: 'azubi', label: 'Azubi- und Umschüler-Niveau' },
-  { id: 'pruefung', label: 'IHK-Prüfungsniveau' },
+  { id: 'pruefung', label: 'Niveau der Abschlussprüfung' },
   { id: 'vertieft', label: 'Vertieft / fachlich detailliert' },
 ];
 
