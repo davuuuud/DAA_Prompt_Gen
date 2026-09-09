@@ -1,0 +1,11 @@
+# Zeilenenden im Repository immer LF - unabhängig davon, ob jemand unter
+# Windows, macOS oder Linux arbeitet. Ohne diese Festlegung sähe der
+# Linux-Läufer bei GitHub andere Dateien als der Windows-Rechner, und Git
+# meldete bei jedem Hinzufügen eine Umwandlung.
+* text=auto eol=lf
+
+# Binärdateien nicht anfassen.
+*.png binary
+*.ico binary
+*.woff binary
+*.woff2 binary
