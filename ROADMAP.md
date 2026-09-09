@@ -391,6 +391,69 @@ weiter oben im Abschnitt [Inhaltliche
 
 ---
 
+## Ausblick: weitere Zielgruppen
+
+Zwei zusätzliche Fassungen sind angedacht:
+
+**GK** — eine eigene Fassung für den GK-Bereich, im Zuschnitt wie diese hier:
+andere Berufe, andere Quellen, gleiche Mechanik.
+
+**Dozentinnen und Dozenten** — eine Fassung, die nicht beim Lernen hilft,
+sondern bei der Vorbereitung: Präsentationen, Skripte, Handouts,
+Arbeitsblätter, Lernzielkontrollen.
+
+### Nicht kopieren, sondern Profile
+
+Der naheliegende Weg wäre, das Projekt zu forken. **Davon würde ich abraten.**
+Drei Kopien bedeuten, dass jede Korrektur dreimal gemacht werden muss — und
+erfahrungsgemäß bleibt es nicht bei einer Korrektur.
+
+Die Architektur trägt bereits eine bessere Lösung: Die Kataloge in
+`src/lib/domain/` sind reine Daten, und die Prompt-Mechanik weiß nichts von
+ihrem Inhalt. Damit lässt sich dieselbe Anwendung mit unterschiedlichen
+Katalogen ausliefern.
+
+| | gemeinsam | je Fassung |
+|---|---|---|
+| Prompt-Aufbau, Qualitätsregeln | ✓ | |
+| Oberfläche, Offline-Betrieb, Symbole | ✓ | |
+| Dokumentensuche (Etappe 3) | ✓ | |
+| KI-Anbindung (Etappe 4) | ✓ | |
+| Berufe und Bereiche | | ✓ |
+| Aufgabenarten | | ✓ |
+| Quellenkatalog | | ✓ |
+| Name, Einleitung, Adresse | | ✓ |
+
+Technisch: ein Bauvorgang je Profil, jeweils eigene Adresse und eigenes Symbol —
+vergleichbar mit dem Basispfad, den der Veröffentlichungsablauf heute schon
+setzt. Ein Repository, ein Test-Durchlauf, drei Seiten.
+
+Erst wenn eine Fassung sich grundsätzlich anders verhält, lohnt eine Trennung.
+
+### Was die Dozenten-Fassung zusätzlich braucht
+
+Sie ist die aufwendigere von beiden, weil sich nicht nur die Kataloge ändern:
+
+- **Andere Aufgabenarten:** Präsentation gliedern, Handout erstellen,
+  Arbeitsblatt mit Lösungsbogen, Lernzielkontrolle, Unterrichtsverlaufsplan,
+  Fallstudie für den Unterricht
+- **Andere Ausgabeformen:** Gliederung mit Sprechernotizen, Foliensätze als
+  Text, Aufgabe und Erwartungshorizont getrennt
+- **Andere Rolle im Prompt:** nicht „ich lerne", sondern „ich unterrichte"
+- **Später denkbar:** Erzeugung echter Dateien (`.pptx`, `.docx`) statt Text zum
+  Kopieren. Im Browser machbar, aber ein eigener nennenswerter Posten.
+
+Diese Fassung profitiert besonders von **Etappe 3**: Wer Unterrichtsmaterial
+erstellt, hat in der Regel schon Skripte, aus denen es entstehen soll.
+
+### Wann
+
+**Nicht vor Abschluss von Etappe 3.** Vorher wäre es dreifacher Pflegeaufwand für
+eine Mechanik, die sich noch ändert. Sobald die Dokumentensuche steht, ist der
+gemeinsame Unterbau stabil genug.
+
+---
+
 ## Bewusst nicht geplant
 
 Der Vollständigkeit halber, damit niemand danach sucht:
