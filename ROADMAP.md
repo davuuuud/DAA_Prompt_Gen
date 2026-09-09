@@ -395,12 +395,47 @@ weiter oben im Abschnitt [Inhaltliche
 
 Zwei zusätzliche Fassungen sind angedacht:
 
-**GK** — eine eigene Fassung für den GK-Bereich, im Zuschnitt wie diese hier:
-andere Berufe, andere Quellen, gleiche Mechanik.
+**GK — Grundkompetenzen.** Ein Vorbereitungsangebot der DAA für Menschen, deren
+letzter Schulbesuch länger zurückliegt und die eine Ausbildung, Umschulung,
+Teilqualifizierung oder berufsspezifische Weiterbildung anstreben. Drei bis
+sechs Monate, gefördert über Bildungsgutschein.
 
 **Dozentinnen und Dozenten** — eine Fassung, die nicht beim Lernen hilft,
 sondern bei der Vorbereitung: Präsentationen, Skripte, Handouts,
 Arbeitsblätter, Lernzielkontrollen.
+
+### Grundkompetenzen unterscheiden sich stärker als gedacht
+
+Die Annahme „andere Berufe, andere Quellen, gleiche Mechanik" trifft **nicht**
+zu. Drei Unterschiede sind grundlegend:
+
+**Es gibt keine Berufe, sondern Module.** An die Stelle des
+Ausbildungsberufs tritt die Modulauswahl:
+
+| Modul | Inhalte |
+|---|---|
+| Basismodul: Schlüsselkompetenzen | Ausgangssituation, Begabungen und Defizite, Selbstmotivation, Umgang mit Stress, Lern- und Arbeitstechniken |
+| Wahlmodul Deutsch | Rechtschreibung, Satzbau, Zeichensetzung, Synonyme und Fremdwörter, DIN 5008 |
+| Wahlmodul Mathematik | Grundrechenarten, allgemeine Rechenregeln, kaufmännisches Rechnen |
+| Wahlmodul Digitale Kompetenzen | PC-Grundwissen, Internetnutzung, Kommunikation im vernetzten Büro, digitale Bewerbungen, Microsoft Office |
+
+**Es gibt keine Abschlussprüfung.** Damit entfallen Prüfungsstelle,
+Prüfungsniveau und Prüfungsbezug — also genau die Achse, an der die bestehende
+Fassung ausgerichtet ist. Das Ziel heißt hier nicht „Prüfung bestehen", sondern
+„für den nächsten Schritt bereit sein".
+
+**Der Quellenkatalog verliert seinen Sinn.** BGB, HGB oder WEG haben mit
+Rechtschreibung und Grundrechenarten nichts zu tun. Übrig blieben allenfalls
+Duden, das amtliche Regelwerk und DIN 5008 — ein kurzer, völlig anderer
+Katalog.
+
+Daraus folgt für die Profil-Mechanik: Sie muss nicht nur Katalogeinträge
+austauschen, sondern **ganze Abschnitte abschalten** können. Das ist etwas
+mehr als ein Datensatz, aber deutlich weniger als eine zweite Anwendung.
+
+Ein vierter Punkt betrifft den Ton: Die Zielgruppe ist ausdrücklich Menschen,
+deren Schulzeit lange her ist. „Einfache Sprache" sollte dort keine abwählbare
+Option sein, sondern gesetzt.
 
 ### Nicht kopieren, sondern Profile
 
