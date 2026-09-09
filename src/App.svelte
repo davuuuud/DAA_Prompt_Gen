@@ -1,6 +1,18 @@
 <script lang="ts">
   import QuellenWahl from './lib/components/QuellenWahl.svelte';
-  import { AUFGABEN, BERUFE, FORMATE, findAufgabe, NIVEAUS, OPTIONEN } from './lib/domain/catalogs';
+  import { APP_VERSION, FEEDBACK } from './lib/config';
+  import {
+    AUFGABEN,
+    BERUFE,
+    FORMATE,
+    findAufgabe,
+    findBeruf,
+    findFormat,
+    findNiveau,
+    NIVEAUS,
+    OPTIONEN,
+  } from './lib/domain/catalogs';
+  import { feedbackMailto, kurzeBrowserKennung } from './lib/domain/feedback';
   import { buildPrompt, validate } from './lib/domain/prompt';
   import { quellenFuerBeruf } from './lib/domain/quellen';
   import { toPromptInput } from './lib/domain/settings';
@@ -18,6 +30,22 @@
   const woerter = $derived(prompt.trim() ? prompt.trim().split(/\s+/).length : 0);
 
   const teilenMoeglich = canShare();
+
+  // Ziel für Rückmeldungen. Ist eine E-Mail-Adresse hinterlegt, entsteht eine
+  // vorbereitete Nachricht mit den aktuellen Einstellungen als Anhang —
+  // ohne Thema und Zusatzangaben, die personenbezogen sein können.
+  const feedbackZiel = $derived.by(() => {
+    if (!FEEDBACK.email) return FEEDBACK.url;
+    return feedbackMailto(FEEDBACK.email, {
+      version: APP_VERSION,
+      beruf: findBeruf(settings.beruf).label,
+      aufgabe: aufgabe.label,
+      niveau: findNiveau(settings.niveau).label,
+      format: findFormat(settings.format).label,
+      browser: kurzeBrowserKennung(navigator.userAgent),
+      adresse: location.href,
+    });
+  });
 
   let status = $state('');
   let statusTimer: ReturnType<typeof setTimeout> | undefined;
@@ -221,8 +249,25 @@
   </main>
 
   <footer>
-    Der Prompt entsteht laufend beim Tippen. Eingaben und Einstellungen bleiben nur auf diesem
-    Gerät gespeichert.
+    <p>
+      Der Prompt entsteht laufend beim Tippen. Eingaben und Einstellungen bleiben nur auf
+      diesem Gerät gespeichert.
+    </p>
+    <p class="fusszeile">
+      Fassung {APP_VERSION}
+      {#if feedbackZiel}
+        <span aria-hidden="true">·</span>
+        <a
+          href={feedbackZiel}
+          rel="noopener"
+          title={FEEDBACK.email
+            ? 'Öffnet eine vorbereitete Nachricht in deinem Mailprogramm. Es wird nichts automatisch versendet.'
+            : 'Öffnet die Liste der offenen Punkte auf GitHub.'}
+        >
+          Rückmeldung geben
+        </a>
+      {/if}
+    </p>
   </footer>
 </div>
 
@@ -379,6 +424,22 @@
     font-size: 0.8rem;
     color: var(--text-schwach);
     text-align: center;
+  }
+
+  footer p {
+    margin: 0;
+  }
+
+  .fusszeile {
+    margin-top: 0.4rem;
+  }
+
+  footer a {
+    color: var(--text-schwach);
+  }
+
+  footer a:hover {
+    color: var(--akzent);
   }
 
   @media (max-width: 30rem) {

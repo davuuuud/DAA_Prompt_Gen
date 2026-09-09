@@ -1,6 +1,11 @@
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import { readFileSync } from 'node:fs';
+
+// package.json wird gelesen statt importiert: Ein benannter JSON-Import ist
+// unter der Modulauflösung NodeNext nicht zulässig.
+const { version } = JSON.parse(readFileSync('./package.json', 'utf8')) as { version: string };
 
 // Der Basispfad lässt sich beim Bauen setzen, weil GitHub Pages die Seite
 // unter /projektname/ ausliefert und nicht im Wurzelverzeichnis:
@@ -8,6 +13,12 @@ import { VitePWA } from 'vite-plugin-pwa';
 // Ohne Angabe wird ins Wurzelverzeichnis gebaut.
 
 export default defineConfig({
+  // Die Versionsnummer aus package.json wird beim Bauen fest eingesetzt,
+  // damit Rückmeldungen einer Fassung zugeordnet werden können.
+  define: {
+    __APP_VERSION__: JSON.stringify(version),
+  },
+
   plugins: [
     svelte(),
     VitePWA({
