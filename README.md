@@ -1,8 +1,14 @@
 # IHK-Lernassistent
 
+**→ [davuuuud.github.io/DAA_Prompt_Gen](https://davuuuud.github.io/DAA_Prompt_Gen/)**
+
 Baut strukturierte Lern-Prompts für die kaufmännische Umschulung. Läuft im
 Browser und lässt sich auf dem Telefon zum Startbildschirm hinzufügen. Alles
 geschieht auf dem Gerät: kein Konto, keine Anmeldung, keine Datenübertragung.
+
+Auf dem Telefon: Adresse im Browser öffnen, dann über das Menü
+**„Zum Startbildschirm hinzufügen"**. Danach startet die Anwendung als
+eigenes Symbol ohne Browserleiste und läuft auch ohne Internetverbindung.
 
 Nachfolger des Windows-Programms `IHK-Prompt-Assistent-v2` (Go/Win32).
 
@@ -43,15 +49,16 @@ Möglichkeit, die Seite zum Startbildschirm hinzuzufügen.
 
 ### GitHub Pages
 
-`.github/workflows/pages.yml` liegt fertig bei. Nötig sind:
+Eingerichtet über `.github/workflows/pages.yml`. **Ein Push auf `main`
+genügt** – der Ablauf führt Tests und Typprüfung aus, baut mit dem passenden
+Basispfad und schaltet die Seite frei. Dauer etwa zwei Minuten.
 
-1. Ein GitHub-Konto und ein Repository mit diesem Projekt
-2. Im Repository unter **Settings → Pages → Source** den Eintrag
-   **GitHub Actions** wählen
-3. Auf `main` pushen
+Schlägt ein Test fehl, wird nichts veröffentlicht; die bisherige Fassung
+bleibt online.
 
-Der Ablauf führt Tests und Typprüfung aus, baut und veröffentlicht. Die
-Adresse lautet danach `https://<konto>.github.io/<repository>/`.
+Für ein anderes Repository sind nötig: **Settings → Pages → Source** auf
+**GitHub Actions** stellen und einmal pushen. Den Basispfad ermittelt der
+Ablauf selbst aus dem Repository-Namen.
 
 ### Anderer Webspace
 
