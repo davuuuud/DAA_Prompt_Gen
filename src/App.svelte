@@ -103,8 +103,23 @@
 
 <div class="huelle">
   <header>
-    <p class="traeger">{APP_ORG}</p>
-    <h1>{APP_NAME}</h1>
+    <div class="kopfzeile">
+      <!-- Das Logo steht als Marke daneben, nicht als Ersatz für den
+           Trägernamen: Bei dieser Größe ist sein Text nicht mehr lesbar. -->
+      <img
+        class="logo"
+        src="{import.meta.env.BASE_URL}logo-144.png"
+        srcset="{import.meta.env.BASE_URL}logo-144.png 1x, {import.meta.env
+          .BASE_URL}logo-288.png 2x"
+        width="72"
+        height="72"
+        alt="Logo {APP_ORG} – KI Genies"
+      />
+      <div class="kopftext">
+        <p class="traeger">{APP_ORG}</p>
+        <h1>{APP_NAME}</h1>
+      </div>
+    </div>
     <p class="anriss">Wer eine KI einfach so fragt, bekommt eine allgemeine Antwort.</p>
     <p class="untertitel">
       Diese Anwendung baut daraus eine Frage, die deinen Ausbildungsberuf, dein Niveau und die
@@ -288,6 +303,25 @@
 
   header {
     margin-bottom: 1.25rem;
+  }
+
+  .kopfzeile {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  .kopftext {
+    min-width: 0;
+  }
+
+  .logo {
+    flex: none;
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 12px;
+    /* Auf dunklem Grund würde die blaue Kachel sonst hart abbrechen. */
+    box-shadow: 0 0 0 1px var(--rand);
   }
 
   .traeger {

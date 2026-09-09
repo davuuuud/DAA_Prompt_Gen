@@ -38,3 +38,22 @@ for (const { vorlage, datei, groesse } of aufgaben) {
 // Das Favicon bleibt SVG: skaliert verlustfrei und ist kleiner als jedes PNG.
 await writeFile(join(ziel, 'favicon.svg'), await readFile(join(quelle, 'icon.svg')));
 console.log('favicon.svg                  (SVG übernommen)');
+
+// --- Logo des Bildungsträgers ----------------------------------------------
+// Die Vorlage ist über 200 kB groß und wird in der Kopfzeile nur wenige
+// Dutzend Pixel breit dargestellt. Unverkleinert würde sie die Ladezeit der
+// gesamten Anwendung mehr als verdoppeln.
+const logoVorlage = join(quelle, 'logo.png');
+const logo = await readFile(logoVorlage);
+for (const groesse of [144, 288]) {
+  const png = await sharp(logo)
+    .resize(groesse, groesse, { fit: 'contain' })
+    .png({ compressionLevel: 9, palette: true })
+    .toBuffer();
+  await writeFile(join(ziel, `logo-${groesse}.png`), png);
+  console.log(`logo-${groesse}.png`.padEnd(28) + `${groesse}x${groesse}  ${(png.length / 1024).toFixed(1)} kB`);
+}
+
+// Bewusst kein App-Symbol aus dem Logo: Bei 48 Pixeln - der Größe im
+// App-Menü - ist sein Text nicht mehr zu entziffern. Das App-Symbol bleibt
+// deshalb die eigene, auf kleine Größen ausgelegte Marke aus icon.svg.
