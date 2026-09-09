@@ -103,9 +103,15 @@
 <div class="huelle">
   <header>
     <h1>IHK-Lernassistent</h1>
+    <p class="anriss">Wer eine KI einfach so fragt, bekommt eine allgemeine Antwort.</p>
     <p class="untertitel">
-      Baut strukturierte Lern-Prompts für die kaufmännische Umschulung – auf diesem Gerät,
-      ohne Konto und ohne Datenübertragung.
+      Diese Anwendung baut daraus eine Frage, die deinen Ausbildungsberuf, dein Niveau und die
+      Anforderungen deiner Abschlussprüfung berücksichtigt – und die verlangt, Quellen zu
+      belegen und Unsicherheiten zu benennen, statt Paragraphen zu erfinden.
+    </p>
+    <p class="ablauf">
+      Thema eintragen, fertigen Prompt kopieren, in ChatGPT oder eine andere KI einfügen.
+      Alles geschieht auf diesem Gerät: kein Konto, keine Anmeldung, keine Datenübertragung.
     </p>
   </header>
 
@@ -288,11 +294,28 @@
     line-height: 1.2;
   }
 
+  /* Drei Stufen statt eines Blocks: Der Anriss trägt, die Erklärung stützt,
+     der Ablauf steht zurück. So drängt die Einleitung auf dem Telefon das
+     Formular nicht unnötig nach unten. */
+  .anriss {
+    margin: 0.5rem 0 0;
+    font-size: 1rem;
+    font-weight: 600;
+    max-width: 44rem;
+  }
+
   .untertitel {
-    margin: 0.4rem 0 0;
+    margin: 0.35rem 0 0;
     color: var(--text-schwach);
     font-size: 0.9rem;
-    max-width: 40rem;
+    max-width: 44rem;
+  }
+
+  .ablauf {
+    margin: 0.35rem 0 0;
+    color: var(--text-schwach);
+    font-size: 0.82rem;
+    max-width: 44rem;
   }
 
   main {

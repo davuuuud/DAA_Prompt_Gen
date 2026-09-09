@@ -2,9 +2,14 @@
 
 **→ [davuuuud.github.io/DAA_Prompt_Gen](https://davuuuud.github.io/DAA_Prompt_Gen/)**
 
-Baut strukturierte Lern-Prompts für die kaufmännische Umschulung. Läuft im
-Browser und lässt sich auf dem Telefon zum Startbildschirm hinzufügen. Alles
-geschieht auf dem Gerät: kein Konto, keine Anmeldung, keine Datenübertragung.
+Wer eine KI einfach so fragt, bekommt eine allgemeine Antwort. Diese Anwendung
+baut daraus eine Frage, die Ausbildungsberuf, Niveau und die Anforderungen der
+Abschlussprüfung berücksichtigt – und die verlangt, Quellen zu belegen und
+Unsicherheiten zu benennen, statt Paragraphen zu erfinden.
+
+Läuft im Browser und lässt sich auf dem Telefon zum Startbildschirm hinzufügen.
+Alles geschieht auf dem Gerät: kein Konto, keine Anmeldung, keine
+Datenübertragung.
 
 Auf dem Telefon: Adresse im Browser öffnen, dann über das Menü
 **„Zum Startbildschirm hinzufügen"**. Danach startet die Anwendung als

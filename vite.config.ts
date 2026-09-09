@@ -48,7 +48,7 @@ export default defineConfig({
         name: 'IHK-Lernassistent',
         short_name: 'IHK-Lernen',
         description:
-          'Baut strukturierte Lern-Prompts für die kaufmännische Umschulung – lokal auf dem Gerät, ohne Konto und ohne Datenübertragung.',
+          'Baut strukturierte Lern-Prompts für Ausbildung und Umschulung – abgestimmt auf Beruf, Niveau und Prüfung. Läuft lokal auf dem Gerät, ohne Konto und ohne Datenübertragung.',
         lang: 'de',
         dir: 'ltr',
         start_url: '.',

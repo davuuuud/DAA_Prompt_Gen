@@ -17,6 +17,6 @@ export const APP_VERSION: string = __APP_VERSION__;
  * private.
  */
 export const FEEDBACK = {
-  email: '',
+  email: 'mitte-west-ki-genies@tinytux.de',
   url: 'https://github.com/davuuuud/DAA_Prompt_Gen/issues',
 } as const;
