@@ -155,6 +155,83 @@ weiß nicht, was zu tun ist.
 
 ---
 
+## Datenschutz und Rechtskonformität
+
+Vor einer Weitergabe über den engsten Kreis hinaus zu klären. Der Punkt zieht
+sich durch alle weiteren Etappen und wird bei Etappe 4 grundsätzlich.
+
+> **Hinweis:** Die folgenden Angaben beschreiben den technischen Zustand und
+> benennen, was zu prüfen ist. Sie sind **keine Rechtsberatung.** Die
+> Bewertung gehört zur Datenschutzbeauftragten oder zum
+> Datenschutzbeauftragten der Einrichtung.
+
+### Was heute schon gilt — technisch nachgeprüft
+
+- **Keine Übertragung von Eingaben.** Thema, Zusatzangaben und erzeugter
+  Prompt verlassen das Gerät nicht.
+- **Keine Aufrufe fremder Server.** Im gebauten Programm gibt es keinen
+  einzigen Netzwerkaufruf: kein `fetch`, keine Zählpixel, keine
+  Nutzungsstatistik, keine Schriftarten von Google. Die einzige externe
+  Adresse ist `chatgpt.com`, und die öffnet sich nur, wenn jemand die
+  Schaltfläche drückt.
+- **Kein Einwilligungsbanner nötig.** Gespeichert wird ausschließlich im
+  Gerätespeicher und ausschließlich das, was die Anwendung zum Funktionieren
+  braucht — Einstellungen und der Entwurf. Für technisch notwendige
+  Speicherung ist keine Einwilligung erforderlich.
+- **Keine Konten, keine Anmeldung, keine Kennungen.**
+
+### Was fehlt
+
+**Impressum.** Für ein geschäftsmäßig bereitgestelltes Online-Angebot in
+Deutschland verpflichtend. Wer als Anbieter auftritt — Privatperson oder
+Einrichtung — ist zu entscheiden, bevor der Link breiter gestreut wird.
+
+**Datenschutzerklärung.** Auch eine Seite ohne eigene Datenverarbeitung
+kommt nicht ohne aus: Der Betreiber der Hosting-Plattform verarbeitet beim
+Abruf die IP-Adresse. Die Erklärung muss das benennen und darf sich im
+Übrigen kurz fassen — es gibt schlicht nichts weiter zu erklären.
+
+**Ort der Verarbeitung.** Die Seite liegt derzeit bei GitHub Pages, also bei
+einem US-Anbieter. Für ein reines Ausliefern statischer Dateien ist das ein
+überschaubarer Vorgang, sollte aber bewusst entschieden und benannt sein. Ein
+Wechsel zu einem europäischen Anbieter wäre technisch eine Sache von Minuten,
+weil nur statische Dateien ausgeliefert werden.
+
+### Was sich bei Etappe 4 grundlegend ändert
+
+Sobald jemand einen API-Schlüssel hinterlegt, **verlässt Text das Gerät** —
+und zwar Text, den Lernende eingegeben haben. Das kann eine eigene
+Prüfungsleistung sein, eine betriebliche Situation aus dem Ausbildungsbetrieb
+oder ein Personenname.
+
+Daraus folgt für den Bau:
+
+- Eine ausdrückliche, benannte Zustimmung, bevor zum ersten Mal etwas
+  übertragen wird — mit Nennung des konkreten Empfängers
+- Ein dauerhaft sichtbarer Hinweis, solange ein Schlüssel hinterlegt ist
+- Ein Warnhinweis im Eingabefeld, keine personenbezogenen Daten einzutragen
+- Ollama als vollständig lokale Alternative, bei der nichts das Gerät verlässt
+
+Rechtlich zu klären ist, ob die Nutzung privat erfolgt — dann trägt jede
+Person die Verantwortung für ihren eigenen Schlüssel — oder im Rahmen des
+Unterrichts. Im zweiten Fall wird die Einrichtung zur Verantwortlichen, und
+es braucht eine tragfähige Grundlage samt Vertrag zur Auftragsverarbeitung.
+
+*Diese Unterscheidung sollte vor Baubeginn von Etappe 4 feststehen, nicht
+danach.*
+
+### Angrenzend
+
+**Barrierefreiheit.** Für digitale Angebote von Bildungseinrichtungen können
+Anforderungen aus dem Barrierefreiheitsstärkungsgesetz gelten. Die Anwendung
+ist bereits mit Beschriftungen, Tastaturbedienbarkeit und ausreichenden
+Kontrasten gebaut, aber nicht förmlich geprüft.
+
+**Namensrecht.** Siehe den Punkt zum Namen der Anwendung: „IHK" ist eine
+geschützte Bezeichnung.
+
+---
+
 ## Etappe 3 — Eigene Unterlagen durchsuchbar machen
 
 Der eigentliche Sprung: Die Anwendung findet die passenden Stellen im eigenen
