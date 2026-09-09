@@ -1,0 +1,63 @@
+import { svelte } from '@sveltejs/vite-plugin-svelte';
+import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
+
+// Der Basispfad lässt sich beim Bauen setzen, weil GitHub Pages die Seite
+// unter /projektname/ ausliefert und nicht im Wurzelverzeichnis:
+//   npm run build -- --base=/ihk-lernassistent/
+// Ohne Angabe wird ins Wurzelverzeichnis gebaut.
+
+export default defineConfig({
+  plugins: [
+    svelte(),
+    VitePWA({
+      // Eine neue Fassung wird im Hintergrund geladen und beim nächsten
+      // Start übernommen - für ein Werkzeug ohne Sitzungszustand der
+      // unauffälligste Weg.
+      registerType: 'autoUpdate',
+      injectRegister: 'auto',
+
+      // Damit die Anwendung auch beim Entwickeln als installierbar gilt und
+      // sich das Offline-Verhalten prüfen lässt.
+      devOptions: { enabled: false },
+
+      workbox: {
+        // Alles, was der Build erzeugt, wird vorab abgelegt. Die App hat
+        // keine Serveraufrufe, daher genügt reines Vorab-Zwischenspeichern.
+        globPatterns: ['**/*.{js,css,html,svg,png,ico,webmanifest}'],
+        // Jeder unbekannte Pfad liefert die Startseite - sonst zeigt ein
+        // Neuladen im Offline-Betrieb einen Fehler.
+        navigateFallback: 'index.html',
+        cleanupOutdatedCaches: true,
+      },
+
+      includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
+
+      manifest: {
+        name: 'IHK-Lernassistent',
+        short_name: 'IHK-Lernen',
+        description:
+          'Baut strukturierte Lern-Prompts für die kaufmännische Umschulung – lokal auf dem Gerät, ohne Konto und ohne Datenübertragung.',
+        lang: 'de',
+        dir: 'ltr',
+        start_url: '.',
+        scope: '.',
+        display: 'standalone',
+        orientation: 'portrait-primary',
+        background_color: '#f6f7f9',
+        theme_color: '#2f5fd0',
+        categories: ['education', 'productivity'],
+        icons: [
+          { src: 'icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+          { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+          {
+            src: 'icon-maskable-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+        ],
+      },
+    }),
+  ],
+});

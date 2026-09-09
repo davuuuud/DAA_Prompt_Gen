@@ -1,0 +1,182 @@
+/* Gestaltungsgrundlagen und Farbwerte.
+ *
+ * Die helle Palette steht auf :root, die dunkle wird ausschließlich per
+ * prefers-color-scheme überschrieben. Damit folgt die Anwendung der
+ * Systemeinstellung - unter Android der wichtigere Fall, weil dort viele
+ * Geräte dauerhaft im Dunkelmodus laufen.
+ */
+
+:root {
+  --grund: #f6f7f9;
+  --flaeche: #ffffff;
+  --flaeche-hover: #f1f3f6;
+  --code-flaeche: #f7f8fa;
+  --rand: #d8dce3;
+  --rand-stark: #b4bcc8;
+  --text: #1a1d23;
+  --text-schwach: #5d6673;
+  --akzent: #2f5fd0;
+  --akzent-text: #ffffff;
+  --akzent-schwach: #e8eefb;
+  --warnung: #a8341f;
+  --erfolg: #1c6b46;
+
+  --radius: 10px;
+
+  color-scheme: light dark;
+  font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text);
+  background-color: var(--grund);
+
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --grund: #14171c;
+    --flaeche: #1c2028;
+    --flaeche-hover: #242933;
+    --code-flaeche: #171a21;
+    --rand: #333a45;
+    --rand-stark: #4a5361;
+    --text: #e6e9ee;
+    --text-schwach: #9aa4b2;
+    --akzent: #6f9dff;
+    --akzent-text: #0d1117;
+    --akzent-schwach: #223049;
+    --warnung: #ff9c85;
+    --erfolg: #6fd3a1;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--grund);
+  color: var(--text);
+}
+
+h1,
+h2,
+h3 {
+  color: var(--text);
+}
+
+/* --- Formularelemente ---------------------------------------------------- */
+
+select,
+input[type='number'],
+input[type='text'],
+textarea {
+  width: 100%;
+  padding: 0.55rem 0.65rem;
+  font: inherit;
+  color: var(--text);
+  background: var(--flaeche);
+  border: 1px solid var(--rand-stark);
+  border-radius: var(--radius);
+  /* 16px verhindert, dass mobile Browser beim Fokussieren hineinzoomen. */
+  font-size: 1rem;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 3rem;
+  line-height: 1.45;
+}
+
+select {
+  /* Eigener Pfeil, damit die Darstellung auf allen Plattformen gleich ist. */
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--text-schwach) 50%),
+    linear-gradient(135deg, var(--text-schwach) 50%, transparent 50%);
+  background-position: calc(100% - 1.1rem) 55%, calc(100% - 0.75rem) 55%;
+  background-size: 0.35rem 0.35rem, 0.35rem 0.35rem;
+  background-repeat: no-repeat;
+  padding-right: 2.2rem;
+}
+
+select:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--akzent);
+  outline-offset: 2px;
+}
+
+[aria-invalid='true'] {
+  border-color: var(--warnung);
+}
+
+input[type='checkbox'] {
+  width: 1.05rem;
+  height: 1.05rem;
+  accent-color: var(--akzent);
+  cursor: pointer;
+}
+
+/* --- Schaltflächen ------------------------------------------------------- */
+
+button {
+  padding: 0.6rem 1rem;
+  font: inherit;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--flaeche);
+  border: 1px solid var(--rand-stark);
+  border-radius: var(--radius);
+  cursor: pointer;
+  /* Auf dem Telefon gut treffbar. */
+  min-height: 2.75rem;
+}
+
+button:hover:not(:disabled) {
+  background: var(--flaeche-hover);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button.haupt {
+  color: var(--akzent-text);
+  background: var(--akzent);
+  border-color: var(--akzent);
+}
+
+button.haupt:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+button.still {
+  border-color: transparent;
+  background: transparent;
+  color: var(--text-schwach);
+}
+
+button.still:hover:not(:disabled) {
+  background: var(--flaeche-hover);
+  color: var(--text);
+}
+
+button.link {
+  padding: 0;
+  min-height: 0;
+  border: 0;
+  background: none;
+  color: var(--akzent);
+  text-decoration: underline;
+  font-size: 0.85rem;
+}
+
+button.link:hover:not(:disabled) {
+  background: none;
+}
