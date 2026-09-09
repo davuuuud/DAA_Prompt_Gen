@@ -9,6 +9,7 @@ import {
 } from './feedback';
 
 const kontext: FeedbackKontext = {
+  app: 'Fragenschmiede',
   version: '0.1.0',
   beruf: 'Immobilienkaufmann/-frau',
   aufgabe: 'Multiple-Choice-Fragen',
@@ -64,7 +65,7 @@ describe('mailto-Adresse', () => {
     const url = feedbackMailto('hallo@example.org', kontext);
     const betreff = decodeURIComponent(url.split('subject=')[1].split('&body=')[0]);
     const text = decodeURIComponent(url.split('&body=')[1]);
-    expect(betreff).toBe(feedbackBetreff('0.1.0'));
+    expect(betreff).toBe(feedbackBetreff('Fragenschmiede', '0.1.0'));
     expect(text).toBe(feedbackText(kontext));
   });
 

@@ -1,9 +1,17 @@
 // Einstellungen, die beim Bauen feststehen.
 
-// Wird von Vite beim Bauen aus package.json eingesetzt.
+// Werden von Vite beim Bauen eingesetzt; gepflegt in vite.config.ts.
 declare const __APP_VERSION__: string;
+declare const __APP_NAME__: string;
+declare const __APP_ORG__: string;
 
 export const APP_VERSION: string = __APP_VERSION__;
+
+/** Name der Anwendung, z. B. für Überschrift und Betreffzeilen. */
+export const APP_NAME: string = __APP_NAME__;
+
+/** Bildungsträger, der die Anwendung bereitstellt. */
+export const APP_ORG: string = __APP_ORG__;
 
 /**
  * Ziel für Rückmeldungen aus der Anwendung.

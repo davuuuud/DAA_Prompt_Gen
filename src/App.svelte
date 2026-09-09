@@ -1,6 +1,6 @@
 <script lang="ts">
   import QuellenWahl from './lib/components/QuellenWahl.svelte';
-  import { APP_VERSION, FEEDBACK } from './lib/config';
+  import { APP_NAME, APP_ORG, APP_VERSION, FEEDBACK } from './lib/config';
   import {
     AUFGABEN,
     BERUFE,
@@ -37,6 +37,7 @@
   const feedbackZiel = $derived.by(() => {
     if (!FEEDBACK.email) return FEEDBACK.url;
     return feedbackMailto(FEEDBACK.email, {
+      app: APP_NAME,
       version: APP_VERSION,
       beruf: findBeruf(settings.beruf).label,
       aufgabe: aufgabe.label,
@@ -87,7 +88,7 @@
 
   async function teilen() {
     if (!prompt) return;
-    const ergebnis = await shareText('IHK-Lernprompt', prompt);
+    const ergebnis = await shareText(`Prompt aus der ${APP_NAME}`, prompt);
     if (ergebnis === 'geteilt') melde('Geteilt.');
     if (ergebnis === 'nicht-verfuegbar') melde('Teilen wird von diesem Browser nicht unterstützt.');
   }
@@ -102,7 +103,8 @@
 
 <div class="huelle">
   <header>
-    <h1>IHK-Lernassistent</h1>
+    <p class="traeger">{APP_ORG}</p>
+    <h1>{APP_NAME}</h1>
     <p class="anriss">Wer eine KI einfach so fragt, bekommt eine allgemeine Antwort.</p>
     <p class="untertitel">
       Diese Anwendung baut daraus eine Frage, die deinen Ausbildungsberuf, dein Niveau und die
@@ -286,6 +288,15 @@
 
   header {
     margin-bottom: 1.25rem;
+  }
+
+  .traeger {
+    margin: 0 0 0.15rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--akzent);
   }
 
   h1 {

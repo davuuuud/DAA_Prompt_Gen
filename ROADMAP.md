@@ -18,7 +18,7 @@ Erreicht sind die ersten beiden Etappen:
 Die Anwendung läuft unter
 [davuuuud.github.io/DAA_Prompt_Gen](https://davuuuud.github.io/DAA_Prompt_Gen/),
 lässt sich auf dem Telefon zum Startbildschirm hinzufügen und funktioniert
-ohne Internetverbindung. Die Fachlogik ist durch 58 Tests abgedeckt.
+ohne Internetverbindung. Die Fachlogik ist durch 78 Tests abgedeckt.
 
 ---
 
@@ -71,9 +71,9 @@ Bei jedem Punkt steht deshalb, wer ihn entscheiden kann.
 
 > **Der wichtigste offene Punkt des ganzen Projekts.**
 
-Der Quellenkatalog ordnet rund 45 Einträge den Ausbildungsberufen zu — ein
-Immobilienkaufmann sieht WEG, MaBV und BetrKV, ein Bankkaufmann KWG, WpHG und
-ZAG. Diese Zuordnung stammt aus allgemeinem Wissen, **nicht aus
+Der Quellenkatalog ordnet rund 45 Einträge den Ausbildungsberufen zu —
+Immobilienkaufleute sehen WEG, MaBV und BetrKV, die Systemintegration UrhG und
+den BSI-Grundschutz. Diese Zuordnung stammt aus allgemeinem Wissen, **nicht aus
 Unterrichtserfahrung.**
 
 Genau daran hängt aber die Qualität der erzeugten Prompts: Eine falsch
@@ -132,7 +132,18 @@ kann verschwinden. Beides macht die Oberfläche ruhiger.
 
 ### Name der Anwendung
 
-„IHK-Lernassistent" ist ein Arbeitstitel. Der Name erscheint in der
+Erledigt: Die Anwendung heißt „Fragenschmiede – DAA Mitte-West".
+
+Der bisherige Arbeitstitel „IHK-Lernassistent" war unzutreffend, seit auch
+nicht-kaufmännische Berufe und mit den Steuerfachangestellten ein Beruf im
+Katalog stehen, den nicht die IHK prüft. „IHK" ist zudem eine geschützte
+Bezeichnung.
+
+**Offen bleibt:** Der Trägername lässt die DAA als Anbieterin erscheinen. Das
+sollte vor einer breiteren Verteilung mit ihr abgestimmt sein und gehört ins
+Impressum.
+
+Der ursprüngliche Hinweis zur Sache: Der Name erscheint in der
 Fensterleiste, unter dem Symbol auf dem Startbildschirm und in der Anwendung
 selbst — ein Wechsel ist später zwar möglich, aber jeder, der die Anwendung
 schon installiert hat, behält den alten Namen unter dem Symbol.
@@ -144,14 +155,10 @@ ein offizielles Angebot.
 
 ### Einleitungstext
 
-Die zwei Zeilen unter der Überschrift sind das Erste, was jemand liest, der
-die Anwendung nicht kennt. Sie sollen in einem Atemzug beantworten: Was macht
-das, für wen ist es, und was passiert mit meinen Eingaben.
-
-Der jetzige Text nennt das Ergebnis („strukturierte Lern-Prompts") und die
-Datensparsamkeit, sagt aber nicht, **wofür** man den Prompt anschließend
-benutzt. Wer noch nie mit einem Sprachmodell gearbeitet hat, steht davor und
-weiß nicht, was zu tun ist.
+Erledigt. Der Text nennt jetzt in drei Stufen: den Anlass („Wer eine KI einfach
+so fragt, bekommt eine allgemeine Antwort."), die Leistung der Anwendung und —
+als eigentlichen Mangel der Vorfassung — den Ablauf: Thema eintragen, Prompt
+kopieren, in eine KI einfügen.
 
 ---
 

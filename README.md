@@ -1,4 +1,6 @@
-# IHK-Lernassistent
+# Fragenschmiede
+
+*Eine Anwendung der DAA Mitte-West*
 
 **→ [davuuuud.github.io/DAA_Prompt_Gen](https://davuuuud.github.io/DAA_Prompt_Gen/)**
 
@@ -21,7 +23,7 @@ Nachfolger des Windows-Programms `IHK-Prompt-Assistent-v2` (Go/Win32).
 
 - Auswahl von Ausbildungsberuf, Aufgabenart, Niveau und Ausgabeform
 - Kuratierter Quellenkatalog, nach Ausbildungsberuf gefiltert (WEG und MaBV
-  beim Immobilienkaufmann, KWG und WpHG beim Bankkaufmann)
+  bei Immobilienkaufleuten, UrhG und BSI-Grundschutz in der Systemintegration)
 - Feste Qualitätsregeln gegen erfundene Quellen, Paragraphen und Zahlen
 - Der Prompt entsteht laufend beim Tippen; kopieren oder über den
   System-Dialog teilen

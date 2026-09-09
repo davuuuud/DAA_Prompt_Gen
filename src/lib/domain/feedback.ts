@@ -10,6 +10,8 @@
 // nicht ungefragt in eine Nachricht.
 
 export interface FeedbackKontext {
+  /** Name der Anwendung, für die Betreffzeile. */
+  app: string;
   version: string;
   beruf: string;
   aufgabe: string;
@@ -44,8 +46,8 @@ export function feedbackAnhang(kontext: FeedbackKontext): string {
   ].join('\n');
 }
 
-export function feedbackBetreff(version: string): string {
-  return `Rückmeldung zum IHK-Lernassistenten (Fassung ${version})`;
+export function feedbackBetreff(app: string, version: string): string {
+  return `Rückmeldung zur ${app} (Fassung ${version})`;
 }
 
 export function feedbackText(kontext: FeedbackKontext): string {
@@ -60,7 +62,7 @@ export function feedbackText(kontext: FeedbackKontext): string {
 export function feedbackMailto(empfaenger: string, kontext: FeedbackKontext): string {
   const ziel = empfaenger.trim();
   if (ziel === '') return '';
-  const betreff = encodeURIComponent(feedbackBetreff(kontext.version));
+  const betreff = encodeURIComponent(feedbackBetreff(kontext.app, kontext.version));
   const text = encodeURIComponent(feedbackText(kontext));
   return `mailto:${ziel}?subject=${betreff}&body=${text}`;
 }

@@ -7,6 +7,16 @@ import { readFileSync } from 'node:fs';
 // unter der Modulauflösung NodeNext nicht zulässig.
 const { version } = JSON.parse(readFileSync('./package.json', 'utf8')) as { version: string };
 
+// Name und Träger stehen hier an einer Stelle und werden von dort sowohl in
+// das Web-Manifest als auch in den Programmcode eingesetzt. Einzige Stelle,
+// die zusätzlich gepflegt werden muss: der <title> in index.html.
+const APP_NAME = 'Fragenschmiede';
+const APP_ORG = 'DAA Mitte-West';
+const APP_BESCHREIBUNG =
+  'Wer eine KI einfach so fragt, bekommt eine allgemeine Antwort. Die Fragenschmiede ' +
+  'baut daraus eine Frage, die Ausbildungsberuf, Niveau und die Anforderungen der ' +
+  'Abschlussprüfung berücksichtigt. Läuft lokal auf dem Gerät, ohne Konto.';
+
 // Der Basispfad lässt sich beim Bauen setzen, weil GitHub Pages die Seite
 // unter /projektname/ ausliefert und nicht im Wurzelverzeichnis:
 //   npm run build -- --base=/ihk-lernassistent/
@@ -17,6 +27,8 @@ export default defineConfig({
   // damit Rückmeldungen einer Fassung zugeordnet werden können.
   define: {
     __APP_VERSION__: JSON.stringify(version),
+    __APP_NAME__: JSON.stringify(APP_NAME),
+    __APP_ORG__: JSON.stringify(APP_ORG),
   },
 
   plugins: [
@@ -45,10 +57,11 @@ export default defineConfig({
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
 
       manifest: {
-        name: 'IHK-Lernassistent',
-        short_name: 'IHK-Lernen',
-        description:
-          'Baut strukturierte Lern-Prompts für Ausbildung und Umschulung – abgestimmt auf Beruf, Niveau und Prüfung. Läuft lokal auf dem Gerät, ohne Konto und ohne Datenübertragung.',
+        name: `${APP_NAME} – ${APP_ORG}`,
+        // Kurzform für den Startbildschirm: Android kürzt ab etwa 12 Zeichen,
+        // der Trägerhinweis hätte dort ohnehin keinen Platz.
+        short_name: APP_NAME,
+        description: APP_BESCHREIBUNG,
         lang: 'de',
         dir: 'ltr',
         start_url: '.',
