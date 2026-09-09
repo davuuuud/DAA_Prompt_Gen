@@ -376,6 +376,81 @@ ob überhaupt jemand danach sucht.
 
 ---
 
+## Offen: Wer soll Zugriff haben?
+
+Die Frage kam auf, ob sich der Zugriff auf eine Region begrenzen lässt — etwa
+auf Mitte-West, ohne dass Nord oder Süd die Anwendung nutzen.
+
+### Der technische Ausgangspunkt
+
+**Mit dem jetzigen Aufbau geht das nicht.** Eine statische Seite auf GitHub
+Pages ist öffentlich; das ist keine Einstellung, sondern die Bauart. Alles, was
+im Browser ankommt, ist lesbar — ein Passwort im JavaScript wäre im Quelltext
+zu finden.
+
+Das folgt unmittelbar aus der Leitentscheidung „kein Server, keine Konten".
+Echte Zugangskontrolle bedeutet, eine davon aufzugeben.
+
+Hinzu kommt: Das Repository ist öffentlich. Die Adresse der Seite ist damit
+über GitHub auffindbar, auch ohne dass jemand den Link weitergibt.
+
+### Drei Anliegen, drei Antworten
+
+Welche Maßnahme richtig ist, hängt davon ab, was eigentlich stört.
+
+**Andere Regionen bekämen unpassende Inhalte.** Berufe und Quellen sind auf ein
+bestimmtes Angebot zugeschnitten. Aussperren wäre hier die falsche Lösung — die
+richtige ist die Profil-Mechanik aus dem Abschnitt „Ausblick": eine Codebasis,
+je Region eine eigene Adresse mit eigenen Katalogen. Nicht „raus", sondern „ihr
+bekommt eure eigene".
+
+**Es soll überhaupt nicht offen im Netz stehen.** Das ist das einzige Anliegen,
+das echte Zugangskontrolle rechtfertigt.
+
+**Abstimmung und Rollout sollen kontrolliert bleiben.** Dafür genügt
+Unauffälligkeit plus ein Hinweis in der Anwendung.
+
+### Möglichkeiten
+
+| Weg | Wirkung | Aufwand |
+|---|---|---|
+| Link nicht streuen | keine Sperre, aber niemand stolpert hinein | keiner |
+| `robots.txt` und `noindex` | taucht in keiner Suchmaschine auf | Minuten |
+| Repository privat | Adresse nicht mehr über GitHub auffindbar | Hostingwechsel nötig |
+| Passwortabfrage in der Anwendung | **keine Sicherheit**, umgeht jeder Technikkundige | Stunde |
+| Cloudflare Access | **echte Zugangskontrolle** | halber Tag |
+
+### Cloudflare Access als einziger belastbarer Weg
+
+Die Seite zöge von GitHub Pages zu Cloudflare Pages um, davor sitzt eine
+Zugangsprüfung: Wer die Adresse aufruft, weist sich per E-Mail-Einmalcode aus.
+Zugelassen wird entweder eine Liste einzelner Adressen oder eine ganze Domäne.
+Bis 50 Nutzer kostenlos, ohne eigenen Server und ohne Code; das Repository darf
+dabei privat bleiben.
+
+Der Preis: Jede Teilnehmerin braucht eine E-Mail-Adresse und muss sich beim
+ersten Aufruf ausweisen. Für ein Angebot, das niederschwellig sein soll, ist das
+eine spürbare Hürde.
+
+### Empfehlung
+
+Für die ersten beiden Anliegen **nicht sperren.** Der Zusatznutzen wäre gering,
+die Hürde real. Stattdessen zwei billige Maßnahmen:
+
+- `robots.txt` und ein `noindex`, damit die Seite nicht über Suchmaschinen
+  gefunden wird
+- ein Satz in der Fußzeile, der das Angebot einer Region zuordnet und andere an
+  die zuständige Stelle verweist
+
+Das löst, was in der Praxis stört: dass jemand die Anwendung benutzt und sich
+dann über unpassende Inhalte wundert.
+
+Nur das zweite Anliegen rechtfertigt Cloudflare Access. Dann sollte gleich
+mitgeklärt werden, ob das Impressum überhaupt noch nötig ist — hinter einer
+Zugangsprüfung ist die Seite kein öffentliches Angebot mehr.
+
+---
+
 ## Vor Etappe 3 zu klären
 
 - **Fehlende Dateiformate.** Bekannt sind PDF, Word, Excel, Scans, Bilder und
