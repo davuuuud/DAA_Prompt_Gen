@@ -90,13 +90,18 @@ Die Fachlogik kennt die Windows-API ebenso wenig wie den Browser. Sie ist
 deshalb ohne Oberfläche testbar – der Grund, warum der Portierungsschritt
 vom Go-Programm ohne einen einzigen Compilerfehler durchlief.
 
-## Offene Punkte
+## Wie es weitergeht
 
-- **Quellenkatalog fachlich prüfen.** Er ist aus allgemeinem Wissen
-  zusammengestellt und wartet auf Durchsicht durch jemanden, der näher am
-  Unterricht ist.
-- **Etappe 3:** eigene Dokumente durchsuchbar machen (PDF, Word, Excel,
-  Scans mit Texterkennung). OneNote-Dateien lassen sich clientseitig nicht
-  lesen und müssen aus OneNote als PDF exportiert werden.
-- **Etappe 4:** Anbindung an KI-Anbieter mit eigenem Schlüssel, sodass die
-  Antwort direkt in der Anwendung erscheint.
+Der [Fahrplan](ROADMAP.md) beschreibt die nächsten Entwicklungsstufen, die
+Leitentscheidungen dahinter und was bewusst nicht geplant ist.
+
+Als Nächstes steht **Etappe 3a** an: eigene PDF-Unterlagen durchsuchbar
+machen, sodass die passenden Stellen als Belegstellen in den Prompt wandern.
+
+Offen und nicht durch Programmieren zu lösen:
+
+- **Quellenkatalog fachlich prüfen** — die rund 45 Einträge sind aus
+  allgemeinem Wissen zusammengestellt
+- **Fehlende Dateiformate klären** — bekannt sind PDF, Word, Excel, Scans,
+  Bilder und OneNote
+- **OneNote** — lässt sich im Browser nicht lesen, Export nach PDF nötig
