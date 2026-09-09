@@ -58,6 +58,103 @@ der Auswahllisten.
 
 ---
 
+## Inhaltliche Überarbeitung
+
+**Kommt vor Etappe 3.** Nicht weil es dringender wäre, sondern weil es billig
+ist und alles Weitere darauf aufbaut: Wer erst Dokumente durchsuchbar macht
+und danach die Kataloge umstellt, baut die Oberfläche zweimal.
+
+Das meiste hier ist keine Programmierarbeit, sondern fachliche Entscheidung.
+Bei jedem Punkt steht deshalb, wer ihn entscheiden kann.
+
+### Welche Quellen sind bei welchem Beruf relevant?
+
+> **Der wichtigste offene Punkt des ganzen Projekts.**
+
+Der Quellenkatalog ordnet rund 45 Einträge den Ausbildungsberufen zu — ein
+Immobilienkaufmann sieht WEG, MaBV und BetrKV, ein Bankkaufmann KWG, WpHG und
+ZAG. Diese Zuordnung stammt aus allgemeinem Wissen, **nicht aus
+Unterrichtserfahrung.**
+
+Genau daran hängt aber die Qualität der erzeugten Prompts: Eine falsch
+zugeordnete Quelle lenkt das Sprachmodell in die falsche Richtung, eine
+fehlende lässt es ins Allgemeine ausweichen.
+
+Zu erheben ist je Beruf:
+
+- Welche Gesetze und Verordnungen kommen im Unterricht **tatsächlich** vor?
+- Welche stehen im Katalog, spielen aber keine Rolle?
+- Welche fehlen?
+- Welche sollten **voreingestellt** sein, weil sie fast immer passen?
+
+*Entscheiden können das nur Lehrkräfte und Fachleute.* In der Anwendung ist
+der Katalog unter „Bevorzugte Quellen" aufklappbar und damit gut als
+Gesprächsgrundlage nutzbar.
+
+### Kataloge prüfen
+
+**Ausbildungsberufe** — Welche werden tatsächlich unterrichtet? Welche im
+Katalog sind überflüssig, welche fehlen? *Fachliche Entscheidung.*
+
+**Aufgabenarten** — Zwölf Einträge, von „Thema erklären" bis „Fallstudie".
+Sind sie zu fein aufgeteilt, sodass die Auswahl unübersichtlich wird? Werden
+manche nie benutzt? Fehlen Arbeitsformen, die im Unterricht vorkommen?
+*Vorschlag von der Entwicklung, Entscheidung fachlich.*
+
+**Niveau und Ausgabeform** — Stimmen die vier Niveaustufen und die sechs
+Ausgabeformen? Sind die Abstände sinnvoll, oder liegen zwei Stufen so dicht
+beieinander, dass niemand sie unterscheiden kann? *Vorschlag von der
+Entwicklung, Entscheidung fachlich.*
+
+### Reihenfolge und Nummerierung
+
+Die Reihenfolge der Einträge innerhalb der vier Auswahlfelder ist bisher nicht
+begründet, sondern gewachsen.
+
+Beim **Niveau** ist die Reihenfolge in Wahrheit eine Rangfolge: von „Sehr
+einfach" bis „Vertieft". Eine sichtbare Nummerierung (1 bis 4) würde das
+deutlich machen, statt es dem Zufall der Anordnung zu überlassen.
+
+Zu klären:
+
+- Nummerierung nur beim Niveau, oder auch bei den anderen drei Feldern?
+- Wonach sollen Berufe, Aufgaben und Ausgabeformen sortiert sein — nach
+  Häufigkeit der Nutzung, alphabetisch oder nach inhaltlicher Nähe?
+
+### Optionen und Voreinstellungen
+
+Derzeit fünf Optionen, vier davon voreingestellt an.
+
+Zu prüfen ist beides: **Welche werden wirklich gebraucht**, und **welche
+Voreinstellung ist richtig?** Eine Option, die niemand je abwählt, kann
+genauso gut eine feste Regel im Prompt sein — eine, die niemand je anwählt,
+kann verschwinden. Beides macht die Oberfläche ruhiger.
+
+### Name der Anwendung
+
+„IHK-Lernassistent" ist ein Arbeitstitel. Der Name erscheint in der
+Fensterleiste, unter dem Symbol auf dem Startbildschirm und in der Anwendung
+selbst — ein Wechsel ist später zwar möglich, aber jeder, der die Anwendung
+schon installiert hat, behält den alten Namen unter dem Symbol.
+
+*Also besser früh entscheiden.* Zu beachten: „IHK" ist eine geschützte
+Bezeichnung; eine Anwendung, die nicht von einer Industrie- und
+Handelskammer stammt, sollte nicht den Eindruck erwecken, es handle sich um
+ein offizielles Angebot.
+
+### Einleitungstext
+
+Die zwei Zeilen unter der Überschrift sind das Erste, was jemand liest, der
+die Anwendung nicht kennt. Sie sollen in einem Atemzug beantworten: Was macht
+das, für wen ist es, und was passiert mit meinen Eingaben.
+
+Der jetzige Text nennt das Ergebnis („strukturierte Lern-Prompts") und die
+Datensparsamkeit, sagt aber nicht, **wofür** man den Prompt anschließend
+benutzt. Wer noch nie mit einem Sprachmodell gearbeitet hat, steht davor und
+weiß nicht, was zu tun ist.
+
+---
+
 ## Etappe 3 — Eigene Unterlagen durchsuchbar machen
 
 Der eigentliche Sprung: Die Anwendung findet die passenden Stellen im eigenen
@@ -156,14 +253,47 @@ Dazu: Verlauf erzeugter Prompts, Favoriten, Export.
 
 ---
 
-## Offene Punkte
+## Offen: Veröffentlichung in den App-Stores
 
-Diese Fragen sind fachlicher Natur und nicht durch Programmieren zu lösen.
+Diese Frage war zunächst verneint und ist wieder offen. Sie betrifft nur die
+**Verteilung** — die Anwendung selbst bliebe dieselbe.
 
-- **Quellenkatalog prüfen.** Die rund 45 Einträge sind aus allgemeinem Wissen
-  zusammengestellt. Was fehlt, was spielt im Unterricht keine Rolle, stimmen
-  die Voreinstellungen? In der Anwendung unter „Bevorzugte Quellen"
-  aufklappbar.
+Zum Vergleich der heutige Zustand: Die Web-App lässt sich über den Link zum
+Startbildschirm hinzufügen und verhält sich danach wie eine installierte
+Anwendung. Das kostet nichts, ist sofort verfügbar und aktualisiert sich von
+selbst.
+
+| | Google Play | Apple App Store |
+|---|---|---|
+| Konto | 25 € einmalig | 99 € pro Jahr |
+| Technische Voraussetzung | keine besondere | **macOS mit Xcode zwingend** |
+| Vor der Freigabe | 20 Tester über 14 Tage (neue Privatkonten) | Prüfung, meist 1–3 Tage |
+| Jede Aktualisierung | Prüfung | Prüfung |
+| Öffentlich sichtbar | Name und Anschrift bei Privatkonten | Entwicklername |
+
+Drei Punkte, die vor einer Entscheidung feststehen sollten:
+
+**Der Mac ist keine Formalie.** Eine signierte iOS-App lässt sich unter
+Windows nicht bauen — entweder ein Mac oder ein kostenpflichtiger Cloud-Dienst.
+
+**Apples Richtlinie 4.2 „Minimum Functionality"** ist ein reales Risiko:
+Anwendungen, die im Kern ein Formular sind und deren Ergebnis anderswo
+weiterverwendet wird, werden regelmäßig mit der Begründung abgelehnt, das
+könne auch eine Website sein. Planbar ist das nicht.
+
+**Der Gewinn ist begrenzt.** Auffindbarkeit über die Suche in den Stores —
+das ist der einzige echte Vorteil gegenüber einem Link. Ob das den Aufwand
+rechtfertigt, hängt allein daran, ob die Anwendung über den bekannten Kreis
+hinaus gefunden werden soll.
+
+*Zwischenweg, falls es doch ein Store sein soll:* Zuerst nur Google Play. Der
+Aufwand ist ein Bruchteil, das Risiko einer Ablehnung gering, und man sieht,
+ob überhaupt jemand danach sucht.
+
+---
+
+## Vor Etappe 3 zu klären
+
 - **Fehlende Dateiformate.** Bekannt sind PDF, Word, Excel, Scans, Bilder und
   OneNote. Offen: PowerPoint, altes `.doc`, Markdown, einfache Textdateien.
 - **OneNote.** Das Format lässt sich im Browser nicht lesen — es gibt keine
@@ -171,22 +301,24 @@ Diese Fragen sind fachlicher Natur und nicht durch Programmieren zu lösen.
   (OneNote: *Datei → Exportieren → Abschnitt → PDF*). Zu klären ist, wie viel
   Material dort liegt.
 
+Die fachlichen Fragen zu Katalogen, Quellen, Namen und Einleitung stehen
+weiter oben im Abschnitt [Inhaltliche
+Überarbeitung](#inhaltliche-überarbeitung).
+
 ---
 
 ## Bewusst nicht geplant
 
 Der Vollständigkeit halber, damit niemand danach sucht:
 
-**Android-App als APK.**
-Die Web-App lässt sich zum Startbildschirm hinzufügen und verhält sich danach
-wie eine installierte Anwendung. Eine APK brächte zusätzlich nur die
-abschreckende Warnung „Installation aus unbekannten Quellen" — auf verwalteten
-Geräten ist sie ohnehin gesperrt.
-
-**Google Play Store.**
-25 € einmalig, für neue Privatkonten dazu 20 Tester über 14 Tage vor der
-Freigabe, jede Aktualisierung mit Prüfung. Für ein Werkzeug, das über einen
-Link erreichbar ist, kein sinnvoller Aufwand.
+**APK zur direkten Weitergabe.**
+Gemeint ist das Verschicken einer Installationsdatei außerhalb der Stores.
+Die Web-App lässt sich über den Link zum Startbildschirm hinzufügen und
+verhält sich danach wie eine installierte Anwendung; eine APK brächte
+zusätzlich nur die abschreckende Warnung „Installation aus unbekannten
+Quellen", und auf verwalteten Geräten ist sie ohnehin gesperrt. Für die
+Veröffentlichung **in** einem Store siehe den offenen Punkt weiter oben — das
+ist eine andere Frage.
 
 **Eigener Server mit geteiltem API-Schlüssel.**
 Würde die Hürde für Nutzer senken, brächte aber laufende Kosten,
