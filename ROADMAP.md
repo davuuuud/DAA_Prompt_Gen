@@ -405,6 +405,83 @@ ob überhaupt jemand danach sucht.
 
 ---
 
+## Offen: Sprachauswahl
+
+Angeregt wurde, Oberfläche und Antworten in anderen Sprachen anzubieten. Das
+sind **zwei verschiedene Dinge**, und sie dürfen nicht gekoppelt werden.
+
+### Der Einwand, der alles bestimmt
+
+**IHK-Prüfungen werden ausschließlich auf Deutsch abgenommen.**
+
+Wer den Stoff nur in seiner Muttersprache lernt, steht in der Prüfung vor
+deutschen Fachbegriffen, die er nie gesehen hat — und genau darauf kommt es an.
+Eine Anwendung, die bequemes Lernen auf Arabisch, Türkisch oder Ukrainisch
+ermöglicht, könnte die Prüfungsreife also **aktiv verschlechtern**.
+
+Das ist kein Argument gegen Mehrsprachigkeit, sondern eines für eine sorgfältige
+Trennung: Die Sprache der **Bedienung** und die Sprache der **Inhalte** sind
+zwei Schalter, nicht einer.
+
+### Drei Ausbaustufen
+
+**1. Nur die Oberfläche übersetzen, Antworten bleiben deutsch**
+
+Beschriftungen, Schaltflächen und Hilfetexte in der Muttersprache, der erzeugte
+Prompt und die Antwort weiterhin auf Deutsch. Senkt die Hürde beim Bedienen,
+ohne den Prüfungswortschatz anzutasten. Die sichere Variante.
+
+**2. Zweisprachige Antworten**
+
+Antwort auf Deutsch, aber jeder Fachbegriff beim ersten Auftreten mit
+Übersetzung in Klammern: „Deckungsbeitrag (contribution margin)". Pädagogisch
+die stärkste Variante — sie baut genau die Brücke, die in der Prüfung fehlt,
+statt sie zu umgehen.
+
+Technisch ist das die billigste: eine zusätzliche Regel im Prompt, kein
+Umbau der Oberfläche.
+
+**3. Vollständige Übersetzung der Antworten**
+
+Alles in der Zielsprache. Am bequemsten, und am riskantesten für die
+Prüfungsvorbereitung. Falls überhaupt, dann mit einem deutlichen Hinweis in
+der Anwendung.
+
+### Aufwand
+
+| | Umfang |
+|---|---|
+| Antwortsprache umstellbar | eine Regel im Prompt, klein |
+| Zweisprachiger Modus | eine Regel im Prompt, klein |
+| Oberfläche übersetzen | **groß** — rund 150 Zeichenketten herauslösen |
+| Rechts-nach-links (Arabisch, Farsi) | eigener Posten, betrifft das gesamte Layout |
+
+Die Oberfläche ist der teure Teil: Sämtliche Beschriftungen stecken heute
+direkt im Code und in den Katalogen. Sie herauszulösen ist geradlinige, aber
+umfangreiche Arbeit — und danach braucht jede Sprache eine Übersetzung, die
+jemand fachlich prüfen muss.
+
+**Rechts-nach-links** wäre nicht bloß eine weitere Sprache, sondern eine
+zweite Layoutrichtung. Sollte Arabisch oder Farsi in Frage kommen, gehört das
+früh entschieden.
+
+### Zu klären
+
+- **Welche Sprachen?** Hängt von der tatsächlichen Zusammensetzung der Kurse ab.
+  Ohne diese Zahl ist jede Auswahl geraten.
+- **Wer prüft die Übersetzungen?** Maschinell übersetzte Beschriftungen in einer
+  Lernanwendung sind ein Risiko eigener Art.
+- **Reicht die Oberfläche, oder wird die zweisprachige Antwort gewünscht?**
+
+### Empfehlung
+
+Mit **Stufe 2** anfangen. Sie kostet fast nichts, hilft sofort und arbeitet
+mit der Prüfungsanforderung statt gegen sie. Ob danach die Oberfläche folgt,
+lässt sich mit den Rückmeldungen aus der Erprobung besser entscheiden als
+vorher.
+
+---
+
 ## Offen: Wer soll Zugriff haben?
 
 Die Frage kam auf, ob sich der Zugriff auf eine Region begrenzen lässt — etwa
