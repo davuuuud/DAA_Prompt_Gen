@@ -467,6 +467,12 @@ Erst wenn eine Fassung sich grundsätzlich anders verhält, lohnt eine Trennung.
 
 ### Was die Dozenten-Fassung zusätzlich braucht
 
+> **Alles in diesem Abschnitt ist Vermutung.** Anders als bei den
+> Grundkompetenzen gibt es kein Infoblatt, an dem sich das prüfen ließe — die
+> Dozenten-Fassung ist eine Idee, kein bestehendes Angebot. Bei den
+> Grundkompetenzen lag ich mit einer ähnlichen Vermutung daneben. Vor dem Bau
+> gehört das mit Dozentinnen und Dozenten abgeglichen.
+
 Sie ist die aufwendigere von beiden, weil sich nicht nur die Kataloge ändern:
 
 - **Andere Aufgabenarten:** Präsentation gliedern, Handout erstellen,
