@@ -162,34 +162,22 @@ so fragt, bekommt eine allgemeine Antwort."), die Leistung der Anwendung und —
 als eigentlichen Mangel der Vorfassung — den Ablauf: Thema eintragen, Prompt
 kopieren, in eine KI einfügen.
 
-### Logo: die Schrift muss größer
+### Logo: die Schrift muss größer — erledigt
 
-Das Logo des Bildungsträgers steht im Kopfbereich. **Seine Schrift ist bei der
-dargestellten Größe zu klein.**
+**Erledigt mit der Vorlage `Logo_App2.png`.** Der ursprüngliche Punkt lautete:
+Die Schrift ist bei der dargestellten Größe zu klein, und die Ursache liegt in
+der Vorlage — großzügige Ränder und vier bis fünf Textzeilen verkleinern die
+Buchstaben, sobald die Kachel auf Kopfzeilengröße schrumpft.
 
-Die Ursache liegt in der Vorlage, nicht in der Einbindung: Das Bild hat rundum
-großzügige Ränder, und der Text verteilt sich auf vier bis fünf Zeilen. Beides
-verkleinert die Buchstaben, sobald die Kachel auf Kopfzeilengröße schrumpft.
+Die neue Vorlage löst genau das: enge Ränder, zwei Wortgruppen zu je zwei
+Zeilen („DAA MWW" und „KI Genies") statt vieler kurzer. Bei 96 Pixeln im
+Kopfbereich sind beide lesbar.
 
-Drei Ansätze, vom günstigsten zum aufwendigsten:
-
-- **Ränder verkleinern.** Rückt der Text näher an die Kanten, gewinnt er ohne
-  jede gestalterische Änderung deutlich an Größe.
-- **Weniger Zeilen.** „Mitte-West" auf einer statt zwei Zeilen bringt spürbar
-  mehr Höhe je Buchstabe — das ist der Unterschied zwischen den beiden bereits
-  vorliegenden Fassungen.
-- **Eigene Fassung für kleine Größen.** Logos werden üblicherweise in mehreren
-  Ausbaustufen gehalten: die vollständige für große Flächen, eine reduzierte
-  mit weniger Text für kleine. Für die Kopfzeile genügte womöglich „KI Genies"
-  mit kleinerem Trägerzusatz.
-
-Die Kachel in der Anwendung schlicht größer zu machen, löst das Problem
-**nicht**: Sie würde den Kopfbereich beherrschen und auf dem Telefon das
-Formular nach unten drängen. Die Größe der Schrift muss aus der Vorlage kommen.
-
-Unabhängig davon bleibt es dabei, dass das Logo **kein App-Symbol** wird — bei
+Was davon **bestehen bleibt:** Das Logo wird trotzdem **kein App-Symbol.** Bei
 48 Pixeln ist sein Text nachweislich unlesbar, und daran ändert auch eine
-größere Schrift wenig.
+größere Schrift nichts. Ebenso bleibt es dabei, dass die Kachel in der
+Anwendung nicht weiter wachsen sollte — sie würde den Kopfbereich beherrschen
+und auf dem Telefon das Formular nach unten drängen.
 
 ---
 
