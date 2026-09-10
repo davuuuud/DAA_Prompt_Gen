@@ -835,9 +835,23 @@ if (EMPFAENGER.length > 0) {
     const zeilen = ALLGEMEIN.length + berufe.reduce((s, b) => s + b.quellen.length, 0);
     const einzeln = berufe.reduce((s, b) => s + ALLGEMEIN.length + b.quellen.length, 0);
     const ersparnis = einzeln > zeilen ? ` (statt ${einzeln} einzeln)` : '';
+    const marken = [];
+    if (!empfaenger.mww) marken.push('MWW UNGEPRUEFT');
+    if (empfaenger.offen) marken.push('Zuständigkeit offen');
     console.log(
       `  ${empfaenger.name.padEnd(12)} ${berufe.map((b) => b.kuerzel).join(' + ').padEnd(12)} ` +
-        `${String(zeilen).padStart(3)} Zeilen${ersparnis}${empfaenger.offen ? '  [Zuständigkeit offen]' : ''}`,
+        `${String(zeilen).padStart(3)} Zeilen${ersparnis}` +
+        (marken.length ? `  [${marken.join(' · ')}]` : '  [versandbereit]'),
+    );
+  }
+
+  // Der Versand ist gesperrt, solange die Zugehörigkeit zur DAA
+  // Mitte-West-West nicht für jede Person bestätigt ist.
+  const ungeprueft = EMPFAENGER.filter((e) => !e.mww);
+  if (ungeprueft.length > 0) {
+    console.log(
+      `\nNICHT VERSENDEN an ${ungeprueft.length} von ${EMPFAENGER.length}: ` +
+        `${ungeprueft.map((e) => e.name).join(', ')} — MWW-Zugehörigkeit ungeprüft.`,
     );
   }
 
