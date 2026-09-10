@@ -19,28 +19,32 @@ function hatAbschnitt(prompt: string, titel: string): boolean {
 
 describe('Kataloge', () => {
   it('enthaelt genau die vom Bildungstraeger vorgegebenen Berufe', () => {
-    // Kaufmaennische Grundqualifikation voran, alle uebrigen alphabetisch.
+    // Kaufmaennische Grundqualifikation voran, alle uebrigen nach Kuerzel.
     expect(BERUFE.map((b) => b.id)).toEqual([
       'kgq', // KGQ
-      'fachinformatik', // FiSi
-      'lagerlogistik', // FK LaLo
-      'schutzsicherheit', // FK SchuSi
-      'immobilien', // IMK
-      'industrie', // IK
-      'bueromanagement', // KBM
-      'spedition', // SL
-      'ecommerce', // KEC
       'einzelhandel', // EHK
-      'gesundheit', // KiG
+      'fachinformatik', // FISI
+      'lagerlogistik', // FKL
+      'schutzsicherheit', // FKS
       'grosshandel', // GAM
+      'industrie', // IK
+      'immobilien', // IMK
+      'bueromanagement', // KBM
+      'ecommerce', // KEC
+      'gesundheit', // KiG
       'personaldienstleistung', // PDK
       'steuerfach', // SFA
+      'spedition', // SL
     ]);
   });
 
-  it('ist ab dem zweiten Eintrag alphabetisch sortiert', () => {
-    const ohneGrundqualifikation = BERUFE.slice(1).map((b) => b.label);
-    const sortiert = [...ohneGrundqualifikation].sort((a, b) => a.localeCompare(b, 'de'));
+  it('ist ab dem zweiten Eintrag alphabetisch nach Kuerzel sortiert', () => {
+    const ohneGrundqualifikation = BERUFE.slice(1).map((b) => b.kuerzel);
+    // Ohne Beachtung der Gross- und Kleinschreibung, sonst stuende "KiG"
+    // hinter allen Kuerzeln in Grossbuchstaben.
+    const sortiert = [...ohneGrundqualifikation].sort((a, b) =>
+      a.localeCompare(b, 'de', { sensitivity: 'base' }),
+    );
     expect(ohneGrundqualifikation).toEqual(sortiert);
   });
 
@@ -52,8 +56,8 @@ describe('Kataloge', () => {
     }
     // Vorgabe des Bildungstraegers.
     expect(kuerzel).toEqual([
-      'KGQ', 'FISI', 'FKL', 'FKS', 'IMK', 'IK', 'KBM',
-      'SL', 'KEC', 'EHK', 'KiG', 'GAM', 'PDK', 'SFA',
+      'KGQ', 'EHK', 'FISI', 'FKL', 'FKS', 'GAM', 'IK',
+      'IMK', 'KBM', 'KEC', 'KiG', 'PDK', 'SFA', 'SL',
     ]);
   });
 

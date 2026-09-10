@@ -11,15 +11,21 @@ import type {
 } from './types';
 import { plural } from './text';
 
-// Auswahl und Schreibweise stammen vom Bildungsträger, die dort gebräuchlichen
-// Kürzel stehen als Kommentar dabei. Die kaufmännische Grundqualifikation steht
-// voran, alle übrigen alphabetisch nach der angezeigten Bezeichnung.
+// Auswahl, Schreibweise und Kürzel stammen vom Bildungsträger. Die
+// kaufmännische Grundqualifikation steht voran, alle übrigen alphabetisch
+// nach dem Kürzel — danach wird in der Auswahlliste gesucht.
 //
 // Angezeigt wird der geschlechtsneutrale Plural. Für den Satz im Prompt
 // („Umschulung zum/zur …") wird die Einzahlform gebraucht, weil der Plural sich
 // dort nicht einsetzen ließe.
 export const BERUFE: Beruf[] = [
   { id: 'kgq', kuerzel: 'KGQ', label: 'Kaufmännische Grundqualifikation' },
+  {
+    id: 'einzelhandel',
+    kuerzel: 'EHK',
+    label: 'Kaufleute im Einzelhandel',
+    singular: 'Kaufmann/-frau im Einzelhandel',
+  },
   {
     id: 'fachinformatik',
     kuerzel: 'FISI',
@@ -39,10 +45,10 @@ export const BERUFE: Beruf[] = [
     singular: 'Fachkraft für Schutz und Sicherheit',
   },
   {
-    id: 'immobilien',
-    kuerzel: 'IMK',
-    label: 'Immobilienkaufleute',
-    singular: 'Immobilienkaufmann/-frau',
+    id: 'grosshandel',
+    kuerzel: 'GAM',
+    label: 'Kaufleute im Groß- und Außenhandelsmanagement',
+    singular: 'Kaufmann/-frau für Groß- und Außenhandelsmanagement',
   },
   {
     id: 'industrie',
@@ -51,16 +57,16 @@ export const BERUFE: Beruf[] = [
     singular: 'Industriekaufmann/-frau',
   },
   {
+    id: 'immobilien',
+    kuerzel: 'IMK',
+    label: 'Immobilienkaufleute',
+    singular: 'Immobilienkaufmann/-frau',
+  },
+  {
     id: 'bueromanagement',
     kuerzel: 'KBM',
     label: 'Kaufleute für Büromanagement',
     singular: 'Kaufmann/-frau für Büromanagement',
-  },
-  {
-    id: 'spedition',
-    kuerzel: 'SL',
-    label: 'Kaufleute für Spedition und Logistikdienstleistungen',
-    singular: 'Kaufmann/-frau für Spedition und Logistikdienstleistung',
   },
   {
     id: 'ecommerce',
@@ -69,22 +75,10 @@ export const BERUFE: Beruf[] = [
     singular: 'Kaufmann/-frau im E-Commerce',
   },
   {
-    id: 'einzelhandel',
-    kuerzel: 'EHK',
-    label: 'Kaufleute im Einzelhandel',
-    singular: 'Kaufmann/-frau im Einzelhandel',
-  },
-  {
     id: 'gesundheit',
     kuerzel: 'KiG',
     label: 'Kaufleute im Gesundheitswesen',
     singular: 'Kaufmann/-frau im Gesundheitswesen',
-  },
-  {
-    id: 'grosshandel',
-    kuerzel: 'GAM',
-    label: 'Kaufleute im Groß- und Außenhandelsmanagement',
-    singular: 'Kaufmann/-frau für Groß- und Außenhandelsmanagement',
   },
   {
     id: 'personaldienstleistung',
@@ -98,6 +92,12 @@ export const BERUFE: Beruf[] = [
     label: 'Steuerfachangestellte',
     singular: 'Steuerfachangestellte/-r',
     pruefstelle: 'Steuerberaterkammer',
+  },
+  {
+    id: 'spedition',
+    kuerzel: 'SL',
+    label: 'Kaufleute für Spedition und Logistikdienstleistungen',
+    singular: 'Kaufmann/-frau für Spedition und Logistikdienstleistung',
   },
 ];
 
