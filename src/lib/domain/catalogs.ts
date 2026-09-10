@@ -19,62 +19,92 @@ import { plural } from './text';
 // („Umschulung zum/zur …") wird die Einzahlform gebraucht, weil der Plural sich
 // dort nicht einsetzen ließe.
 export const BERUFE: Beruf[] = [
-  { id: 'kgq', label: 'Kaufmännische Grundqualifikation' }, // KGQ
+  { id: 'kgq', kuerzel: 'KGQ', label: 'Kaufmännische Grundqualifikation' },
   {
-    id: 'fachinformatik', // FiSi
+    id: 'fachinformatik',
+    kuerzel: 'FISI',
     label: 'Fachinformatiker – Systemintegration',
     singular: 'Fachinformatiker/-in für Systemintegration',
   },
   {
-    id: 'lagerlogistik', // FK LaLo
+    id: 'lagerlogistik',
+    kuerzel: 'FKL',
     label: 'Fachkräfte für Lagerlogistik',
     singular: 'Fachkraft für Lagerlogistik',
   },
   {
-    id: 'schutzsicherheit', // FK SchuSi
+    id: 'schutzsicherheit',
+    kuerzel: 'FKS',
     label: 'Fachkräfte für Schutz und Sicherheit',
     singular: 'Fachkraft für Schutz und Sicherheit',
   },
-  { id: 'immobilien', label: 'Immobilienkaufleute', singular: 'Immobilienkaufmann/-frau' }, // IMK
-  { id: 'industrie', label: 'Industriekaufleute', singular: 'Industriekaufmann/-frau' }, // IK
   {
-    id: 'bueromanagement', // KBM
+    id: 'immobilien',
+    kuerzel: 'IMK',
+    label: 'Immobilienkaufleute',
+    singular: 'Immobilienkaufmann/-frau',
+  },
+  {
+    id: 'industrie',
+    kuerzel: 'IK',
+    label: 'Industriekaufleute',
+    singular: 'Industriekaufmann/-frau',
+  },
+  {
+    id: 'bueromanagement',
+    kuerzel: 'KBM',
     label: 'Kaufleute für Büromanagement',
     singular: 'Kaufmann/-frau für Büromanagement',
   },
   {
-    id: 'spedition', // SL
+    id: 'spedition',
+    kuerzel: 'SL',
     label: 'Kaufleute für Spedition und Logistikdienstleistungen',
     singular: 'Kaufmann/-frau für Spedition und Logistikdienstleistung',
   },
-  { id: 'ecommerce', label: 'Kaufleute im E-Commerce', singular: 'Kaufmann/-frau im E-Commerce' }, // KEC
   {
-    id: 'einzelhandel', // EHK
+    id: 'ecommerce',
+    kuerzel: 'KEC',
+    label: 'Kaufleute im E-Commerce',
+    singular: 'Kaufmann/-frau im E-Commerce',
+  },
+  {
+    id: 'einzelhandel',
+    kuerzel: 'EHK',
     label: 'Kaufleute im Einzelhandel',
     singular: 'Kaufmann/-frau im Einzelhandel',
   },
   {
-    id: 'gesundheit', // KiG
+    id: 'gesundheit',
+    kuerzel: 'KiG',
     label: 'Kaufleute im Gesundheitswesen',
     singular: 'Kaufmann/-frau im Gesundheitswesen',
   },
   {
-    id: 'grosshandel', // GAM
+    id: 'grosshandel',
+    kuerzel: 'GAM',
     label: 'Kaufleute im Groß- und Außenhandelsmanagement',
     singular: 'Kaufmann/-frau für Groß- und Außenhandelsmanagement',
   },
   {
-    id: 'personaldienstleistung', // PDK
+    id: 'personaldienstleistung',
+    kuerzel: 'PDK',
     label: 'Personaldienstleistungskaufleute',
     singular: 'Personaldienstleistungskaufmann/-frau',
   },
   {
-    id: 'steuerfach', // SFA
+    id: 'steuerfach',
+    kuerzel: 'SFA',
     label: 'Steuerfachangestellte',
     singular: 'Steuerfachangestellte/-r',
     pruefstelle: 'Steuerberaterkammer',
   },
 ];
+
+/** Anzeige in der Auswahlliste: „IMK — Immobilienkaufleute". */
+export function berufBeschriftung(beruf: Beruf): string {
+  return `${beruf.kuerzel} — ${beruf.label}`;
+}
 
 export const AUFGABEN: Aufgabe[] = [
   {

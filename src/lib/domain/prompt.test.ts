@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { AUFGABEN, BERUFE, FORMATE, NIVEAUS, OPTIONEN } from './catalogs';
+import { AUFGABEN, BERUFE, berufBeschriftung, FORMATE, NIVEAUS, OPTIONEN } from './catalogs';
 import { alleQuellen, buildPrompt, MAX_FUNDSTELLE_ZEICHEN, validate } from './prompt';
 import { defaultSettings, toPromptInput } from './settings';
 import type { PromptInput } from './types';
@@ -42,6 +42,31 @@ describe('Kataloge', () => {
     const ohneGrundqualifikation = BERUFE.slice(1).map((b) => b.label);
     const sortiert = [...ohneGrundqualifikation].sort((a, b) => a.localeCompare(b, 'de'));
     expect(ohneGrundqualifikation).toEqual(sortiert);
+  });
+
+  it('fuehrt zu jedem Beruf ein eindeutiges Kuerzel', () => {
+    const kuerzel = BERUFE.map((b) => b.kuerzel);
+    expect(new Set(kuerzel).size).toBe(kuerzel.length);
+    for (const b of BERUFE) {
+      expect(b.kuerzel.trim(), `${b.id} ohne Kuerzel`).not.toBe('');
+    }
+    // Vorgabe des Bildungstraegers.
+    expect(kuerzel).toEqual([
+      'KGQ', 'FISI', 'FKL', 'FKS', 'IMK', 'IK', 'KBM',
+      'SL', 'KEC', 'EHK', 'KiG', 'GAM', 'PDK', 'SFA',
+    ]);
+  });
+
+  it('stellt in der Auswahlliste das Kuerzel voran', () => {
+    const immo = BERUFE.find((b) => b.id === 'immobilien')!;
+    expect(berufBeschriftung(immo)).toBe('IMK — Immobilienkaufleute');
+  });
+
+  it('haelt das Kuerzel aus dem Prompt heraus', () => {
+    // Fuer ein Sprachmodell waere "IMK" nur ein Raetsel.
+    const prompt = buildPrompt(basis({ beruf: 'immobilien' }));
+    expect(prompt).not.toContain('IMK');
+    expect(prompt).toContain('Immobilienkaufmann/-frau');
   });
 
   it('fuehrt zu jedem Beruf ausser der Grundqualifikation eine Einzahlform', () => {

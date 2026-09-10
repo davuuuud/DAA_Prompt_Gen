@@ -1,6 +1,6 @@
 # Fragenschmiede
 
-*Eine Anwendung der DAA Mitte-West*
+*Eine Anwendung der DAA MWW (Mitte-West-West)*
 
 **→ [davuuuud.github.io/DAA_Prompt_Gen](https://davuuuud.github.io/DAA_Prompt_Gen/)**
 

@@ -11,7 +11,7 @@ const { version } = JSON.parse(readFileSync('./package.json', 'utf8')) as { vers
 // das Web-Manifest als auch in den Programmcode eingesetzt. Einzige Stelle,
 // die zusätzlich gepflegt werden muss: der <title> in index.html.
 const APP_NAME = 'Fragenschmiede';
-const APP_ORG = 'DAA Mitte-West';
+const APP_ORG = 'DAA MWW';
 const APP_BESCHREIBUNG =
   'Wer eine KI einfach so fragt, bekommt eine allgemeine Antwort. Die Fragenschmiede ' +
   'baut daraus eine Frage, die Ausbildungsberuf, Niveau und die Anforderungen der ' +

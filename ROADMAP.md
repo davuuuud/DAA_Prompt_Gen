@@ -132,7 +132,7 @@ kann verschwinden. Beides macht die Oberfläche ruhiger.
 
 ### Name der Anwendung
 
-Erledigt: Die Anwendung heißt „Fragenschmiede – DAA Mitte-West".
+Erledigt: Die Anwendung heißt „Fragenschmiede – DAA MWW".
 
 Der bisherige Arbeitstitel „IHK-Lernassistent" war unzutreffend, seit auch
 nicht-kaufmännische Berufe und mit den Steuerfachangestellten ein Beruf im

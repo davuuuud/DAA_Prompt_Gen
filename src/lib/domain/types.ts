@@ -58,6 +58,12 @@ export type QuellenGruppe = 'gesetz' | 'ihk' | 'fachverlag' | 'statistik';
 
 export interface Beruf {
   id: BerufId;
+  /**
+   * Kürzel des Bildungsträgers. Steht in der Auswahlliste voran, damit sich
+   * ein Eintrag schnell finden lässt — im Prompt taucht es nicht auf, dort
+   * wäre es für ein Sprachmodell nur ein Rätsel.
+   */
+  kuerzel: string;
   /** Anzeige in der Auswahlliste, in der Schreibweise des Bildungsträgers. */
   label: string;
   /**
@@ -144,4 +150,43 @@ export interface PromptInput {
   quellenFreitext: string;
   /** Belegstellen aus eigenen Unterlagen; leer, solange Etappe 3 fehlt. */
   fundstellen?: Fundstelle[];
+  /**
+   * Zielsprache für zweisprachige Antworten. Fehlt die Angabe oder steht sie
+   * auf 'keine', bleibt die Antwort einsprachig deutsch.
+   */
+  zweitsprache?: ZweitspracheId;
+}
+
+// ---------------------------------------------------------------------------
+// Sprachen
+// ---------------------------------------------------------------------------
+
+export type SpracheId =
+  | 'de'
+  | 'ar'
+  | 'en'
+  | 'es'
+  | 'fa'
+  | 'fr'
+  | 'pl'
+  | 'ro'
+  | 'ru'
+  | 'tr'
+  | 'uk';
+
+/** 'keine' bedeutet: einsprachige Antwort auf Deutsch. */
+export type ZweitspracheId = SpracheId | 'keine';
+
+export interface Sprache {
+  id: SpracheId;
+  /** Deutsche Bezeichnung. */
+  label: string;
+  /** Name in der Sprache selbst. */
+  eigenname: string;
+  /**
+   * Schreibrichtung. Wird heute noch nicht ausgewertet, ist aber die
+   * Voraussetzung für eine spätere Übersetzung der Oberfläche: Arabisch und
+   * Farsi verlangen eine zweite Layoutrichtung, keine bloße Wortliste.
+   */
+  dir: 'ltr' | 'rtl';
 }

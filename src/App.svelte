@@ -4,6 +4,7 @@
   import {
     AUFGABEN,
     BERUFE,
+    berufBeschriftung,
     FORMATE,
     findAufgabe,
     findBeruf,
@@ -140,7 +141,7 @@
           <label for="beruf">Ausbildungsberuf</label>
           <select id="beruf" bind:value={settings.beruf} onchange={berufGewechselt}>
             {#each BERUFE as beruf (beruf.id)}
-              <option value={beruf.id}>{beruf.label}</option>
+              <option value={beruf.id}>{berufBeschriftung(beruf)}</option>
             {/each}
           </select>
         </div>
