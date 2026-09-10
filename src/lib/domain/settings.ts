@@ -6,6 +6,7 @@
 
 import { AUFGABEN, BERUFE, FORMATE, NIVEAUS, OPTIONEN } from './catalogs';
 import { DEFAULT_QUELLEN, quellenFuerBeruf } from './quellen';
+import { zweitsprachen } from './sprachen';
 import { DEFAULT_ANZAHL, parseAnzahl } from './text';
 import type {
   AufgabeId,
@@ -14,6 +15,7 @@ import type {
   NiveauId,
   OptionId,
   PromptInput,
+  ZweitspracheId,
 } from './types';
 
 export const SETTINGS_VERSION = 1;
@@ -28,6 +30,8 @@ export interface Settings {
   optionen: OptionId[];
   quellen: string[];
   quellenFreitext: string;
+  /** 'keine' bedeutet: einsprachige Antwort auf Deutsch. */
+  zweitsprache: ZweitspracheId;
 }
 
 export function defaultSettings(): Settings {
@@ -41,6 +45,7 @@ export function defaultSettings(): Settings {
     optionen: OPTIONEN.filter((option) => option.defaultOn).map((option) => option.id),
     quellen: [...DEFAULT_QUELLEN],
     quellenFreitext: '',
+    zweitsprache: 'keine',
   };
 }
 
@@ -81,6 +86,9 @@ export function normalizeSettings(raw: unknown): Settings {
     optionen: pickIds(OPTIONEN, data.optionen) as OptionId[],
     quellen: quellen.length > 0 ? quellen : filterDefaults(beruf),
     quellenFreitext: typeof data.quellenFreitext === 'string' ? data.quellenFreitext : '',
+    // 'keine' ist hier zugleich Vorgabe und Rückfall: Eine gestrichene Sprache
+    // führt zurück auf die einsprachige Antwort, nicht auf eine fremde.
+    zweitsprache: pickId(zweitsprachen(), data.zweitsprache, 'keine') as ZweitspracheId,
   };
 }
 
@@ -107,6 +115,7 @@ export function toPromptInput(
     optionen: settings.optionen,
     quellen: settings.quellen,
     quellenFreitext: settings.quellenFreitext,
+    zweitsprache: settings.zweitsprache,
     thema: eingaben.thema,
     zusatz: eingaben.zusatz,
   };

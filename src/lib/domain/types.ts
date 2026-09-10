@@ -161,18 +161,23 @@ export interface PromptInput {
 // Sprachen
 // ---------------------------------------------------------------------------
 
+// Reihenfolge wie im Katalog: Deutsch als Grundsprache, dann die sechs
+// Sprachen mit dem größten erwarteten Bedarf, dann die übrigen alphabetisch.
 export type SpracheId =
   | 'de'
-  | 'ar'
   | 'en'
-  | 'es'
+  | 'ar'
+  | 'uk'
+  | 'ru'
+  | 'tr'
   | 'fa'
+  | 'bg'
   | 'fr'
   | 'pl'
   | 'ro'
-  | 'ru'
-  | 'tr'
-  | 'uk';
+  | 'bks'
+  | 'es'
+  | 'vi';
 
 /** 'keine' bedeutet: einsprachige Antwort auf Deutsch. */
 export type ZweitspracheId = SpracheId | 'keine';
@@ -184,9 +189,10 @@ export interface Sprache {
   /** Name in der Sprache selbst. */
   eigenname: string;
   /**
-   * Schreibrichtung. Wird heute noch nicht ausgewertet, ist aber die
-   * Voraussetzung für eine spätere Übersetzung der Oberfläche: Arabisch und
-   * Farsi verlangen eine zweite Layoutrichtung, keine bloße Wortliste.
+   * Schreibrichtung. Heute ohne Wirkung, weil die zweisprachige Antwort in
+   * der KI erscheint und nicht in dieser Anwendung. Sie wird gebraucht,
+   * sobald Antworten in der Anwendung selbst dargestellt werden (Etappe 4):
+   * Arabisch und Farsi verlangen dann eine zweite Layoutrichtung.
    */
   dir: 'ltr' | 'rtl';
 }

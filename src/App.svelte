@@ -18,6 +18,7 @@
   import { feedbackMailto, kurzeBrowserKennung } from './lib/domain/feedback';
   import { buildPrompt, validate } from './lib/domain/prompt';
   import { quellenFuerBeruf } from './lib/domain/quellen';
+  import { spracheBeschriftung, zweitsprachen } from './lib/domain/sprachen';
   import { toPromptInput } from './lib/domain/settings';
   import { MAX_ANZAHL, MIN_ANZAHL, toCRLF } from './lib/domain/text';
   import { copyText } from './lib/platform/clipboard';
@@ -192,6 +193,22 @@
               <option value={format.id}>{format.label}</option>
             {/each}
           </select>
+        </div>
+
+        <div class="feld">
+          <label for="zweitsprache">Zweite Sprache in der Antwort</label>
+          <select id="zweitsprache" bind:value={settings.zweitsprache}>
+            <option value="keine">Keine – nur Deutsch</option>
+            {#each zweitsprachen() as sprache (sprache.id)}
+              <option value={sprache.id}>{spracheBeschriftung(sprache)}</option>
+            {/each}
+          </select>
+          {#if settings.zweitsprache !== 'keine'}
+            <p class="hinweis">
+              Die Antwort bleibt vollständig auf Deutsch, Fachbegriffe ebenfalls – die zweite
+              Sprache erklärt sie zusätzlich. Die Prüfung findet auf Deutsch statt.
+            </p>
+          {/if}
         </div>
 
         {#if aufgabe.needsCount}

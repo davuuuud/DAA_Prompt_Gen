@@ -18,7 +18,7 @@ Erreicht sind die ersten beiden Etappen:
 Die Anwendung läuft unter
 [davuuuud.github.io/DAA_Prompt_Gen](https://davuuuud.github.io/DAA_Prompt_Gen/),
 lässt sich auf dem Telefon zum Startbildschirm hinzufügen und funktioniert
-ohne Internetverbindung. Die Fachlogik ist durch 78 Tests abgedeckt.
+ohne Internetverbindung. Die Fachlogik ist durch 97 Tests abgedeckt.
 
 ---
 
@@ -404,12 +404,43 @@ ob überhaupt jemand danach sucht.
 
 ---
 
-## Offen: Sprachauswahl
+## Sprachauswahl — entschieden
 
-Angeregt wurde, Oberfläche und Antworten in anderen Sprachen anzubieten. Das
-sind **zwei verschiedene Dinge**, und sie dürfen nicht gekoppelt werden.
+**Entscheidung:** Die Oberfläche bleibt deutsch. Die Antwort kann auf Wunsch
+um eine Erläuterung in einer von dreizehn Sprachen ergänzt werden. Umgesetzt.
 
-### Der Einwand, der alles bestimmt
+### Was in der Anwendung steht
+
+Ein Auswahlfeld „Zweite Sprache in der Antwort", Vorgabe „Keine – nur
+Deutsch". Zur Wahl stehen, in dieser Reihenfolge:
+
+**Kernsprachen** — Englisch · Arabisch · Ukrainisch · Russisch · Türkisch ·
+Farsi
+**Übrige, alphabetisch** — Bulgarisch · Französisch · Polnisch · Rumänisch ·
+Serbisch/Kroatisch/Bosnisch · Spanisch · Vietnamesisch
+
+Die Reihenfolge folgt den Zuwanderungszahlen, aber nicht blind. Türkisch steht
+in der Statistik ganz oben (~1,5 Mio.), wird aber überwiegend von der zweiten
+und dritten Generation gesprochen, die Deutsch besser liest. Russisch steht
+statistisch niedriger (~0,3 Mio. russische Staatsangehörige), ist aber
+Verkehrssprache für Spätaussiedlerfamilien, Zugewanderte aus Zentralasien und
+einen großen Teil der Ukrainer. Englisch taucht in keiner Zuwanderungsstatistik
+auf und fängt trotzdem am meisten ab — Indien, Westafrika, Philippinen und
+jede Sprache, die nicht in der Liste steht.
+
+**Bewusst nicht aufgenommen:** Kurmancî, Tigrinya, Somali, Dari als eigener
+Eintrag. Nicht aus Desinteresse, sondern weil die Modellqualität dort für
+kaufmännische Fachtexte nicht reicht. Eine schlechte Erläuterung ist hier
+schlimmer als keine, weil Lernende sie nicht überprüfen können.
+
+### Die Regel im Prompt
+
+Ausdrücklich **keine Übersetzung.** Der Prompt verlangt: deutsche Antwort
+vollständig und voran, Fachbegriffe bleiben deutsch und werden in der zweiten
+Sprache *erklärt*, nicht ersetzt, beide Teile sichtbar getrennt. Die zweite
+Sprache darf kürzer sein — sie ist Verständnisstütze, nicht Zweitfassung.
+
+### Der Einwand, der das bestimmt hat
 
 **IHK-Prüfungen werden ausschließlich auf Deutsch abgenommen.**
 
@@ -422,62 +453,51 @@ Das ist kein Argument gegen Mehrsprachigkeit, sondern eines für eine sorgfälti
 Trennung: Die Sprache der **Bedienung** und die Sprache der **Inhalte** sind
 zwei Schalter, nicht einer.
 
-### Drei Ausbaustufen
+### Warum die Oberfläche deutsch bleibt
 
-**1. Nur die Oberfläche übersetzen, Antworten bleiben deutsch**
+Zwei Gründe, beide dauerhaft:
 
-Beschriftungen, Schaltflächen und Hilfetexte in der Muttersprache, der erzeugte
-Prompt und die Antwort weiterhin auf Deutsch. Senkt die Hürde beim Bedienen,
-ohne den Prüfungswortschatz anzutasten. Die sichere Variante.
+**Laufende Kosten.** Sämtliche Beschriftungen stecken heute direkt im Code und
+in den Katalogen — rund 150 Zeichenketten. Sie herauszulösen wäre geradlinige,
+aber umfangreiche Arbeit, und danach müsste **jede Textänderung für immer in
+jeder Sprache nachgezogen** werden. Eine falsche Übersetzung fällt niemandem
+auf, der sie nicht spricht.
 
-**2. Zweisprachige Antworten**
+**Die Prüfung ist deutsch.** Eine deutsche Oberfläche mit vierzehn Wörtern ist
+selbst eine kleine Übung. Eine übersetzte erweckt den Eindruck, es ginge auch
+ohne.
 
-Antwort auf Deutsch, aber jeder Fachbegriff beim ersten Auftreten mit
-Übersetzung in Klammern: „Deckungsbeitrag (contribution margin)". Pädagogisch
-die stärkste Variante — sie baut genau die Brücke, die in der Prüfung fehlt,
-statt sie zu umgehen.
+Eine unübersetzte Oberfläche ist zudem eine viel kleinere Hürde als
+unübersetzter Inhalt: Vierzehn Beschriftungen lernt man beim zweiten Öffnen,
+einen Lernzettel nicht.
 
-Technisch ist das die billigste: eine zusätzliche Regel im Prompt, kein
-Umbau der Oberfläche.
+Falls doch einmal eine zweite hinzukommt, dann Englisch — weil sie die meisten
+abholt und weil eine falsche englische Übersetzung auffällt.
 
-**3. Vollständige Übersetzung der Antworten**
-
-Alles in der Zielsprache. Am bequemsten, und am riskantesten für die
-Prüfungsvorbereitung. Falls überhaupt, dann mit einem deutlichen Hinweis in
-der Anwendung.
-
-### Aufwand
+### Was das an Aufwand gespart hat
 
 | | Umfang |
 |---|---|
-| Antwortsprache umstellbar | eine Regel im Prompt, klein |
-| Zweisprachiger Modus | eine Regel im Prompt, klein |
-| Oberfläche übersetzen | **groß** — rund 150 Zeichenketten herauslösen |
-| Rechts-nach-links (Arabisch, Farsi) | eigener Posten, betrifft das gesamte Layout |
+| Zweisprachige Antwort | eine Regel im Prompt plus ein Auswahlfeld — **erledigt** |
+| Oberfläche übersetzen | groß, und dauerhaft — **nicht geplant** |
+| Rechts-nach-links (Arabisch, Farsi) | heute **gegenstandslos** |
 
-Die Oberfläche ist der teure Teil: Sämtliche Beschriftungen stecken heute
-direkt im Code und in den Katalogen. Sie herauszulösen ist geradlinige, aber
-umfangreiche Arbeit — und danach braucht jede Sprache eine Übersetzung, die
-jemand fachlich prüfen muss.
+**Rechts-nach-links kostet derzeit nichts.** Die Antwort erscheint in der KI,
+nicht in dieser Anwendung — Arabisch und Farsi berühren unser Layout also gar
+nicht. Die Schreibrichtung steht trotzdem im Katalog: Sobald Antworten in der
+Anwendung selbst dargestellt werden (Etappe 4), wird sie gebraucht, und dann
+soll sie nicht erst gesucht werden müssen.
 
-**Rechts-nach-links** wäre nicht bloß eine weitere Sprache, sondern eine
-zweite Layoutrichtung. Sollte Arabisch oder Farsi in Frage kommen, gehört das
-früh entschieden.
+### Offen geblieben
 
-### Zu klären
-
-- **Welche Sprachen?** Hängt von der tatsächlichen Zusammensetzung der Kurse ab.
-  Ohne diese Zahl ist jede Auswahl geraten.
-- **Wer prüft die Übersetzungen?** Maschinell übersetzte Beschriftungen in einer
-  Lernanwendung sind ein Risiko eigener Art.
-- **Reicht die Oberfläche, oder wird die zweisprachige Antwort gewünscht?**
-
-### Empfehlung
-
-Mit **Stufe 2** anfangen. Sie kostet fast nichts, hilft sofort und arbeitet
-mit der Prüfungsanforderung statt gegen sie. Ob danach die Oberfläche folgt,
-lässt sich mit den Rückmeldungen aus der Erprobung besser entscheiden als
-vorher.
+- **Trifft die Auswahl zu?** Die Liste folgt Bundesstatistik, nicht den
+  tatsächlichen Kursen. Zwei, drei Telefonate mit den Kursleitungen schlagen
+  jede Statistik — Duisburg ist bei Rumänisch und Bulgarisch ein Sonderfall.
+  Die Liste zu ändern kostet eine Zeile je Sprache.
+- **Fehlt ein Feld „andere Sprache"?** Es würde die lange Liste abdecken, ohne
+  eine Qualität zu versprechen, die wir nicht halten können. Bisher nicht
+  gebaut.
+- **Wird der Modus überhaupt genutzt?** Das zeigt erst die Erprobung.
 
 ---
 

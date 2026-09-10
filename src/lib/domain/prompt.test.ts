@@ -1,7 +1,22 @@
 import { describe, expect, it } from 'vitest';
 import { AUFGABEN, BERUFE, berufBeschriftung, FORMATE, NIVEAUS, OPTIONEN } from './catalogs';
-import { alleQuellen, buildPrompt, MAX_FUNDSTELLE_ZEICHEN, validate } from './prompt';
-import { defaultSettings, toPromptInput } from './settings';
+import {
+  alleQuellen,
+  buildPrompt,
+  MAX_FUNDSTELLE_ZEICHEN,
+  validate,
+  zweispracheRegeln,
+} from './prompt';
+import { defaultSettings, normalizeSettings, toPromptInput } from './settings';
+import {
+  BASISSPRACHE,
+  findSprache,
+  hatRtlSprachen,
+  KERNSPRACHEN,
+  spracheBeschriftung,
+  SPRACHEN,
+  zweitsprachen,
+} from './sprachen';
 import type { PromptInput } from './types';
 
 function basis(overrides: Partial<PromptInput> = {}): PromptInput {
@@ -290,5 +305,106 @@ describe('Belegstellen aus eigenen Unterlagen', () => {
     );
     expect(prompt).toContain('[…]');
     expect(prompt.length).toBeLessThan(MAX_FUNDSTELLE_ZEICHEN + 4000);
+  });
+});
+
+describe('Sprachkatalog', () => {
+  it('führt Deutsch als Grundsprache an erster Stelle', () => {
+    expect(SPRACHEN[0].id).toBe(BASISSPRACHE);
+    expect(BASISSPRACHE).toBe('de');
+  });
+
+  it('bietet Deutsch nicht als Zweitsprache an', () => {
+    expect(zweitsprachen().some((sprache) => sprache.id === BASISSPRACHE)).toBe(false);
+    expect(zweitsprachen()).toHaveLength(SPRACHEN.length - 1);
+  });
+
+  it('vergibt jede Kennung nur einmal', () => {
+    const ids = SPRACHEN.map((sprache) => sprache.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it('sortiert hinter den Kernsprachen alphabetisch nach deutscher Bezeichnung', () => {
+    // Erst Deutsch, dann die Kernsprachen in bewusster Reihenfolge - der
+    // alphabetische Teil beginnt danach.
+    const uebrige = SPRACHEN.slice(1 + KERNSPRACHEN).map((sprache) => sprache.label);
+    const sortiert = [...uebrige].sort((a, b) => a.localeCompare(b, 'de'));
+    expect(uebrige).toEqual(sortiert);
+  });
+
+  it('nennt in der Auswahlliste Eigennamen und deutsche Bezeichnung', () => {
+    expect(spracheBeschriftung(findSprache('uk'))).toBe('Українська (Ukrainisch)');
+    // Bei Deutsch waere beides gleich - dann genuegt einmal.
+    expect(spracheBeschriftung(findSprache('de'))).toBe('Deutsch');
+  });
+
+  it('kennzeichnet Arabisch und Farsi als von rechts nach links', () => {
+    expect(findSprache('ar').dir).toBe('rtl');
+    expect(findSprache('fa').dir).toBe('rtl');
+    expect(findSprache('en').dir).toBe('ltr');
+    expect(hatRtlSprachen()).toBe(true);
+  });
+});
+
+describe('Zweisprachige Antwort', () => {
+  it('bleibt ohne Auswahl einsprachig', () => {
+    expect(zweispracheRegeln(basis())).toEqual([]);
+    expect(zweispracheRegeln(basis({ zweitsprache: 'keine' }))).toEqual([]);
+    const prompt = buildPrompt(basis());
+    expect(prompt).toContain('Antworte auf Deutsch.');
+    expect(prompt).not.toContain('Ergänze die deutsche Antwort');
+  });
+
+  it('erzeugt keine Regeln, wenn Deutsch als Zweitsprache gewaehlt wird', () => {
+    expect(zweispracheRegeln(basis({ zweitsprache: 'de' }))).toEqual([]);
+  });
+
+  it('nennt die gewaehlte Sprache mit Bezeichnung und Eigennamen', () => {
+    const prompt = buildPrompt(basis({ zweitsprache: 'ar' }));
+    expect(prompt).toContain('Erläuterung auf Arabisch (العربية)');
+  });
+
+  it('verlangt eine Erlaeuterung statt einer Uebersetzung', () => {
+    const prompt = buildPrompt(basis({ zweitsprache: 'uk' }));
+    expect(prompt).toContain('Übersetze nicht Satz für Satz');
+    expect(prompt).toContain('Verständnisstütze');
+  });
+
+  it('haelt die deutsche Fassung vollstaendig und die Fachbegriffe deutsch', () => {
+    const prompt = buildPrompt(basis({ zweitsprache: 'tr' }));
+    expect(prompt).toContain('Antworte auf Deutsch.');
+    expect(prompt).toContain('bleibt dabei vollständig');
+    expect(prompt).toContain('Fachbegriffe bleiben auch dort auf Deutsch');
+    expect(prompt).toContain('die Prüfung findet auf Deutsch statt');
+  });
+
+  it('steht im Abschnitt AUSGABE', () => {
+    const prompt = buildPrompt(basis({ zweitsprache: 'fa' }));
+    const ausgabe = prompt.slice(prompt.indexOf('\n\nAUSGABE\n'));
+    expect(ausgabe).toContain('Erläuterung auf Farsi');
+  });
+});
+
+describe('Zweitsprache in den Einstellungen', () => {
+  it('ist ohne Vorgabe abgeschaltet', () => {
+    expect(defaultSettings().zweitsprache).toBe('keine');
+  });
+
+  it('uebernimmt eine gueltige gespeicherte Sprache', () => {
+    expect(normalizeSettings({ zweitsprache: 'ro' }).zweitsprache).toBe('ro');
+  });
+
+  it('faellt bei unbekannter oder gestrichener Sprache auf "keine" zurueck', () => {
+    expect(normalizeSettings({ zweitsprache: 'klingonisch' }).zweitsprache).toBe('keine');
+    expect(normalizeSettings({ zweitsprache: 42 }).zweitsprache).toBe('keine');
+    // Deutsch waere keine zweite Sprache, sondern die erste.
+    expect(normalizeSettings({ zweitsprache: 'de' }).zweitsprache).toBe('keine');
+  });
+
+  it('reicht die Auswahl an den Prompt-Eingabesatz weiter', () => {
+    const settings = { ...defaultSettings(), zweitsprache: 'vi' as const };
+    const input = toPromptInput(settings, { thema: 'Skonto', zusatz: '' });
+    expect(input.zweitsprache).toBe('vi');
+    expect(buildPrompt(input)).toContain('Vietnamesisch (Tiếng Việt)');
   });
 });

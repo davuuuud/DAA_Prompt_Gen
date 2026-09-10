@@ -7,6 +7,7 @@
 
 import { findAufgabe, findBeruf, findFormat, findNiveau, OPTIONEN } from './catalogs';
 import { quellenBezeichnungen } from './quellen';
+import { BASISSPRACHE, findSprache } from './sprachen';
 import { collapseBlankLines, parseAnzahl, splitFreitext, truncateWords } from './text';
 import type { Fundstelle, OptionId, PromptInput } from './types';
 
@@ -60,6 +61,36 @@ function formatFundstelle(fundstelle: Fundstelle, index: number): string {
     : fundstelle.dokument;
   const text = truncateWords(collapseBlankLines(fundstelle.text), MAX_FUNDSTELLE_ZEICHEN);
   return `[${index + 1}] ${herkunft}\n"""\n${text}\n"""`;
+}
+
+/**
+ * Regeln für die zweisprachige Antwort. Leer, solange keine zweite Sprache
+ * gewählt ist.
+ *
+ * Ausdrücklich **keine** Übersetzung: Die Abschlussprüfung findet auf Deutsch
+ * statt. Wer den Stoff nur in der zweiten Sprache lernt, steht in der Prüfung
+ * vor einem deutschen Fachbegriff, den er nie gelesen hat. Die zweite Sprache
+ * erklärt die deutschen Begriffe, sie ersetzt sie nicht.
+ */
+export function zweispracheRegeln(input: PromptInput): string[] {
+  const gewaehlt = input.zweitsprache;
+  if (!gewaehlt || gewaehlt === 'keine' || gewaehlt === BASISSPRACHE) return [];
+
+  const sprache = findSprache(gewaehlt);
+  if (sprache.id === BASISSPRACHE) return [];
+
+  return [
+    `Ergänze die deutsche Antwort um eine Erläuterung auf ${sprache.label} ` +
+      `(${sprache.eigenname}). Die deutsche Fassung bleibt dabei vollständig und ` +
+      'steht voran — sie wird nicht gekürzt, weil die zweite Sprache folgt.',
+    'Übersetze nicht Satz für Satz. Die zweite Sprache ist eine Verständnisstütze: ' +
+      'Sie fasst zusammen, erklärt schwierige Stellen und darf deutlich kürzer sein.',
+    'Alle Fachbegriffe bleiben auch dort auf Deutsch stehen und werden in der zweiten ' +
+      'Sprache erklärt, nicht ersetzt — die Prüfung findet auf Deutsch statt, und die ' +
+      'deutschen Begriffe müssen sitzen.',
+    'Trenne beide Teile sichtbar durch eine Überschrift, damit ich zuerst die deutsche ' +
+      'Fassung lesen und erst danach nachschlagen kann.',
+  ];
 }
 
 export function buildPrompt(input: PromptInput): string {
@@ -163,6 +194,7 @@ export function buildPrompt(input: PromptInput): string {
     'AUSGABE',
     punkte([
       'Antworte auf Deutsch.',
+      ...zweispracheRegeln(input),
       'Beginne unmittelbar mit dem Ergebnis, ohne Vorrede über dich selbst oder die Aufgabenstellung.',
       'Trenne Lösungen, Musterlösungen und Erwartungshorizonte immer sichtbar vom Aufgabenteil, ' +
         'damit ich zuerst selbst überlegen kann.',
