@@ -24,6 +24,7 @@ Berufe tatsächlich unterrichten.
 | `blaetter/fuer-<name>.html` | Ein Bogen je Ansprechpartner. Das, was verschickt wird. Nicht im Repository. |
 | `blaetter/_uebersicht.html` | Nur zur eigenen Vorbereitung, **nicht** verschicken. |
 | `ansprechpartner.local.mjs` | Wer welchen Beruf betreut. Nicht im Repository — siehe unten. |
+| `anschreiben.local.md` | Die Mailtexte, eine je Person. Ebenfalls nicht im Repository. |
 
 Neu erzeugen nach jeder Änderung an `daten.mjs`:
 
@@ -50,49 +51,63 @@ bekommt alle 300 Zeilen vorgelegt, sondern zwischen 59 und 71.
 Je Zeile drei Kästchen: *kommt vor*, *streichen*, *voreinstellen* — dazu eine
 Spalte für Anmerkungen.
 
-Die Bögen sind eigenständige HTML-Dateien ohne Verweise nach außen. Sie lassen
-sich als Anhang verschicken, im Browser öffnen, ausfüllen und über
-*Drucken → Als PDF speichern* zurückschicken — oder schlicht ausdrucken.
+## Ausfüllen und Zurückschicken
+
+Die Bögen sind eigenständige HTML-Dateien ohne Verweise nach außen: als Anhang
+verschickbar, per Doppelklick im Browser zu öffnen, ohne Internetverbindung
+nutzbar. Sie senden nichts von allein.
+
+Am Bildschirm helfen drei Dinge:
+
+- **Ausschluss.** *Streichen* und *kommt vor* schließen einander aus;
+  *voreinstellen* setzt *kommt vor* mit. Gestrichene Zeilen werden
+  durchgestrichen dargestellt.
+- **Zwischensicherung.** Jede Eingabe wird im Browser gespeichert. Ein
+  versehentlich geschlossener Tab kostet dann keine halbe Stunde.
+- **Antwort erzeugen.** Ein Knopf fasst alles zu einem Textblock zusammen, der
+  in die Antwortmail eingefügt wird. Wahlweise kopieren oder als Datei
+  speichern.
+
+Wer lieber auf Papier arbeitet, druckt den Bogen aus — der Werkzeugkasten wird
+nicht mitgedruckt.
+
+### Format des Rücklaufs
+
+```
+=== FRAGENSCHMIEDE / QUELLEN-DURCHSICHT / RUECKMELDUNG ===
+Bogen:       KBM
+Person:      Mustermann
+Beantwortet: 47 von 61
+
+[ALLGEMEIN]
+[ja  ] Ausbildungsordnung
+[ja *] Rahmenlehrplan
+[nein] Prüfungsordnung
+[ja  ] AkA  | nur DIN 5008 Abschnitt 5
+[--  ] DIHK
+...
+[FEHLENDE QUELLEN]
++ Handbuch Sekretariat, 4. Auflage  | nur hier
+```
+
+Feste Marken am Zeilenanfang, Anmerkung hinter einem Strich, Abschnitte in
+eckigen Klammern. Das ist für Menschen lesbar und lässt sich zugleich ohne
+Rätselraten auswerten. Die Zeile *Beantwortet: x von y* zeigt sofort, ob
+jemand durchgesehen oder nur durchgeklickt hat.
 
 ## Ablauf
 
 1. Je Beruf einen Ansprechpartner benennen.
 2. Bogen und Anschreiben verschicken.
-3. Rückläufe sammeln (Tabelle unten).
+3. Rückläufe sammeln.
 4. Auswerten (Regeln unten).
 5. `src/lib/domain/quellen.ts` anpassen und `DEFAULT_QUELLEN` neu setzen.
 
 ## Anschreiben
 
-> **Betreff:** Kurze fachliche Durchsicht — welche Quellen gehören zu *[BERUF]*?
->
-> Hallo [NAME],
->
-> ich habe ein kleines Werkzeug gebaut, das Umschülerinnen und Umschülern hilft,
-> brauchbare Fragen an eine KI zu stellen — statt einer allgemeinen Antwort
-> eine, die zum Beruf, zum Niveau und zur Abschlussprüfung passt.
->
-> Damit das funktioniert, steht in jeder Frage, auf welche Quellen sich die
-> Antwort stützen soll. Genau diese Liste habe ich nach bestem Wissen
-> zusammengestellt — aber ich unterrichte den Beruf nicht. Deshalb meine Bitte:
->
-> Im Anhang ist ein Bogen mit den Quellen, die derzeit für *[BERUF]*
-> hinterlegt sind. Würdest du ankreuzen, was tatsächlich vorkommt, was
-> gestrichen gehört — und vor allem ergänzen, was fehlt?
->
-> Das dauert etwa 20 bis 30 Minuten. Die Datei lässt sich im Browser öffnen und
-> am Bildschirm ausfüllen (Kästchen anklicken, dann *Drucken → Als PDF
-> speichern*) oder ausdrucken und von Hand ausfüllen — wie es dir lieber ist.
->
-> Wo du unsicher bist, lass die Zeile einfach leer. Auch das ist eine Auskunft.
->
-> Rückmeldung bis [DATUM] wäre großartig.
->
-> Viele Grüße
-> [ABSENDER]
->
-> PS: Das Werkzeug ist ein privates Projekt und kein offizielles Angebot der
-> DAA. Ansehen kann man es hier: https://davuuuud.github.io/DAA_Prompt_Gen/
+Die Mailtexte stehen in `anschreiben.local.md` — eine je Person, mit den
+Besonderheiten des jeweiligen Berufs. Auch sie enthalten Namen und bleiben
+deshalb außerhalb des Repositories.
 
 ## Ansprechpartner und Rückläufe
 

@@ -56,7 +56,7 @@ function schuetzen(text) {
     .replace(/>/g, '&gt;');
 }
 
-function zeile(quelle) {
+function zeile(quelle, bereich) {
   const hinweis = quelle.hinweis
     ? `<span class="hinweis">${schuetzen(quelle.hinweis)}</span>`
     : '';
@@ -65,21 +65,23 @@ function zeile(quelle) {
       ? `<span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">` +
         `Grenzfall: ${quelle.geltung} von 14</span>`
       : '';
-  return `        <tr>
+  // data-bereich und data-quelle machen die Zeile für die Auswertung
+  // wiedererkennbar, ohne dass jemand etwas abtippen muss.
+  return `        <tr data-bereich="${schuetzen(bereich)}" data-quelle="${schuetzen(quelle.kuerzel)}">
           <td class="quelle">
             <strong>${schuetzen(quelle.kuerzel)}</strong>
             <span class="titel">${schuetzen(quelle.titel)}</span>
             ${hinweis}
             ${geltung}
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>`;
 }
 
-function tabelle(quellen) {
+function tabelle(quellen, bereich) {
   return `      <table>
         <thead>
           <tr>
@@ -91,17 +93,17 @@ function tabelle(quellen) {
           </tr>
         </thead>
         <tbody>
-${quellen.map(zeile).join('\n')}
+${quellen.map((quelle) => zeile(quelle, bereich)).join('\n')}
         </tbody>
       </table>`;
 }
 
-function abschnitte(quellen, ueberschriftStufe = 'h3') {
+function abschnitte(quellen, bereich, ueberschriftStufe = 'h3') {
   return ART_REIHENFOLGE.map((art) => {
     const passend = quellen.filter((quelle) => quelle.art === art);
     if (passend.length === 0) return '';
     return `      <${ueberschriftStufe}>${ART_TITEL[art]}</${ueberschriftStufe}>
-${tabelle(passend)}`;
+${tabelle(passend, bereich)}`;
   })
     .filter(Boolean)
     .join('\n\n');
@@ -110,12 +112,12 @@ ${tabelle(passend)}`;
 function leerzeilen(anzahl) {
   return Array.from(
     { length: anzahl },
-    () => `        <tr>
-          <td class="quelle leer"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="anmerkung"></td>
+    () => `        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>`,
   ).join('\n');
 }
@@ -199,7 +201,58 @@ const STIL = `
     background: #fef3c7;
     border-radius: 3px;
   }
-  input[type="checkbox"] { width: 1rem; height: 1rem; }
+  input[type="checkbox"] { width: 1rem; height: 1rem; cursor: pointer; }
+  input[type="text"] {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    padding: 0;
+  }
+  input[type="text"]:focus { outline: 2px solid var(--akzent); outline-offset: 1px; }
+  td.quelle.leer input { border-bottom: 1px solid #c8ced6; }
+  tr.gestrichen td.quelle { opacity: .5; text-decoration: line-through; }
+
+  textarea {
+    width: 100%;
+    font: inherit;
+    padding: .5rem;
+    border: 1px solid var(--rand);
+    border-radius: 4px;
+    resize: vertical;
+  }
+
+  .werkzeug {
+    position: sticky;
+    bottom: 0;
+    margin-top: 2rem;
+    padding: 1rem;
+    background: #eef4ff;
+    border: 1px solid var(--akzent);
+    border-radius: 6px;
+  }
+  .werkzeug h2 { margin-top: 0; border: none; }
+  button {
+    font: inherit;
+    font-weight: 600;
+    padding: .55rem 1.1rem;
+    border: 1px solid var(--akzent);
+    border-radius: 4px;
+    background: var(--akzent);
+    color: #fff;
+    cursor: pointer;
+  }
+  button.still { background: #fff; color: var(--akzent); }
+  button:hover { filter: brightness(1.08); }
+  .knopfreihe { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
+  .stand { font-size: .8rem; color: var(--grau); }
+  #ergebnis {
+    margin-top: .8rem;
+    min-height: 12rem;
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: .75rem;
+  }
 
   .legende { font-size: .8rem; color: var(--grau); }
   .legende dt { font-weight: 600; color: #16191f; float: left; clear: left; margin-right: .4rem; }
@@ -214,6 +267,8 @@ const STIL = `
   }
 
   @media print {
+    .werkzeug { display: none; }
+    input[type="text"] { border-bottom: 1px solid #c8ced6; }
     body { padding: 0; font-size: 9.5pt; }
     h2 { break-after: avoid; }
     h3 { break-after: avoid; }
@@ -222,6 +277,238 @@ const STIL = `
     thead { display: table-header-group; }
     .hinweiskasten { break-inside: avoid; }
   }
+`;
+
+// Das Skript im Bogen. Bewusst ohne Template-Literale geschrieben, damit es
+// sich hier gefahrlos in ein Template-Literal einbetten lässt.
+//
+// Es leistet dreierlei: die Kästchen "kommt vor" und "streichen" schließen
+// einander aus, jede Eingabe wird im Browser gesichert (ein versehentlich
+// geschlossener Tab kostet dann keine halbe Stunde), und am Ende entsteht ein
+// Textblock, der sich in eine Mail einfügen und beim Auswerten maschinell
+// lesen lässt.
+const SKRIPT = (bogenTitel, personName) =>
+  `
+(function () {
+  var SCHLUESSEL = 'fragenschmiede-durchsicht:' + ${JSON.stringify(bogenTitel)};
+  var PERSON = ${JSON.stringify(personName)};
+  var BOGEN = ${JSON.stringify(bogenTitel)};
+
+  var felder = document.querySelectorAll('input, textarea');
+
+  function zustand() {
+    var werte = {};
+    felder.forEach(function (feld, i) {
+      werte[i] = feld.type === 'checkbox' ? feld.checked : feld.value;
+    });
+    return werte;
+  }
+
+  function sichern() {
+    try {
+      localStorage.setItem(
+        SCHLUESSEL,
+        JSON.stringify({ zeit: new Date().toISOString(), werte: zustand() })
+      );
+      standAnzeigen(new Date());
+    } catch (e) {
+      /* privater Modus oder voller Speicher - dann eben ohne Sicherung */
+    }
+  }
+
+  function laden() {
+    try {
+      var roh = localStorage.getItem(SCHLUESSEL);
+      if (!roh) return;
+      var daten = JSON.parse(roh);
+      felder.forEach(function (feld, i) {
+        var wert = daten.werte[i];
+        if (wert === undefined) return;
+        if (feld.type === 'checkbox') feld.checked = !!wert;
+        else feld.value = wert;
+      });
+      standAnzeigen(new Date(daten.zeit));
+    } catch (e) {
+      /* beschaedigter Eintrag - lieber leer anfangen */
+    }
+  }
+
+  function standAnzeigen(zeit) {
+    var ziel = document.getElementById('stand');
+    if (!ziel || !zeit || isNaN(zeit)) return;
+    ziel.textContent =
+      'Zwischenstand gesichert um ' +
+      zeit.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  // "streichen" vertraegt sich nicht mit "kommt vor" und "voreinstellen".
+  function ausschluss(kasten) {
+    var zeile = kasten.closest('tr');
+    if (!zeile) return;
+    var wahl = kasten.getAttribute('data-wahl');
+    var nein = zeile.querySelector('input[data-wahl="nein"]');
+    var ja = zeile.querySelector('input[data-wahl="ja"]');
+    var vor = zeile.querySelector('input[data-wahl="vor"]');
+    if (wahl === 'nein' && kasten.checked) {
+      if (ja) ja.checked = false;
+      if (vor) vor.checked = false;
+    } else if ((wahl === 'ja' || wahl === 'vor') && kasten.checked) {
+      if (nein) nein.checked = false;
+    }
+    // "voreinstellen" setzt "kommt vor" voraus - sonst waere die Angabe leer.
+    if (wahl === 'vor' && kasten.checked && ja) ja.checked = true;
+    zeile.classList.toggle('gestrichen', !!(nein && nein.checked));
+  }
+
+  document.addEventListener('change', function (ereignis) {
+    if (ereignis.target.type === 'checkbox') ausschluss(ereignis.target);
+    sichern();
+  });
+  document.addEventListener('input', function (ereignis) {
+    if (ereignis.target.tagName === 'TEXTAREA' || ereignis.target.type === 'text') sichern();
+  });
+
+  function marke(zeile) {
+    var nein = zeile.querySelector('input[data-wahl="nein"]');
+    var ja = zeile.querySelector('input[data-wahl="ja"]');
+    var vor = zeile.querySelector('input[data-wahl="vor"]');
+    if (nein && nein.checked) return '[nein]';
+    if (ja && ja.checked) return vor && vor.checked ? '[ja *]' : '[ja  ]';
+    if (vor && vor.checked) return '[ja *]';
+    return '[--  ]';
+  }
+
+  function antwort() {
+    var zeilen = [];
+    var beantwortet = 0;
+    var gesamt = 0;
+    var bereichVorher = null;
+
+    document.querySelectorAll('tr[data-quelle]').forEach(function (zeile) {
+      gesamt++;
+      var bereich = zeile.getAttribute('data-bereich');
+      if (bereich !== bereichVorher) {
+        zeilen.push('');
+        zeilen.push('[' + bereich + ']');
+        bereichVorher = bereich;
+      }
+      var m = marke(zeile);
+      if (m !== '[--  ]') beantwortet++;
+      var anmerkung = zeile.querySelector('input[data-feld="anmerkung"]');
+      var text = m + ' ' + zeile.getAttribute('data-quelle');
+      if (anmerkung && anmerkung.value.trim()) text += '  | ' + anmerkung.value.trim();
+      zeilen.push(text);
+    });
+
+    var fehlend = [];
+    document.querySelectorAll('tr[data-bereich="fehlt"]').forEach(function (zeile) {
+      var name = zeile.querySelector('input[data-feld="name"]');
+      if (!name || !name.value.trim()) return;
+      var alle = zeile.querySelector('input[data-wahl="alle"]');
+      var hier = zeile.querySelector('input[data-wahl="hier"]');
+      var vor = zeile.querySelector('input[data-wahl="vor"]');
+      var wohin = alle && alle.checked ? 'alle Berufe' : hier && hier.checked ? 'nur hier' : 'ohne Angabe';
+      var anmerkung = zeile.querySelector('input[data-feld="anmerkung"]');
+      var text = '+ ' + name.value.trim() + '  | ' + wohin + (vor && vor.checked ? ' | voreinstellen' : '');
+      if (anmerkung && anmerkung.value.trim()) text += ' | ' + anmerkung.value.trim();
+      fehlend.push(text);
+    });
+
+    var f1 = (document.getElementById('frage1') || {}).value || '';
+    var f2 = (document.getElementById('frage2') || {}).value || '';
+
+    var kopf = [
+      '=== FRAGENSCHMIEDE / QUELLEN-DURCHSICHT / RUECKMELDUNG ===',
+      'Bogen:       ' + BOGEN,
+      'Person:      ' + (PERSON || '(bitte eintragen)'),
+      'Datum:       ' + new Date().toLocaleDateString('de-DE'),
+      'Beantwortet: ' + beantwortet + ' von ' + gesamt,
+      '',
+      'Legende: [ja  ] kommt vor  [ja *] kommt vor und voreinstellen',
+      '         [nein] streichen  [--  ] keine Angabe',
+    ];
+
+    var ende = [''];
+    ende.push('[FEHLENDE QUELLEN]');
+    ende = ende.concat(fehlend.length ? fehlend : ['(keine genannt)']);
+    ende.push('');
+    ende.push('[DIE DREI WICHTIGSTEN]');
+    ende.push(f1.trim() || '(keine Angabe)');
+    ende.push('');
+    ende.push('[WO DIE KI IRRT]');
+    ende.push(f2.trim() || '(keine Angabe)');
+    ende.push('');
+    ende.push('=== ENDE ===');
+
+    return kopf.concat(zeilen, ende).join('\\n');
+  }
+
+  var ausgabe = document.getElementById('ergebnis');
+
+  document.getElementById('erzeugen').addEventListener('click', function () {
+    ausgabe.value = antwort();
+    ausgabe.focus();
+    ausgabe.select();
+  });
+
+  document.getElementById('kopieren').addEventListener('click', function () {
+    if (!ausgabe.value) ausgabe.value = antwort();
+    ausgabe.focus();
+    ausgabe.select();
+    var geschafft = false;
+    try {
+      geschafft = document.execCommand('copy');
+    } catch (e) {
+      geschafft = false;
+    }
+    if (!geschafft && navigator.clipboard) {
+      navigator.clipboard.writeText(ausgabe.value).then(
+        function () {
+          melden('Kopiert.');
+        },
+        function () {
+          melden('Kopieren nicht moeglich - bitte den Text von Hand markieren.');
+        }
+      );
+      return;
+    }
+    melden(geschafft ? 'Kopiert.' : 'Kopieren nicht moeglich - bitte von Hand markieren.');
+  });
+
+  document.getElementById('speichern').addEventListener('click', function () {
+    if (!ausgabe.value) ausgabe.value = antwort();
+    var blob = new Blob([ausgabe.value], { type: 'text/plain;charset=utf-8' });
+    var verweis = document.createElement('a');
+    verweis.href = URL.createObjectURL(blob);
+    verweis.download =
+      'quellen-durchsicht-' + BOGEN.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase() + '.txt';
+    document.body.appendChild(verweis);
+    verweis.click();
+    document.body.removeChild(verweis);
+    setTimeout(function () {
+      URL.revokeObjectURL(verweis.href);
+    }, 1000);
+  });
+
+  document.getElementById('drucken').addEventListener('click', function () {
+    window.print();
+  });
+
+  function melden(text) {
+    var ziel = document.getElementById('stand');
+    if (!ziel) return;
+    var vorher = ziel.textContent;
+    ziel.textContent = text;
+    setTimeout(function () {
+      ziel.textContent = vorher;
+    }, 3000);
+  }
+
+  laden();
+  document.querySelectorAll('input[data-wahl]').forEach(function (kasten) {
+    if (kasten.checked) ausschluss(kasten);
+  });
+})();
 `;
 
 function bogen(beruf, empfaenger) {
@@ -322,7 +609,7 @@ ${
     : ''
 }</p>
 
-${abschnitte(ALLGEMEIN)}
+${abschnitte(ALLGEMEIN, "ALLGEMEIN")}
 
 ${berufe
   .map(
@@ -330,7 +617,7 @@ ${berufe
 <p>Diese Einträge erscheinen ausschließlich bei
 ${schuetzen(eintrag.name)}.</p>
 
-${abschnitte(eintrag.quellen)}`,
+${abschnitte(eintrag.quellen, eintrag.kuerzel)}`,
   )
   .join('\n\n')}
 
@@ -361,22 +648,36 @@ ${leerzeilen(12)}
 in der Anwendung stünden — welche?${
     mehrere ? ' Gern je Beruf getrennt.' : ''
   }</p>
-<div class="linie"></div>
-<div class="linie"></div>
+<textarea id="frage1" rows="3"></textarea>
 
 <p style="margin-top:1rem"><strong>2. Wo geht die KI erfahrungsgemäß in die
 Irre?</strong> Gibt es Themen, bei denen KI-Antworten regelmäßig falsch oder
 irreführend sind? Dann kann die Anwendung dort besonders warnen.</p>
-<div class="linie"></div>
-<div class="linie"></div>
-<div class="linie"></div>
+<textarea id="frage2" rows="4"></textarea>
+
+<div class="werkzeug">
+  <h2>Fertig? Antwort erzeugen</h2>
+  <p>Ein Klick fasst alle Angaben zu einem Textblock zusammen. Diesen in die
+  Antwortmail einfügen — mehr ist nicht nötig. Wer lieber auf Papier arbeitet,
+  druckt den Bogen einfach aus; dieser Kasten wird nicht mitgedruckt.</p>
+  <div class="knopfreihe">
+    <button type="button" id="erzeugen">Antwort erzeugen</button>
+    <button type="button" class="still" id="kopieren">In die Zwischenablage</button>
+    <button type="button" class="still" id="speichern">Als Datei speichern</button>
+    <button type="button" class="still" id="drucken">Drucken</button>
+    <span class="stand" id="stand"></span>
+  </div>
+  <textarea id="ergebnis" readonly placeholder="Hier erscheint die Antwort."></textarea>
+</div>
 
 <footer>
   <p>Fragenschmiede — ein privates Projekt, kein Angebot der DAA.
   Rückmeldung an mitte-west-ki-genies@tinytux.de.
-  Dieser Bogen enthält keine personenbezogenen Daten und darf frei
-  weitergegeben werden.</p>
+  Dieser Bogen speichert Ihre Eingaben nur in diesem Browser und sendet
+  nichts von allein.</p>
 </footer>
+
+<script>${SKRIPT(titel, empfaenger?.name ?? '')}</script>
 
 </body>
 </html>

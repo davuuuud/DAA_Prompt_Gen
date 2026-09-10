@@ -26,5 +26,5 @@ dist-datei
 
 # Ansprechpartner der Quellen-Durchsicht: Namen Dritter gehoeren nicht in
 # ein oeffentliches Repository.
-quellen-durchsicht/*.local.mjs
+quellen-durchsicht/*.local.*
 quellen-durchsicht/blaetter/fuer-*.html

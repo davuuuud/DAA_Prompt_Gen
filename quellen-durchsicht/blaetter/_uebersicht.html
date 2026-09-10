@@ -83,7 +83,58 @@
     background: #fef3c7;
     border-radius: 3px;
   }
-  input[type="checkbox"] { width: 1rem; height: 1rem; }
+  input[type="checkbox"] { width: 1rem; height: 1rem; cursor: pointer; }
+  input[type="text"] {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    padding: 0;
+  }
+  input[type="text"]:focus { outline: 2px solid var(--akzent); outline-offset: 1px; }
+  td.quelle.leer input { border-bottom: 1px solid #c8ced6; }
+  tr.gestrichen td.quelle { opacity: .5; text-decoration: line-through; }
+
+  textarea {
+    width: 100%;
+    font: inherit;
+    padding: .5rem;
+    border: 1px solid var(--rand);
+    border-radius: 4px;
+    resize: vertical;
+  }
+
+  .werkzeug {
+    position: sticky;
+    bottom: 0;
+    margin-top: 2rem;
+    padding: 1rem;
+    background: #eef4ff;
+    border: 1px solid var(--akzent);
+    border-radius: 6px;
+  }
+  .werkzeug h2 { margin-top: 0; border: none; }
+  button {
+    font: inherit;
+    font-weight: 600;
+    padding: .55rem 1.1rem;
+    border: 1px solid var(--akzent);
+    border-radius: 4px;
+    background: var(--akzent);
+    color: #fff;
+    cursor: pointer;
+  }
+  button.still { background: #fff; color: var(--akzent); }
+  button:hover { filter: brightness(1.08); }
+  .knopfreihe { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
+  .stand { font-size: .8rem; color: var(--grau); }
+  #ergebnis {
+    margin-top: .8rem;
+    min-height: 12rem;
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: .75rem;
+  }
 
   .legende { font-size: .8rem; color: var(--grau); }
   .legende dt { font-weight: 600; color: #16191f; float: left; clear: left; margin-right: .4rem; }
@@ -98,6 +149,8 @@
   }
 
   @media print {
+    .werkzeug { display: none; }
+    input[type="text"] { border-bottom: 1px solid #c8ced6; }
     body { padding: 0; font-size: 9.5pt; }
     h2 { break-after: avoid; }
     h3 { break-after: avoid; }

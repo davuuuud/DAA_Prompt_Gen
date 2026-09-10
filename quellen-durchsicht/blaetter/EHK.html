@@ -83,7 +83,58 @@
     background: #fef3c7;
     border-radius: 3px;
   }
-  input[type="checkbox"] { width: 1rem; height: 1rem; }
+  input[type="checkbox"] { width: 1rem; height: 1rem; cursor: pointer; }
+  input[type="text"] {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    padding: 0;
+  }
+  input[type="text"]:focus { outline: 2px solid var(--akzent); outline-offset: 1px; }
+  td.quelle.leer input { border-bottom: 1px solid #c8ced6; }
+  tr.gestrichen td.quelle { opacity: .5; text-decoration: line-through; }
+
+  textarea {
+    width: 100%;
+    font: inherit;
+    padding: .5rem;
+    border: 1px solid var(--rand);
+    border-radius: 4px;
+    resize: vertical;
+  }
+
+  .werkzeug {
+    position: sticky;
+    bottom: 0;
+    margin-top: 2rem;
+    padding: 1rem;
+    background: #eef4ff;
+    border: 1px solid var(--akzent);
+    border-radius: 6px;
+  }
+  .werkzeug h2 { margin-top: 0; border: none; }
+  button {
+    font: inherit;
+    font-weight: 600;
+    padding: .55rem 1.1rem;
+    border: 1px solid var(--akzent);
+    border-radius: 4px;
+    background: var(--akzent);
+    color: #fff;
+    cursor: pointer;
+  }
+  button.still { background: #fff; color: var(--akzent); }
+  button:hover { filter: brightness(1.08); }
+  .knopfreihe { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
+  .stand { font-size: .8rem; color: var(--grau); }
+  #ergebnis {
+    margin-top: .8rem;
+    min-height: 12rem;
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: .75rem;
+  }
 
   .legende { font-size: .8rem; color: var(--grau); }
   .legende dt { font-weight: 600; color: #16191f; float: left; clear: left; margin-right: .4rem; }
@@ -98,6 +149,8 @@
   }
 
   @media print {
+    .werkzeug { display: none; }
+    input[type="text"] { border-bottom: 1px solid #c8ced6; }
     body { padding: 0; font-size: 9.5pt; }
     h2 { break-after: avoid; }
     h3 { break-after: avoid; }
@@ -165,77 +218,77 @@ der falschen Stelle. Gelb markierte Einträge halte ich selbst für Grenzfälle.
           </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="Ausbildungsordnung">
           <td class="quelle">
             <strong>Ausbildungsordnung</strong>
             <span class="titel">Ausbildungsordnung des jeweiligen Berufs</span>
             <span class="hinweis">Verordnung über die Berufsausbildung; enthält den Ausbildungsrahmenplan</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="Rahmenlehrplan">
           <td class="quelle">
             <strong>Rahmenlehrplan</strong>
             <span class="titel">Rahmenlehrplan der Kultusministerkonferenz</span>
             <span class="hinweis">Lernfelder und deren Reihenfolge</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="Prüfungsordnung">
           <td class="quelle">
             <strong>Prüfungsordnung</strong>
             <span class="titel">Prüfungsordnung der zuständigen Kammer</span>
             <span class="hinweis">Ablauf, Gewichtung, Bestehensregeln, Wiederholung</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="AkA">
           <td class="quelle">
             <strong>AkA</strong>
             <span class="titel">AkA-Prüfungskataloge</span>
             <span class="hinweis">Aufgabenstelle für kaufmännische Abschluss- und Zwischenprüfungen, Nürnberg</span>
             <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 11 von 14</span>
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="IHK-Merkblätter">
           <td class="quelle">
             <strong>IHK-Merkblätter</strong>
             <span class="titel">Merkblätter und Veröffentlichungen der zuständigen IHK</span>
             <span class="hinweis">für Duisburg: IHK Duisburg-Wesel-Kleve zu Niederrhein</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="DIHK">
           <td class="quelle">
             <strong>DIHK</strong>
             <span class="titel">DIHK-Materialien und Umsetzungshilfen</span>
             
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
         </tbody>
       </table>
@@ -252,329 +305,329 @@ der falschen Stelle. Gelb markierte Einträge halte ich selbst für Grenzfälle.
           </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="BGB">
           <td class="quelle">
             <strong>BGB</strong>
             <span class="titel">Bürgerliches Gesetzbuch</span>
             <span class="hinweis">Vertragsschluss, Kaufvertrag, Leistungsstörungen, Verjährung, AGB</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="HGB">
           <td class="quelle">
             <strong>HGB</strong>
             <span class="titel">Handelsgesetzbuch</span>
             <span class="hinweis">Kaufmannseigenschaft, Handelsregister, Handelsgeschäfte, Buchführung</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="GewO">
           <td class="quelle">
             <strong>GewO</strong>
             <span class="titel">Gewerbeordnung</span>
             <span class="hinweis">Anzeige und Erlaubnis von Gewerbe, Zeugnisanspruch § 109</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="UWG">
           <td class="quelle">
             <strong>UWG</strong>
             <span class="titel">Gesetz gegen den unlauteren Wettbewerb</span>
             <span class="hinweis">irreführende Werbung, unzumutbare Belästigung</span>
             <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 10 von 14</span>
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="ProdHaftG">
           <td class="quelle">
             <strong>ProdHaftG</strong>
             <span class="titel">Produkthaftungsgesetz</span>
             <span class="hinweis">Haftung für fehlerhafte Produkte, Abgrenzung zur Gewährleistung</span>
             <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 8 von 14</span>
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="ZPO">
           <td class="quelle">
             <strong>ZPO</strong>
             <span class="titel">Zivilprozessordnung</span>
             <span class="hinweis">gerichtliches Mahnverfahren, Vollstreckung — Anschluss an das Mahnwesen</span>
             <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 10 von 14</span>
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="InsO">
           <td class="quelle">
             <strong>InsO</strong>
             <span class="titel">Insolvenzordnung</span>
             <span class="hinweis">Zahlungsunfähigkeit, Insolvenzverfahren, Forderungsausfall</span>
             <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 9 von 14</span>
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="GmbHG / AktG">
           <td class="quelle">
             <strong>GmbHG / AktG</strong>
             <span class="titel">GmbH-Gesetz und Aktiengesetz</span>
             <span class="hinweis">Rechtsformen, Haftung, Organe</span>
             <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 11 von 14</span>
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="BBiG">
           <td class="quelle">
             <strong>BBiG</strong>
             <span class="titel">Berufsbildungsgesetz</span>
             <span class="hinweis">Ausbildungsvertrag, Rechte und Pflichten, Prüfungen</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="JArbSchG">
           <td class="quelle">
             <strong>JArbSchG</strong>
             <span class="titel">Jugendarbeitsschutzgesetz</span>
             <span class="hinweis">Arbeitszeit und Schutz für Auszubildende unter 18</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="ArbZG">
           <td class="quelle">
             <strong>ArbZG</strong>
             <span class="titel">Arbeitszeitgesetz</span>
             <span class="hinweis">Höchstarbeitszeit, Ruhepausen, Ruhezeit, Sonntagsarbeit</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="BUrlG">
           <td class="quelle">
             <strong>BUrlG</strong>
             <span class="titel">Bundesurlaubsgesetz</span>
             <span class="hinweis">Urlaubsanspruch, Übertragung, Abgeltung</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="EntgFG">
           <td class="quelle">
             <strong>EntgFG</strong>
             <span class="titel">Entgeltfortzahlungsgesetz</span>
             <span class="hinweis">Lohnfortzahlung im Krankheitsfall und an Feiertagen</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="KSchG">
           <td class="quelle">
             <strong>KSchG</strong>
             <span class="titel">Kündigungsschutzgesetz</span>
             <span class="hinweis">Kündigungsgründe, Fristen, Sozialauswahl</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="TzBfG">
           <td class="quelle">
             <strong>TzBfG</strong>
             <span class="titel">Teilzeit- und Befristungsgesetz</span>
             <span class="hinweis">Befristung mit und ohne Sachgrund, Teilzeitanspruch</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="BetrVG">
           <td class="quelle">
             <strong>BetrVG</strong>
             <span class="titel">Betriebsverfassungsgesetz</span>
             <span class="hinweis">Betriebsrat, Mitbestimmung, Beteiligungsrechte</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="TVG">
           <td class="quelle">
             <strong>TVG</strong>
             <span class="titel">Tarifvertragsgesetz</span>
             <span class="hinweis">Tarifbindung, Günstigkeitsprinzip, Allgemeinverbindlichkeit</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="MiLoG">
           <td class="quelle">
             <strong>MiLoG</strong>
             <span class="titel">Mindestlohngesetz</span>
             <span class="hinweis">gesetzlicher Mindestlohn, Aufzeichnungspflichten</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="AGG">
           <td class="quelle">
             <strong>AGG</strong>
             <span class="titel">Allgemeines Gleichbehandlungsgesetz</span>
             <span class="hinweis">Benachteiligungsverbot, Stellenausschreibung, Bewerbungsverfahren</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="MuSchG / BEEG">
           <td class="quelle">
             <strong>MuSchG / BEEG</strong>
             <span class="titel">Mutterschutzgesetz, Bundeselterngeld- und Elternzeitgesetz</span>
             <span class="hinweis">Beschäftigungsverbote, Elternzeit, Elterngeld</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="ArbSchG">
           <td class="quelle">
             <strong>ArbSchG</strong>
             <span class="titel">Arbeitsschutzgesetz</span>
             <span class="hinweis">Gefährdungsbeurteilung, Unterweisung, Pflichten des Arbeitgebers</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="SGB III–XI">
           <td class="quelle">
             <strong>SGB III–XI</strong>
             <span class="titel">Sozialgesetzbuch</span>
             <span class="hinweis">III Arbeitsförderung, IV gemeinsame Vorschriften, V Kranken-, VI Renten-, VII Unfall-, XI Pflegeversicherung</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="UStG">
           <td class="quelle">
             <strong>UStG</strong>
             <span class="titel">Umsatzsteuergesetz</span>
             <span class="hinweis">Steuersätze, Vorsteuerabzug, Rechnungsangaben § 14</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="EStG">
           <td class="quelle">
             <strong>EStG</strong>
             <span class="titel">Einkommensteuergesetz</span>
             <span class="hinweis">Lohnsteuer, geldwerter Vorteil, Abschreibung § 7</span>
             <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 11 von 14</span>
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="AO">
           <td class="quelle">
             <strong>AO</strong>
             <span class="titel">Abgabenordnung</span>
             <span class="hinweis">Steuerpflichten, Fristen, Aufbewahrung, Betriebsprüfung</span>
             <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 10 von 14</span>
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="GoBD">
           <td class="quelle">
             <strong>GoBD</strong>
             <span class="titel">Grundsätze ordnungsmäßiger Buchführung in elektronischer Form</span>
             <span class="hinweis">BMF-Schreiben; Unveränderbarkeit, Verfahrensdokumentation, Aufbewahrung</span>
             <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 10 von 14</span>
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="DSGVO / BDSG">
           <td class="quelle">
             <strong>DSGVO / BDSG</strong>
             <span class="titel">Datenschutz-Grundverordnung und Bundesdatenschutzgesetz</span>
             <span class="hinweis">Rechtsgrundlagen, Betroffenenrechte, Beschäftigtendatenschutz § 26 BDSG</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
         </tbody>
       </table>
@@ -591,101 +644,101 @@ der falschen Stelle. Gelb markierte Einträge halte ich selbst für Grenzfälle.
           </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="gesetze-im-internet.de">
           <td class="quelle">
             <strong>gesetze-im-internet.de</strong>
             <span class="titel">Amtliche Gesetzesfassungen des Bundes</span>
             <span class="hinweis">kostenlos, immer aktuell — der zuverlässigste Beleg für Paragraphen</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="recht.nrw.de">
           <td class="quelle">
             <strong>recht.nrw.de</strong>
             <span class="titel">Landesrecht Nordrhein-Westfalen</span>
             <span class="hinweis">für alles Landesrechtliche, etwa Ladenöffnung oder Bauordnung</span>
             <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 9 von 14</span>
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="EUR-Lex">
           <td class="quelle">
             <strong>EUR-Lex</strong>
             <span class="titel">Amtliches Portal des EU-Rechts</span>
             <span class="hinweis">Verordnungen und Richtlinien im Volltext</span>
             <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 10 von 14</span>
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="Gabler">
           <td class="quelle">
             <strong>Gabler</strong>
             <span class="titel">Springer Gabler Wirtschaftslexikon</span>
             <span class="hinweis">frei zugänglich, fachlich belastbar — der Standardnachschlagepunkt</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="Haufe">
           <td class="quelle">
             <strong>Haufe</strong>
             <span class="titel">Haufe Fachdatenbank</span>
             <span class="hinweis">teilweise kostenpflichtig</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="NWB">
           <td class="quelle">
             <strong>NWB</strong>
             <span class="titel">NWB Verlag</span>
             <span class="hinweis">Steuern, Rechnungswesen, Wirtschaftsrecht</span>
             <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 9 von 14</span>
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="Lehrwerk">
           <td class="quelle">
             <strong>Lehrwerk</strong>
             <span class="titel">Lehrbuch und Skript des Bildungsträgers</span>
             <span class="hinweis">das im Unterricht tatsächlich eingesetzte Material</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="Prüfungsliteratur">
           <td class="quelle">
             <strong>Prüfungsliteratur</strong>
             <span class="titel">Prüfungsvorbereitung, etwa u-form oder Kiehl</span>
             <span class="hinweis">Aufgabensammlungen früherer Prüfungen</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
         </tbody>
       </table>
@@ -702,41 +755,41 @@ der falschen Stelle. Gelb markierte Einträge halte ich selbst für Grenzfälle.
           </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="BAG">
           <td class="quelle">
             <strong>BAG</strong>
             <span class="titel">Bundesarbeitsgericht</span>
             <span class="hinweis">Arbeitsrecht — Kündigung, Befristung, Arbeitszeit</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="BGH">
           <td class="quelle">
             <strong>BGH</strong>
             <span class="titel">Bundesgerichtshof</span>
             <span class="hinweis">Zivil- und Handelsrecht — Vertrag, Gewährleistung, AGB</span>
             <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 11 von 14</span>
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="EuGH">
           <td class="quelle">
             <strong>EuGH</strong>
             <span class="titel">Gerichtshof der Europäischen Union</span>
             <span class="hinweis">Auslegung von EU-Recht, etwa Datenschutz und Verbraucherschutz</span>
             <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 9 von 14</span>
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
         </tbody>
       </table>
@@ -753,41 +806,41 @@ der falschen Stelle. Gelb markierte Einträge halte ich selbst für Grenzfälle.
           </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="Destatis">
           <td class="quelle">
             <strong>Destatis</strong>
             <span class="titel">Statistisches Bundesamt</span>
             
             <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 11 von 14</span>
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="IT.NRW">
           <td class="quelle">
             <strong>IT.NRW</strong>
             <span class="titel">Statistisches Landesamt Nordrhein-Westfalen</span>
             
             <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 7 von 14</span>
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="ALLGEMEIN" data-quelle="Bundesbank">
           <td class="quelle">
             <strong>Bundesbank</strong>
             <span class="titel">Deutsche Bundesbank</span>
             <span class="hinweis">Zinsen, Zahlungsverkehr, Konjunktur</span>
             <span class="grenzfall" title="Nach meiner Einschätzung nicht bei allen Berufen nötig">Grenzfall: 8 von 14</span>
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
         </tbody>
       </table>
@@ -808,29 +861,29 @@ Kaufleute im Einzelhandel.</p>
           </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr data-bereich="EHK" data-quelle="AO Einzelhandel">
           <td class="quelle">
             <strong>AO Einzelhandel</strong>
             <span class="titel">Verordnung über die Berufsausbildung im Einzelhandel</span>
             <span class="hinweis">Neufassung 2022, mit Wahlqualifikationen</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="EHK" data-quelle="Rahmenlehrplan EHK">
           <td class="quelle">
             <strong>Rahmenlehrplan EHK</strong>
             <span class="titel">Vierzehn Lernfelder, 880 Stunden</span>
             <span class="hinweis">LF 1–5 Repräsentation, Verkauf, Kasse, Warenpräsentation, Werbung; LF 6–10 Beschaffung, Lager, Geschäftsprozesse, Preispolitik, besondere Verkaufssituationen; LF 11–14 Steuerung, Marketing, Personal, Unternehmensführung</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
         </tbody>
       </table>
@@ -847,137 +900,137 @@ Kaufleute im Einzelhandel.</p>
           </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr data-bereich="EHK" data-quelle="KassenSichV / § 146a AO">
           <td class="quelle">
             <strong>KassenSichV / § 146a AO</strong>
             <span class="titel">Ordnungsmäßigkeit der Kassenführung</span>
             <span class="hinweis">LF 3 betreut den Servicebereich Kasse: zertifizierte technische Sicherheitseinrichtung, Belegausgabepflicht, Kassennachschau. Fehlte bisher.</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="EHK" data-quelle="HGB §§ 240 f.">
           <td class="quelle">
             <strong>HGB §§ 240 f.</strong>
             <span class="titel">Inventur und Inventar</span>
             <span class="hinweis">LF 8 Geschäftsprozesse erfassen und kontrollieren — Inventurverfahren</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="EHK" data-quelle="LÖG NRW">
           <td class="quelle">
             <strong>LÖG NRW</strong>
             <span class="titel">Ladenöffnungsgesetz Nordrhein-Westfalen</span>
             <span class="hinweis">Landesrecht — Öffnungszeiten, verkaufsoffene Sonntage</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="EHK" data-quelle="PAngV">
           <td class="quelle">
             <strong>PAngV</strong>
             <span class="titel">Preisangabenverordnung</span>
             <span class="hinweis">Grundpreis, Auszeichnung, Rabattwerbung</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="EHK" data-quelle="JuSchG">
           <td class="quelle">
             <strong>JuSchG</strong>
             <span class="titel">Jugendschutzgesetz</span>
             <span class="hinweis">Abgabeverbote für Alkohol und Tabak — Prüfungsklassiker</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="EHK" data-quelle="LFGB">
           <td class="quelle">
             <strong>LFGB</strong>
             <span class="titel">Lebensmittel- und Futtermittelgesetzbuch</span>
             
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="EHK" data-quelle="LMIV">
           <td class="quelle">
             <strong>LMIV</strong>
             <span class="titel">EU-Lebensmittelinformationsverordnung 1169/2011</span>
             <span class="hinweis">Kennzeichnung, Allergene, Nährwerte</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="EHK" data-quelle="MessEG / MessEV">
           <td class="quelle">
             <strong>MessEG / MessEV</strong>
             <span class="titel">Mess- und Eichgesetz mit Verordnung</span>
             <span class="hinweis">Waagen, Fertigpackungen, Nennfüllmenge</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="EHK" data-quelle="VerpackG">
           <td class="quelle">
             <strong>VerpackG</strong>
             <span class="titel">Verpackungsgesetz</span>
             <span class="hinweis">Rücknahme, Pfand, Systembeteiligung</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="EHK" data-quelle="GPSR">
           <td class="quelle">
             <strong>GPSR</strong>
             <span class="titel">EU-Produktsicherheitsverordnung 2023/988</span>
             <span class="hinweis">löst das ProdSG in weiten Teilen ab</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="EHK" data-quelle="BGB Fernabsatz">
           <td class="quelle">
             <strong>BGB Fernabsatz</strong>
             <span class="titel">Fernabsatz und Widerruf, §§ 312 ff., § 355 BGB</span>
             <span class="hinweis">sobald der Betrieb auch online verkauft</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
         </tbody>
       </table>
@@ -994,29 +1047,29 @@ Kaufleute im Einzelhandel.</p>
           </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr data-bereich="EHK" data-quelle="Handelskalkulation">
           <td class="quelle">
             <strong>Handelskalkulation</strong>
             <span class="titel">Kalkulationsschema des Einzelhandels</span>
             <span class="hinweis">LF 9 und LF 11: Bezugskalkulation, Handelsspanne, Kalkulationszuschlag, Umsatz- und Lagerkennzahlen. Nach welchem Lehrwerk?</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="EHK" data-quelle="Warenkunde">
           <td class="quelle">
             <strong>Warenkunde</strong>
             <span class="titel">Warenkunde des jeweiligen Sortiments</span>
             <span class="hinweis">je nach Ausbildungsbetrieb sehr unterschiedlich</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
         </tbody>
       </table>
@@ -1033,29 +1086,29 @@ Kaufleute im Einzelhandel.</p>
           </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr data-bereich="EHK" data-quelle="HDE">
           <td class="quelle">
             <strong>HDE</strong>
             <span class="titel">Handelsverband Deutschland</span>
             <span class="hinweis">Branchenzahlen, Positionspapiere</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
+        <tr data-bereich="EHK" data-quelle="EHI">
           <td class="quelle">
             <strong>EHI</strong>
             <span class="titel">EHI Retail Institute</span>
             <span class="hinweis">Handelsforschung, Zahlungsverhalten, Ladenbau</span>
             
           </td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="kasten"><input type="checkbox" /></td>
-          <td class="anmerkung"></td>
+          <td class="kasten"><input type="checkbox" data-wahl="ja" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="nein" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
         </tbody>
       </table>
@@ -1077,89 +1130,89 @@ willkommen.</p>
     </tr>
   </thead>
   <tbody>
-        <tr>
-          <td class="quelle leer"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="anmerkung"></td>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
-          <td class="quelle leer"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="anmerkung"></td>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
-          <td class="quelle leer"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="anmerkung"></td>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
-          <td class="quelle leer"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="anmerkung"></td>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
-          <td class="quelle leer"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="anmerkung"></td>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
-          <td class="quelle leer"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="anmerkung"></td>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
-          <td class="quelle leer"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="anmerkung"></td>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
-          <td class="quelle leer"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="anmerkung"></td>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
-          <td class="quelle leer"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="anmerkung"></td>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
-          <td class="quelle leer"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="anmerkung"></td>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
-          <td class="quelle leer"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="anmerkung"></td>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
-        <tr>
-          <td class="quelle leer"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="kasten"></td>
-          <td class="anmerkung"></td>
+        <tr data-bereich="fehlt">
+          <td class="quelle leer"><input type="text" data-feld="name" placeholder="Gesetz, Norm, Lehrwerk …" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="alle" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="hier" /></td>
+          <td class="kasten"><input type="checkbox" data-wahl="vor" /></td>
+          <td class="anmerkung"><input type="text" data-feld="anmerkung" /></td>
         </tr>
   </tbody>
 </table>
@@ -1168,22 +1221,257 @@ willkommen.</p>
 
 <p><strong>1. Welche drei Quellen sind die wichtigsten?</strong> Wenn nur drei
 in der Anwendung stünden — welche?</p>
-<div class="linie"></div>
-<div class="linie"></div>
+<textarea id="frage1" rows="3"></textarea>
 
 <p style="margin-top:1rem"><strong>2. Wo geht die KI erfahrungsgemäß in die
 Irre?</strong> Gibt es Themen, bei denen KI-Antworten regelmäßig falsch oder
 irreführend sind? Dann kann die Anwendung dort besonders warnen.</p>
-<div class="linie"></div>
-<div class="linie"></div>
-<div class="linie"></div>
+<textarea id="frage2" rows="4"></textarea>
+
+<div class="werkzeug">
+  <h2>Fertig? Antwort erzeugen</h2>
+  <p>Ein Klick fasst alle Angaben zu einem Textblock zusammen. Diesen in die
+  Antwortmail einfügen — mehr ist nicht nötig. Wer lieber auf Papier arbeitet,
+  druckt den Bogen einfach aus; dieser Kasten wird nicht mitgedruckt.</p>
+  <div class="knopfreihe">
+    <button type="button" id="erzeugen">Antwort erzeugen</button>
+    <button type="button" class="still" id="kopieren">In die Zwischenablage</button>
+    <button type="button" class="still" id="speichern">Als Datei speichern</button>
+    <button type="button" class="still" id="drucken">Drucken</button>
+    <span class="stand" id="stand"></span>
+  </div>
+  <textarea id="ergebnis" readonly placeholder="Hier erscheint die Antwort."></textarea>
+</div>
 
 <footer>
   <p>Fragenschmiede — ein privates Projekt, kein Angebot der DAA.
   Rückmeldung an mitte-west-ki-genies@tinytux.de.
-  Dieser Bogen enthält keine personenbezogenen Daten und darf frei
-  weitergegeben werden.</p>
+  Dieser Bogen speichert Ihre Eingaben nur in diesem Browser und sendet
+  nichts von allein.</p>
 </footer>
+
+<script>
+(function () {
+  var SCHLUESSEL = 'fragenschmiede-durchsicht:' + "EHK";
+  var PERSON = "";
+  var BOGEN = "EHK";
+
+  var felder = document.querySelectorAll('input, textarea');
+
+  function zustand() {
+    var werte = {};
+    felder.forEach(function (feld, i) {
+      werte[i] = feld.type === 'checkbox' ? feld.checked : feld.value;
+    });
+    return werte;
+  }
+
+  function sichern() {
+    try {
+      localStorage.setItem(
+        SCHLUESSEL,
+        JSON.stringify({ zeit: new Date().toISOString(), werte: zustand() })
+      );
+      standAnzeigen(new Date());
+    } catch (e) {
+      /* privater Modus oder voller Speicher - dann eben ohne Sicherung */
+    }
+  }
+
+  function laden() {
+    try {
+      var roh = localStorage.getItem(SCHLUESSEL);
+      if (!roh) return;
+      var daten = JSON.parse(roh);
+      felder.forEach(function (feld, i) {
+        var wert = daten.werte[i];
+        if (wert === undefined) return;
+        if (feld.type === 'checkbox') feld.checked = !!wert;
+        else feld.value = wert;
+      });
+      standAnzeigen(new Date(daten.zeit));
+    } catch (e) {
+      /* beschaedigter Eintrag - lieber leer anfangen */
+    }
+  }
+
+  function standAnzeigen(zeit) {
+    var ziel = document.getElementById('stand');
+    if (!ziel || !zeit || isNaN(zeit)) return;
+    ziel.textContent =
+      'Zwischenstand gesichert um ' +
+      zeit.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  // "streichen" vertraegt sich nicht mit "kommt vor" und "voreinstellen".
+  function ausschluss(kasten) {
+    var zeile = kasten.closest('tr');
+    if (!zeile) return;
+    var wahl = kasten.getAttribute('data-wahl');
+    var nein = zeile.querySelector('input[data-wahl="nein"]');
+    var ja = zeile.querySelector('input[data-wahl="ja"]');
+    var vor = zeile.querySelector('input[data-wahl="vor"]');
+    if (wahl === 'nein' && kasten.checked) {
+      if (ja) ja.checked = false;
+      if (vor) vor.checked = false;
+    } else if ((wahl === 'ja' || wahl === 'vor') && kasten.checked) {
+      if (nein) nein.checked = false;
+    }
+    // "voreinstellen" setzt "kommt vor" voraus - sonst waere die Angabe leer.
+    if (wahl === 'vor' && kasten.checked && ja) ja.checked = true;
+    zeile.classList.toggle('gestrichen', !!(nein && nein.checked));
+  }
+
+  document.addEventListener('change', function (ereignis) {
+    if (ereignis.target.type === 'checkbox') ausschluss(ereignis.target);
+    sichern();
+  });
+  document.addEventListener('input', function (ereignis) {
+    if (ereignis.target.tagName === 'TEXTAREA' || ereignis.target.type === 'text') sichern();
+  });
+
+  function marke(zeile) {
+    var nein = zeile.querySelector('input[data-wahl="nein"]');
+    var ja = zeile.querySelector('input[data-wahl="ja"]');
+    var vor = zeile.querySelector('input[data-wahl="vor"]');
+    if (nein && nein.checked) return '[nein]';
+    if (ja && ja.checked) return vor && vor.checked ? '[ja *]' : '[ja  ]';
+    if (vor && vor.checked) return '[ja *]';
+    return '[--  ]';
+  }
+
+  function antwort() {
+    var zeilen = [];
+    var beantwortet = 0;
+    var gesamt = 0;
+    var bereichVorher = null;
+
+    document.querySelectorAll('tr[data-quelle]').forEach(function (zeile) {
+      gesamt++;
+      var bereich = zeile.getAttribute('data-bereich');
+      if (bereich !== bereichVorher) {
+        zeilen.push('');
+        zeilen.push('[' + bereich + ']');
+        bereichVorher = bereich;
+      }
+      var m = marke(zeile);
+      if (m !== '[--  ]') beantwortet++;
+      var anmerkung = zeile.querySelector('input[data-feld="anmerkung"]');
+      var text = m + ' ' + zeile.getAttribute('data-quelle');
+      if (anmerkung && anmerkung.value.trim()) text += '  | ' + anmerkung.value.trim();
+      zeilen.push(text);
+    });
+
+    var fehlend = [];
+    document.querySelectorAll('tr[data-bereich="fehlt"]').forEach(function (zeile) {
+      var name = zeile.querySelector('input[data-feld="name"]');
+      if (!name || !name.value.trim()) return;
+      var alle = zeile.querySelector('input[data-wahl="alle"]');
+      var hier = zeile.querySelector('input[data-wahl="hier"]');
+      var vor = zeile.querySelector('input[data-wahl="vor"]');
+      var wohin = alle && alle.checked ? 'alle Berufe' : hier && hier.checked ? 'nur hier' : 'ohne Angabe';
+      var anmerkung = zeile.querySelector('input[data-feld="anmerkung"]');
+      var text = '+ ' + name.value.trim() + '  | ' + wohin + (vor && vor.checked ? ' | voreinstellen' : '');
+      if (anmerkung && anmerkung.value.trim()) text += ' | ' + anmerkung.value.trim();
+      fehlend.push(text);
+    });
+
+    var f1 = (document.getElementById('frage1') || {}).value || '';
+    var f2 = (document.getElementById('frage2') || {}).value || '';
+
+    var kopf = [
+      '=== FRAGENSCHMIEDE / QUELLEN-DURCHSICHT / RUECKMELDUNG ===',
+      'Bogen:       ' + BOGEN,
+      'Person:      ' + (PERSON || '(bitte eintragen)'),
+      'Datum:       ' + new Date().toLocaleDateString('de-DE'),
+      'Beantwortet: ' + beantwortet + ' von ' + gesamt,
+      '',
+      'Legende: [ja  ] kommt vor  [ja *] kommt vor und voreinstellen',
+      '         [nein] streichen  [--  ] keine Angabe',
+    ];
+
+    var ende = [''];
+    ende.push('[FEHLENDE QUELLEN]');
+    ende = ende.concat(fehlend.length ? fehlend : ['(keine genannt)']);
+    ende.push('');
+    ende.push('[DIE DREI WICHTIGSTEN]');
+    ende.push(f1.trim() || '(keine Angabe)');
+    ende.push('');
+    ende.push('[WO DIE KI IRRT]');
+    ende.push(f2.trim() || '(keine Angabe)');
+    ende.push('');
+    ende.push('=== ENDE ===');
+
+    return kopf.concat(zeilen, ende).join('\n');
+  }
+
+  var ausgabe = document.getElementById('ergebnis');
+
+  document.getElementById('erzeugen').addEventListener('click', function () {
+    ausgabe.value = antwort();
+    ausgabe.focus();
+    ausgabe.select();
+  });
+
+  document.getElementById('kopieren').addEventListener('click', function () {
+    if (!ausgabe.value) ausgabe.value = antwort();
+    ausgabe.focus();
+    ausgabe.select();
+    var geschafft = false;
+    try {
+      geschafft = document.execCommand('copy');
+    } catch (e) {
+      geschafft = false;
+    }
+    if (!geschafft && navigator.clipboard) {
+      navigator.clipboard.writeText(ausgabe.value).then(
+        function () {
+          melden('Kopiert.');
+        },
+        function () {
+          melden('Kopieren nicht moeglich - bitte den Text von Hand markieren.');
+        }
+      );
+      return;
+    }
+    melden(geschafft ? 'Kopiert.' : 'Kopieren nicht moeglich - bitte von Hand markieren.');
+  });
+
+  document.getElementById('speichern').addEventListener('click', function () {
+    if (!ausgabe.value) ausgabe.value = antwort();
+    var blob = new Blob([ausgabe.value], { type: 'text/plain;charset=utf-8' });
+    var verweis = document.createElement('a');
+    verweis.href = URL.createObjectURL(blob);
+    verweis.download =
+      'quellen-durchsicht-' + BOGEN.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase() + '.txt';
+    document.body.appendChild(verweis);
+    verweis.click();
+    document.body.removeChild(verweis);
+    setTimeout(function () {
+      URL.revokeObjectURL(verweis.href);
+    }, 1000);
+  });
+
+  document.getElementById('drucken').addEventListener('click', function () {
+    window.print();
+  });
+
+  function melden(text) {
+    var ziel = document.getElementById('stand');
+    if (!ziel) return;
+    var vorher = ziel.textContent;
+    ziel.textContent = text;
+    setTimeout(function () {
+      ziel.textContent = vorher;
+    }, 3000);
+  }
+
+  laden();
+  document.querySelectorAll('input[data-wahl]').forEach(function (kasten) {
+    if (kasten.checked) ausschluss(kasten);
+  });
+})();
+</script>
 
 </body>
 </html>
