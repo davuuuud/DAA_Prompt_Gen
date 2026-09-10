@@ -98,10 +98,16 @@ jemand durchgesehen oder nur durchgeklickt hat.
 ## Ablauf
 
 1. Je Beruf einen Ansprechpartner benennen.
-2. Bogen und Anschreiben verschicken.
-3. Rückläufe sammeln.
-4. Auswerten (Regeln unten).
-5. `src/lib/domain/quellen.ts` anpassen und `DEFAULT_QUELLEN` neu setzen.
+2. **Liste prüfen: Nur Personen der DAA Mitte-West-West anschreiben.**
+   Andere entfernen und die Bögen neu erzeugen.
+3. Bogen und Anschreiben verschicken.
+4. Rückläufe sammeln.
+5. Auswerten (Regeln unten).
+6. `src/lib/domain/quellen.ts` anpassen und `DEFAULT_QUELLEN` neu setzen.
+
+Schritt 2 ist eine Sperre, kein Häkchen: Das Werkzeug trägt „DAA MWW" im Namen
+und im Logo. Wer außerhalb von Mitte-West-West angeschrieben wird, bekommt ein
+Projekt zugeschickt, das für seinen Bereich nicht gedacht ist.
 
 ## Anschreiben
 
