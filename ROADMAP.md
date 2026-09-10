@@ -578,11 +578,19 @@ Zugangsprüfung ist die Seite kein öffentliches Angebot mehr.
 
 ## Vor Etappe 3 zu klären
 
-- **Dateiformate.** Bekannt sind PDF, Word, Excel, Scans, Bilder und OneNote.
-  Ergänzt: **PowerPoint** — im Unterricht praktisch unvermeidlich, und die
-  Dozentenfassung soll pptx später sogar selbst erzeugen — sowie **Moodle-
-  und ILIAS-Exporte**. Weiter offen: altes `.doc`, Markdown, einfache
-  Textdateien.
+- **Dateiformate — geklärt.** PDF, Word (`.docx` *und* altes `.doc`), Excel,
+  PowerPoint, Scans, Bilder, OneNote, Moodle- und ILIAS-Exporte, Markdown und
+  einfache Textdateien. Alles bestätigt.
+- **Markdown und Textdateien kosten fast nichts** und sollten in Etappe 3a
+  mitlaufen: Beide sind bereits Text, kein Parser nötig. Bei Markdown lohnt
+  es, die `#`-Überschriften für die Zerlegung in zitierfähige Abschnitte zu
+  nutzen.
+- **Altes `.doc` ist der Ausreißer.** `mammoth.js` liest nur `.docx`; für das
+  Binärformat vor Office 2007 gibt es im Browser keine brauchbare Bibliothek.
+  Der Weg führt über eine Umwandlung — entweder einmalig im Stapel per
+  LibreOffice oder als Hinweis in der Anwendung, wenn jemand eine `.doc`-Datei
+  ablegt. Einen eigenen Leser dafür zu bauen wäre unverhältnismäßig und bei
+  Tabellen unzuverlässig. Zu klären bleibt der Umfang des Bestands.
 - **Moodle und ILIAS sind keine Dokumentformate, sondern Behälter.** Ein
   Moodle-Backup (`.mbz`) oder ein SCORM-Paket ist ein Archiv mit Struktur-XML
   und den eigentlichen Dateien darin — meist genau die PDFs, Word- und
