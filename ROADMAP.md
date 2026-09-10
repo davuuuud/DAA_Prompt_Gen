@@ -139,9 +139,11 @@ nicht-kaufmännische Berufe und mit den Steuerfachangestellten ein Beruf im
 Katalog stehen, den nicht die IHK prüft. „IHK" ist zudem eine geschützte
 Bezeichnung.
 
-**Offen bleibt:** Der Trägername lässt die DAA als Anbieterin erscheinen. Das
-sollte vor einer breiteren Verteilung mit ihr abgestimmt sein und gehört ins
-Impressum.
+**Offen bleibt:** Der Trägername lässt die DAA als Anbieterin erscheinen. Im
+Impressum steht dazu inzwischen ein ausdrücklicher Hinweis, dass es sich um
+ein privates Projekt handelt. Das ersetzt aber keine Abstimmung mit der DAA
+selbst — die sollte vor einer breiteren Verteilung erfolgen, weil auch das
+Logo ihren Namen trägt.
 
 Der ursprüngliche Hinweis zur Sache: Der Name erscheint in der
 Fensterleiste, unter dem Symbol auf dem Startbildschirm und in der Anwendung
@@ -207,25 +209,34 @@ sich durch alle weiteren Etappen und wird bei Etappe 4 grundsätzlich.
   Prompt verlassen das Gerät nicht.
 - **Keine Aufrufe fremder Server.** Im gebauten Programm gibt es keinen
   einzigen Netzwerkaufruf: kein `fetch`, keine Zählpixel, keine
-  Nutzungsstatistik, keine Schriftarten von Google. Die einzige externe
-  Adresse ist `chatgpt.com`, und die öffnet sich nur, wenn jemand die
-  Schaltfläche drückt.
+  Nutzungsstatistik, keine Schriftarten von Google. Externe Adressen kommen
+  nur als Verweise vor, die jemand anklicken muss: `chatgpt.com` hinter der
+  Schaltfläche sowie GitHub und `docs.github.com` in den Rechtstexten. Von
+  allein ruft die Anwendung keine davon auf.
 - **Kein Einwilligungsbanner nötig.** Gespeichert wird ausschließlich im
   Gerätespeicher und ausschließlich das, was die Anwendung zum Funktionieren
   braucht — Einstellungen und der Entwurf. Für technisch notwendige
   Speicherung ist keine Einwilligung erforderlich.
 - **Keine Konten, keine Anmeldung, keine Kennungen.**
 
+### Erledigt
+
+**Impressum** (`#/impressum`) und **Datenschutzerklärung** (`#/datenschutz`)
+sind eigenständige Seiten, aus der Fußzeile jeder Ansicht erreichbar. Als
+Anbieter tritt eine Privatperson auf; beide Seiten stellen ausdrücklich klar,
+dass es sich **nicht** um ein Angebot der DAA handelt. Als zweiter
+Kontaktweg neben der E-Mail-Adresse steht eine Rückrufzusage statt einer
+Telefonnummer.
+
+Die Datenschutzerklärung benennt die IP-Verarbeitung durch GitHub Pages, die
+lokale Speicherung von Einstellungen und Entwurf, den Übergang zu ChatGPT und
+die Rückmeldung per E-Mail. Sie ist auf den **heutigen** Funktionsumfang
+zugeschnitten und vor Etappe 4 zwingend zu erweitern (siehe unten).
+
+> Beides ist nach bestem Wissen erstellt, aber **nicht juristisch geprüft.**
+> Vor einer breiten Weitergabe sollte jemand mit Fachkunde darüberschauen.
+
 ### Was fehlt
-
-**Impressum.** Für ein geschäftsmäßig bereitgestelltes Online-Angebot in
-Deutschland verpflichtend. Wer als Anbieter auftritt — Privatperson oder
-Einrichtung — ist zu entscheiden, bevor der Link breiter gestreut wird.
-
-**Datenschutzerklärung.** Auch eine Seite ohne eigene Datenverarbeitung
-kommt nicht ohne aus: Der Betreiber der Hosting-Plattform verarbeitet beim
-Abruf die IP-Adresse. Die Erklärung muss das benennen und darf sich im
-Übrigen kurz fassen — es gibt schlicht nichts weiter zu erklären.
 
 **Ort der Verarbeitung.** Die Seite liegt derzeit bei GitHub Pages, also bei
 einem US-Anbieter. Für ein reines Ausliefern statischer Dateien ist das ein

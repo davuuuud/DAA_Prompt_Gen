@@ -1,4 +1,6 @@
 <script lang="ts">
+  import Datenschutz from './lib/components/Datenschutz.svelte';
+  import Impressum from './lib/components/Impressum.svelte';
   import QuellenWahl from './lib/components/QuellenWahl.svelte';
   import { APP_NAME, APP_ORG, APP_VERSION, FEEDBACK } from './lib/config';
   import {
@@ -20,6 +22,7 @@
   import { MAX_ANZAHL, MIN_ANZAHL, toCRLF } from './lib/domain/text';
   import { copyText } from './lib/platform/clipboard';
   import { canShare, openChatGPT, shareText } from './lib/platform/share';
+  import { ANKER, navigation } from './lib/state/route.svelte';
   import { draft, resetAll, saveDraft, saveSettings, settings } from './lib/state/store.svelte';
 
   const input = $derived(toPromptInput(settings, { thema: draft.thema, zusatz: draft.zusatz }));
@@ -45,7 +48,9 @@
       niveau: findNiveau(settings.niveau).label,
       format: findFormat(settings.format).label,
       browser: kurzeBrowserKennung(navigator.userAgent),
-      adresse: location.href,
+      // Ohne Anker: Sonst stünde in der Rückmeldung die zuletzt besuchte
+      // Rechtsseite statt der Adresse der Anwendung.
+      adresse: location.origin + location.pathname,
     });
   });
 
@@ -64,6 +69,17 @@
   // und laufen dadurch bei jeder Änderung erneut.
   $effect(() => saveSettings());
   $effect(() => saveDraft());
+
+  // Der Seitentitel folgt der Rechtsseite, damit ein Lesezeichen auf das
+  // Impressum nicht "Fragenschmiede" heißt.
+  const SEITENTITEL: Record<string, string> = {
+    app: APP_NAME,
+    impressum: `Impressum – ${APP_NAME}`,
+    datenschutz: `Datenschutz – ${APP_NAME}`,
+  };
+  $effect(() => {
+    document.title = SEITENTITEL[navigation.seite] ?? APP_NAME;
+  });
 
   function melde(text: string) {
     status = text;
@@ -103,6 +119,11 @@
 </script>
 
 <div class="huelle">
+  {#if navigation.seite === 'impressum'}
+    <Impressum />
+  {:else if navigation.seite === 'datenschutz'}
+    <Datenschutz />
+  {:else}
   <header>
     <div class="kopfzeile">
       <!-- Das Logo steht als Marke daneben, nicht als Ersatz für den
@@ -272,14 +293,21 @@
       <p class="status" role="status" aria-live="polite">{status}</p>
     </section>
   </main>
+  {/if}
 
   <footer>
-    <p>
-      Der Prompt entsteht laufend beim Tippen. Eingaben und Einstellungen bleiben nur auf
-      diesem Gerät gespeichert.
-    </p>
+    {#if navigation.seite === 'app'}
+      <p>
+        Der Prompt entsteht laufend beim Tippen. Eingaben und Einstellungen bleiben nur auf
+        diesem Gerät gespeichert.
+      </p>
+    {/if}
     <p class="fusszeile">
       Fassung {APP_VERSION}
+      <span aria-hidden="true">·</span>
+      <a href={ANKER.impressum}>Impressum</a>
+      <span aria-hidden="true">·</span>
+      <a href={ANKER.datenschutz}>Datenschutz</a>
       {#if feedbackZiel}
         <span aria-hidden="true">·</span>
         <a
