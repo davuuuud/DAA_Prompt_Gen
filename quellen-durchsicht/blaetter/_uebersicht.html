@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Quellen-Durchsicht – Übersicht</title>
+<style>
+  :root {
+    --rand: #d4d8de;
+    --grau: #5b6472;
+    --akzent: #1d4ed8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1.5rem 4rem;
+    max-width: 60rem;
+    margin-inline: auto;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.45;
+    color: #16191f;
+    background: #fff;
+  }
+  h1 { font-size: 1.5rem; margin: 0 0 .2rem; }
+  h2 {
+    font-size: 1.1rem;
+    margin: 2.2rem 0 .4rem;
+    padding-bottom: .25rem;
+    border-bottom: 2px solid var(--akzent);
+  }
+  h3 { font-size: .95rem; margin: 1.3rem 0 .35rem; color: var(--grau); }
+  p { margin: 0 0 .6rem; }
+  .kopf { margin-bottom: .4rem; color: var(--grau); }
+  .beruf { font-size: 1.05rem; font-weight: 600; color: var(--akzent); }
+
+  .hinweiskasten {
+    border: 1px solid var(--rand);
+    border-left: 4px solid var(--akzent);
+    padding: .8rem 1rem;
+    margin: 1.2rem 0;
+    background: #f7f9fc;
+  }
+  .hinweiskasten p:last-child { margin-bottom: 0; }
+  .warnung { border-left-color: #b45309; background: #fffbf2; }
+
+  .felder {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin: 1rem 0 1.4rem;
+  }
+  .felder div { flex: 1 1 12rem; }
+  .felder span { display: block; font-size: .75rem; color: var(--grau); }
+  .linie { border-bottom: 1px solid #9aa2ad; height: 1.5rem; }
+
+  table { width: 100%; border-collapse: collapse; margin-bottom: .8rem; }
+  th, td {
+    border: 1px solid var(--rand);
+    padding: .35rem .45rem;
+    vertical-align: top;
+    text-align: left;
+  }
+  th {
+    background: #eef2f7;
+    font-size: .72rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  th.kasten, td.kasten { width: 3.2rem; text-align: center; }
+  th.anmerkung, td.anmerkung { width: 30%; }
+  td.anmerkung { background: #fcfcfd; }
+  td.quelle strong { display: inline; }
+  td.quelle .titel { display: block; }
+  td.quelle .hinweis { display: block; font-size: .78rem; color: var(--grau); }
+  td.quelle.leer { height: 2.1rem; }
+  .grenzfall {
+    display: inline-block;
+    margin-top: .2rem;
+    padding: .05rem .35rem;
+    font-size: .68rem;
+    color: #92400e;
+    background: #fef3c7;
+    border-radius: 3px;
+  }
+  input[type="checkbox"] { width: 1rem; height: 1rem; }
+
+  .legende { font-size: .8rem; color: var(--grau); }
+  .legende dt { font-weight: 600; color: #16191f; float: left; clear: left; margin-right: .4rem; }
+  .legende dd { margin: 0 0 .25rem; }
+
+  footer {
+    margin-top: 2.5rem;
+    padding-top: .8rem;
+    border-top: 1px solid var(--rand);
+    font-size: .78rem;
+    color: var(--grau);
+  }
+
+  @media print {
+    body { padding: 0; font-size: 9.5pt; }
+    h2 { break-after: avoid; }
+    h3 { break-after: avoid; }
+    table { break-inside: auto; }
+    tr { break-inside: avoid; }
+    thead { display: table-header-group; }
+    .hinweiskasten { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<p class="kopf">Fragenschmiede · Durchsicht des Quellenkatalogs · Stand September 2026</p>
+<h1>Übersicht für die Vorbereitung</h1>
+<p>Diese Seite ist <strong>nicht</strong> für die Ansprechpartner gedacht,
+sondern für die eigene Vorbereitung. Jeder Ansprechpartner bekommt nur den
+Bogen seines Berufs.</p>
+
+<h2>Die Bögen</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Beruf</th>
+      <th class="kasten">eigene Quellen</th>
+      <th>Prüfungsstelle</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><strong>KGQ</strong> — Kaufmännische Grundqualifikation</td>
+        <td class="kasten">3</td>
+        <td>— keine Kammerprüfung —</td>
+      </tr>
+      <tr>
+        <td><strong>EHK</strong> — Kaufleute im Einzelhandel</td>
+        <td class="kasten">13</td>
+        <td>IHK</td>
+      </tr>
+      <tr>
+        <td><strong>FISI</strong> — Fachinformatiker – Systemintegration</td>
+        <td class="kasten">15</td>
+        <td>IHK</td>
+      </tr>
+      <tr>
+        <td><strong>FKL</strong> — Fachkräfte für Lagerlogistik</td>
+        <td class="kasten">15</td>
+        <td>IHK</td>
+      </tr>
+      <tr>
+        <td><strong>FKS</strong> — Fachkräfte für Schutz und Sicherheit</td>
+        <td class="kasten">15</td>
+        <td>IHK</td>
+      </tr>
+      <tr>
+        <td><strong>GAM</strong> — Kaufleute im Groß- und Außenhandelsmanagement</td>
+        <td class="kasten">11</td>
+        <td>IHK</td>
+      </tr>
+      <tr>
+        <td><strong>IK</strong> — Industriekaufleute</td>
+        <td class="kasten">11</td>
+        <td>IHK</td>
+      </tr>
+      <tr>
+        <td><strong>IMK</strong> — Immobilienkaufleute</td>
+        <td class="kasten">19</td>
+        <td>IHK</td>
+      </tr>
+      <tr>
+        <td><strong>KBM</strong> — Kaufleute für Büromanagement</td>
+        <td class="kasten">10</td>
+        <td>IHK</td>
+      </tr>
+      <tr>
+        <td><strong>KEC</strong> — Kaufleute im E-Commerce</td>
+        <td class="kasten">15</td>
+        <td>IHK</td>
+      </tr>
+      <tr>
+        <td><strong>KiG</strong> — Kaufleute im Gesundheitswesen</td>
+        <td class="kasten">18</td>
+        <td>IHK</td>
+      </tr>
+      <tr>
+        <td><strong>PDK</strong> — Personaldienstleistungskaufleute</td>
+        <td class="kasten">12</td>
+        <td>IHK</td>
+      </tr>
+      <tr>
+        <td><strong>SFA</strong> — Steuerfachangestellte</td>
+        <td class="kasten">15</td>
+        <td>Steuerberaterkammer</td>
+      </tr>
+      <tr>
+        <td><strong>SL</strong> — Kaufleute für Spedition und Logistikdienstleistungen</td>
+        <td class="kasten">16</td>
+        <td>IHK</td>
+      </tr>
+  </tbody>
+</table>
+<p class="legende">Dazu kommen bei jedem Bogen 47 allgemeine
+Quellen. Insgesamt sind das 235
+Vorschläge.</p>
+
+<h2>Grenzfälle der allgemeinen Liste</h2>
+<p>Diese Einträge stehen in der allgemeinen Liste, obwohl ich sie nur bei einem
+Teil der Berufe für nötig halte. Sie sind die wahrscheinlichsten Kandidaten
+dafür, aus der allgemeinen Liste heraus- und in einzelne Berufe hineinzuwandern.
+Kommen mehrere Rückmeldungen "streichen", ist das der Auslöser.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Quelle</th>
+      <th class="kasten">Berufe</th>
+      <th>Vermutung</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><strong>IT.NRW</strong> — Statistisches Landesamt Nordrhein-Westfalen</td>
+        <td class="kasten">7/14</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><strong>ProdHaftG</strong> — Produkthaftungsgesetz</td>
+        <td class="kasten">8/14</td>
+        <td>Haftung für fehlerhafte Produkte, Abgrenzung zur Gewährleistung</td>
+      </tr>
+      <tr>
+        <td><strong>Bundesbank</strong> — Deutsche Bundesbank</td>
+        <td class="kasten">8/14</td>
+        <td>Zinsen, Zahlungsverkehr, Konjunktur</td>
+      </tr>
+      <tr>
+        <td><strong>InsO</strong> — Insolvenzordnung</td>
+        <td class="kasten">9/14</td>
+        <td>Zahlungsunfähigkeit, Insolvenzverfahren, Forderungsausfall</td>
+      </tr>
+      <tr>
+        <td><strong>recht.nrw.de</strong> — Landesrecht Nordrhein-Westfalen</td>
+        <td class="kasten">9/14</td>
+        <td>für alles Landesrechtliche, etwa Ladenöffnung oder Bauordnung</td>
+      </tr>
+      <tr>
+        <td><strong>NWB</strong> — NWB Verlag</td>
+        <td class="kasten">9/14</td>
+        <td>Steuern, Rechnungswesen, Wirtschaftsrecht</td>
+      </tr>
+      <tr>
+        <td><strong>EuGH</strong> — Gerichtshof der Europäischen Union</td>
+        <td class="kasten">9/14</td>
+        <td>Auslegung von EU-Recht, etwa Datenschutz und Verbraucherschutz</td>
+      </tr>
+      <tr>
+        <td><strong>UWG</strong> — Gesetz gegen den unlauteren Wettbewerb</td>
+        <td class="kasten">10/14</td>
+        <td>irreführende Werbung, unzumutbare Belästigung</td>
+      </tr>
+      <tr>
+        <td><strong>ZPO</strong> — Zivilprozessordnung</td>
+        <td class="kasten">10/14</td>
+        <td>gerichtliches Mahnverfahren, Vollstreckung — Anschluss an das Mahnwesen</td>
+      </tr>
+      <tr>
+        <td><strong>AO</strong> — Abgabenordnung</td>
+        <td class="kasten">10/14</td>
+        <td>Steuerpflichten, Fristen, Aufbewahrung, Betriebsprüfung</td>
+      </tr>
+      <tr>
+        <td><strong>GoBD</strong> — Grundsätze ordnungsmäßiger Buchführung in elektronischer Form</td>
+        <td class="kasten">10/14</td>
+        <td>BMF-Schreiben; Unveränderbarkeit, Verfahrensdokumentation, Aufbewahrung</td>
+      </tr>
+      <tr>
+        <td><strong>EUR-Lex</strong> — Amtliches Portal des EU-Rechts</td>
+        <td class="kasten">10/14</td>
+        <td>Verordnungen und Richtlinien im Volltext</td>
+      </tr>
+      <tr>
+        <td><strong>GmbHG / AktG</strong> — GmbH-Gesetz und Aktiengesetz</td>
+        <td class="kasten">11/14</td>
+        <td>Rechtsformen, Haftung, Organe</td>
+      </tr>
+      <tr>
+        <td><strong>EStG</strong> — Einkommensteuergesetz</td>
+        <td class="kasten">11/14</td>
+        <td>Lohnsteuer, geldwerter Vorteil, Abschreibung § 7</td>
+      </tr>
+      <tr>
+        <td><strong>AkA</strong> — AkA-Prüfungskataloge</td>
+        <td class="kasten">11/14</td>
+        <td>Aufgabenstelle für kaufmännische Abschluss- und Zwischenprüfungen, Nürnberg</td>
+      </tr>
+      <tr>
+        <td><strong>Destatis</strong> — Statistisches Bundesamt</td>
+        <td class="kasten">11/14</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><strong>BGH</strong> — Bundesgerichtshof</td>
+        <td class="kasten">11/14</td>
+        <td>Zivil- und Handelsrecht — Vertrag, Gewährleistung, AGB</td>
+      </tr>
+  </tbody>
+</table>
+
+<h2>Worauf beim Auswerten zu achten ist</h2>
+<div class="hinweiskasten">
+  <p><strong>FISI und FKS sind die Ausreißer.</strong> Beide sind nicht
+  kaufmännisch. Wenn dort die halbe allgemeine Liste gestrichen wird, ist das
+  kein Fehler der Rückmeldung, sondern ein Hinweis darauf, dass "allgemein"
+  in Wahrheit "allgemein kaufmännisch" heißt.</p>
+
+  <p><strong>KGQ ist ein Sonderfall.</strong> Keine Kammerprüfung, keine
+  Ausbildungsordnung. Hier ist eine kurze Liste vermutlich besser als eine
+  vollständige.</p>
+
+  <p><strong>SFA gehört nicht zur IHK.</strong> Prüfungsordnung und
+  Aufgabenmaterial kommen von der Steuerberaterkammer.</p>
+
+  <p><strong>Rechtsprechung ist die schwächste Kategorie.</strong> Die meisten
+  Kammerprüfungen fragen Regeln ab, nicht Urteile. Ausnahmen sind IMK
+  (Mietrecht) und SFA (BFH). Wenn dort niemand Urteile nennt, kann die
+  Kategorie ganz entfallen.</p>
+</div>
+
+<footer>
+  <p>Erzeugt aus <code>quellen-durchsicht/daten.mjs</code>.
+  Änderungen dort und erneut <code>node quellen-durchsicht/erzeugen.mjs</code>
+  ausführen.</p>
+</footer>
+
+</body>
+</html>
