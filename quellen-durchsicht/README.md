@@ -20,8 +20,10 @@ Berufe tatsächlich unterrichten.
 |---|---|
 | `daten.mjs` | Alle Vorschläge — allgemeine Liste und je Beruf. Die einzige Stelle zum Ändern. |
 | `erzeugen.mjs` | Erzeugt daraus die Durchsichtsbögen. |
-| `blaetter/<KÜRZEL>.html` | Ein Bogen je Beruf. Das, was verschickt wird. |
+| `blaetter/<KÜRZEL>.html` | Ein Bogen je Beruf. |
+| `blaetter/fuer-<name>.html` | Ein Bogen je Ansprechpartner. Das, was verschickt wird. Nicht im Repository. |
 | `blaetter/_uebersicht.html` | Nur zur eigenen Vorbereitung, **nicht** verschicken. |
+| `ansprechpartner.local.mjs` | Wer welchen Beruf betreut. Nicht im Repository — siehe unten. |
 
 Neu erzeugen nach jeder Änderung an `daten.mjs`:
 
@@ -92,24 +94,34 @@ sich als Anhang verschicken, im Browser öffnen, ausfüllen und über
 > PS: Das Werkzeug ist ein privates Projekt und kein offizielles Angebot der
 > DAA. Ansehen kann man es hier: https://davuuuud.github.io/DAA_Prompt_Gen/
 
-## Rückläufe
+## Ansprechpartner und Rückläufe
 
-| Beruf | Ansprechpartner | verschickt | zurück | eingearbeitet |
-|---|---|---|---|---|
-| KGQ | | | | |
-| EHK | | | | |
-| FISI | | | | |
-| FKL | | | | |
-| FKS | | | | |
-| GAM | | | | |
-| IK | | | | |
-| IMK | | | | |
-| KBM | | | | |
-| KEC | | | | |
-| KiG | | | | |
-| PDK | | | | |
-| SFA | | | | |
-| SL | | | | |
+**Die Namen stehen nicht in diesem Repository.** Es ist öffentlich, und wer
+welchen Beruf unterrichtet, ist eine personenbezogene Angabe über Dritte, die
+dem nicht zugestimmt haben. Die Liste liegt deshalb in
+
+```
+quellen-durchsicht/ansprechpartner.local.mjs
+```
+
+und ist zusammen mit den daraus erzeugten Bögen (`blaetter/fuer-*.html`) in
+`.gitignore` ausgeschlossen. Fehlt die Datei, erzeugt das Skript nur die Bögen
+je Beruf — der Ablauf funktioniert auch ohne sie.
+
+### Bögen je Person statt je Beruf
+
+Wer mehrere Berufe betreut, bekommt **einen** Bogen: Die allgemeine Liste
+steht darin nur einmal, die berufseigenen Teile folgen nacheinander. Bei einer
+Doppelbetreuung sinkt der Umfang dadurch von 121 auf 74 Zeilen — das ist der
+Unterschied zwischen „mache ich nachher" und „mache ich nicht".
+
+Der Erzeuger meldet beim Lauf, welche Berufe noch ohne Ansprechpartner sind.
+
+### Rücklauf verfolgen
+
+Die Tabelle dafür gehört in die lokale Datei, nicht hierher. Vorschlag für die
+Spalten: verschickt am, erinnert am, zurück am, eingearbeitet in
+`quellen.ts`.
 
 ## Auswertungsregeln
 

@@ -9,13 +9,21 @@
 // sie am Bildschirm ausfüllt, kann die Kästchen anklicken und über "Drucken →
 // Als PDF speichern" zurückschicken.
 
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ALLGEMEIN, BERUFE, STAND } from './daten.mjs';
 
 const HIER = dirname(fileURLToPath(import.meta.url));
 const ZIEL = join(HIER, 'blaetter');
+
+// Die Empfängerliste enthält Namen Dritter und ist von Git ausgeschlossen.
+// Fehlt sie, entstehen nur die Bögen je Beruf — der Ablauf funktioniert
+// auch ohne sie.
+const EMPFAENGER_DATEI = join(HIER, 'ansprechpartner.local.mjs');
+const EMPFAENGER = existsSync(EMPFAENGER_DATEI)
+  ? (await import('./ansprechpartner.local.mjs')).EMPFAENGER
+  : [];
 
 // Ab wann ein Eintrag der allgemeinen Liste als Grenzfall markiert wird.
 // Bewusst nicht bei 13 von 14: Eine Markierung, die fast überall steht,
@@ -216,30 +224,59 @@ const STIL = `
   }
 `;
 
-function bogen(beruf) {
-  const pruefstelle = beruf.pruefstelle
-    ? `Prüfungsstelle: ${beruf.pruefstelle}`
-    : 'Keine Kammerprüfung';
+function bogen(beruf, empfaenger) {
+  const berufe = Array.isArray(beruf) ? beruf : [beruf];
+  const mehrere = berufe.length > 1;
 
-  const bemerkung = beruf.bemerkung
+  const kopfzeile = berufe
+    .map(
+      (eintrag) =>
+        `${schuetzen(eintrag.kuerzel)} — ${schuetzen(eintrag.name)} · ` +
+        (eintrag.pruefstelle
+          ? `Prüfungsstelle: ${schuetzen(eintrag.pruefstelle)}`
+          : 'Keine Kammerprüfung'),
+    )
+    .join('<br />');
+
+  // Bei mehreren Berufen erscheint der Name schon im Bogenkopf; das Feld
+  // "Ausgefüllt von" bleibt trotzdem stehen, falls jemand anderes antwortet.
+  const empfaengerZeile = empfaenger
+    ? `<p class="beruf" style="color:inherit;font-weight:400">Für: ${schuetzen(empfaenger.name)}</p>`
+    : '';
+
+  const empfaengerHinweis = empfaenger?.hinweis
     ? `  <div class="hinweiskasten warnung">
-    <p><strong>Besonderheit dieses Berufs.</strong> ${schuetzen(beruf.bemerkung)}</p>
+    <p><strong>Hinweis zu diesem Bogen.</strong> ${schuetzen(empfaenger.hinweis)}</p>
   </div>`
     : '';
+
+  const bemerkungen = berufe
+    .filter((eintrag) => eintrag.bemerkung)
+    .map(
+      (eintrag) => `  <div class="hinweiskasten warnung">
+    <p><strong>Besonderheit ${schuetzen(eintrag.kuerzel)}.</strong> ${schuetzen(eintrag.bemerkung)}</p>
+  </div>`,
+    )
+    .join('\n');
+
+  const titel = mehrere
+    ? berufe.map((eintrag) => eintrag.kuerzel).join(' + ')
+    : berufe[0].kuerzel;
 
   return `<!doctype html>
 <html lang="de">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Quellen-Durchsicht ${schuetzen(beruf.kuerzel)} – Fragenschmiede</title>
+<title>Quellen-Durchsicht ${schuetzen(titel)} – Fragenschmiede</title>
 <style>${STIL}</style>
 </head>
 <body>
 
 <p class="kopf">Fragenschmiede · Durchsicht des Quellenkatalogs · Stand ${STAND}</p>
-<h1>Welche Quellen gehören zu diesem Beruf?</h1>
-<p class="beruf">${schuetzen(beruf.kuerzel)} — ${schuetzen(beruf.name)} · ${pruefstelle}</p>
+<h1>Welche Quellen gehören zu ${mehrere ? 'diesen Berufen' : 'diesem Beruf'}?</h1>
+<p class="beruf">${kopfzeile}</p>
+${empfaengerZeile}
 
 <div class="felder">
   <div><span>Ausgefüllt von</span><div class="linie"></div></div>
@@ -269,22 +306,35 @@ function bogen(beruf) {
   <dt>Anmerkung</dt><dd>Etwa: nur ein bestimmter Abschnitt, veraltete Fassung, anderer Name im Unterricht.</dd>
 </dl>
 
-${bemerkung}
+${empfaengerHinweis}
+${bemerkungen}
 
 <h2>Teil 1 — Quellen für alle Berufe</h2>
 <p>Diese Liste erscheint bei jedem Beruf. Wenn ein Eintrag hier bei
-<em>Ihrem</em> Beruf keine Rolle spielt, ist das eine besonders wichtige
-Rückmeldung: Dann steht er womöglich an der falschen Stelle. Gelb markierte
-Einträge halte ich selbst für Grenzfälle.</p>
+${mehrere ? '<em>Ihren</em> Berufen' : '<em>Ihrem</em> Beruf'} keine Rolle
+spielt, ist das eine besonders wichtige Rückmeldung: Dann steht er womöglich an
+der falschen Stelle. Gelb markierte Einträge halte ich selbst für Grenzfälle.
+${
+  mehrere
+    ? 'Sie füllen diesen Teil <strong>nur einmal</strong> aus — er gilt für ' +
+      'beide Berufe. Unterscheiden sie sich in einem Punkt, notieren Sie das ' +
+      'bitte in der Anmerkung.'
+    : ''
+}</p>
 
 ${abschnitte(ALLGEMEIN)}
 
-<h2>Teil 2 — Nur bei ${schuetzen(beruf.kuerzel)}</h2>
-<p>Diese Einträge erscheinen ausschließlich bei diesem Beruf.</p>
+${berufe
+  .map(
+    (eintrag, i) => `<h2>Teil ${2 + i} — Nur bei ${schuetzen(eintrag.kuerzel)}</h2>
+<p>Diese Einträge erscheinen ausschließlich bei
+${schuetzen(eintrag.name)}.</p>
 
-${abschnitte(beruf.quellen)}
+${abschnitte(eintrag.quellen)}`,
+  )
+  .join('\n\n')}
 
-<h2>Teil 3 — Was fehlt?</h2>
+<h2>Teil ${2 + berufe.length} — Was fehlt?</h2>
 <p>Der wichtigste Teil. Welche Gesetze, Verordnungen, Normen, Nachschlagewerke
 oder Gerichtsentscheidungen brauchen Ihre Teilnehmenden, die oben nicht stehen?
 Auch das im Unterricht eingesetzte Lehrwerk mit Titel und Auflage ist hier
@@ -295,7 +345,7 @@ willkommen.</p>
     <tr>
       <th class="quelle">Fehlende Quelle</th>
       <th class="kasten">für alle Berufe</th>
-      <th class="kasten">nur hier</th>
+      <th class="kasten">${mehrere ? 'welcher?' : 'nur hier'}</th>
       <th class="kasten">vorein&shy;stellen</th>
       <th class="anmerkung">Wozu wird sie gebraucht?</th>
     </tr>
@@ -305,10 +355,12 @@ ${leerzeilen(12)}
   </tbody>
 </table>
 
-<h2>Teil 4 — Zwei Fragen zum Schluss</h2>
+<h2>Teil ${3 + berufe.length} — Zwei Fragen zum Schluss</h2>
 
 <p><strong>1. Welche drei Quellen sind die wichtigsten?</strong> Wenn nur drei
-in der Anwendung stünden — welche?</p>
+in der Anwendung stünden — welche?${
+    mehrere ? ' Gern je Beruf getrennt.' : ''
+  }</p>
 <div class="linie"></div>
 <div class="linie"></div>
 
@@ -448,3 +500,50 @@ for (const beruf of BERUFE) {
 
 writeFileSync(join(ZIEL, '_uebersicht.html'), uebersicht(), 'utf8');
 console.log(`\n${BERUFE.length} Bögen und eine Übersicht in ${ZIEL}`);
+
+// --- Bögen je Ansprechpartner ---------------------------------------------
+// Wer mehrere Berufe betreut, füllt die allgemeine Liste nur einmal aus.
+
+/** Dateiname ohne Umlaute und Sonderzeichen. */
+function dateiname(name) {
+  return name
+    .toLowerCase()
+    .replace(/ä/g, 'ae')
+    .replace(/ö/g, 'oe')
+    .replace(/ü/g, 'ue')
+    .replace(/ß/g, 'ss')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+if (EMPFAENGER.length > 0) {
+  console.log('\nBögen je Ansprechpartner:');
+  const abgedeckt = new Set();
+
+  for (const empfaenger of EMPFAENGER) {
+    const berufe = empfaenger.berufe.map((id) => {
+      const treffer = BERUFE.find((beruf) => beruf.id === id);
+      if (!treffer) throw new Error(`Unbekannte Beruf-Kennung: ${id}`);
+      abgedeckt.add(id);
+      return treffer;
+    });
+
+    const datei = join(ZIEL, `fuer-${dateiname(empfaenger.name)}.html`);
+    writeFileSync(datei, bogen(berufe, empfaenger), 'utf8');
+
+    const zeilen = ALLGEMEIN.length + berufe.reduce((s, b) => s + b.quellen.length, 0);
+    const einzeln = berufe.reduce((s, b) => s + ALLGEMEIN.length + b.quellen.length, 0);
+    const ersparnis = einzeln > zeilen ? ` (statt ${einzeln} einzeln)` : '';
+    console.log(
+      `  ${empfaenger.name.padEnd(12)} ${berufe.map((b) => b.kuerzel).join(' + ').padEnd(12)} ` +
+        `${String(zeilen).padStart(3)} Zeilen${ersparnis}${empfaenger.offen ? '  [Zuständigkeit offen]' : ''}`,
+    );
+  }
+
+  const offen = BERUFE.filter((beruf) => !abgedeckt.has(beruf.id));
+  if (offen.length > 0) {
+    console.log(
+      `\nOhne Ansprechpartner: ${offen.map((beruf) => beruf.kuerzel).join(', ')}`,
+    );
+  }
+}
