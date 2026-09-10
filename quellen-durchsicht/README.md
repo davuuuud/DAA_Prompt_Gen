@@ -31,9 +31,9 @@ node quellen-durchsicht/erzeugen.mjs
 
 ## Umfang
 
-47 allgemeine Quellen plus 3 bis 19 berufseigene, zusammen **235 Vorschläge**.
+47 allgemeine Quellen plus 10 bis 24 berufseigene, zusammen **258 Vorschläge**.
 Jeder Bogen zeigt die allgemeine Liste und die eigene des Berufs — niemand
-bekommt 235 Zeilen vorgelegt.
+bekommt alle 258 Zeilen vorgelegt, sondern zwischen 57 und 71.
 
 ## Aufbau eines Bogens
 
@@ -140,6 +140,43 @@ Roadmap: Die drei wichtigsten Quellen je Beruf sind die Kandidaten für
 `DEFAULT_QUELLEN`. Die Antworten zu „wo geht die KI in die Irre" sind
 Kandidaten für zusätzliche Warnregeln im Prompt.
 
+## Herangezogene Rahmenlehrpläne
+
+Für vier Berufe habe ich in den Rahmenlehrplan gesehen, statt zu schätzen.
+Das hat drei Annahmen widerlegt:
+
+- **KGQ** ist kein Beruf mit kurzer Liste, sondern der WiSo-Kern, den alle
+  brauchen. Maßgeblich ist das [KMK-Qualifikationsprofil Wirtschafts- und
+  Sozialkunde vom 17.06.2021](https://www.kmk.org/fileadmin/Dateien/veroeffentlichungen_beschluesse/2021/2021_06_17-Berufsschule-Unterricht-Wirtschafts-Sozialkunde.pdf)
+  mit drei Handlungsfeldern: *Junge Menschen in Ausbildung und Beruf*,
+  *Nachhaltige Existenzsicherung*, *Unternehmen in Wirtschaft und global
+  vernetzter Welt*. Ergänzt wurden der politisch-soziale Teil (Grundgesetz,
+  bpb, EU) und die eigene Existenzsicherung (Entgeltabrechnung, Vorsorge,
+  Versicherung, Gründung). 3 → 12 Einträge.
+- **KiG** ist erheblich kaufmännischer als angenommen. Der
+  [Lehrplan NRW](https://berufsbildung.nrw.de/system/files/media/document/file/kauf_gesundheitswesen.pdf)
+  verteilt elf Lernfelder auf drei Fächer, von denen zwei überwiegend
+  kaufmännisch sind: Buchführung und Kostenrechnung (LF 3), Beschaffung und
+  Lager mit Hygienevorschriften (LF 5), Marketing (LF 4), Vertragsanbahnung
+  (LF 6), Personalwirtschaft (LF 10), Investition und Finanzierung (LF 11),
+  Controlling und Qualitätsmanagement (LF 9). Das Sozialrecht ergänzt die
+  kaufmännische Grundlage, es ersetzt sie nicht. 18 → 24 Einträge.
+- **FISI** ist nicht so unkaufmännisch wie behauptet: Der
+  [Rahmenlehrplan IT-Berufe 2020](https://ausbildung-in-der-it.de/fachinformatiker/systemintegration/lernfelder)
+  beginnt mit LF 1 *Das Unternehmen und die eigene Rolle im Betrieb
+  beschreiben* und endet mit LF 12b *Kundenspezifische Systemintegration
+  durchführen* — Angebot, Kalkulation, Abnahme. Ergänzt wurden Dienst- und
+  Werkvertrag, Barrierefreiheit und Bildschirmarbeit. 15 → 19 Einträge.
+- **FKS** hat ein rein kaufmännisches drittes Jahr: LF 10 Geschäftsprozesse,
+  LF 11 Dienstleistungsangebot entwickeln, LF 12 Risikoanalyse
+  ([Rahmenlehrplan vom 10.04.2008](https://www.kmk.org/fileadmin/pdf/Bildung/BeruflicheBildung/rlp/FKSchutzSicherheit.pdf)).
+  Ergänzt wurden OWiG, DGUV Vorschrift 1 und die Kalkulation von
+  Sicherheitsdienstleistungen. 15 → 19 Einträge.
+
+Bei den übrigen zehn Berufen stammt die Liste weiterhin aus allgemeinem
+Wissen. Wenn eine Rückmeldung dort besonders schlecht ausfällt, ist der
+Rahmenlehrplan der nächste Schritt.
+
 ## Grenzen dieser Vorbereitung
 
 Die Liste ist ein **Vorschlag**, kein Katalog. Sie enthält mit Sicherheit
@@ -148,13 +185,12 @@ welche, die dort zentral sind. Das ist kein Mangel der Vorbereitung, sondern
 ihr Zweck: Es ist leichter, eine falsche Liste zu korrigieren als eine leere
 zu füllen.
 
-Besonders unsicher bin ich bei:
+Weiterhin unsicher:
 
-- **KGQ** — kein geregelter Beruf, keine Ausbildungsordnung. Die drei
-  vorgeschlagenen Einträge sind eher eine Frage als eine Antwort.
-- **KiG** — hängt stark davon ab, welche Einrichtungsart überwiegt:
-  Krankenhaus, Krankenkasse, Pflege oder Praxis.
 - **Rechtsprechung** — bei den meisten Kammerprüfungen vermutlich entbehrlich.
-  Ausnahmen: IMK und SFA.
-- **FISI und FKS** — beide nicht kaufmännisch. Dort passt die allgemeine Liste
-  am schlechtesten.
+  Ausnahmen: IMK (Mietrecht) und SFA (BFH). Bewusst ohne Aktenzeichen: Erfundene
+  Fundstellen wären schlimmer als keine.
+- **KiG** — welche Einrichtungsart im Kurs überwiegt, ändert die Gewichtung
+  auch dann, wenn alle vorkommen.
+- **Die zehn nicht nachgeschlagenen Berufe** — dort ist der Fehleranteil
+  vermutlich höher als bei den vier oben.

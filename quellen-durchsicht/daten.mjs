@@ -383,27 +383,93 @@ export const BERUFE = [
     name: 'Kaufmännische Grundqualifikation',
     pruefstelle: null,
     bemerkung:
-      'Sonderfall: keine Ausbildungsordnung, keine Abschlussprüfung vor einer Kammer. ' +
-      'Die Maßnahme bereitet auf eine Ausbildung oder Umschulung vor. Die Frage lautet ' +
-      'hier deshalb nicht "was wird geprüft", sondern "was wird gebraucht, um später ' +
-      'einsteigen zu können" — vermutlich eine deutlich kürzere Liste als bei den übrigen.',
+      'Kein einzelner Beruf, sondern die Grundlage, die alle Umschülerinnen und ' +
+      'Umschüler beherrschen sollen: Wirtschafts- und Sozialkunde. Dieselben Inhalte ' +
+      'bilden in jedem kaufmännischen Beruf den Prüfungsbereich WiSo — was hier ' +
+      'gebraucht wird, wird also überall gebraucht. Die untenstehende allgemeine Liste ' +
+      'ist deshalb bei KGQ nicht Beiwerk, sondern der eigentliche Stoff. Die Einträge ' +
+      'in Teil 2 ergänzen sie um das, was sonst nirgends steht: den politisch-sozialen ' +
+      'Teil und die Frage der eigenen Existenzsicherung.',
     quellen: [
       {
-        kuerzel: 'BGB (Auszug)',
-        titel: 'Kaufvertrag und Verbraucherschutz',
-        hinweis: 'Zustandekommen, Mängel, Widerruf — ohne die Feinheiten des Schuldrechts',
+        kuerzel: 'KMK-Qualifikationsprofil WiSo',
+        titel: 'Kompetenzorientiertes Qualifikationsprofil Wirtschafts- und Sozialkunde',
+        hinweis:
+          'KMK-Beschluss vom 17.06.2021; drei Handlungsfelder — Junge Menschen in ' +
+          'Ausbildung und Beruf, Nachhaltige Existenzsicherung, Unternehmen in ' +
+          'Wirtschaft und global vernetzter Welt. Die maßgebliche Gliederung.',
+        art: 'vorgabe',
+      },
+      {
+        kuerzel: 'AkA-Katalog WiSo',
+        titel: 'Prüfungskatalog Wirtschafts- und Sozialkunde',
+        hinweis: 'seit der Anpassung an das KMK-Profil die konkrete Prüfungsgrundlage',
+        art: 'vorgabe',
+      },
+      {
+        kuerzel: 'GG',
+        titel: 'Grundgesetz',
+        hinweis:
+          'Sozialstaatsgebot, Berufsfreiheit Art. 12, Koalitionsfreiheit Art. 9 Abs. 3 — ' +
+          'der sozialkundliche Teil, der in keinem Fachgesetz steht',
         art: 'gesetz',
       },
       {
-        kuerzel: 'Wirtschaftskunde',
-        titel: 'Einführende Wirtschaftslehre',
-        hinweis: 'Bedürfnisse, Güter, Markt, Preisbildung, Wirtschaftskreislauf',
+        kuerzel: 'BGB Rechtsgeschäfte',
+        titel: 'Willenserklärung, Geschäftsfähigkeit, Kaufvertrag, Verbraucherschutz',
+        hinweis: 'Handlungsfeld 3 — die Grundlagen ohne die Feinheiten des Schuldrechts',
+        art: 'gesetz',
+      },
+      {
+        kuerzel: 'Entgeltabrechnung',
+        titel: 'Lohnsteuer und Sozialversicherungsbeiträge',
+        hinweis:
+          'Handlungsfeld 2; Brutto, Netto, Beitragsbemessungsgrenzen — welches ' +
+          'Lehrwerk oder welche Tabelle wird dafür benutzt?',
         art: 'nachschlagewerk',
       },
       {
-        kuerzel: 'Bundesagentur für Arbeit',
-        titel: 'BERUFENET und Berufsinformationen',
-        hinweis: 'Berufsbilder als Orientierung vor der Entscheidung',
+        kuerzel: 'DRV / GKV',
+        titel: 'Deutsche Rentenversicherung und Krankenkassen',
+        hinweis: 'Renteninformation, Versicherungsprinzip, private Vorsorge',
+        art: 'nachschlagewerk',
+      },
+      {
+        kuerzel: 'VVG',
+        titel: 'Versicherungsvertragsgesetz',
+        hinweis: 'private Absicherung — Handlungsfeld 2',
+        art: 'gesetz',
+      },
+      {
+        kuerzel: 'Verbraucherzentrale NRW',
+        titel: 'Verbraucherinformation und Musterschreiben',
+        hinweis: 'praxisnah für Verbraucherschutz und Vertragsfallen',
+        art: 'nachschlagewerk',
+      },
+      {
+        kuerzel: 'bpb',
+        titel: 'Bundeszentrale für politische Bildung',
+        hinweis: 'soziale Marktwirtschaft, Sozialstaat, Globalisierung — kostenfrei',
+        art: 'nachschlagewerk',
+      },
+      {
+        kuerzel: 'europa.eu',
+        titel: 'Institutionen der Europäischen Union',
+        hinweis:
+          'Handlungsfeld 1 nennt ausdrücklich die Bedeutung der EU für die ' +
+          'Berufstätigkeit — Freizügigkeit, Binnenmarkt',
+        art: 'nachschlagewerk',
+      },
+      {
+        kuerzel: 'Existenzgründung',
+        titel: 'Gründungsinformationen der IHK und des BMWK',
+        hinweis: 'Handlungsfeld 2 nennt Existenzgründung ausdrücklich',
+        art: 'nachschlagewerk',
+      },
+      {
+        kuerzel: 'BERUFENET',
+        titel: 'Berufsinformationen der Bundesagentur für Arbeit',
+        hinweis: 'Berufsbilder und Aufstiegswege — Orientierung vor der Entscheidung',
         art: 'daten',
       },
     ],
@@ -501,16 +567,46 @@ export const BERUFE = [
     name: 'Fachinformatiker – Systemintegration',
     pruefstelle: 'IHK',
     bemerkung:
-      'Der einzige nicht-kaufmännische Beruf im Katalog. Die allgemeine Liste passt ' +
-      'hier am schlechtesten: HGB, UStG und Rechnungswesen spielen kaum eine Rolle, ' +
-      'dafür Technik und Normen. Bitte in der Durchsicht besonders auf Streichungen ' +
-      'in der allgemeinen Liste achten.',
+      'Technischer Beruf, aber nicht ohne kaufmännischen Anteil: Der Rahmenlehrplan ' +
+      'von 2020 beginnt mit LF 1 "Das Unternehmen und die eigene Rolle im Betrieb ' +
+      'beschreiben" und endet mit LF 12b "Kundenspezifische Systemintegration ' +
+      'durchführen" — also mit Angebot, Kalkulation und Abnahme eines Kundenauftrags. ' +
+      'Die allgemeine Liste ist hier deshalb nicht gegenstandslos, aber ihr ' +
+      'Rechnungswesenteil vermutlich schon. Bitte gezielt auf Streichungen achten.',
     quellen: [
       {
         kuerzel: 'AO IT-Berufe',
         titel: 'Verordnung über die Berufsausbildung in den IT-Berufen',
         hinweis: 'Neufassung 2020',
         art: 'vorgabe',
+      },
+      {
+        kuerzel: 'Rahmenlehrplan IT 2020',
+        titel: 'Zwölf Lernfelder, davon 1 bis 9 gemeinsam',
+        hinweis:
+          'Systemintegration ab dem dritten Jahr mit LF 10b Serverdienste, ' +
+          'LF 11b Betrieb und Sicherheit vernetzter Systeme, LF 12b Kundenauftrag',
+        art: 'vorgabe',
+      },
+      {
+        kuerzel: 'BGB §§ 611, 631',
+        titel: 'Dienstvertrag und Werkvertrag',
+        hinweis:
+          'LF 6 Serviceanfragen und LF 12b Kundenauftrag: Service-Level, Abnahme, ' +
+          'Mängelhaftung — der rechtliche Unterbau des IT-Geschäfts',
+        art: 'gesetz',
+      },
+      {
+        kuerzel: 'BFSG / BITV 2.0',
+        titel: 'Barrierefreiheitsstärkungsgesetz und Barrierefreie-IT-Verordnung',
+        hinweis: 'seit Juni 2025 verpflichtend; LF 2 Arbeitsplätze ausstatten',
+        art: 'gesetz',
+      },
+      {
+        kuerzel: 'ArbStättV Anhang 6',
+        titel: 'Bildschirmarbeitsplätze',
+        hinweis: 'LF 2 — Ergonomie ist Teil der Arbeitsplatzausstattung',
+        art: 'gesetz',
       },
       {
         kuerzel: 'UrhG',
@@ -694,13 +790,47 @@ export const BERUFE = [
     name: 'Fachkräfte für Schutz und Sicherheit',
     pruefstelle: 'IHK',
     bemerkung:
-      'Wie bei FISI passt die allgemeine kaufmännische Liste hier nur teilweise. ' +
-      'Der Schwerpunkt liegt auf Eingriffsrecht und Arbeitsschutz.',
+      'Der Schwerpunkt liegt auf Eingriffsrecht und Arbeitsschutz — aber das dritte ' +
+      'Ausbildungsjahr ist kaufmännisch: LF 10 steuert Geschäftsprozesse der Branche, ' +
+      'LF 11 entwickelt ein Dienstleistungsangebot, LF 12 erstellt Risikoanalysen. ' +
+      'Kalkulation, Vertragsgestaltung und Buchführung gehören also dazu. Die ' +
+      'allgemeine Liste ist damit relevanter, als es der Beruf zunächst vermuten lässt.',
     quellen: [
       {
         kuerzel: 'AO Schutz und Sicherheit',
         titel: 'Verordnung über die Berufsausbildung zur Fachkraft für Schutz und Sicherheit',
         art: 'vorgabe',
+      },
+      {
+        kuerzel: 'Rahmenlehrplan FKS',
+        titel: 'Zwölf Lernfelder, KMK-Beschluss vom 10.04.2008',
+        hinweis:
+          'LF 1 bis 8 gemeinsam mit der Servicekraft; LF 9 Dokumentation von ' +
+          'Sicherheitsverstößen, LF 10 Geschäftsprozesse, LF 11 Dienstleistungsangebot, ' +
+          'LF 12 Risikoanalyse',
+        art: 'vorgabe',
+      },
+      {
+        kuerzel: 'OWiG',
+        titel: 'Gesetz über Ordnungswidrigkeiten',
+        hinweis:
+          'LF 5 verlangt, Rechtsverstöße zu erkennen und zu bewerten — die ' +
+          'Abgrenzung Straftat zu Ordnungswidrigkeit gehört dazu',
+        art: 'gesetz',
+      },
+      {
+        kuerzel: 'DGUV Vorschrift 1',
+        titel: 'Grundsätze der Prävention',
+        hinweis: 'LF 4 — Unterweisung, Erste Hilfe, Brandschutzhelfer',
+        art: 'norm',
+      },
+      {
+        kuerzel: 'Kalkulation von Sicherheitsdienstleistungen',
+        titel: 'Angebot, Stundenverrechnungssatz, Ausschreibung',
+        hinweis:
+          'LF 11 entwickelt ein Dienstleistungsangebot. Nach welchem Lehrwerk wird ' +
+          'das gerechnet?',
+        art: 'nachschlagewerk',
       },
       {
         kuerzel: 'GewO § 34a',
@@ -1228,14 +1358,57 @@ export const BERUFE = [
     name: 'Kaufleute im Gesundheitswesen',
     pruefstelle: 'IHK',
     bemerkung:
-      'Hier ist die allgemeine Liste am wenigsten tragfähig: Das Sozialrecht ' +
-      'ersetzt weite Teile dessen, was sonst BGB und HGB abdecken. Welche ' +
-      'Einrichtungsart überwiegt — Krankenhaus, Krankenkasse, Pflege, Praxis?',
+      'Korrigiert nach dem Rahmenlehrplan: Der Beruf ist deutlich kaufmännischer, als ' +
+      'die Sozialgesetzbücher vermuten lassen. Die elf Lernfelder verteilen sich auf ' +
+      'drei Fächer — Dienstleistungsprozesse (LF 1, 2, 5, 10), Gesundheitsmanagement ' +
+      '(LF 4, 6, 11) und Steuerungs- und Abrechnungsprozesse (LF 3, 7, 8, 9). Darin ' +
+      'stecken Buchführung und Kostenrechnung, Beschaffung und Lager, Marketing, ' +
+      'Vertragsanbahnung, Personalwirtschaft, Investition und Finanzierung sowie ' +
+      'Controlling. Das Sozialrecht ergänzt die kaufmännische Grundlage, es ersetzt ' +
+      'sie nicht. Ambulante, stationäre und teilstationäre Einrichtungen kommen ' +
+      'ausdrücklich alle vor.',
     quellen: [
       {
         kuerzel: 'AO Gesundheitswesen',
         titel: 'Verordnung über die Berufsausbildung zum Kaufmann im Gesundheitswesen',
         art: 'vorgabe',
+      },
+      {
+        kuerzel: 'Rahmenlehrplan KiG',
+        titel: 'Elf Lernfelder in drei Fächern',
+        hinweis:
+          'Dienstleistungsprozesse, Gesundheitsmanagement, Steuerungs- und ' +
+          'Abrechnungsprozesse — die Gliederung, an der sich alles Weitere ausrichtet',
+        art: 'vorgabe',
+      },
+      {
+        kuerzel: 'Rechtsformen und Träger',
+        titel: 'Einrichtungen und Träger des Gesundheitswesens',
+        hinweis:
+          'LF 1 verlangt, den eigenen Betrieb in das Netz der sozialen Sicherung ' +
+          'einzuordnen: öffentlich, freigemeinnützig, privat — und die zugehörigen ' +
+          'Rechtsformen',
+        art: 'nachschlagewerk',
+      },
+      {
+        kuerzel: 'Buchführung und KLR',
+        titel: 'Rechnungswesen im Dienstleistungsbetrieb',
+        hinweis:
+          'LF 3 und LF 9: Buchführung, Kostenrechnung, Deckungsbeitrag, Budgetierung. ' +
+          'Nach welchem Lehrwerk wird gerechnet?',
+        art: 'nachschlagewerk',
+      },
+      {
+        kuerzel: 'Investition und Finanzierung',
+        titel: 'Finanzierungsformen im Gesundheitsbetrieb',
+        hinweis: 'LF 11 — im Kontext der dualen Krankenhausfinanzierung',
+        art: 'nachschlagewerk',
+      },
+      {
+        kuerzel: 'Qualitätsmanagement',
+        titel: 'QM-Richtlinie des G-BA, DIN EN ISO 9001, KTQ',
+        hinweis: 'LF 9 nennt Qualitätsmanagement ausdrücklich',
+        art: 'norm',
       },
       {
         kuerzel: 'SGB V',
@@ -1304,7 +1477,15 @@ export const BERUFE = [
       {
         kuerzel: 'IfSG',
         titel: 'Infektionsschutzgesetz',
-        hinweis: 'Melde- und Belehrungspflichten',
+        hinweis:
+          'Melde- und Belehrungspflichten; LF 5 nennt Hygiene- und Umweltvorschriften ' +
+          'im Beschaffungs- und Lagerbereich ausdrücklich',
+        art: 'gesetz',
+      },
+      {
+        kuerzel: 'MedHygVO NRW',
+        titel: 'Verordnung über die Hygiene in medizinischen Einrichtungen',
+        hinweis: 'Landesrecht NRW — LF 5',
         art: 'gesetz',
       },
       {
