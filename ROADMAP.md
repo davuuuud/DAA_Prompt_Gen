@@ -578,8 +578,18 @@ Zugangsprüfung ist die Seite kein öffentliches Angebot mehr.
 
 ## Vor Etappe 3 zu klären
 
-- **Fehlende Dateiformate.** Bekannt sind PDF, Word, Excel, Scans, Bilder und
-  OneNote. Offen: PowerPoint, altes `.doc`, Markdown, einfache Textdateien.
+- **Dateiformate.** Bekannt sind PDF, Word, Excel, Scans, Bilder und OneNote.
+  Ergänzt: **PowerPoint** — im Unterricht praktisch unvermeidlich, und die
+  Dozentenfassung soll pptx später sogar selbst erzeugen — sowie **Moodle-
+  und ILIAS-Exporte**. Weiter offen: altes `.doc`, Markdown, einfache
+  Textdateien.
+- **Moodle und ILIAS sind keine Dokumentformate, sondern Behälter.** Ein
+  Moodle-Backup (`.mbz`) oder ein SCORM-Paket ist ein Archiv mit Struktur-XML
+  und den eigentlichen Dateien darin — meist genau die PDFs, Word- und
+  PowerPoint-Dateien, die ohnehin auf der Liste stehen. Der Mehraufwand liegt
+  nicht im Lesen, sondern im Entpacken und darin, die Kursgliederung als
+  Herkunftsangabe zu erhalten: Eine Fundstelle soll später den Kursabschnitt
+  nennen, nicht „Datei 3.pdf".
 - **OneNote.** Das Format lässt sich im Browser nicht lesen — es gibt keine
   brauchbare Bibliothek dafür. Der Weg führt über den Export nach PDF
   (OneNote: *Datei → Exportieren → Abschnitt → PDF*). Zu klären ist, wie viel
