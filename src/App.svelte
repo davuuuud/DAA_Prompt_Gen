@@ -12,6 +12,7 @@
     findBeruf,
     findFormat,
     findNiveau,
+    niveauBeschriftung,
     NIVEAUS,
     OPTIONEN,
   } from './lib/domain/catalogs';
@@ -181,7 +182,7 @@
           <label for="niveau">Niveau</label>
           <select id="niveau" bind:value={settings.niveau}>
             {#each NIVEAUS as niveau (niveau.id)}
-              <option value={niveau.id}>{niveau.label}</option>
+              <option value={niveau.id}>{niveauBeschriftung(niveau)}</option>
             {/each}
           </select>
         </div>

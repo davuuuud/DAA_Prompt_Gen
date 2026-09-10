@@ -250,12 +250,19 @@ export const OPTIONEN: Option[] = [
   },
 ];
 
+// Anders als bei Aufgaben und Ausgabeformen ist die Reihenfolge hier eine
+// Rangfolge. Die Stufenzahl steht deshalb in der Auswahlliste voran.
 export const NIVEAUS: Niveau[] = [
-  { id: 'einstieg', label: 'Sehr einfach / Einstieg' },
-  { id: 'azubi', label: 'Azubi- und Umschüler-Niveau' },
-  { id: 'pruefung', label: 'Niveau der Abschlussprüfung' },
-  { id: 'vertieft', label: 'Vertieft / fachlich detailliert' },
+  { id: 'einstieg', stufe: 1, label: 'Sehr einfach / Einstieg' },
+  { id: 'azubi', stufe: 2, label: 'Azubi- und Umschüler-Niveau' },
+  { id: 'pruefung', stufe: 3, label: 'Niveau der Abschlussprüfung' },
+  { id: 'vertieft', stufe: 4, label: 'Vertieft / fachlich detailliert' },
 ];
+
+/** Anzeige in der Auswahlliste: „3 — Niveau der Abschlussprüfung". */
+export function niveauBeschriftung(niveau: Niveau): string {
+  return `${niveau.stufe} — ${niveau.label}`;
+}
 
 export const FORMATE: Ausgabeformat[] = [
   { id: 'kompakt', label: 'Kurz und kompakt' },

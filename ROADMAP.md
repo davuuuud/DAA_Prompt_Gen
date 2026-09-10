@@ -18,7 +18,7 @@ Erreicht sind die ersten beiden Etappen:
 Die Anwendung läuft unter
 [davuuuud.github.io/DAA_Prompt_Gen](https://davuuuud.github.io/DAA_Prompt_Gen/),
 lässt sich auf dem Telefon zum Startbildschirm hinzufügen und funktioniert
-ohne Internetverbindung. Die Fachlogik ist durch 97 Tests abgedeckt.
+ohne Internetverbindung. Die Fachlogik ist durch 100 Tests abgedeckt.
 
 ---
 

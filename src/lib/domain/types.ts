@@ -103,6 +103,13 @@ export interface Option {
 
 export interface Niveau {
   id: NiveauId;
+  /**
+   * Rangzahl 1 bis 4. Die vier Niveaus sind keine gleichrangige Auswahl wie
+   * die Ausgabeformen, sondern eine Steigerung. Die Zahl macht das in der
+   * Liste sichtbar; im Prompt taucht sie nicht auf — für ein Sprachmodell
+   * wäre "3" ohne die Skala dahinter nichtssagend.
+   */
+  stufe: number;
   label: string;
 }
 

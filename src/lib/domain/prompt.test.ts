@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { AUFGABEN, BERUFE, berufBeschriftung, FORMATE, NIVEAUS, OPTIONEN } from './catalogs';
+import {
+  AUFGABEN,
+  BERUFE,
+  berufBeschriftung,
+  FORMATE,
+  niveauBeschriftung,
+  NIVEAUS,
+  OPTIONEN,
+} from './catalogs';
 import {
   alleQuellen,
   buildPrompt,
@@ -406,5 +414,23 @@ describe('Zweitsprache in den Einstellungen', () => {
     const input = toPromptInput(settings, { thema: 'Skonto', zusatz: '' });
     expect(input.zweitsprache).toBe('vi');
     expect(buildPrompt(input)).toContain('Vietnamesisch (Tiếng Việt)');
+  });
+});
+
+describe('Niveaustufen', () => {
+  it('sind fortlaufend von 1 bis 4 nummeriert', () => {
+    expect(NIVEAUS.map((niveau) => niveau.stufe)).toEqual([1, 2, 3, 4]);
+  });
+
+  it('zeigt die Stufe in der Auswahlliste', () => {
+    expect(niveauBeschriftung(NIVEAUS[2])).toBe('3 — Niveau der Abschlussprüfung');
+  });
+
+  it('schreibt die Stufenzahl NICHT in den Prompt', () => {
+    // Eine Zahl ohne die Skala dahinter waere fuer ein Sprachmodell
+    // nichtssagend - im Prompt steht deshalb nur die Bezeichnung.
+    const prompt = buildPrompt(basis({ niveau: 'pruefung' }));
+    expect(prompt).toContain('Niveau: Niveau der Abschlussprüfung.');
+    expect(prompt).not.toContain('3 — Niveau der Abschlussprüfung');
   });
 });
