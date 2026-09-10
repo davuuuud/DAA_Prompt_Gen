@@ -31,9 +31,9 @@ node quellen-durchsicht/erzeugen.mjs
 
 ## Umfang
 
-47 allgemeine Quellen plus 10 bis 24 berufseigene, zusammen **258 Vorschläge**.
+47 allgemeine Quellen plus 12 bis 24 berufseigene, zusammen **300 Vorschläge**.
 Jeder Bogen zeigt die allgemeine Liste und die eigene des Berufs — niemand
-bekommt alle 258 Zeilen vorgelegt, sondern zwischen 57 und 71.
+bekommt alle 300 Zeilen vorgelegt, sondern zwischen 59 und 71.
 
 ## Aufbau eines Bogens
 
@@ -173,9 +173,51 @@ Das hat drei Annahmen widerlegt:
   Ergänzt wurden OWiG, DGUV Vorschrift 1 und die Kalkulation von
   Sicherheitsdienstleistungen. 15 → 19 Einträge.
 
-Bei den übrigen zehn Berufen stammt die Liste weiterhin aus allgemeinem
-Wissen. Wenn eine Rückmeldung dort besonders schlecht ausfällt, ist der
-Rahmenlehrplan der nächste Schritt.
+### Die übrigen zehn
+
+Danach ebenfalls nachgeschlagen. Auch hier fanden sich in jedem einzelnen
+Fall Lücken:
+
+- **EHK** — vierzehn Lernfelder. LF 3 betreut den Servicebereich Kasse:
+  **KassenSichV und § 146a AO** (technische Sicherheitseinrichtung,
+  Belegausgabepflicht) fehlten ganz. Dazu Inventur (HGB §§ 240 f.) aus LF 8
+  und die Handelskalkulation aus LF 9 und 11. 13 → 17.
+- **FKL** — zwölf Lernfelder. LF 7 heißt *Touren planen*, ohne dass
+  **Lenk- und Ruhezeiten** in der Liste standen; LF 9 *Güter versenden* ohne
+  Frachtrecht; LF 12 *Kennzahlen ermitteln* (80 Std.) ohne Lagerkennzahlen.
+  15 → 20.
+- **GAM** — dreizehn Lernfelder, ab dem dritten Jahr nach Fachrichtung
+  getrennt. Ergänzt: Frachtrecht (LF 12 GH), Kurssicherung (LF 12 AH) und
+  ERP-Systeme (LF 9 verlangt ausdrücklich digitale Werkzeuge). 11 → 15.
+- **IK** — **zum 1. August 2024 neu geordnet**, erste Überarbeitung seit
+  2002, mit angepasstem Rahmenlehrplan und neuem Prüfungsinstrument. Das
+  steht jetzt als Warnung auf dem Bogen: Laufende Umschulungen können noch
+  nach alter Ordnung geprüft werden. Ergänzt: Projektmanagement, Marketing,
+  Logistik, GWB. 11 → 15.
+- **IMK** — zwölf Lernfelder. LF 8 *Bauprojekte entwickeln und begleiten*
+  hat **100 Stunden**, und **VOB/B und HOAI fehlten vollständig**. Ebenso die
+  Grundpfandrechte für LF 11 *Immobilien finanzieren* und das
+  Gewerbemietrecht für LF 6. 19 → 24.
+- **KBM** — dreizehn Lernfelder. LF 12 organisiert *Veranstaltungen und
+  Geschäftsreisen*: **Reisekostenrecht** fehlte. Dazu Zahlungsverkehr und
+  Mahnwesen (LF 9) sowie Prozessdarstellung (LF 11). 10 → 14.
+- **KEC** — zwölf Lernfelder, und das Gewicht liegt anders als gedacht:
+  LF 7 *Online-Marketing* und LF 3 *Verträge* je 120 Stunden, LF 9
+  *Vertriebskanäle* 100. Meine Liste war fast reines Recht. Ergänzt:
+  Buchführung und KLR (LF 4, 8), Web-Kennzahlen (LF 10), ZAG/PSD2, OSS-
+  Verfahren. 15 → 20.
+- **PDK** — zwölf Lernfelder. Das **größte Lernfeld mit 100 Stunden ist
+  LF 3 Personalsachbearbeitung** — Entgeltabrechnung stand nicht in der
+  Liste. Ebenso fehlte die Abgrenzung Arbeitnehmerüberlassung /
+  Werkvertrag / Scheinselbstständigkeit (LF 9) und die Kalkulation. 12 → 16.
+- **SFA** — der Rahmenlehrplan ist vom **10.06.2022**, nicht von 1996, und
+  vollständig neu gefasst. Ergänzt: die Lernfeldgliederung und die Lohn- und
+  Gehaltsabrechnung (LF 5). 15 → 17.
+- **SL** — **fünfzehn Lernfelder**, die meisten aller Berufe. Ergänzt:
+  speditionelle Kalkulation (LF 7), Verkehrsgeografie (LF 4–6), Maut und
+  Marketing (LF 14). 16 → 21.
+
+Damit beruhen alle vierzehn Bögen auf dem jeweiligen Rahmenlehrplan.
 
 ## Grenzen dieser Vorbereitung
 
@@ -192,5 +234,12 @@ Weiterhin unsicher:
   Fundstellen wären schlimmer als keine.
 - **KiG** — welche Einrichtungsart im Kurs überwiegt, ändert die Gewichtung
   auch dann, wenn alle vorkommen.
-- **Die zehn nicht nachgeschlagenen Berufe** — dort ist der Fehleranteil
-  vermutlich höher als bei den vier oben.
+- **IK und GAM** — beide haben Fassungen oder Fachrichtungen, die sich
+  unterscheiden. Welche gilt für die jeweilige Gruppe?
+- **Die Lehrwerke.** Bei Kalkulation, Kostenrechnung und Entgeltabrechnung
+  steht im Bogen jeweils die Frage, nach welchem Lehrwerk gerechnet wird.
+  Das lässt sich aus keinem Lehrplan ablesen.
+
+Was der Abgleich mit den Lehrplänen **nicht** leistet: Er sagt, welche Themen
+vorkommen, nicht welche Quelle im Unterricht dafür benutzt wird. Genau das ist
+die Frage an die Ansprechpartner.

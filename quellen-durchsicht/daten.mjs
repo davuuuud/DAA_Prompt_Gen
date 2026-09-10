@@ -488,6 +488,38 @@ export const BERUFE = [
         art: 'vorgabe',
       },
       {
+        kuerzel: 'Rahmenlehrplan EHK',
+        titel: 'Vierzehn Lernfelder, 880 Stunden',
+        hinweis:
+          'LF 1–5 Repräsentation, Verkauf, Kasse, Warenpräsentation, Werbung; ' +
+          'LF 6–10 Beschaffung, Lager, Geschäftsprozesse, Preispolitik, besondere ' +
+          'Verkaufssituationen; LF 11–14 Steuerung, Marketing, Personal, ' +
+          'Unternehmensführung',
+        art: 'vorgabe',
+      },
+      {
+        kuerzel: 'KassenSichV / § 146a AO',
+        titel: 'Ordnungsmäßigkeit der Kassenführung',
+        hinweis:
+          'LF 3 betreut den Servicebereich Kasse: zertifizierte technische ' +
+          'Sicherheitseinrichtung, Belegausgabepflicht, Kassennachschau. Fehlte bisher.',
+        art: 'gesetz',
+      },
+      {
+        kuerzel: 'HGB §§ 240 f.',
+        titel: 'Inventur und Inventar',
+        hinweis: 'LF 8 Geschäftsprozesse erfassen und kontrollieren — Inventurverfahren',
+        art: 'gesetz',
+      },
+      {
+        kuerzel: 'Handelskalkulation',
+        titel: 'Kalkulationsschema des Einzelhandels',
+        hinweis:
+          'LF 9 und LF 11: Bezugskalkulation, Handelsspanne, Kalkulationszuschlag, ' +
+          'Umsatz- und Lagerkennzahlen. Nach welchem Lehrwerk?',
+        art: 'nachschlagewerk',
+      },
+      {
         kuerzel: 'LÖG NRW',
         titel: 'Ladenöffnungsgesetz Nordrhein-Westfalen',
         hinweis: 'Landesrecht — Öffnungszeiten, verkaufsoffene Sonntage',
@@ -701,6 +733,41 @@ export const BERUFE = [
         kuerzel: 'AO Lagerlogistik',
         titel: 'Verordnung über die Berufsausbildung zur Fachkraft für Lagerlogistik',
         art: 'vorgabe',
+      },
+      {
+        kuerzel: 'Rahmenlehrplan FKL',
+        titel: 'Zwölf Lernfelder, 840 Stunden',
+        hinweis:
+          'Güter annehmen, lagern, bearbeiten, transportieren, kommissionieren, ' +
+          'verpacken; Touren planen; Güter verladen und versenden; Prozesse ' +
+          'optimieren; Güter beschaffen; Kennzahlen ermitteln',
+        art: 'vorgabe',
+      },
+      {
+        kuerzel: 'VO (EG) 561/2006',
+        titel: 'Lenk- und Ruhezeiten',
+        hinweis:
+          'LF 7 Touren planen — zusammen mit FPersG und FPersV. Fehlte bisher, ' +
+          'obwohl ohne Lenkzeiten keine Tour planbar ist.',
+        art: 'gesetz',
+      },
+      {
+        kuerzel: 'HGB §§ 407 ff. / CMR',
+        titel: 'Frachtrecht und Frachtpapiere',
+        hinweis: 'LF 9 Güter versenden — Frachtbrief, Haftung, Ablieferung',
+        art: 'gesetz',
+      },
+      {
+        kuerzel: 'Lagerkennzahlen',
+        titel: 'Umschlagshäufigkeit, Lagerdauer, Lagerzinssatz',
+        hinweis: 'LF 12 Kennzahlen ermitteln und auswerten — 80 Stunden',
+        art: 'nachschlagewerk',
+      },
+      {
+        kuerzel: 'Verkehrsgeografie',
+        titel: 'Verkehrswege, Knotenpunkte, Entfernungstabellen',
+        hinweis: 'LF 7 Touren planen',
+        art: 'nachschlagewerk',
       },
       {
         kuerzel: 'DGUV Vorschrift 68',
@@ -928,6 +995,35 @@ export const BERUFE = [
         art: 'vorgabe',
       },
       {
+        kuerzel: 'Rahmenlehrplan GAM 2020',
+        titel: 'Dreizehn Lernfelder, ab dem dritten Jahr nach Fachrichtung getrennt',
+        hinweis:
+          'Großhandel: LF 11 Waren lagern, LF 12 Warentransporte abwickeln. ' +
+          'Außenhandel: LF 11 internationale Transporte, LF 12 Außenhandelsgeschäfte ' +
+          'abwickeln und finanzieren. Welche Fachrichtung wird unterrichtet?',
+        art: 'vorgabe',
+      },
+      {
+        kuerzel: 'HGB §§ 407 ff. / CMR',
+        titel: 'Frachtrecht',
+        hinweis: 'LF 12 GH Warentransporte abwickeln — fehlte bisher',
+        art: 'gesetz',
+      },
+      {
+        kuerzel: 'Kurssicherung',
+        titel: 'Devisenkurse, Termingeschäft, Währungsrisiko',
+        hinweis: 'LF 12 AH Außenhandelsgeschäfte finanzieren',
+        art: 'nachschlagewerk',
+      },
+      {
+        kuerzel: 'ERP-Systeme',
+        titel: 'Digitale Unterstützung der Geschäftsprozesse',
+        hinweis:
+          'LF 9 verlangt ausdrücklich digitale Werkzeuge. Welches System wird ' +
+          'im Unterricht benutzt?',
+        art: 'nachschlagewerk',
+      },
+      {
         kuerzel: 'HGB §§ 373 ff.',
         titel: 'Handelskauf',
         hinweis: 'Untersuchungs- und Rügepflicht § 377 — Prüfungsklassiker',
@@ -996,9 +1092,40 @@ export const BERUFE = [
     pruefstelle: 'IHK',
     quellen: [
       {
-        kuerzel: 'AO Industriekaufleute',
-        titel: 'Verordnung über die Berufsausbildung zum Industriekaufmann',
+        kuerzel: 'AO Industriekaufleute 2024',
+        titel: 'Neu geordnet zum 1. August 2024',
+        hinweis:
+          'Erste grundlegende Überarbeitung seit 2002; Rahmenlehrplan mit ' +
+          'angepassten Lernfeldern, neues Prüfungsinstrument Dokumentation. ' +
+          'WICHTIG: Laufende Umschulungen können noch nach alter Ordnung geprüft ' +
+          'werden — welche gilt für Ihre Gruppe?',
         art: 'vorgabe',
+      },
+      {
+        kuerzel: 'Projektmanagement',
+        titel: 'Projektplanung, -steuerung und -bewertung',
+        hinweis: 'eigenes Lernfeld im Rahmenlehrplan — fehlte bisher',
+        art: 'nachschlagewerk',
+      },
+      {
+        kuerzel: 'Marketing und Marktforschung',
+        titel: 'Absatzwege, Marketing-Mix, Kundenbindung',
+        hinweis: 'eigenes Lernfeld — fehlte bisher',
+        art: 'nachschlagewerk',
+      },
+      {
+        kuerzel: 'Logistik und Lagerkennzahlen',
+        titel: 'Lagerhaltung, Bestandsgrößen, Kennzahlen',
+        hinweis: 'eigenes Lernfeld — fehlte bisher',
+        art: 'nachschlagewerk',
+      },
+      {
+        kuerzel: 'GWB',
+        titel: 'Gesetz gegen Wettbewerbsbeschränkungen',
+        hinweis:
+          'Unternehmenskooperationen und Marktmechanismen sind Lernfeldinhalt — ' +
+          'Kartellverbot, Fusionskontrolle',
+        art: 'gesetz',
       },
       {
         kuerzel: 'HGB §§ 238–342e',
@@ -1076,6 +1203,43 @@ export const BERUFE = [
         kuerzel: 'AO Immobilienkaufleute',
         titel: 'Verordnung über die Berufsausbildung zum Immobilienkaufmann',
         art: 'vorgabe',
+      },
+      {
+        kuerzel: 'Rahmenlehrplan IMK',
+        titel: 'Zwölf Lernfelder',
+        hinweis:
+          'Schwerpunkte nach Zeitrichtwert: LF 5 Wohnräume verwalten (100 Std.) und ' +
+          'LF 8 Bauprojekte entwickeln und begleiten (100 Std.), dazu LF 9 ' +
+          'Wohnungseigentum, LF 10 Vermittlung, LF 11 Finanzierung',
+        art: 'vorgabe',
+      },
+      {
+        kuerzel: 'VOB/B und HOAI',
+        titel: 'Bauvertrag und Architektenhonorar',
+        hinweis:
+          'LF 8 widmet Bauprojekten 100 Stunden. Ohne Bauvertragsrecht fehlt dem ' +
+          'Lernfeld die Grundlage — fehlte bisher ganz.',
+        art: 'gesetz',
+      },
+      {
+        kuerzel: 'BGB §§ 1113 ff.',
+        titel: 'Hypothek und Grundschuld',
+        hinweis: 'LF 11 Immobilien finanzieren — Grundpfandrechte, Rangfolge, Löschung',
+        art: 'gesetz',
+      },
+      {
+        kuerzel: 'Immobilienfinanzierung',
+        titel: 'Annuitätendarlehen, Beleihungswert, Wohnimmobilienkreditrichtlinie',
+        hinweis: 'LF 11 — § 491a BGB, Kreditwürdigkeitsprüfung',
+        art: 'nachschlagewerk',
+      },
+      {
+        kuerzel: 'Gewerbemietrecht',
+        titel: 'Miete über Geschäftsräume',
+        hinweis:
+          'LF 6 bewirtschaftet gewerbliche Objekte — dort gilt das Mieterschutzrecht ' +
+          'der Wohnraummiete gerade nicht',
+        art: 'gesetz',
       },
       {
         kuerzel: 'BGB §§ 535–580a',
@@ -1199,6 +1363,35 @@ export const BERUFE = [
         art: 'vorgabe',
       },
       {
+        kuerzel: 'Rahmenlehrplan KBM',
+        titel: 'Dreizehn Lernfelder, 880 Stunden',
+        hinweis:
+          'Schwerpunkt LF 4 Sachgüter und Dienstleistungen beschaffen (120 Std.); ' +
+          'daneben LF 6 Werteströme, LF 8 Personal, LF 9 Liquidität, LF 10 ' +
+          'Wertschöpfung, LF 12 Veranstaltungen und Geschäftsreisen',
+        art: 'vorgabe',
+      },
+      {
+        kuerzel: 'Reisekostenrecht',
+        titel: 'Verpflegungspauschalen, Fahrtkosten, Übernachtung',
+        hinweis:
+          'LF 12 organisiert Geschäftsreisen. Lohnsteuerrichtlinien und § 9 EStG — ' +
+          'fehlte bisher ganz.',
+        art: 'gesetz',
+      },
+      {
+        kuerzel: 'Zahlungsverkehr und Mahnwesen',
+        titel: 'SEPA, Lastschrift, Verzug, außergerichtliches Mahnverfahren',
+        hinweis: 'LF 9 Liquidität sichern',
+        art: 'nachschlagewerk',
+      },
+      {
+        kuerzel: 'Prozessdarstellung',
+        titel: 'Ereignisgesteuerte Prozesskette, BPMN, DIN 69901',
+        hinweis: 'LF 11 Geschäftsprozesse darstellen und optimieren, LF 13 Projekt',
+        art: 'norm',
+      },
+      {
         kuerzel: 'DIN 5008',
         titel: 'Schreib- und Gestaltungsregeln für die Textverarbeitung',
         hinweis: 'wird in der Prüfung tatsächlich abgefragt',
@@ -1267,6 +1460,41 @@ export const BERUFE = [
         titel: 'Verordnung über die Berufsausbildung zum Kaufmann im E-Commerce',
         hinweis: '2018, jüngster Beruf im Katalog',
         art: 'vorgabe',
+      },
+      {
+        kuerzel: 'Rahmenlehrplan KEC',
+        titel: 'Zwölf Lernfelder',
+        hinweis:
+          'Die größten Brocken sind LF 3 Verträge im Online-Vertrieb (120 Std.), ' +
+          'LF 7 Online-Marketing (120 Std.) und LF 9 Online-Vertriebskanäle ' +
+          '(100 Std.) — dort liegt das Gewicht, nicht beim Recht allein',
+        art: 'vorgabe',
+      },
+      {
+        kuerzel: 'Buchführung und KLR',
+        titel: 'Werteströme erfassen und Wertschöpfung steuern',
+        hinweis: 'LF 4 und LF 8 — der kaufmännische Unterbau, fehlte bisher',
+        art: 'nachschlagewerk',
+      },
+      {
+        kuerzel: 'Web-Analyse und Kennzahlen',
+        titel: 'Conversion Rate, Warenkorbabbrüche, Retourenquote',
+        hinweis:
+          'LF 10 optimiert den Online-Vertrieb kennzahlengestützt — und stößt dabei ' +
+          'unmittelbar auf die Einwilligungspflicht für Tracking',
+        art: 'nachschlagewerk',
+      },
+      {
+        kuerzel: 'ZAG und PSD2',
+        titel: 'Zahlungsdiensteaufsichtsgesetz, starke Kundenauthentifizierung',
+        hinweis: 'LF 3 — Zahlarten im Shop, Zahlungsausfall, Dienstleister',
+        art: 'gesetz',
+      },
+      {
+        kuerzel: 'UStG § 18j',
+        titel: 'One-Stop-Shop beim Fernverkauf in der EU',
+        hinweis: 'Lieferschwelle und Umsatzsteuer im grenzüberschreitenden Versand',
+        art: 'gesetz',
       },
       {
         kuerzel: 'BGB §§ 312 ff.',
@@ -1531,6 +1759,37 @@ export const BERUFE = [
         art: 'vorgabe',
       },
       {
+        kuerzel: 'Rahmenlehrplan PDK',
+        titel: 'Zwölf Lernfelder, 880 Stunden',
+        hinweis:
+          'Drei Lernfelder zu je 100 Stunden tragen den Beruf: LF 3 ' +
+          'Personalsachbearbeitung, LF 4 Personal gewinnen, LF 9 Aufträge ' +
+          'akquirieren und bearbeiten',
+        art: 'vorgabe',
+      },
+      {
+        kuerzel: 'Entgeltabrechnung',
+        titel: 'Lohnsteuer, Sozialversicherung, DEÜV-Meldeverfahren, Lohnpfändung',
+        hinweis:
+          'LF 3 Personalsachbearbeitung ist mit 100 Stunden das größte Lernfeld — ' +
+          'und stand bisher gar nicht in der Liste',
+        art: 'nachschlagewerk',
+      },
+      {
+        kuerzel: 'Abgrenzung der Vertragsarten',
+        titel: 'Arbeitnehmerüberlassung, Werkvertrag, Dienstvertrag, Scheinselbstständigkeit',
+        hinweis:
+          'LF 9 akquiriert Aufträge; § 7a SGB IV Statusfeststellung. Die Abgrenzung ' +
+          'ist die Kernfrage des Geschäftsmodells.',
+        art: 'gesetz',
+      },
+      {
+        kuerzel: 'Kalkulation von Überlassungssätzen',
+        titel: 'Stundenverrechnungssatz, Deckungsbeitrag, Auslastung',
+        hinweis: 'LF 8 und LF 9 — der kaufmännische Teil, fehlte bisher',
+        art: 'nachschlagewerk',
+      },
+      {
         kuerzel: 'AÜG',
         titel: 'Arbeitnehmerüberlassungsgesetz',
         hinweis: 'Erlaubnis, Überlassungshöchstdauer, Equal Pay, Kennzeichnungspflicht',
@@ -1616,6 +1875,25 @@ export const BERUFE = [
         kuerzel: 'AO Steuerfachangestellte',
         titel: 'Verordnung über die Berufsausbildung zum Steuerfachangestellten',
         art: 'vorgabe',
+      },
+      {
+        kuerzel: 'Rahmenlehrplan SFA 2022',
+        titel: 'Zwölf Lernfelder, KMK-Beschluss vom 10.06.2022',
+        hinweis:
+          'Neu gefasst — LF 2 Buchführung, LF 3 Umsatzsteuer, LF 5 ' +
+          'Arbeitnehmerentgelte, LF 6 grenzüberschreitende Umsatzsteuer, LF 7 ' +
+          'Anlagevermögen, LF 8 Gewinn- und Überschusseinkünfte, LF 9 KSt und ' +
+          'GewSt, LF 10 Jahresabschlüsse, LF 11 Verwaltungsakte und Rechtsbehelfe, ' +
+          'LF 12 Mandantenberatung',
+        art: 'vorgabe',
+      },
+      {
+        kuerzel: 'Lohn- und Gehaltsabrechnung',
+        titel: 'Lohnsteuerrichtlinien, Sozialversicherung, DEÜV',
+        hinweis:
+          'LF 5 berechnet und erfasst Arbeitnehmerentgelte — in der Kanzleipraxis ' +
+          'ein eigenes Arbeitsgebiet. Fehlte bisher.',
+        art: 'nachschlagewerk',
       },
       {
         kuerzel: 'AO',
@@ -1711,6 +1989,42 @@ export const BERUFE = [
         kuerzel: 'AO Spedition',
         titel: 'Verordnung über die Berufsausbildung zum Kaufmann für Spedition und Logistikdienstleistung',
         art: 'vorgabe',
+      },
+      {
+        kuerzel: 'Rahmenlehrplan SL',
+        titel: 'Fünfzehn Lernfelder, 880 Stunden',
+        hinweis:
+          'Der Beruf mit den meisten Lernfeldern: LF 4 bis 6 nach Verkehrsträgern, ' +
+          'LF 9 Lagerleistungen, LF 10 und 11 Export und Import, LF 12 und 13 ' +
+          'Beschaffungs- und Distributionslogistik, LF 14 Marketing, LF 15 ' +
+          'wirtschaftliche Rahmenbedingungen',
+        art: 'vorgabe',
+      },
+      {
+        kuerzel: 'Speditionelle Kalkulation',
+        titel: 'Kostenrechnung, Sendungskalkulation, Deckungsbeitrag',
+        hinweis: 'LF 7 Geschäftsprozesse erfolgsorientiert steuern — fehlte bisher',
+        art: 'nachschlagewerk',
+      },
+      {
+        kuerzel: 'Verkehrsgeografie',
+        titel: 'Verkehrswege, Häfen, Flughäfen, Relationen',
+        hinweis:
+          'klassisches Speditionsfach; LF 4 bis 6 vergleichen die Verkehrsträger. ' +
+          'Fehlte bisher.',
+        art: 'nachschlagewerk',
+      },
+      {
+        kuerzel: 'BFStrMG',
+        titel: 'Bundesfernstraßenmautgesetz',
+        hinweis: 'Maut als Kostenfaktor der Frachtkalkulation',
+        art: 'gesetz',
+      },
+      {
+        kuerzel: 'Marketing im Logistikbetrieb',
+        titel: 'Angebot, Kundenbindung, Ausschreibungen',
+        hinweis: 'LF 14 Marketingmaßnahmen entwickeln und durchführen',
+        art: 'nachschlagewerk',
       },
       {
         kuerzel: 'HGB §§ 407–475h',
