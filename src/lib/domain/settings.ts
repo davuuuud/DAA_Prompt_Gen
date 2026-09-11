@@ -40,7 +40,7 @@ export function defaultSettings(): Settings {
     beruf: 'kgq',
     aufgabe: 'erklaeren',
     niveau: 'pruefung',
-    format: 'stichpunkte',
+    format: 'kompakt',
     anzahl: DEFAULT_ANZAHL,
     optionen: OPTIONEN.filter((option) => option.defaultOn).map((option) => option.id),
     quellen: [...DEFAULT_QUELLEN],

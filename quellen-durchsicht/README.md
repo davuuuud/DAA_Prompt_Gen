@@ -186,7 +186,7 @@ Das hat drei Annahmen widerlegt:
   vernetzter Welt*. Ergänzt wurden der politisch-soziale Teil (Grundgesetz,
   bpb, EU) und die eigene Existenzsicherung (Entgeltabrechnung, Vorsorge,
   Versicherung, Gründung). 3 → 12 Einträge.
-- **KiG** ist erheblich kaufmännischer als angenommen. Der
+- **KIG** ist erheblich kaufmännischer als angenommen. Der
   [Lehrplan NRW](https://berufsbildung.nrw.de/system/files/media/document/file/kauf_gesundheitswesen.pdf)
   verteilt elf Lernfelder auf drei Fächer, von denen zwei überwiegend
   kaufmännisch sind: Buchführung und Kostenrechnung (LF 3), Beschaffung und
@@ -265,7 +265,7 @@ Weiterhin unsicher:
 - **Rechtsprechung** — bei den meisten Kammerprüfungen vermutlich entbehrlich.
   Ausnahmen: IMK (Mietrecht) und SFA (BFH). Bewusst ohne Aktenzeichen: Erfundene
   Fundstellen wären schlimmer als keine.
-- **KiG** — welche Einrichtungsart im Kurs überwiegt, ändert die Gewichtung
+- **KIG** — welche Einrichtungsart im Kurs überwiegt, ändert die Gewichtung
   auch dann, wenn alle vorkommen.
 - **IK und GAM** — beide haben Fassungen oder Fachrichtungen, die sich
   unterscheiden. Welche gilt für die jeweilige Gruppe?

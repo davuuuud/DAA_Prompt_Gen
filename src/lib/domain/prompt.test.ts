@@ -54,7 +54,7 @@ describe('Kataloge', () => {
       'immobilien', // IMK
       'bueromanagement', // KBM
       'ecommerce', // KEC
-      'gesundheit', // KiG
+      'gesundheit', // KIG
       'personaldienstleistung', // PDK
       'steuerfach', // SFA
       'spedition', // SL
@@ -63,8 +63,8 @@ describe('Kataloge', () => {
 
   it('ist ab dem zweiten Eintrag alphabetisch nach Kuerzel sortiert', () => {
     const ohneGrundqualifikation = BERUFE.slice(1).map((b) => b.kuerzel);
-    // Ohne Beachtung der Gross- und Kleinschreibung, sonst stuende "KiG"
-    // hinter allen Kuerzeln in Grossbuchstaben.
+    // Ohne Beachtung der Gross- und Kleinschreibung: Ein Kuerzel mit
+    // Kleinbuchstaben (frueher "KiG") stuende sonst hinter allen anderen.
     const sortiert = [...ohneGrundqualifikation].sort((a, b) =>
       a.localeCompare(b, 'de', { sensitivity: 'base' }),
     );
@@ -80,7 +80,7 @@ describe('Kataloge', () => {
     // Vorgabe des Bildungstraegers.
     expect(kuerzel).toEqual([
       'KGQ', 'EHK', 'FISI', 'FKL', 'FKS', 'GAM', 'IK',
-      'IMK', 'KBM', 'KEC', 'KiG', 'PDK', 'SFA', 'SL',
+      'IMK', 'KBM', 'KEC', 'KIG', 'PDK', 'SFA', 'SL',
     ]);
   });
 
@@ -390,6 +390,30 @@ describe('Zweisprachige Antwort', () => {
     const prompt = buildPrompt(basis({ zweitsprache: 'fa' }));
     const ausgabe = prompt.slice(prompt.indexOf('\n\nAUSGABE\n'));
     expect(ausgabe).toContain('Erläuterung auf Farsi');
+  });
+});
+
+describe('Standardwerte', () => {
+  // Festgelegt am 11.09.2026. Ändert sich hier etwas, soll das eine bewusste
+  // Entscheidung sein und kein Nebeneffekt.
+  const standard = defaultSettings();
+
+  it('beginnt mit KGQ, Thema erklären, Niveau 3 und kurzer Ausgabe', () => {
+    expect(standard.beruf).toBe('kgq');
+    expect(standard.aufgabe).toBe('erklaeren');
+    expect(NIVEAUS.find((n) => n.id === standard.niveau)?.stufe).toBe(3);
+    expect(standard.format).toBe('kompakt');
+    expect(standard.zweitsprache).toBe('keine');
+  });
+
+  it('setzt die Anzahl auf 5', () => {
+    expect(standard.anzahl).toBe(5);
+  });
+
+  it('schaltet genau Fachbegriffe, Praxisbeispiel und Prüfungsbezug ein', () => {
+    expect([...standard.optionen].sort()).toEqual(
+      ['fachbegriffe', 'ihk-bezug', 'praxisbeispiel'].sort(),
+    );
   });
 });
 

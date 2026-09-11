@@ -2,7 +2,7 @@
 
 export const MIN_ANZAHL = 1;
 export const MAX_ANZAHL = 50;
-export const DEFAULT_ANZAHL = 8;
+export const DEFAULT_ANZAHL = 5;
 
 /** Wählt zwischen Einzahl und Mehrzahl. */
 export function plural(n: number, singular: string, mehrzahl: string): string {

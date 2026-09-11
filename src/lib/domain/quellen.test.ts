@@ -117,11 +117,14 @@ describe('Einstellungen', () => {
       quellen: ['bgb', 'unfug', 'bgb'],
       quellenFreitext: 17,
     });
-    expect(s.beruf).toBe('kgq');
-    expect(s.aufgabe).toBe('erklaeren');
-    expect(s.niveau).toBe('pruefung');
-    expect(s.format).toBe('stichpunkte');
-    expect(s.anzahl).toBe(defaultSettings().anzahl);
+    // Geprüft wird der Rückfall auf den Standard, nicht welcher Wert das
+    // ist — der steht im Test "Standardwerte" fest.
+    const standard = defaultSettings();
+    expect(s.beruf).toBe(standard.beruf);
+    expect(s.aufgabe).toBe(standard.aufgabe);
+    expect(s.niveau).toBe(standard.niveau);
+    expect(s.format).toBe(standard.format);
+    expect(s.anzahl).toBe(standard.anzahl);
     expect(s.optionen).toEqual([]);
     expect(s.quellen).toEqual(['bgb']);
     expect(s.quellenFreitext).toBe('');

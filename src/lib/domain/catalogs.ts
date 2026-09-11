@@ -76,7 +76,7 @@ export const BERUFE: Beruf[] = [
   },
   {
     id: 'gesundheit',
-    kuerzel: 'KiG',
+    kuerzel: 'KIG',
     label: 'Kaufleute im Gesundheitswesen',
     singular: 'Kaufmann/-frau im Gesundheitswesen',
   },
@@ -213,7 +213,7 @@ export const OPTIONEN: Option[] = [
   {
     id: 'einfache-sprache',
     label: 'Einfache Sprache',
-    defaultOn: true,
+    defaultOn: false,
     rule:
       'Erkläre in verständlicher Sprache, ohne fachliche Genauigkeit zu verlieren. ' +
       'Löse lange Schachtelsätze auf.',

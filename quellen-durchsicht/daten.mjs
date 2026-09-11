@@ -1582,7 +1582,7 @@ export const BERUFE = [
 
   {
     id: 'gesundheit',
-    kuerzel: 'KiG',
+    kuerzel: 'KIG',
     name: 'Kaufleute im Gesundheitswesen',
     pruefstelle: 'IHK',
     bemerkung:
@@ -1602,7 +1602,7 @@ export const BERUFE = [
         art: 'vorgabe',
       },
       {
-        kuerzel: 'Rahmenlehrplan KiG',
+        kuerzel: 'Rahmenlehrplan KIG',
         titel: 'Elf Lernfelder in drei Fächern',
         hinweis:
           'Dienstleistungsprozesse, Gesundheitsmanagement, Steuerungs- und ' +
