@@ -88,25 +88,42 @@
 
   // --- Sonstige Optionen ----------------------------------------------------
   // Weitere Quellen und Zusätzliche Angaben werden selten gebraucht und
-  // bleiben deshalb zugeklappt. Zwei Ausnahmen, damit nichts verborgen bleibt,
-  // was zählt: Steht schon etwas darin (etwa aus der letzten Sitzung), ist
-  // der Bereich offen — sonst landete unbemerkt Text im Prompt. Und verlangt
-  // die Aufgabe die Zusatzangaben, klappt er beim Wechsel auf, weil die
-  // eigene Lösung dort eingetragen wird.
+  // bleiben deshalb zugeklappt. Steht schon etwas darin (etwa aus der letzten
+  // Sitzung), ist der Bereich offen — sonst landete unbemerkt Text im Prompt.
+  //
+  // Verlangt die Aufgabe die Zusatzangaben ("Eigene Lösung kontrollieren"),
+  // steht das Feld stattdessen oben beim Thema: Die eigene Lösung ist dann
+  // Pflicht und gehört zur Frage, nicht zu den selten gebrauchten Optionen.
+  const zusatzBeimThema = $derived(aufgabe.needsZusatz === true);
+  const sonstigeFelder = $derived(
+    zusatzBeimThema ? [settings.quellenFreitext] : [settings.quellenFreitext, draft.zusatz],
+  );
   const sonstigesAusgefuellt = $derived(
-    [settings.quellenFreitext, draft.zusatz].filter((text) => text.trim() !== '').length,
+    sonstigeFelder.filter((text) => text.trim() !== '').length,
   );
   const sonstigesZusammenfassung = $derived(
-    sonstigesAusgefuellt === 0 ? 'leer' : `${sonstigesAusgefuellt} von 2 ausgefüllt`,
+    sonstigesAusgefuellt === 0
+      ? 'leer'
+      : `${sonstigesAusgefuellt} von ${sonstigeFelder.length} ausgefüllt`,
   );
 
-  let sonstigeOffen = $state(
-    untrack(() => settings.quellenFreitext.trim() !== '' || draft.zusatz.trim() !== ''),
+  let sonstigeOffen = $state(untrack(() => sonstigeFelder.some((text) => text.trim() !== '')));
+
+  // --- Kontextzeile unter dem Thema ------------------------------------------
+  // Der Beruf steht jetzt unter dem Thema statt davor. Wer die Anwendung zum
+  // ersten Mal öffnet, soll trotzdem sehen, wofür der Prompt gebaut wird —
+  // sonst liefe er unbemerkt mit dem voreingestellten Beruf.
+  const kontext = $derived(
+    `für ${findBeruf(settings.beruf).label} · Niveau ${findNiveau(settings.niveau).stufe}`,
   );
 
-  $effect(() => {
-    if (aufgabe.needsZusatz) sonstigeOffen = true;
-  });
+  function zuDenEinstellungen() {
+    const feld = document.getElementById('beruf');
+    if (!feld) return;
+    const ruhig = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    feld.scrollIntoView({ block: 'center', behavior: ruhig ? 'auto' : 'smooth' });
+    feld.focus({ preventScroll: true });
+  }
 
   // Der Seitentitel folgt der Rechtsseite, damit ein Lesezeichen auf das
   // Impressum nicht "Fragenschmiede" heißt.
@@ -225,6 +242,57 @@
   </header>
 
   <main>
+    <!-- Erst was, dann wie: Das Thema ändert sich bei jeder Frage, die
+         Einstellungen kaum — sie werden gespeichert. -->
+    <section class="karte">
+      <div class="feld">
+        <h2><label for="thema">Thema oder konkrete Fragestellung</label></h2>
+        <textarea
+          id="thema"
+          rows="3"
+          placeholder="z. B. Betriebskostenabrechnung: Umlagefähigkeit und Fristen"
+          bind:value={draft.thema}
+          onblur={() => (beruehrt.thema = true)}
+          aria-invalid={zeigeFehler && pruefung.feld === 'thema'}
+        ></textarea>
+        {#if zeigeFehler && pruefung.feld === 'thema'}
+          <p class="fehler">{pruefung.meldung}</p>
+        {/if}
+        <p class="kontext">
+          {kontext} ·
+          <button type="button" class="link" onclick={zuDenEinstellungen}>ändern</button>
+        </p>
+      </div>
+
+      <div class="raster">
+        <div class="feld">
+          <label for="aufgabe">Aufgabe</label>
+          <select id="aufgabe" bind:value={settings.aufgabe}>
+            {#each AUFGABEN as eintrag (eintrag.id)}
+              <option value={eintrag.id}>{eintrag.label}</option>
+            {/each}
+          </select>
+        </div>
+
+        {#if aufgabe.needsCount}
+          <div class="feld feld-schmal">
+            <label for="anzahl">Anzahl</label>
+            <input
+              id="anzahl"
+              type="number"
+              min={MIN_ANZAHL}
+              max={MAX_ANZAHL}
+              bind:value={settings.anzahl}
+            />
+          </div>
+        {/if}
+      </div>
+
+      {#if zusatzBeimThema}
+        {@render zusatzFeld('Deine Lösung')}
+      {/if}
+    </section>
+
     <section class="karte">
       <div class="karten-kopf">
         <h2>Einstellungen</h2>
@@ -238,7 +306,7 @@
             type="button"
             class="link auf-standard"
             onclick={aufStandard}
-            title="Setzt die Auswahl auf den Standard. Was du geschrieben hast, bleibt."
+            title="Setzt die Einstellungen auf den Standard. Thema und Aufgabe bleiben, ebenso alles, was du geschrieben hast."
           >
             <span aria-hidden="true">↺</span> Auf Standard
           </button>
@@ -255,15 +323,6 @@
           >
             {#each BERUFE as beruf (beruf.id)}
               <option value={beruf.id}>{berufBeschriftung(beruf)}</option>
-            {/each}
-          </select>
-        </div>
-
-        <div class="feld">
-          <label for="aufgabe">Aufgabe</label>
-          <select id="aufgabe" bind:value={settings.aufgabe}>
-            {#each AUFGABEN as eintrag (eintrag.id)}
-              <option value={eintrag.id}>{eintrag.label}</option>
             {/each}
           </select>
         </div>
@@ -301,36 +360,6 @@
             </p>
           {/if}
         </div>
-
-        {#if aufgabe.needsCount}
-          <div class="feld feld-schmal">
-            <label for="anzahl">Anzahl</label>
-            <input
-              id="anzahl"
-              type="number"
-              min={MIN_ANZAHL}
-              max={MAX_ANZAHL}
-              bind:value={settings.anzahl}
-            />
-          </div>
-        {/if}
-      </div>
-    </section>
-
-    <section class="karte">
-      <div class="feld">
-        <label for="thema">Thema oder konkrete Fragestellung</label>
-        <textarea
-          id="thema"
-          rows="3"
-          placeholder="z. B. Betriebskostenabrechnung: Umlagefähigkeit und Fristen"
-          bind:value={draft.thema}
-          onblur={() => (beruehrt.thema = true)}
-          aria-invalid={zeigeFehler && pruefung.feld === 'thema'}
-        ></textarea>
-        {#if zeigeFehler && pruefung.feld === 'thema'}
-          <p class="fehler">{pruefung.meldung}</p>
-        {/if}
       </div>
 
       <div class="feld">
@@ -366,22 +395,29 @@
             </p>
           </div>
 
-          <div class="feld">
-            <label for="zusatz">Zusätzliche Angaben, eigene Lösung oder besondere Vorgaben</label>
-            <textarea
-              id="zusatz"
-              rows="3"
-              bind:value={draft.zusatz}
-              onblur={() => (beruehrt.zusatz = true)}
-              aria-invalid={zeigeFehler && pruefung.feld === 'zusatz'}
-            ></textarea>
-            {#if zeigeFehler && pruefung.feld === 'zusatz'}
-              <p class="fehler">{pruefung.meldung}</p>
-            {/if}
-          </div>
+          {#if !zusatzBeimThema}
+            {@render zusatzFeld('Zusätzliche Angaben, eigene Lösung oder besondere Vorgaben')}
+          {/if}
         </div>
       </Aufklappbereich>
     </section>
+
+    <!-- Dasselbe Feld an zwei möglichen Orten, je nach Aufgabe. -->
+    {#snippet zusatzFeld(beschriftung: string)}
+      <div class="feld">
+        <label for="zusatz">{beschriftung}</label>
+        <textarea
+          id="zusatz"
+          rows="3"
+          bind:value={draft.zusatz}
+          onblur={() => (beruehrt.zusatz = true)}
+          aria-invalid={zeigeFehler && pruefung.feld === 'zusatz'}
+        ></textarea>
+        {#if zeigeFehler && pruefung.feld === 'zusatz'}
+          <p class="fehler">{pruefung.meldung}</p>
+        {/if}
+      </div>
+    {/snippet}
 
     <section class="karte">
       <Aufklappbereich
@@ -634,6 +670,19 @@
   h2 {
     margin: 0;
     font-size: 1rem;
+  }
+
+  /* Die Beschriftung des Themenfelds ist zugleich Überschrift der Karte und
+     deshalb so groß wie „Einstellungen". */
+  h2 label {
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  .kontext {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--text-schwach);
   }
 
   .ausgabe {

@@ -471,13 +471,14 @@ describe('Auf Standard', () => {
     ).toBe(false);
   });
 
-  it('zählt die Anzahl nur, wenn die Aufgabe sie benutzt', () => {
-    // Wer noch die frühere Vorgabe 8 gespeichert hat, sieht bei "Thema
-    // erklären" kein Anzahlfeld — dann darf "Auf Standard" nicht erscheinen.
-    expect(weichtVomStandardAb({ ...standard(), anzahl: 8 })).toBe(false);
-    expect(
-      weichtVomStandardAb({ ...standard(), aufgabe: 'karteikarten', anzahl: 8 }),
-    ).toBe(true);
+  it('lässt Aufgabe und Anzahl außen vor — sie gehören zur Frage', () => {
+    // Beide stehen beim Thema, "Auf Standard" bei den Einstellungen. Wer
+    // Karteikarten gewählt hat, soll dort keinen Verweis sehen, obwohl alles
+    // auf Standard steht — und beim Zurücksetzen seine Aufgabe behalten.
+    const s = { ...standard(), aufgabe: 'karteikarten' as const, anzahl: 8 };
+    expect(weichtVomStandardAb(s)).toBe(false);
+    expect(Object.keys(auswahlVon(s))).not.toContain('aufgabe');
+    expect(Object.keys(auswahlVon(s))).not.toContain('anzahl');
   });
 
   // Die vollständigen Einstellungen enthalten auch geschriebenen Text; die

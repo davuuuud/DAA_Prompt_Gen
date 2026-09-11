@@ -72,7 +72,7 @@
       <strong>Löschen:</strong> Vollständig entfernen lassen sich beide Einträge, indem Sie in den
       Browsereinstellungen die Websitedaten dieser Seite löschen. Innerhalb der Anwendung gilt:
       Leeren Sie die Textfelder, ist auch der gespeicherte Entwurf leer; „Auf Standard“ setzt
-      die Auswahl zurück, lässt geschriebenen Text aber bewusst stehen.
+      die Einstellungen zurück, lässt Aufgabe und geschriebenen Text aber bewusst stehen.
     </p>
     <p>
       Wenn Sie die Anwendung auf dem Startbildschirm installieren oder offline nutzen, legt der
