@@ -8,17 +8,37 @@ keine Festlegung.
 
 ## Stand heute
 
-Erreicht sind die ersten beiden Etappen:
+**Fassung 0.2.0 (12.09.2026).** Erreicht sind die ersten beiden Etappen:
 
 | Etappe | Inhalt | Zustand |
 |---|---|---|
 | 1 | Fachlogik, Auswahlkataloge, Quellenkatalog, Oberfläche | fertig |
 | 2 | Installierbare Web-App, Offline-Betrieb, Veröffentlichung | fertig |
+| 3a | Eigene PDF-Unterlagen durchsuchbar machen | als Nächstes |
 
 Die Anwendung läuft unter
 [davuuuud.github.io/DAA_Prompt_Gen](https://davuuuud.github.io/DAA_Prompt_Gen/),
 lässt sich auf dem Telefon zum Startbildschirm hinzufügen und funktioniert
-ohne Internetverbindung. Die Fachlogik ist durch 128 Tests abgedeckt.
+ohne Internetverbindung. Die Fachlogik ist durch 155 Tests abgedeckt.
+
+### Seit 0.1.0 dazugekommen
+
+- **Quellenkatalog von 51 auf 254 Einträge**, abgeglichen mit den
+  Rahmenlehrplänen aller vierzehn Berufe. Vorab angehakt ist alles, was für
+  den Beruf wichtig ist oder normalerweise vorkommt (39 bis 52 je Beruf);
+  nur Nebensächliches bleibt frei. Vorläufig — die fachliche Durchsicht
+  läuft (Issue #1).
+- **Durchsichtsbögen** für die Dozenten unter `quellen-durchsicht/`, aus
+  demselben Katalog erzeugt wie die Anwendung.
+- **Zweite Sprache in der Antwort:** dreizehn Sprachen zur Wahl, die
+  Oberfläche bleibt deutsch. Die Antwort bleibt vollständig auf Deutsch,
+  Fachbegriffe ebenfalls — die zweite Sprache erklärt sie zusätzlich.
+- **Impressum und Datenschutzerklärung** als eigene Seiten.
+- **Leser für altes `.doc`** (`src/lib/import/doc.ts`), geprüft an 778
+  echten Dateien — Vorarbeit für Etappe 3b.
+- **Oberfläche:** Thema und Aufgabe stehen vor den Einstellungen; Bevorzugte
+  Quellen, Sonstige Optionen und der fertige Prompt lassen sich auf- und
+  zuklappen; „Auf Standard" mit „Rückgängig"; neue Standardwerte.
 
 ---
 
@@ -119,6 +139,9 @@ Entwicklung, Entscheidung fachlich.*
 - **Niveau** ist nummeriert: „3 — Niveau der Abschlussprüfung". Die Zahl
   steht nur in der Liste, nicht im Prompt — für ein Sprachmodell wäre sie
   ohne die Skala nichtssagend.
+- **Reihenfolge der Karten** (12.09.2026): erst Thema und Aufgabe, dann die
+  Einstellungen. Das Thema ändert sich bei jeder Frage, die Einstellungen
+  kaum — sie werden gespeichert.
 
 **Offen:** Wonach Aufgaben und Ausgabeformen sortiert sein sollen. Bei der
 Ausgabeform stellt sich zuerst die Frage, ob sie überhaupt eine Skala ist —
