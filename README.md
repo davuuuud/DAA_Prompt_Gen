@@ -82,7 +82,8 @@ Wurzelverzeichnis genügt `npm run build`.
 src/lib/domain/      Fachlogik ohne Oberfläche, vollständig durch Tests gedeckt
   types.ts             gemeinsame Typen, stabile Bezeichner statt Indizes
   catalogs.ts          Berufe, Aufgaben, Optionen, Niveaus, Ausgabeformate
-  quellen.ts           Quellenkatalog mit Berufsfilter
+  quellenkatalog.ts    alle Quellen, je Beruf zugeordnet
+  quellen.ts           Berufsfilter, Voreinstellung, Wortlaut im Prompt
   prompt.ts            Aufbau des fertigen Prompts
   settings.ts          Vorgaben und Normalisierung gespeicherter Werte
   text.ts              Textwerkzeuge
@@ -107,8 +108,9 @@ machen, sodass die passenden Stellen als Belegstellen in den Prompt wandern.
 
 Offen und nicht durch Programmieren zu lösen:
 
-- **Quellenkatalog fachlich prüfen** — die rund 45 Einträge sind aus
-  allgemeinem Wissen zusammengestellt
+- **Quellenkatalog fachlich prüfen** — die 254 Einträge beruhen auf den
+  Rahmenlehrplänen, aber nicht auf Unterrichtserfahrung; die Rückmeldungen
+  der Dozenten stehen noch aus
 - **Fehlende Dateiformate klären** — bekannt sind PDF, Word, Excel, Scans,
   Bilder und OneNote
 - **OneNote** — lässt sich im Browser nicht lesen, Export nach PDF nötig

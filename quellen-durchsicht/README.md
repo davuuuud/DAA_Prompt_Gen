@@ -18,7 +18,9 @@ Berufe tatsächlich unterrichten.
 
 | Datei | Zweck |
 |---|---|
-| `daten.mjs` | Alle Vorschläge — allgemeine Liste und je Beruf. Die einzige Stelle zum Ändern. |
+| `../src/lib/domain/quellenkatalog.ts` | **Alle Quellen** — für die Anwendung und für die Bögen. Die einzige Stelle, an der Quellen geändert werden. |
+| `durchsicht.mjs` | Was nur die Bögen brauchen: Hinweise an die Dozenten, Geltung und Einträge, die nur im Bogen stehen. Über den Bezeichner mit dem Katalog verknüpft. |
+| `berufe.mjs` | Bemerkungen je Beruf, die nur im Bogen stehen. |
 | `erzeugen.mjs` | Erzeugt daraus die Durchsichtsbögen. |
 | `blaetter/<KÜRZEL>.html` | Ein Bogen je Beruf. |
 | `blaetter/fuer-<name>.html` | Ein Bogen je Ansprechpartner. Das, was verschickt wird. Nicht im Repository. |
@@ -26,7 +28,27 @@ Berufe tatsächlich unterrichten.
 | `ansprechpartner.local.mjs` | Wer welchen Beruf betreut. Nicht im Repository — siehe unten. |
 | `anschreiben.local.md` | Die Mailtexte, eine je Person. Ebenfalls nicht im Repository. |
 
-Neu erzeugen nach jeder Änderung an `daten.mjs`:
+## Stand: Vorauswahl übernommen
+
+Die Dozenten haben kaum geantwortet. Seit dem 11.09.2026 gilt deshalb die
+eigene Vorauswahl auch in der Anwendung — ausdrücklich vorläufig. Kommen doch
+noch Rückmeldungen, werden sie im Katalog eingearbeitet, und Anwendung und
+Bögen ändern sich gemeinsam.
+
+Bei der Übernahme galt: **Nur zitierfähige Quellen kommen in die Anwendung.**
+Einträge, die ein Thema statt eines Werks bezeichnen („Handelskalkulation",
+„Lagerkennzahlen"), stehen in `durchsicht.mjs` unter `NUR_IM_BOGEN` — als
+Frage an die Dozenten, welches Lehrwerk sie verwenden. Im Prompt wäre „Belege
+aus: Handelskalkulation" sinnlos. Die Hinweise an die Dozenten (`HINWEISE`)
+stehen ebenfalls dort und gelangen damit nicht einmal ins ausgelieferte
+Programm; ein Test prüft zusätzlich, dass keiner im Prompt landet.
+
+Voreingestellt ist je Beruf, was im Katalog `standard: true` trägt: die
+amtlichen Gesetzestexte, das Gabler Wirtschaftslexikon, die
+Ausbildungsordnung und der Rahmenlehrplan des Berufs — bei KGQ das
+KMK-Qualifikationsprofil und der AkA-Katalog Wirtschafts- und Sozialkunde.
+
+Neu erzeugen nach jeder Änderung am Katalog:
 
 ```bash
 node quellen-durchsicht/erzeugen.mjs
@@ -34,9 +56,11 @@ node quellen-durchsicht/erzeugen.mjs
 
 ## Umfang
 
-47 allgemeine Quellen plus 12 bis 24 berufseigene, zusammen **300 Vorschläge**.
-Jeder Bogen zeigt die allgemeine Liste und die eigene des Berufs — niemand
-bekommt alle 300 Zeilen vorgelegt, sondern zwischen 59 und 71.
+47 allgemeine Quellen plus 12 bis 24 berufseigene, zusammen **290 Vorschläge**
+(nach dem Zusammenlegen berufsübergreifender Doppel). Jeder Bogen zeigt die
+allgemeine Liste und die eigene des Berufs — niemand bekommt alle 290 Zeilen
+vorgelegt, sondern zwischen 59 und 71. In der Anwendung stehen davon 254 zur
+Wahl, je Beruf 53 bis 66.
 
 ## Aufbau eines Bogens
 
@@ -103,7 +127,8 @@ jemand durchgesehen oder nur durchgeklickt hat.
 3. Bogen und Anschreiben verschicken.
 4. Rückläufe sammeln.
 5. Auswerten (Regeln unten).
-6. `src/lib/domain/quellen.ts` anpassen und `DEFAULT_QUELLEN` neu setzen.
+6. `src/lib/domain/quellenkatalog.ts` anpassen, `standard` neu setzen und
+   die Bögen neu erzeugen.
 
 Schritt 2 ist eine Sperre, kein Häkchen: Das Werkzeug trägt „DAA MWW" im Namen
 und im Logo. Wer außerhalb von Mitte-West-West angeschrieben wird, bekommt ein
@@ -142,7 +167,7 @@ Der Erzeuger meldet beim Lauf, welche Berufe noch ohne Ansprechpartner sind.
 
 Die Tabelle dafür gehört in die lokale Datei, nicht hierher. Vorschlag für die
 Spalten: verschickt am, erinnert am, zurück am, eingearbeitet in
-`quellen.ts`.
+`quellenkatalog.ts`.
 
 ## Auswertungsregeln
 
@@ -155,8 +180,9 @@ die ihn behalten wollen. Bei ein bis zwei Streichungen bleibt er allgemein —
 eine einzelne abweichende Einschätzung ist noch kein Muster.
 
 **Voreinstellung.** Nur was mindestens die Hälfte der Ansprechpartner
-voreingestellt haben will, wird voreingestellt. `DEFAULT_QUELLEN` sollte kurz
-bleiben: Sechs bis acht Einträge, nicht zwanzig. Ein Prompt, der zwanzig
+voreingestellt haben will, wird voreingestellt. Die Voreinstellung sollte kurz
+bleiben: höchstens sechs Einträge je Beruf, nicht zwanzig — ein Test achtet
+darauf. Ein Prompt, der zwanzig
 Quellen nennt, gewichtet keine davon.
 
 **Ergänzungen.** Alles, was in Teil 3 genannt wird, kommt in den Katalog —
@@ -169,8 +195,8 @@ steckt dahinter, dass sie unterschiedliche Prüfungsteile oder Lernfelder im
 Blick haben — dann sind beide Antworten richtig und die Quelle gehört hinein.
 
 **Die zwei Fragen aus Teil 4** gehen nicht in den Katalog, sondern in die
-Roadmap: Die drei wichtigsten Quellen je Beruf sind die Kandidaten für
-`DEFAULT_QUELLEN`. Die Antworten zu „wo geht die KI in die Irre" sind
+Roadmap: Die drei wichtigsten Quellen je Beruf sind die Kandidaten für die
+Voreinstellung. Die Antworten zu „wo geht die KI in die Irre" sind
 Kandidaten für zusätzliche Warnregeln im Prompt.
 
 ## Herangezogene Rahmenlehrpläne

@@ -20,9 +20,10 @@
   } from './lib/domain/catalogs';
   import { feedbackMailto, kurzeBrowserKennung } from './lib/domain/feedback';
   import { buildPrompt, validate } from './lib/domain/prompt';
-  import { quellenFuerBeruf } from './lib/domain/quellen';
+  import { quellenBeimBerufswechsel } from './lib/domain/quellen';
   import { spracheBeschriftung, zweitsprachen } from './lib/domain/sprachen';
   import { toPromptInput, weichtVomStandardAb, type Auswahl } from './lib/domain/settings';
+  import type { BerufId } from './lib/domain/types';
   import { MAX_ANZAHL, MIN_ANZAHL, toCRLF } from './lib/domain/text';
   import { copyText } from './lib/platform/clipboard';
   import { canShare, openChatGPT, shareText } from './lib/platform/share';
@@ -120,10 +121,16 @@
     statusTimer = setTimeout(() => (status = ''), 4000);
   }
 
-  /** Nach einem Berufswechsel dürfen keine berufsfremden Quellen zurückbleiben. */
-  function berufGewechselt() {
-    const erlaubt = new Set(quellenFuerBeruf(settings.beruf).map((quelle) => quelle.id));
-    settings.quellen = settings.quellen.filter((id) => erlaubt.has(id));
+  /**
+   * Beim Berufswechsel wandert eine unberührte Voreinstellung mit: Wer von
+   * Einzelhandel auf Immobilien wechselt, bekommt die Ausbildungsordnung der
+   * Immobilienkaufleute. Eine eigene Auswahl bleibt; nur berufsfremde
+   * Quellen fallen heraus. Dafür wird der alte Beruf gebraucht — deshalb
+   * kein bind:value am Auswahlfeld.
+   */
+  function berufWechseln(neu: BerufId) {
+    settings.quellen = quellenBeimBerufswechsel(settings.quellen, settings.beruf, neu);
+    settings.beruf = neu;
   }
 
   async function kopieren() {
@@ -237,7 +244,11 @@
       <div class="raster">
         <div class="feld">
           <label for="beruf">Ausbildungsberuf</label>
-          <select id="beruf" bind:value={settings.beruf} onchange={berufGewechselt}>
+          <select
+            id="beruf"
+            value={settings.beruf}
+            onchange={(ereignis) => berufWechseln(ereignis.currentTarget.value as BerufId)}
+          >
             {#each BERUFE as beruf (beruf.id)}
               <option value={beruf.id}>{berufBeschriftung(beruf)}</option>
             {/each}

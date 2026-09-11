@@ -71,10 +71,15 @@ Bei jedem Punkt steht deshalb, wer ihn entscheiden kann.
 
 > **Der wichtigste offene Punkt des ganzen Projekts.**
 
-Der Quellenkatalog ordnet rund 45 Einträge den Ausbildungsberufen zu —
+Der Quellenkatalog ordnet 254 Einträge den Ausbildungsberufen zu —
 Immobilienkaufleute sehen WEG, MaBV und BetrKV, die Systemintegration UrhG und
-den BSI-Grundschutz. Diese Zuordnung stammt aus allgemeinem Wissen, **nicht aus
-Unterrichtserfahrung.**
+den BSI-Grundschutz. Die Zuordnung ist mit den Rahmenlehrplänen aller
+vierzehn Berufe abgeglichen, stammt aber **nicht aus Unterrichtserfahrung.**
+
+**Stand 11.09.2026:** Die Dozenten haben kaum geantwortet. Die eigene
+Vorauswahl gilt deshalb vorläufig auch in der Anwendung und wird nachgebessert,
+sobald Rückmeldungen kommen. Einzelheiten in
+[`quellen-durchsicht/README.md`](quellen-durchsicht/README.md).
 
 Genau daran hängt aber die Qualität der erzeugten Prompts: Eine falsch
 zugeordnete Quelle lenkt das Sprachmodell in die falsche Richtung, eine

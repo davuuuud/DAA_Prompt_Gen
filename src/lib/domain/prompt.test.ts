@@ -266,9 +266,10 @@ describe('Quellen im Prompt', () => {
     const quellen = alleQuellen(
       basis({ quellen: ['haufe'], quellenFreitext: 'Beck-online; haufe' }),
     );
-    expect(quellen).toContain('Haufe');
+    expect(quellen).toContain('Haufe (Haufe Fachdatenbank)');
     expect(quellen).toContain('Beck-online');
-    expect(quellen.filter((q) => q.toLowerCase() === 'haufe')).toHaveLength(1);
+    // Das getippte "haufe" meint dieselbe Quelle wie das angekreuzte Kürzel.
+    expect(quellen.filter((q) => q.toLowerCase().startsWith('haufe'))).toHaveLength(1);
   });
 
   it('übernimmt Fachbuchzitate mit Komma als eine Quelle', () => {
@@ -288,7 +289,7 @@ describe('Quellen im Prompt', () => {
     // WEG gilt nur für Immobilienkaufleute, UrhG nur in der Systemintegration.
     const prompt = buildPrompt(basis({ beruf: 'fachinformatik', quellen: ['weg', 'urhg'] }));
     expect(prompt).not.toContain('Wohnungseigentumsgesetz');
-    expect(prompt).toContain('UrhG (Urheberrecht, u. a. Softwarelizenzen)');
+    expect(prompt).toContain('UrhG (Urheberrechtsgesetz)');
   });
 });
 

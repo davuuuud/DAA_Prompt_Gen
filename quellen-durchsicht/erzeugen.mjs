@@ -1,4 +1,7 @@
-// Erzeugt aus daten.mjs je einen Durchsichtsbogen pro Beruf.
+// Erzeugt aus dem Quellenkatalog der Anwendung je einen Durchsichtsbogen pro
+// Beruf. Der Katalog (src/lib/domain/quellenkatalog.ts) ist die einzige
+// Stelle, an der Quellen gepflegt werden — Anwendung und Bögen können so
+// nicht auseinanderlaufen.
 //
 //   node quellen-durchsicht/erzeugen.mjs
 //
@@ -12,7 +15,32 @@
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ALLGEMEIN, BERUFE, STAND } from './daten.mjs';
+// Node lädt die TypeScript-Datei direkt; sie importiert zur Laufzeit nur Typen.
+import { KATALOG } from '../src/lib/domain/quellenkatalog.ts';
+import { BERUFE as BERUF_ANGABEN, STAND } from './berufe.mjs';
+import { GELTUNG, HINWEISE, NUR_IM_BOGEN } from './durchsicht.mjs';
+
+/**
+ * Eine Zeile im Bogen. Zu den Katalogquellen kommen hier die Hinweise an die
+ * Dozenten und die Einträge, die nur im Bogen stehen — beides erreicht die
+ * Anwendung nie.
+ */
+function bogenZeile(quelle) {
+  return {
+    kuerzel: quelle.kuerzel,
+    titel: quelle.titel,
+    hinweis: quelle.hinweis ?? HINWEISE[quelle.id],
+    art: quelle.art,
+    geltung: quelle.geltung ?? GELTUNG[quelle.id],
+  };
+}
+
+const ALLE = [...KATALOG, ...NUR_IM_BOGEN];
+const ALLGEMEIN = ALLE.filter((quelle) => !quelle.berufe).map(bogenZeile);
+const BERUFE = BERUF_ANGABEN.map((beruf) => ({
+  ...beruf,
+  quellen: ALLE.filter((quelle) => quelle.berufe?.includes(beruf.id)).map(bogenZeile),
+}));
 
 const HIER = dirname(fileURLToPath(import.meta.url));
 const ZIEL = join(HIER, 'blaetter');
@@ -778,7 +806,7 @@ ${grenzfaelle
 </div>
 
 <footer>
-  <p>Erzeugt aus <code>quellen-durchsicht/daten.mjs</code>.
+  <p>Erzeugt aus <code>src/lib/domain/quellenkatalog.ts</code>.
   Änderungen dort und erneut <code>node quellen-durchsicht/erzeugen.mjs</code>
   ausführen.</p>
 </footer>

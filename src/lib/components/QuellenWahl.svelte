@@ -35,11 +35,11 @@
           <legend>{gruppe.gruppe}</legend>
           <div class="quellen-liste">
             {#each gruppe.quellen as quelle (quelle.id)}
-              <label class="quelle" title={quelle.hint ?? quelle.label}>
+              <label class="quelle" title={quelle.titel}>
                 <input type="checkbox" bind:group={ausgewaehlt} value={quelle.id} />
                 <span class="quelle-text">
-                  <span class="quelle-label">{quelle.label}</span>
-                  {#if quelle.hint}<span class="quelle-hint">{quelle.hint}</span>{/if}
+                  <span class="quelle-label">{quelle.kuerzel}</span>
+                  {#if quelle.titel && quelle.titel !== quelle.kuerzel}<span class="quelle-hint">{quelle.titel}</span>{/if}
                 </span>
               </label>
             {/each}

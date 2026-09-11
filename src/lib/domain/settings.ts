@@ -5,7 +5,7 @@
 // unbrauchbar machen. Unbekannte Werte fallen still auf die Vorgabe zurück.
 
 import { AUFGABEN, BERUFE, findAufgabe, FORMATE, NIVEAUS, OPTIONEN } from './catalogs';
-import { DEFAULT_QUELLEN, quellenFuerBeruf } from './quellen';
+import { quellenFuerBeruf, standardQuellen } from './quellen';
 import { zweitsprachen } from './sprachen';
 import { DEFAULT_ANZAHL, parseAnzahl } from './text';
 import type {
@@ -43,7 +43,7 @@ export function defaultSettings(): Settings {
     format: 'kompakt',
     anzahl: DEFAULT_ANZAHL,
     optionen: OPTIONEN.filter((option) => option.defaultOn).map((option) => option.id),
-    quellen: [...DEFAULT_QUELLEN],
+    quellen: standardQuellen('kgq'),
     quellenFreitext: '',
     zweitsprache: 'keine',
   };
@@ -84,18 +84,12 @@ export function normalizeSettings(raw: unknown): Settings {
     format: pickId(FORMATE, data.format, fallback.format) as FormatId,
     anzahl: parseAnzahl(typeof data.anzahl === 'number' ? data.anzahl : String(data.anzahl ?? '')),
     optionen: pickIds(OPTIONEN, data.optionen) as OptionId[],
-    quellen: quellen.length > 0 ? quellen : filterDefaults(beruf),
+    quellen: quellen.length > 0 ? quellen : standardQuellen(beruf),
     quellenFreitext: typeof data.quellenFreitext === 'string' ? data.quellenFreitext : '',
     // 'keine' ist hier zugleich Vorgabe und Rückfall: Eine gestrichene Sprache
     // führt zurück auf die einsprachige Antwort, nicht auf eine fremde.
     zweitsprache: pickId(zweitsprachen(), data.zweitsprache, 'keine') as ZweitspracheId,
   };
-}
-
-/** Die Vorgabequellen, soweit sie zum Beruf passen. */
-function filterDefaults(beruf: BerufId): string[] {
-  const erlaubt = new Set(quellenFuerBeruf(beruf).map((quelle) => quelle.id));
-  return DEFAULT_QUELLEN.filter((id) => erlaubt.has(id));
 }
 
 /**

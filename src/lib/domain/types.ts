@@ -54,8 +54,6 @@ export type FormatId =
   | 'ausfuehrlich'
   | 'ganze-saetze';
 
-export type QuellenGruppe = 'gesetz' | 'ihk' | 'fachverlag' | 'statistik';
-
 export interface Beruf {
   id: BerufId;
   /**
@@ -116,16 +114,6 @@ export interface Niveau {
 export interface Ausgabeformat {
   id: FormatId;
   label: string;
-}
-
-export interface Quelle {
-  id: string;
-  label: string;
-  group: QuellenGruppe;
-  /** Kurzer Zusatz, der im Prompt hinter der Bezeichnung erscheint. */
-  hint?: string;
-  /** Fehlt die Angabe, gilt die Quelle für alle Berufe. */
-  berufe?: BerufId[];
 }
 
 /**

@@ -6,7 +6,7 @@
 // dadurch lesbar.
 
 import { findAufgabe, findBeruf, findFormat, findNiveau, OPTIONEN } from './catalogs';
-import { quellenBezeichnungen } from './quellen';
+import { ausgewaehlteQuellen, promptBezeichnung } from './quellen';
 import { BASISSPRACHE, findSprache } from './sprachen';
 import { collapseBlankLines, parseAnzahl, splitFreitext, truncateWords } from './text';
 import type { Fundstelle, OptionId, PromptInput } from './types';
@@ -42,17 +42,28 @@ export function validate(input: PromptInput): Validierung {
   return { ok: true, meldung: '' };
 }
 
-/** Alle Quellenbezeichnungen: kuratierte Auswahl plus Freitext. */
+/**
+ * Alle Quellenbezeichnungen: kuratierte Auswahl plus Freitext.
+ *
+ * Wer „Haufe" ankreuzt und zusätzlich „haufe" tippt, meint dieselbe Quelle.
+ * Deshalb wird der Freitext nicht nur gegen den Wortlaut im Prompt
+ * („Haufe (Haufe Fachdatenbank)") verglichen, sondern auch gegen das Kürzel.
+ */
 export function alleQuellen(input: PromptInput): string[] {
-  const katalog = quellenBezeichnungen(input.beruf, input.quellen);
-  const frei = splitFreitext(input.quellenFreitext);
+  const gewaehlt = ausgewaehlteQuellen(input.beruf, input.quellen);
+  const schluessel = (text: string) => text.trim().toLocaleLowerCase('de-DE');
   const gesehen = new Set<string>();
-  return [...katalog, ...frei].filter((eintrag) => {
-    const schluessel = eintrag.toLocaleLowerCase('de-DE');
-    if (gesehen.has(schluessel)) return false;
-    gesehen.add(schluessel);
+  for (const quelle of gewaehlt) {
+    gesehen.add(schluessel(quelle.kuerzel));
+    gesehen.add(schluessel(promptBezeichnung(quelle)));
+  }
+  const frei = splitFreitext(input.quellenFreitext).filter((eintrag) => {
+    const k = schluessel(eintrag);
+    if (gesehen.has(k)) return false;
+    gesehen.add(k);
     return true;
   });
+  return [...gewaehlt.map(promptBezeichnung), ...frei];
 }
 
 function formatFundstelle(fundstelle: Fundstelle, index: number): string {
