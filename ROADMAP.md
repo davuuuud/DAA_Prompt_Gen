@@ -108,27 +108,28 @@ Entwicklung, Entscheidung fachlich.*
 
 ### Reihenfolge und Nummerierung
 
-Die Reihenfolge der Einträge innerhalb der vier Auswahlfelder ist bisher nicht
-begründet, sondern gewachsen.
+**Erledigt:**
 
-Beim **Niveau** ist die Reihenfolge in Wahrheit eine Rangfolge: von „Sehr
-einfach" bis „Vertieft". Eine sichtbare Nummerierung (1 bis 4) würde das
-deutlich machen, statt es dem Zufall der Anordnung zu überlassen.
+- **Berufe** sind nach Kürzel sortiert, KGQ steht voran.
+- **Niveau** ist nummeriert: „3 — Niveau der Abschlussprüfung". Die Zahl
+  steht nur in der Liste, nicht im Prompt — für ein Sprachmodell wäre sie
+  ohne die Skala nichtssagend.
 
-Zu klären:
-
-- Nummerierung nur beim Niveau, oder auch bei den anderen drei Feldern?
-- Wonach sollen Berufe, Aufgaben und Ausgabeformen sortiert sein — nach
-  Häufigkeit der Nutzung, alphabetisch oder nach inhaltlicher Nähe?
+**Offen:** Wonach Aufgaben und Ausgabeformen sortiert sein sollen. Bei der
+Ausgabeform stellt sich zuerst die Frage, ob sie überhaupt eine Skala ist —
+sie mischt Umfang und Darstellung (siehe Issue #33).
 
 ### Optionen und Voreinstellungen
 
-Derzeit fünf Optionen, vier davon voreingestellt an.
+**Voreinstellungen entschieden** (11.09.2026): Fünf Optionen, drei davon an
+— Fachbegriffe erklären, Praxisbeispiel, Prüfungsbezug. „Einfache Sprache"
+und „Rückfragen erlaubt" sind aus. Die übrigen Standardwerte: KGQ, Thema
+erklären, Niveau 3, Kurz und kompakt, keine Zweitsprache, Anzahl 5.
 
-Zu prüfen ist beides: **Welche werden wirklich gebraucht**, und **welche
-Voreinstellung ist richtig?** Eine Option, die niemand je abwählt, kann
-genauso gut eine feste Regel im Prompt sein — eine, die niemand je anwählt,
-kann verschwinden. Beides macht die Oberfläche ruhiger.
+**Offen bleibt die andere Hälfte: Welche Optionen werden wirklich
+gebraucht?** Eine Option, die niemand je abwählt, kann genauso gut eine feste
+Regel im Prompt sein — eine, die niemand je anwählt, kann verschwinden. Das
+lässt sich erst nach der Erprobung beantworten.
 
 ### Name der Anwendung
 

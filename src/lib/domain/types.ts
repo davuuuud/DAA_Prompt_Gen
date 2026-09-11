@@ -153,7 +153,11 @@ export interface PromptInput {
   optionen: OptionId[];
   /** Ausgewählte Einträge aus dem Quellenkatalog. */
   quellen: string[];
-  /** Frei ergänzte Quellen, eine je Zeile oder durch Komma getrennt. */
+  /**
+   * Frei ergänzte Quellen, getrennt durch Zeilenumbruch oder Semikolon.
+   * Ausdrücklich NICHT durch Komma — Quellenangaben enthalten selbst Kommas
+   * („Schmidt/Futterer, Mietrecht").
+   */
   quellenFreitext: string;
   /** Belegstellen aus eigenen Unterlagen; leer, solange Etappe 3 fehlt. */
   fundstellen?: Fundstelle[];
