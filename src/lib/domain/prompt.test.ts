@@ -262,6 +262,30 @@ describe('Quellen im Prompt', () => {
     expect(prompt).toContain('WEG (Wohnungseigentumsgesetz)');
   });
 
+  it('gliedert die Quellen nach Art, eigene Angaben zuletzt', () => {
+    // Bei dreißig und mehr Quellen wäre eine einzige Zeile unlesbar.
+    const prompt = buildPrompt(
+      basis({
+        beruf: 'immobilien',
+        quellen: ['gabler', 'weg', 'ao-immobilienkaufleute', 'bgb'],
+        quellenFreitext: 'Beck-online',
+      }),
+    );
+    const zeilen = prompt.split('\n').filter((zeile) => zeile.startsWith('  - '));
+    expect(zeilen.map((zeile) => zeile.split(':')[0])).toEqual([
+      '  - Prüfungs- und Ausbildungsvorgaben',
+      '  - Gesetze und Verordnungen',
+      '  - Nachschlagewerke',
+      '  - Weitere Quellen',
+    ]);
+    // Innerhalb einer Art gilt die Reihenfolge der Auswahl.
+    expect(zeilen[1]).toBe(
+      '  - Gesetze und Verordnungen: WEG (Wohnungseigentumsgesetz); BGB (Bürgerliches Gesetzbuch).',
+    );
+    expect(zeilen[3]).toBe('  - Weitere Quellen: Beck-online.');
+    expect(prompt).toContain('Ziehe nur die Quellen heran, die zur Frage passen.');
+  });
+
   it('ergänzt Freitextquellen und entfernt Dubletten', () => {
     const quellen = alleQuellen(
       basis({ quellen: ['haufe'], quellenFreitext: 'Beck-online; haufe' }),

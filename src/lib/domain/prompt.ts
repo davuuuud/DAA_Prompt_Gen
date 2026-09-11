@@ -6,7 +6,7 @@
 // dadurch lesbar.
 
 import { findAufgabe, findBeruf, findFormat, findNiveau, OPTIONEN } from './catalogs';
-import { ausgewaehlteQuellen, promptBezeichnung } from './quellen';
+import { ausgewaehlteQuellen, promptBezeichnung, QUELLEN_GRUPPEN } from './quellen';
 import { BASISSPRACHE, findSprache } from './sprachen';
 import { collapseBlankLines, parseAnzahl, splitFreitext, truncateWords } from './text';
 import type { Fundstelle, OptionId, PromptInput } from './types';
@@ -50,6 +50,15 @@ export function validate(input: PromptInput): Validierung {
  * („Haufe (Haufe Fachdatenbank)") verglichen, sondern auch gegen das Kürzel.
  */
 export function alleQuellen(input: PromptInput): string[] {
+  return quellenGruppen(input).flatMap((gruppe) => gruppe.quellen);
+}
+
+/**
+ * Die Quellen nach Art gegliedert, in der Reihenfolge der Auswahl; der
+ * Freitext folgt als eigene Gruppe. Bei dreißig und mehr Quellen wäre eine
+ * einzige Zeile weder für Menschen noch für das Modell zu überblicken.
+ */
+export function quellenGruppen(input: PromptInput): { gruppe: string; quellen: string[] }[] {
   const gewaehlt = ausgewaehlteQuellen(input.beruf, input.quellen);
   const schluessel = (text: string) => text.trim().toLocaleLowerCase('de-DE');
   const gesehen = new Set<string>();
@@ -63,7 +72,12 @@ export function alleQuellen(input: PromptInput): string[] {
     gesehen.add(k);
     return true;
   });
-  return [...gewaehlt.map(promptBezeichnung), ...frei];
+  const gruppen = QUELLEN_GRUPPEN.map(({ id, label }) => ({
+    gruppe: label,
+    quellen: gewaehlt.filter((quelle) => quelle.art === id).map(promptBezeichnung),
+  }));
+  gruppen.push({ gruppe: 'Weitere Quellen', quellen: frei });
+  return gruppen.filter((gruppe) => gruppe.quellen.length > 0);
 }
 
 function formatFundstelle(fundstelle: Fundstelle, index: number): string {
@@ -166,7 +180,7 @@ export function buildPrompt(input: PromptInput): string {
   abschnitt('ANFORDERUNGEN', punkte(anforderungen));
 
   // --- QUELLEN -------------------------------------------------------------
-  const quellen = alleQuellen(input);
+  const quellen = quellenGruppen(input);
   const quellenRegeln: string[] = [];
   if (fundstellen.length > 0) {
     quellenRegeln.push(
@@ -178,7 +192,11 @@ export function buildPrompt(input: PromptInput): string {
   }
   if (quellen.length > 0) {
     quellenRegeln.push(
-      `Belege rechtliche oder fachlich strittige Aussagen bevorzugt aus diesen Quellen: ${quellen.join('; ')}.`,
+      'Belege rechtliche oder fachlich strittige Aussagen bevorzugt aus diesen Quellen:\n' +
+        quellen.map(({ gruppe, quellen: liste }) => `  - ${gruppe}: ${liste.join('; ')}.`).join('\n'),
+      // Die Voreinstellung ist bewusst großzügig. Ohne diesen Satz versuchte
+      // das Modell womöglich, möglichst viele davon unterzubringen.
+      'Die Liste steckt den Rahmen ab: Ziehe nur die Quellen heran, die zur Frage passen.',
       'Nenne Paragraphen nur, wenn sie tatsächlich einschlägig sind, und weise auf einen ' +
         'möglicherweise veralteten Rechtsstand hin.',
     );

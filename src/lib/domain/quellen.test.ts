@@ -19,7 +19,7 @@ import {
 } from './quellen';
 import { KATALOG } from './quellenkatalog';
 import { defaultSettings, normalizeSettings, toPromptInput } from './settings';
-import { fruehereVoreinstellungen, MAX_VOREINSTELLUNG, VOREINSTELLUNG } from './voreinstellung';
+import { fruehereVoreinstellungen, NEBENSAECHLICH } from './voreinstellung';
 
 describe('Quellenkatalog', () => {
   it('hat eindeutige Bezeichner und gültige Arten', () => {
@@ -137,16 +137,38 @@ describe('Nur im Durchsichtsbogen', () => {
 });
 
 describe('Voreinstellung', () => {
-  it('nennt nur Quellen, die der Beruf auch zu sehen bekommt', () => {
-    // Ein Tippfehler im Bezeichner fiele sonst still heraus.
+  it('nennt als nebensächlich nur Quellen, die der Beruf auch zu sehen bekommt', () => {
+    // Ein Tippfehler im Bezeichner bliebe sonst unbemerkt — und die Quelle
+    // stillschweigend angehakt.
     for (const beruf of BERUFE) {
       const verfuegbar = new Set(quellenFuerBeruf(beruf.id).map((q) => q.id));
-      for (const id of VOREINSTELLUNG[beruf.id]) {
+      for (const id of NEBENSAECHLICH[beruf.id]) {
         expect(verfuegbar.has(id), `${beruf.id}: ${id}`).toBe(true);
       }
-      expect(standardQuellen(beruf.id)).toEqual(VOREINSTELLUNG[beruf.id]);
-      expect(new Set(VOREINSTELLUNG[beruf.id]).size, beruf.id).toBe(VOREINSTELLUNG[beruf.id].length);
     }
+  });
+
+  it('hakt lieber mehr als weniger an — aber nicht alles', () => {
+    for (const beruf of BERUFE) {
+      const verfuegbar = quellenFuerBeruf(beruf.id).length;
+      const standard = standardQuellen(beruf.id);
+      expect(new Set(standard).size, beruf.id).toBe(standard.length);
+      expect(standard.length, beruf.id).toBeGreaterThanOrEqual(verfuegbar * (2 / 3));
+      expect(standard.length, beruf.id).toBeLessThan(verfuegbar);
+    }
+  });
+
+  it('lässt nur Nebensächliches weg', () => {
+    const immo = standardQuellen('immobilien');
+    expect(immo).toEqual(expect.arrayContaining(['weg', 'betrkv', 'mabv', 'bgb', 'aka']));
+    expect(immo).not.toContain('erbbaurg');
+
+    const steuer = standardQuellen('steuerfach');
+    expect(steuer).toContain('nwb');
+    expect(steuer).not.toContain('aka'); // geprüft wird von der Steuerberaterkammer
+
+    expect(standardQuellen('kgq')).toContain('destatis');
+    expect(standardQuellen('einzelhandel')).not.toContain('destatis');
   });
 
   it('beginnt bei jedem Beruf außer KGQ mit Ausbildungsordnung und Rahmenlehrplan', () => {
@@ -176,20 +198,6 @@ describe('Voreinstellung', () => {
         return q.art !== 'vorgabe' && !allgemein.has(id);
       });
       expect(fach.length, beruf.id).toBeGreaterThanOrEqual(2);
-    }
-  });
-
-  it('stellt nichts ein, woraus eine KI nicht belegen kann', () => {
-    // AkA-Kataloge und Kammermaterial sind nicht öffentlich.
-    const nichtOeffentlich = ['aka', 'aka-katalog-wiso', 'dws-steuerberaterkammer', 'haufe'];
-    for (const beruf of BERUFE) {
-      for (const id of nichtOeffentlich) expect(standardQuellen(beruf.id), beruf.id).not.toContain(id);
-    }
-  });
-
-  it('bleibt kurz — ein Prompt mit zwanzig Quellen gewichtet keine', () => {
-    for (const beruf of BERUFE) {
-      expect(standardQuellen(beruf.id).length, beruf.id).toBeLessThanOrEqual(MAX_VOREINSTELLUNG);
     }
   });
 });

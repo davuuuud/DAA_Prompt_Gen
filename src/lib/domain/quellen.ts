@@ -8,7 +8,7 @@
 
 import { KATALOG, type KatalogQuelle, type QuellenArt } from './quellenkatalog';
 import type { BerufId } from './types';
-import { fruehereVoreinstellungen, VOREINSTELLUNG } from './voreinstellung';
+import { fruehereVoreinstellungen, NEBENSAECHLICH } from './voreinstellung';
 
 export type { KatalogQuelle as Quelle, QuellenArt };
 
@@ -41,12 +41,19 @@ export function quellenNachGruppe(
 }
 
 /**
- * Die Voreinstellung für einen Beruf, in der Reihenfolge des Prompts.
- * Festgelegt und begründet in voreinstellung.ts.
+ * Die Voreinstellung für einen Beruf: alles außer dem Nebensächlichen, das
+ * in voreinstellung.ts steht. Geordnet nach Art wie im Prompt, innerhalb
+ * einer Art die Quellen des Berufs vor den allgemeinen — so beginnt die
+ * Liste mit Ausbildungsordnung und Rahmenlehrplan.
  */
 export function standardQuellen(beruf: BerufId): string[] {
-  const erlaubt = new Set(quellenFuerBeruf(beruf).map((quelle) => quelle.id));
-  return VOREINSTELLUNG[beruf].filter((id) => erlaubt.has(id));
+  const nebensaechlich = new Set(NEBENSAECHLICH[beruf]);
+  const rang = (quelle: KatalogQuelle) =>
+    QUELLEN_GRUPPEN.findIndex((gruppe) => gruppe.id === quelle.art) * 2 + (quelle.berufe ? 0 : 1);
+  return quellenFuerBeruf(beruf)
+    .filter((quelle) => !nebensaechlich.has(quelle.id))
+    .sort((a, b) => rang(a) - rang(b))
+    .map((quelle) => quelle.id);
 }
 
 function gleicheMenge(a: readonly string[], b: readonly string[]): boolean {

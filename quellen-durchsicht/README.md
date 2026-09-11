@@ -43,11 +43,12 @@ aus: Handelskalkulation" sinnlos. Die Hinweise an die Dozenten (`HINWEISE`)
 stehen ebenfalls dort und gelangen damit nicht einmal ins ausgelieferte
 Programm; ein Test prüft zusätzlich, dass keiner im Prompt landet.
 
-Welche Quellen je Beruf voreingestellt sind, steht mit Begründung in
-`src/lib/domain/voreinstellung.ts`: Ausbildungsordnung und Rahmenlehrplan,
-dazu die zwei bis vier Rechtsquellen, die den Kern des Berufs tragen,
-höchstens sieben Einträge. Nicht voreingestellt wird, woraus eine KI nicht
-belegen kann — etwa die nicht öffentlichen AkA-Prüfungskataloge.
+Vorab angehakt ist nach dem Grundsatz „lieber mehr als weniger" alles, was
+für den Beruf wichtig ist oder normalerweise vorkommt — je Beruf 39 bis 52
+Quellen. Nur die wirklich nebensächlichen bleiben frei; sie stehen mit
+Begründung in `src/lib/domain/voreinstellung.ts`. Im Prompt sind die Quellen
+nach Art gegliedert, mit dem Hinweis, nur die zur Frage passenden
+heranzuziehen.
 
 Neu erzeugen nach jeder Änderung am Katalog:
 
@@ -180,11 +181,11 @@ Eintrag, wandert er aus der allgemeinen Liste heraus und nur zu den Berufen,
 die ihn behalten wollen. Bei ein bis zwei Streichungen bleibt er allgemein —
 eine einzelne abweichende Einschätzung ist noch kein Muster.
 
-**Voreinstellung.** Nur was mindestens die Hälfte der Ansprechpartner
-voreingestellt haben will, wird voreingestellt. Die Voreinstellung sollte kurz
-bleiben: höchstens sieben Einträge je Beruf, nicht zwanzig — ein Test achtet
-darauf. Ein Prompt, der zwanzig
-Quellen nennt, gewichtet keine davon.
+**Voreinstellung.** Vorab angehakt bleibt, was nicht ausdrücklich als
+nebensächlich eingestuft ist. Streicht ein Ansprechpartner eine Quelle oder
+kreuzt bei ihr nicht *voreinstellen* an, ist das ein Kandidat für die Liste
+des Nebensächlichen in `voreinstellung.ts` — gestrichen wird sie dort erst,
+wenn mindestens die Hälfte der Rückmeldungen zum Beruf es so sieht.
 
 **Ergänzungen.** Alles, was in Teil 3 genannt wird, kommt in den Katalog —
 auch wenn es nur eine Person nennt. Wer eine Quelle vermisst, hat einen Grund
