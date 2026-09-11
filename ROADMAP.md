@@ -18,7 +18,7 @@ Erreicht sind die ersten beiden Etappen:
 Die Anwendung läuft unter
 [davuuuud.github.io/DAA_Prompt_Gen](https://davuuuud.github.io/DAA_Prompt_Gen/),
 lässt sich auf dem Telefon zum Startbildschirm hinzufügen und funktioniert
-ohne Internetverbindung. Die Fachlogik ist durch 100 Tests abgedeckt.
+ohne Internetverbindung. Die Fachlogik ist durch 128 Tests abgedeckt.
 
 ---
 
@@ -585,12 +585,26 @@ Zugangsprüfung ist die Seite kein öffentliches Angebot mehr.
   mitlaufen: Beide sind bereits Text, kein Parser nötig. Bei Markdown lohnt
   es, die `#`-Überschriften für die Zerlegung in zitierfähige Abschnitte zu
   nutzen.
-- **Altes `.doc` ist der Ausreißer.** `mammoth.js` liest nur `.docx`; für das
-  Binärformat vor Office 2007 gibt es im Browser keine brauchbare Bibliothek.
-  Der Weg führt über eine Umwandlung — entweder einmalig im Stapel per
-  LibreOffice oder als Hinweis in der Anwendung, wenn jemand eine `.doc`-Datei
-  ablegt. Einen eigenen Leser dafür zu bauen wäre unverhältnismäßig und bei
-  Tabellen unzuverlässig. Zu klären bleibt der Umfang des Bestands.
+- **Altes `.doc` — Leser fertig** (`src/lib/import/doc.ts`). Eine frühere
+  Einschätzung hier war falsch: Unverhältnismäßig wäre eine *formatgetreue*
+  Umwandlung nach `.docx`. Die Anwendung braucht aber nur den **Text** — und
+  der liegt im alten Format an einer genau beschriebenen Stelle.
+
+  Geprüft am **gesamten Bestand des Bildungsträgers: 778 `.doc`-Dateien, alle
+  gelesen,** 5,6 Mio. Zeichen, kein Absturz, kein Umlaut-Salat, keine
+  Feldcode-Reste. Gegenprobe mit Word selbst an acht Dateien: alle wortgleich,
+  eine davon nur in Groß- und Kleinschreibung verschieden (Word wendet beim
+  Auslesen die Formatierung „Großbuchstaben" an).
+
+  Gelesen werden Haupttext, Fußnoten, Endnoten und **Textfelder** — Letztere
+  stehen in fast jeder fünften Datei. Kopf- und Fußzeilen bleiben bewusst
+  draußen: rund 85 Zeichen je Datei, Seitenzahlen und Namen.
+
+  **Nicht lösbar mit diesem Leser:** 14 Dateien bestehen nur aus Bildern oder
+  Zeichnungen. Sie brauchen Texterkennung wie eingescannte Seiten.
+
+  Sichtbar wird der Leser erst mit dem Dokumentenimport in Etappe 3; bis
+  dahin wird er nicht mit ausgeliefert.
 - **Moodle und ILIAS sind keine Dokumentformate, sondern Behälter.** Ein
   Moodle-Backup (`.mbz`) oder ein SCORM-Paket ist ein Archiv mit Struktur-XML
   und den eigentlichen Dateien darin — meist genau die PDFs, Word- und
