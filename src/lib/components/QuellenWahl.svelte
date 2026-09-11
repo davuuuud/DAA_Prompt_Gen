@@ -4,6 +4,7 @@
   // der längste Block des Formulars.
   import { quellenNachGruppe } from '../domain/quellen';
   import type { BerufId } from '../domain/types';
+  import Aufklappbereich from './Aufklappbereich.svelte';
 
   interface Props {
     beruf: BerufId;
@@ -24,20 +25,11 @@
   }
 </script>
 
-<div class="quellen">
-  <button
-    type="button"
-    class="quellen-kopf"
-    aria-expanded={offen}
-    onclick={() => (offen = !offen)}
-  >
-    <span class="pfeil" class:offen aria-hidden="true">▸</span>
-    <span class="quellen-titel">Bevorzugte Quellen</span>
-    <span class="zaehler">{ausgewaehlt.length} von {anzahlVerfuegbar}</span>
-  </button>
-
-  {#if offen}
-    <div class="quellen-inhalt">
+<Aufklappbereich
+  titel="Bevorzugte Quellen"
+  zusammenfassung="{ausgewaehlt.length} von {anzahlVerfuegbar}"
+  bind:offen
+>
       {#each gruppen as gruppe (gruppe.gruppe)}
         <fieldset>
           <legend>{gruppe.gruppe}</legend>
@@ -64,62 +56,9 @@
           verschwinden Quellen, die dort nicht gelten.
         </p>
       </div>
-    </div>
-  {/if}
-</div>
+</Aufklappbereich>
 
 <style>
-  .quellen {
-    border: 1px solid var(--rand);
-    border-radius: var(--radius);
-    background: var(--flaeche);
-    overflow: hidden;
-  }
-
-  .quellen-kopf {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    width: 100%;
-    padding: 0.75rem 0.9rem;
-    background: none;
-    border: 0;
-    font: inherit;
-    color: inherit;
-    text-align: left;
-    cursor: pointer;
-  }
-
-  .quellen-kopf:hover {
-    background: var(--flaeche-hover);
-  }
-
-  .pfeil {
-    display: inline-block;
-    transition: transform 0.15s ease;
-    color: var(--text-schwach);
-  }
-
-  .pfeil.offen {
-    transform: rotate(90deg);
-  }
-
-  .quellen-titel {
-    font-weight: 600;
-    flex: 1;
-  }
-
-  .zaehler {
-    font-size: 0.85rem;
-    color: var(--text-schwach);
-    white-space: nowrap;
-  }
-
-  .quellen-inhalt {
-    padding: 0 0.9rem 0.9rem;
-    border-top: 1px solid var(--rand);
-  }
-
   fieldset {
     border: 0;
     padding: 0;

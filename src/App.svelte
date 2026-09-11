@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { untrack } from 'svelte';
+  import Aufklappbereich from './lib/components/Aufklappbereich.svelte';
   import Datenschutz from './lib/components/Datenschutz.svelte';
   import Impressum from './lib/components/Impressum.svelte';
   import QuellenWahl from './lib/components/QuellenWahl.svelte';
@@ -71,6 +73,28 @@
   // und laufen dadurch bei jeder Änderung erneut.
   $effect(() => saveSettings());
   $effect(() => saveDraft());
+
+  // --- Sonstige Optionen ----------------------------------------------------
+  // Weitere Quellen und Zusätzliche Angaben werden selten gebraucht und
+  // bleiben deshalb zugeklappt. Zwei Ausnahmen, damit nichts verborgen bleibt,
+  // was zählt: Steht schon etwas darin (etwa aus der letzten Sitzung), ist
+  // der Bereich offen — sonst landete unbemerkt Text im Prompt. Und verlangt
+  // die Aufgabe die Zusatzangaben, klappt er beim Wechsel auf, weil die
+  // eigene Lösung dort eingetragen wird.
+  const sonstigesAusgefuellt = $derived(
+    [settings.quellenFreitext, draft.zusatz].filter((text) => text.trim() !== '').length,
+  );
+  const sonstigesZusammenfassung = $derived(
+    sonstigesAusgefuellt === 0 ? 'leer' : `${sonstigesAusgefuellt} von 2 ausgefüllt`,
+  );
+
+  let sonstigeOffen = $state(
+    untrack(() => settings.quellenFreitext.trim() !== '' || draft.zusatz.trim() !== ''),
+  );
+
+  $effect(() => {
+    if (aufgabe.needsZusatz) sonstigeOffen = true;
+  });
 
   // Der Seitentitel folgt der Rechtsseite, damit ein Lesezeichen auf das
   // Impressum nicht "Fragenschmiede" heißt.
@@ -257,32 +281,40 @@
 
       <QuellenWahl beruf={settings.beruf} bind:ausgewaehlt={settings.quellen} />
 
-      <div class="feld">
-        <label for="quellen-frei">Weitere Quellen (optional)</label>
-        <textarea
-          id="quellen-frei"
-          rows="2"
-          placeholder="Eine Quelle je Zeile, z. B. Schmidt/Futterer, Mietrecht"
-          bind:value={settings.quellenFreitext}
-        ></textarea>
-        <p class="hinweis">
-          Getrennt wird an Zeilenumbruch und Semikolon – Kommas bleiben erhalten.
-        </p>
-      </div>
+      <Aufklappbereich
+        titel="Sonstige Optionen"
+        zusammenfassung={sonstigesZusammenfassung}
+        bind:offen={sonstigeOffen}
+      >
+        <div class="sonstige">
+          <div class="feld">
+            <label for="quellen-frei">Weitere Quellen (optional)</label>
+            <textarea
+              id="quellen-frei"
+              rows="2"
+              placeholder="Eine Quelle je Zeile, z. B. Schmidt/Futterer, Mietrecht"
+              bind:value={settings.quellenFreitext}
+            ></textarea>
+            <p class="hinweis">
+              Getrennt wird an Zeilenumbruch und Semikolon – Kommas bleiben erhalten.
+            </p>
+          </div>
 
-      <div class="feld">
-        <label for="zusatz">Zusätzliche Angaben, eigene Lösung oder besondere Vorgaben</label>
-        <textarea
-          id="zusatz"
-          rows="3"
-          bind:value={draft.zusatz}
-          onblur={() => (beruehrt.zusatz = true)}
-          aria-invalid={zeigeFehler && pruefung.feld === 'zusatz'}
-        ></textarea>
-        {#if zeigeFehler && pruefung.feld === 'zusatz'}
-          <p class="fehler">{pruefung.meldung}</p>
-        {/if}
-      </div>
+          <div class="feld">
+            <label for="zusatz">Zusätzliche Angaben, eigene Lösung oder besondere Vorgaben</label>
+            <textarea
+              id="zusatz"
+              rows="3"
+              bind:value={draft.zusatz}
+              onblur={() => (beruehrt.zusatz = true)}
+              aria-invalid={zeigeFehler && pruefung.feld === 'zusatz'}
+            ></textarea>
+            {#if zeigeFehler && pruefung.feld === 'zusatz'}
+              <p class="fehler">{pruefung.meldung}</p>
+            {/if}
+          </div>
+        </div>
+      </Aufklappbereich>
     </section>
 
     <section class="karte">
@@ -472,6 +504,15 @@
     gap: 0.45rem;
     font-weight: 400;
     cursor: pointer;
+  }
+
+  /* Innerhalb von „Sonstige Optionen" denselben Abstand wie zwischen den
+     Feldern einer Karte. */
+  .sonstige {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 0.9rem;
   }
 
   .hinweis {

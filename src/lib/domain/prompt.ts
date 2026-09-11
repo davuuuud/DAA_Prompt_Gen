@@ -35,7 +35,7 @@ export function validate(input: PromptInput): Validierung {
       ok: false,
       meldung:
         'Für das Kontrollieren einer Lösung bitte die eigene Lösung unter ' +
-        '"Zusätzliche Angaben" eintragen.',
+        '„Sonstige Optionen“ → „Zusätzliche Angaben“ eintragen.',
       feld: 'zusatz',
     };
   }
