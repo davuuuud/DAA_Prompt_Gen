@@ -14,7 +14,7 @@ keine Festlegung.
 |---|---|---|
 | 1 | Fachlogik, Auswahlkataloge, Quellenkatalog, Oberfläche | fertig |
 | 2 | Installierbare Web-App, Offline-Betrieb, Veröffentlichung | fertig |
-| 3a | Eigene PDF-Unterlagen durchsuchbar machen | als Nächstes |
+| 3a | Eigene PDF-Unterlagen durchsuchbar machen | zurückgestellt |
 
 Die Anwendung läuft unter
 [davuuuud.github.io/DAA_Prompt_Gen](https://davuuuud.github.io/DAA_Prompt_Gen/),
@@ -297,6 +297,15 @@ geschützte Bezeichnung.
 ---
 
 ## Etappe 3 — Eigene Unterlagen durchsuchbar machen
+
+> **Zurückgestellt am 12.09.2026 (Entscheidung des Projekts).** Der
+> PDF-Import (#17) und damit die ganze Etappe ruhen bis auf Weiteres.
+> Begründung: Taugt die Anwendung etwas, kommt sie ohne die Unterlagen der
+> Dozenten aus. Zuerst muss der Prompt selbst so gut sein, dass fremdes
+> Material nichts hinzufügen muss (#34).
+>
+> Die Überlegungen unten bleiben stehen — sie sind der Bauplan, falls die
+> Erprobung zeigt, dass es ohne eigene Unterlagen doch nicht geht.
 
 Der eigentliche Sprung: Die Anwendung findet die passenden Stellen im eigenen
 Lernmaterial und legt sie als Belegstellen in den Prompt. Die Antwort kommt
