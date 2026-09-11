@@ -4,7 +4,7 @@
 // von einer älteren Version geschriebene Datei darf die Anwendung nicht
 // unbrauchbar machen. Unbekannte Werte fallen still auf die Vorgabe zurück.
 
-import { AUFGABEN, BERUFE, FORMATE, NIVEAUS, OPTIONEN } from './catalogs';
+import { AUFGABEN, BERUFE, findAufgabe, FORMATE, NIVEAUS, OPTIONEN } from './catalogs';
 import { DEFAULT_QUELLEN, quellenFuerBeruf } from './quellen';
 import { zweitsprachen } from './sprachen';
 import { DEFAULT_ANZAHL, parseAnzahl } from './text';
@@ -119,4 +119,70 @@ export function toPromptInput(
     thema: eingaben.thema,
     zusatz: eingaben.zusatz,
   };
+}
+
+// ---------------------------------------------------------------------------
+// Auswahl zurücksetzen
+// ---------------------------------------------------------------------------
+
+/**
+ * Was „Auf Standard" zurücksetzt: alles, was ausgewählt wird. Was jemand
+ * geschrieben hat — Thema, Weitere Quellen, Zusätzliche Angaben — bleibt
+ * stehen. Wer an den Optionen herumprobiert hat, will zurück zum Standard,
+ * aber nicht seine Frage verlieren.
+ */
+export type Auswahl = Pick<
+  Settings,
+  'beruf' | 'aufgabe' | 'niveau' | 'format' | 'zweitsprache' | 'anzahl' | 'optionen' | 'quellen'
+>;
+
+/** Die aktuelle Auswahl als unabhängige Kopie — für „Rückgängig". */
+export function auswahlVon(settings: Auswahl): Auswahl {
+  return {
+    beruf: settings.beruf,
+    aufgabe: settings.aufgabe,
+    niveau: settings.niveau,
+    format: settings.format,
+    zweitsprache: settings.zweitsprache,
+    anzahl: settings.anzahl,
+    optionen: [...settings.optionen],
+    quellen: [...settings.quellen],
+  };
+}
+
+export function standardAuswahl(): Auswahl {
+  return auswahlVon(defaultSettings());
+}
+
+/** Gleiche Einträge, Reihenfolge egal. */
+function gleicheMenge(a: readonly string[], b: readonly string[]): boolean {
+  const x = new Set(a);
+  const y = new Set(b);
+  return x.size === y.size && [...x].every((wert) => y.has(wert));
+}
+
+/**
+ * Weicht die sichtbare Auswahl vom Standard ab? Davon hängt ab, ob „Auf
+ * Standard" überhaupt angeboten wird.
+ *
+ * Die Anzahl zählt nur, wenn die gewählte Aufgabe sie benutzt. Sonst stünde
+ * der Verweis da, obwohl auf dem Bildschirm alles nach Standard aussieht —
+ * etwa bei jemandem, der noch die frühere Vorgabe 8 gespeichert hat.
+ */
+export function weichtVomStandardAb(settings: Auswahl): boolean {
+  const standard = standardAuswahl();
+  if (
+    settings.beruf !== standard.beruf ||
+    settings.aufgabe !== standard.aufgabe ||
+    settings.niveau !== standard.niveau ||
+    settings.format !== standard.format ||
+    settings.zweitsprache !== standard.zweitsprache
+  ) {
+    return true;
+  }
+  if (findAufgabe(settings.aufgabe).needsCount && settings.anzahl !== standard.anzahl) return true;
+  return (
+    !gleicheMenge(settings.optionen, standard.optionen) ||
+    !gleicheMenge(settings.quellen, standard.quellen)
+  );
 }

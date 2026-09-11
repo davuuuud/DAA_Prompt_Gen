@@ -69,8 +69,10 @@
       die Anwendung auch kein Zustimmungsfenster zeigt.
     </p>
     <p>
-      <strong>Löschen:</strong> Die Schaltfläche „Zurücksetzen“ in der Anwendung entfernt beide
-      Einträge. Ebenso wirkt das Löschen der Websitedaten in den Browsereinstellungen.
+      <strong>Löschen:</strong> Vollständig entfernen lassen sich beide Einträge, indem Sie in den
+      Browsereinstellungen die Websitedaten dieser Seite löschen. Innerhalb der Anwendung gilt:
+      Leeren Sie die Textfelder, ist auch der gespeicherte Entwurf leer; „Auf Standard“ setzt
+      die Auswahl zurück, lässt geschriebenen Text aber bewusst stehen.
     </p>
     <p>
       Wenn Sie die Anwendung auf dem Startbildschirm installieren oder offline nutzen, legt der

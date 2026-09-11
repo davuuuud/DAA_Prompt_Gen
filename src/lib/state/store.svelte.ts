@@ -6,7 +6,13 @@
 // jederzeit in den Hintergrund geschoben, und dann wäre ein halb getippter
 // Text sonst verloren.
 
-import { defaultSettings, normalizeSettings, type Settings } from '../domain/settings';
+import {
+  auswahlVon,
+  normalizeSettings,
+  standardAuswahl,
+  type Auswahl,
+  type Settings,
+} from '../domain/settings';
 
 const SETTINGS_KEY = 'ihk-lernassistent.einstellungen';
 const DRAFT_KEY = 'ihk-lernassistent.entwurf';
@@ -62,9 +68,16 @@ export function saveDraft(): void {
   writeJSON(DRAFT_KEY, draft);
 }
 
-/** Setzt Einstellungen und Entwurf auf die Vorgabewerte zurück. */
-export function resetAll(): void {
-  Object.assign(settings, defaultSettings());
-  draft.thema = '';
-  draft.zusatz = '';
+/**
+ * Setzt die Auswahl auf den Standard und gibt die bisherige zurück, damit
+ * sich der Schritt rückgängig machen lässt. Geschriebener Text bleibt.
+ */
+export function auswahlZuruecksetzen(): Auswahl {
+  const vorher = auswahlVon(settings);
+  Object.assign(settings, standardAuswahl());
+  return vorher;
+}
+
+export function auswahlWiederherstellen(auswahl: Auswahl): void {
+  Object.assign(settings, auswahlVon(auswahl));
 }

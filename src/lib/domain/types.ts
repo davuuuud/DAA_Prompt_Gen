@@ -97,7 +97,7 @@ export interface Option {
   label: string;
   /** Anforderungssatz, der bei aktivierter Option in den Prompt wandert. */
   rule: string;
-  /** Voreinstellung beim ersten Start und beim Zurücksetzen. */
+  /** Voreinstellung beim ersten Start und bei „Auf Standard“. */
   defaultOn: boolean;
 }
 

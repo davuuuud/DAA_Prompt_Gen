@@ -22,12 +22,19 @@
   import { buildPrompt, validate } from './lib/domain/prompt';
   import { quellenFuerBeruf } from './lib/domain/quellen';
   import { spracheBeschriftung, zweitsprachen } from './lib/domain/sprachen';
-  import { toPromptInput } from './lib/domain/settings';
+  import { toPromptInput, weichtVomStandardAb, type Auswahl } from './lib/domain/settings';
   import { MAX_ANZAHL, MIN_ANZAHL, toCRLF } from './lib/domain/text';
   import { copyText } from './lib/platform/clipboard';
   import { canShare, openChatGPT, shareText } from './lib/platform/share';
   import { ANKER, navigation } from './lib/state/route.svelte';
-  import { draft, resetAll, saveDraft, saveSettings, settings } from './lib/state/store.svelte';
+  import {
+    auswahlWiederherstellen,
+    auswahlZuruecksetzen,
+    draft,
+    saveDraft,
+    saveSettings,
+    settings,
+  } from './lib/state/store.svelte';
 
   const input = $derived(toPromptInput(settings, { thema: draft.thema, zusatz: draft.zusatz }));
   const pruefung = $derived(validate(input));
@@ -136,12 +143,37 @@
     if (ergebnis === 'nicht-verfuegbar') melde('Teilen wird von diesem Browser nicht unterstützt.');
   }
 
-  function zuruecksetzen() {
-    if (confirm('Alle Eingaben und Einstellungen auf die Vorgabewerte zurücksetzen?')) {
-      resetAll();
-      melde('Zurückgesetzt.');
-    }
+  // --- Auf Standard ---------------------------------------------------------
+  // Setzt die Auswahl zurück; Geschriebenes bleibt stehen. Statt einer
+  // Rückfrage gibt es "Rückgängig": Wer sich verklickt, holt den alten Stand
+  // mit einem Klick zurück, und wer es wollte, wird nicht aufgehalten.
+  const abweichung = $derived(weichtVomStandardAb(settings));
+  let rueckgaengig = $state<Auswahl | null>(null);
+  let rueckgaengigTimer: ReturnType<typeof setTimeout> | undefined;
+  // Unsichtbar, aber für Bildschirmleser: kündigt das Zurücksetzen an.
+  let ansage = $state('');
+
+  function aufStandard() {
+    rueckgaengig = auswahlZuruecksetzen();
+    ansage = 'Auswahl auf Standard zurückgesetzt. Rückgängig ist möglich.';
+    clearTimeout(rueckgaengigTimer);
+    rueckgaengigTimer = setTimeout(() => (rueckgaengig = null), 15000);
   }
+
+  function wiederherstellen() {
+    if (!rueckgaengig) return;
+    auswahlWiederherstellen(rueckgaengig);
+    rueckgaengig = null;
+    ansage = 'Vorherige Auswahl wiederhergestellt.';
+    clearTimeout(rueckgaengigTimer);
+  }
+
+  // Verstellt jemand nach dem Zurücksetzen wieder etwas, ist der alte Stand
+  // nicht mehr das, was man zurückhaben will — dann erscheint wieder
+  // "Auf Standard" statt "Rückgängig".
+  $effect(() => {
+    if (abweichung) rueckgaengig = null;
+  });
 </script>
 
 <div class="huelle">
@@ -183,6 +215,25 @@
 
   <main>
     <section class="karte">
+      <div class="karten-kopf">
+        <h2>Einstellungen</h2>
+        {#if rueckgaengig}
+          <span class="auf-standard">
+            Zurückgesetzt ·
+            <button type="button" class="link" onclick={wiederherstellen}>Rückgängig</button>
+          </span>
+        {:else if abweichung}
+          <button
+            type="button"
+            class="link auf-standard"
+            onclick={aufStandard}
+            title="Setzt die Auswahl auf den Standard. Was du geschrieben hast, bleibt."
+          >
+            <span aria-hidden="true">↺</span> Auf Standard
+          </button>
+        {/if}
+        <span class="nur-vorlesen" aria-live="polite">{ansage}</span>
+      </div>
       <div class="raster">
         <div class="feld">
           <label for="beruf">Ausbildungsberuf</label>
@@ -337,7 +388,6 @@
           <button type="button" onclick={teilen} disabled={!prompt}>Teilen</button>
         {/if}
         <button type="button" onclick={openChatGPT}>ChatGPT öffnen</button>
-        <button type="button" class="still" onclick={zuruecksetzen}>Zurücksetzen</button>
       </div>
 
       <p class="status" role="status" aria-live="polite">{status}</p>
@@ -504,6 +554,39 @@
     gap: 0.45rem;
     font-weight: 400;
     cursor: pointer;
+  }
+
+  /* Kopfzeile der Einstellungskarte. Die Mindesthöhe verhindert, dass das
+     Formular springt, wenn „Auf Standard" erscheint oder verschwindet. */
+  .karten-kopf {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 1.5rem;
+  }
+
+  .auf-standard {
+    font-size: 0.85rem;
+    color: var(--text-schwach);
+    white-space: nowrap;
+  }
+
+  button.auf-standard {
+    color: var(--akzent);
+  }
+
+  /* Für Bildschirmleser vorhanden, auf dem Bildschirm unsichtbar. */
+  .nur-vorlesen {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
   }
 
   /* Innerhalb von „Sonstige Optionen" denselben Abstand wie zwischen den

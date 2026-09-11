@@ -15,7 +15,14 @@ import {
   validate,
   zweispracheRegeln,
 } from './prompt';
-import { defaultSettings, normalizeSettings, toPromptInput } from './settings';
+import {
+  auswahlVon,
+  defaultSettings,
+  normalizeSettings,
+  standardAuswahl,
+  toPromptInput,
+  weichtVomStandardAb,
+} from './settings';
 import {
   BASISSPRACHE,
   findSprache,
@@ -414,6 +421,82 @@ describe('Standardwerte', () => {
     expect([...standard.optionen].sort()).toEqual(
       ['fachbegriffe', 'ihk-bezug', 'praxisbeispiel'].sort(),
     );
+  });
+});
+
+describe('Auf Standard', () => {
+  const standard = () => defaultSettings();
+
+  it('bietet das Zurücksetzen nicht an, solange alles auf Standard steht', () => {
+    expect(weichtVomStandardAb(standard())).toBe(false);
+  });
+
+  it('erkennt jede geänderte Auswahl', () => {
+    expect(weichtVomStandardAb({ ...standard(), beruf: 'immobilien' })).toBe(true);
+    expect(weichtVomStandardAb({ ...standard(), format: 'tabelle' })).toBe(true);
+    expect(weichtVomStandardAb({ ...standard(), zweitsprache: 'uk' })).toBe(true);
+    expect(weichtVomStandardAb({ ...standard(), optionen: ['fachbegriffe'] })).toBe(true);
+    expect(weichtVomStandardAb({ ...standard(), quellen: [] })).toBe(true);
+  });
+
+  it('achtet bei Optionen und Quellen nicht auf die Reihenfolge', () => {
+    const s = standard();
+    expect(
+      weichtVomStandardAb({ ...s, optionen: [...s.optionen].reverse(), quellen: [...s.quellen].reverse() }),
+    ).toBe(false);
+  });
+
+  it('zählt die Anzahl nur, wenn die Aufgabe sie benutzt', () => {
+    // Wer noch die frühere Vorgabe 8 gespeichert hat, sieht bei "Thema
+    // erklären" kein Anzahlfeld — dann darf "Auf Standard" nicht erscheinen.
+    expect(weichtVomStandardAb({ ...standard(), anzahl: 8 })).toBe(false);
+    expect(
+      weichtVomStandardAb({ ...standard(), aufgabe: 'karteikarten', anzahl: 8 }),
+    ).toBe(true);
+  });
+
+  // Die vollständigen Einstellungen enthalten auch geschriebenen Text; die
+  // Funktionen bekommen im Betrieb genau dieses Objekt übergeben.
+  it('erfasst geschriebenen Text nicht als Abweichung', () => {
+    const mitText = { ...standard(), quellenFreitext: 'Schmidt/Futterer' };
+    expect(weichtVomStandardAb(mitText)).toBe(false);
+  });
+
+  it('nimmt keinen geschriebenen Text in die Auswahl auf', () => {
+    const mitText = { ...standard(), quellenFreitext: 'Mein Text' };
+    const auswahl = auswahlVon(mitText);
+    expect(Object.keys(auswahl)).not.toContain('quellenFreitext');
+    expect(Object.keys(standardAuswahl())).not.toContain('quellenFreitext');
+  });
+
+  it('kopiert Listen, damit "Rückgängig" nicht mitverändert wird', () => {
+    const vorher = standard();
+    const kopie = auswahlVon(vorher);
+    vorher.optionen.push('rueckfragen');
+    vorher.quellen.length = 0;
+    expect(kopie.optionen).not.toContain('rueckfragen');
+    expect(kopie.quellen.length).toBeGreaterThan(0);
+  });
+
+  it('stellt nach Zurücksetzen und Rückgängig den alten Stand her', () => {
+    // Nachgestellt ohne Oberfläche: dieselben Schritte wie im Store.
+    const zustand = {
+      ...standard(),
+      beruf: 'immobilien' as const,
+      format: 'tabelle' as const,
+      optionen: ['rueckfragen' as const],
+      quellenFreitext: 'bleibt stehen',
+    };
+    const vorher = auswahlVon(zustand);
+    Object.assign(zustand, standardAuswahl());
+    expect(weichtVomStandardAb(zustand)).toBe(false);
+    expect(zustand.quellenFreitext).toBe('bleibt stehen');
+
+    Object.assign(zustand, auswahlVon(vorher));
+    expect(zustand.beruf).toBe('immobilien');
+    expect(zustand.format).toBe('tabelle');
+    expect(zustand.optionen).toEqual(['rueckfragen']);
+    expect(zustand.quellenFreitext).toBe('bleibt stehen');
   });
 });
 
