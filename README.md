@@ -4,10 +4,12 @@
 
 **→ [davuuuud.github.io/DAA_Prompt_Gen](https://davuuuud.github.io/DAA_Prompt_Gen/)**
 
-Wer eine KI einfach so fragt, bekommt eine allgemeine Antwort. Diese Anwendung
-baut daraus eine Frage, die Ausbildungsberuf, Niveau und die Anforderungen der
-Abschlussprüfung berücksichtigt – und die verlangt, Quellen zu belegen und
-Unsicherheiten zu benennen, statt Paragraphen zu erfinden.
+GIGO: Garbage in, garbage out. Wenn du die KI mit Müll fütterst, bekommst du
+auch Müll zurück. **Hier entsteht das Gegenteil.**
+
+Die Fragenschmiede baut aus deinem Thema eine Frage, die deinen
+Ausbildungsberuf, dein Niveau und die Anforderungen deiner Abschlussprüfung
+kennt – und die Quellen verlangt, statt Paragraphen zu erfinden.
 
 Läuft im Browser und lässt sich auf dem Telefon zum Startbildschirm hinzufügen.
 Alles geschieht auf dem Gerät: kein Konto, keine Anmeldung, keine
@@ -104,8 +106,10 @@ vom Go-Programm ohne einen einzigen Compilerfehler durchlief.
 Der [Fahrplan](ROADMAP.md) beschreibt die nächsten Entwicklungsstufen, die
 Leitentscheidungen dahinter und was bewusst nicht geplant ist.
 
-Als Nächstes steht **Etappe 3a** an: eigene PDF-Unterlagen durchsuchbar
-machen, sodass die passenden Stellen als Belegstellen in den Prompt wandern.
+**Etappe 3** (eigene Unterlagen durchsuchbar machen) ist seit dem 12.09.2026
+zurückgestellt: Taugt die Anwendung etwas, kommt sie ohne die Unterlagen der
+Dozenten aus. Als Nächstes zählt deshalb die Güte der Prompts selbst
+([Issue #34](https://github.com/davuuuud/DAA_Prompt_Gen/issues/34)).
 
 Offen und nicht durch Programmieren zu lösen:
 

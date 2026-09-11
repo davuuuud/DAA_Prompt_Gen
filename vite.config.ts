@@ -13,9 +13,10 @@ const { version } = JSON.parse(readFileSync('./package.json', 'utf8')) as { vers
 const APP_NAME = 'Fragenschmiede';
 const APP_ORG = 'DAA MWW';
 const APP_BESCHREIBUNG =
-  'Wer eine KI einfach so fragt, bekommt eine allgemeine Antwort. Die Fragenschmiede ' +
-  'baut daraus eine Frage, die Ausbildungsberuf, Niveau und die Anforderungen der ' +
-  'Abschlussprüfung berücksichtigt. Läuft lokal auf dem Gerät, ohne Konto.';
+  'Garbage in, garbage out: Wer die KI mit Müll füttert, bekommt Müll zurück. Die ' +
+  'Fragenschmiede baut aus deinem Thema eine Frage, die Ausbildungsberuf, Niveau und ' +
+  'die Anforderungen der Abschlussprüfung kennt – und die Quellen verlangt, statt ' +
+  'Paragraphen zu erfinden. Läuft lokal auf dem Gerät, ohne Konto.';
 
 // Der Basispfad lässt sich beim Bauen setzen, weil GitHub Pages die Seite
 // unter /projektname/ ausliefert und nicht im Wurzelverzeichnis:

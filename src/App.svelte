@@ -229,11 +229,15 @@
         <p class="urheber">Eine Idee von Mick Jagger, John Lennon und Douglas Adams</p>
       </div>
     </div>
-    <p class="anriss">Wer eine KI einfach so fragt, bekommt eine allgemeine Antwort.</p>
+    <p class="anriss">
+      GIGO: Garbage in, garbage out. Wenn du die KI mit Müll fütterst, bekommst du auch Müll
+      zurück.
+    </p>
+    <p class="anriss">Hier entsteht das Gegenteil.</p>
     <p class="untertitel">
-      Diese Anwendung baut daraus eine Frage, die deinen Ausbildungsberuf, dein Niveau und die
-      Anforderungen deiner Abschlussprüfung berücksichtigt – und die verlangt, Quellen zu
-      belegen und Unsicherheiten zu benennen, statt Paragraphen zu erfinden.
+      Die Fragenschmiede baut aus deinem Thema eine Frage, die deinen Ausbildungsberuf, dein
+      Niveau und die Anforderungen deiner Abschlussprüfung kennt – und die Quellen verlangt,
+      statt Paragraphen zu erfinden.
     </p>
     <p class="ablauf">
       Thema eintragen, fertigen Prompt kopieren, in ChatGPT oder eine andere KI einfügen.
