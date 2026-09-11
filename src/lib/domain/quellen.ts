@@ -8,6 +8,7 @@
 
 import { KATALOG, type KatalogQuelle, type QuellenArt } from './quellenkatalog';
 import type { BerufId } from './types';
+import { fruehereVoreinstellungen, VOREINSTELLUNG } from './voreinstellung';
 
 export type { KatalogQuelle as Quelle, QuellenArt };
 
@@ -40,20 +41,26 @@ export function quellenNachGruppe(
 }
 
 /**
- * Die Voreinstellung für einen Beruf: die allgemeinen Standardquellen und
- * die des Berufs selbst — in der Regel seine Ausbildungsordnung und sein
- * Rahmenlehrplan.
+ * Die Voreinstellung für einen Beruf, in der Reihenfolge des Prompts.
+ * Festgelegt und begründet in voreinstellung.ts.
  */
 export function standardQuellen(beruf: BerufId): string[] {
-  return quellenFuerBeruf(beruf)
-    .filter((quelle) => quelle.standard)
-    .map((quelle) => quelle.id);
+  const erlaubt = new Set(quellenFuerBeruf(beruf).map((quelle) => quelle.id));
+  return VOREINSTELLUNG[beruf].filter((id) => erlaubt.has(id));
 }
 
 function gleicheMenge(a: readonly string[], b: readonly string[]): boolean {
   const x = new Set(a);
   const y = new Set(b);
   return x.size === y.size && [...x].every((wert) => y.has(wert));
+}
+
+/**
+ * Ist die gespeicherte Auswahl eine frühere Voreinstellung, die nie
+ * angefasst wurde? Dann gilt stattdessen die aktuelle.
+ */
+export function istFruehereVoreinstellung(auswahl: readonly string[], beruf: BerufId): boolean {
+  return fruehereVoreinstellungen(beruf).some((frueher) => gleicheMenge(auswahl, frueher));
 }
 
 /**

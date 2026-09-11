@@ -45,6 +45,10 @@
   const zeichen = $derived(prompt.length);
   const woerter = $derived(prompt.trim() ? prompt.trim().split(/\s+/).length : 0);
 
+  // Der fertige Prompt ist zugeklappt: Wer ihn nur kopiert, braucht den
+  // langen Text nicht vor Augen. Die Knöpfe bleiben darunter immer sichtbar.
+  let promptOffen = $state(false);
+
   const teilenMoeglich = canShare();
 
   // Ziel für Rückmeldungen. Ist eine E-Mail-Adresse hinterlegt, entsteht eine
@@ -380,17 +384,23 @@
     </section>
 
     <section class="karte">
-      <div class="ausgabe-kopf">
-        <h2>Fertiger Prompt</h2>
-        {#if prompt}
-          <span class="statistik">{zeichen} Zeichen · {woerter} Wörter</span>
-        {/if}
-      </div>
+      <Aufklappbereich
+        titel="Fertiger Prompt"
+        zusammenfassung={prompt ? `${zeichen} Zeichen · ${woerter} Wörter` : 'noch unvollständig'}
+        bind:offen={promptOffen}
+      >
+        <div class="ausgabe">
+          {#if prompt}
+            <pre class="prompt">{prompt}</pre>
+          {:else}
+            <p class="leer">{pruefung.meldung}</p>
+          {/if}
+        </div>
+      </Aufklappbereich>
 
-      {#if prompt}
-        <pre class="prompt">{prompt}</pre>
-      {:else}
-        <p class="leer">{pruefung.meldung}</p>
+      <!-- Zugeklappt sähe man sonst nicht, warum „Kopieren" gesperrt ist. -->
+      {#if !prompt && !promptOffen}
+        <p class="hinweis">{pruefung.meldung}</p>
       {/if}
 
       <div class="aktionen">
@@ -621,22 +631,13 @@
     color: var(--warnung);
   }
 
-  .ausgabe-kopf {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-
   h2 {
     margin: 0;
     font-size: 1rem;
   }
 
-  .statistik {
-    font-size: 0.8rem;
-    color: var(--text-schwach);
-    white-space: nowrap;
+  .ausgabe {
+    padding-top: 0.9rem;
   }
 
   .prompt {

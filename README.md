@@ -83,7 +83,8 @@ src/lib/domain/      Fachlogik ohne Oberfläche, vollständig durch Tests gedeck
   types.ts             gemeinsame Typen, stabile Bezeichner statt Indizes
   catalogs.ts          Berufe, Aufgaben, Optionen, Niveaus, Ausgabeformate
   quellenkatalog.ts    alle Quellen, je Beruf zugeordnet
-  quellen.ts           Berufsfilter, Voreinstellung, Wortlaut im Prompt
+  voreinstellung.ts    welche Quellen je Beruf voreingestellt sind, mit Begründung
+  quellen.ts           Berufsfilter, Berufswechsel, Wortlaut im Prompt
   prompt.ts            Aufbau des fertigen Prompts
   settings.ts          Vorgaben und Normalisierung gespeicherter Werte
   text.ts              Textwerkzeuge

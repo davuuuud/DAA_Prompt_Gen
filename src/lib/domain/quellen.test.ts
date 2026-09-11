@@ -19,6 +19,7 @@ import {
 } from './quellen';
 import { KATALOG } from './quellenkatalog';
 import { defaultSettings, normalizeSettings, toPromptInput } from './settings';
+import { fruehereVoreinstellungen, MAX_VOREINSTELLUNG, VOREINSTELLUNG } from './voreinstellung';
 
 describe('Quellenkatalog', () => {
   it('hat eindeutige Bezeichner und gültige Arten', () => {
@@ -136,33 +137,59 @@ describe('Nur im Durchsichtsbogen', () => {
 });
 
 describe('Voreinstellung', () => {
-  it('stellt jedem Beruf die amtlichen Gesetzestexte und das Lexikon voran', () => {
+  it('nennt nur Quellen, die der Beruf auch zu sehen bekommt', () => {
+    // Ein Tippfehler im Bezeichner fiele sonst still heraus.
     for (const beruf of BERUFE) {
-      const standard = standardQuellen(beruf.id);
-      expect(standard, beruf.id).toContain('gesetze-im-internet-de');
-      expect(standard, beruf.id).toContain('gabler');
+      const verfuegbar = new Set(quellenFuerBeruf(beruf.id).map((q) => q.id));
+      for (const id of VOREINSTELLUNG[beruf.id]) {
+        expect(verfuegbar.has(id), `${beruf.id}: ${id}`).toBe(true);
+      }
+      expect(standardQuellen(beruf.id)).toEqual(VOREINSTELLUNG[beruf.id]);
+      expect(new Set(VOREINSTELLUNG[beruf.id]).size, beruf.id).toBe(VOREINSTELLUNG[beruf.id].length);
     }
   });
 
-  it('stellt jedem Beruf außer KGQ Ausbildungsordnung und Rahmenlehrplan ein', () => {
+  it('beginnt bei jedem Beruf außer KGQ mit Ausbildungsordnung und Rahmenlehrplan', () => {
     for (const beruf of BERUFE.filter((b) => b.id !== 'kgq')) {
-      const eigene = quellenFuerBeruf(beruf.id).filter(
-        (q) => q.berufe?.includes(beruf.id) && q.standard,
-      );
-      const kuerzel = eigene.map((q) => q.kuerzel);
-      expect(kuerzel, beruf.id).toContain('Ausbildungsordnung');
-      expect(kuerzel, beruf.id).toContain('Rahmenlehrplan');
+      const ersteZwei = standardQuellen(beruf.id)
+        .slice(0, 2)
+        .map((id) => QUELLEN.find((q) => q.id === id)!);
+      expect(ersteZwei.map((q) => q.kuerzel), beruf.id).toEqual([
+        'Ausbildungsordnung',
+        'Rahmenlehrplan',
+      ]);
+      for (const q of ersteZwei) expect(q.berufe, `${beruf.id}/${q.id}`).toContain(beruf.id);
     }
   });
 
-  it('stellt bei KGQ das WiSo-Qualifikationsprofil ein', () => {
-    const texte = standardQuellen('kgq').map((id) => QUELLEN.find((q) => q.id === id)!);
-    expect(texte.map(promptBezeichnung).join(' ')).toContain('Wirtschafts- und Sozialkunde');
+  it('beginnt bei KGQ mit dem WiSo-Qualifikationsprofil', () => {
+    const erste = QUELLEN.find((q) => q.id === standardQuellen('kgq')[0])!;
+    expect(promptBezeichnung(erste)).toContain('Wirtschafts- und Sozialkunde');
+  });
+
+  it('enthält über die Vorgaben hinaus mindestens zwei eigene Fachquellen', () => {
+    // Sonst wäre die Voreinstellung für alle Berufe dieselbe.
+    const allgemein = new Set(['gesetze-im-internet-de', 'gabler']);
+    for (const beruf of BERUFE) {
+      const fach = standardQuellen(beruf.id).filter((id) => {
+        const q = QUELLEN.find((eintrag) => eintrag.id === id)!;
+        return q.art !== 'vorgabe' && !allgemein.has(id);
+      });
+      expect(fach.length, beruf.id).toBeGreaterThanOrEqual(2);
+    }
+  });
+
+  it('stellt nichts ein, woraus eine KI nicht belegen kann', () => {
+    // AkA-Kataloge und Kammermaterial sind nicht öffentlich.
+    const nichtOeffentlich = ['aka', 'aka-katalog-wiso', 'dws-steuerberaterkammer', 'haufe'];
+    for (const beruf of BERUFE) {
+      for (const id of nichtOeffentlich) expect(standardQuellen(beruf.id), beruf.id).not.toContain(id);
+    }
   });
 
   it('bleibt kurz — ein Prompt mit zwanzig Quellen gewichtet keine', () => {
     for (const beruf of BERUFE) {
-      expect(standardQuellen(beruf.id).length, beruf.id).toBeLessThanOrEqual(6);
+      expect(standardQuellen(beruf.id).length, beruf.id).toBeLessThanOrEqual(MAX_VOREINSTELLUNG);
     }
   });
 });
@@ -262,11 +289,22 @@ describe('Einstellungen', () => {
     expect(new Set(s.quellen)).toEqual(new Set(standardQuellen('fachinformatik')));
   });
 
-  it('übernimmt die alte Voreinstellung, soweit es sie noch gibt', () => {
-    // Vor der Übernahme gespeichert. "ausbildungsordnung" (allgemein) gibt
-    // es in der App nicht mehr; der Rest bleibt erhalten.
-    const alt = ['ihk-veroeffentlichungen', 'ausbildungsordnung', 'bgb', 'hgb', 'haufe', 'gabler'];
-    const s = normalizeSettings({ beruf: 'kgq', quellen: alt });
-    expect(s.quellen).toEqual(['ihk-veroeffentlichungen', 'bgb', 'hgb', 'haufe', 'gabler']);
+  it('ersetzt eine nie angefasste frühere Voreinstellung durch die aktuelle', () => {
+    // Sonst erreichte die neue Voreinstellung genau die nicht, die sich auf
+    // die alte verlassen haben.
+    for (const beruf of BERUFE) {
+      for (const frueher of fruehereVoreinstellungen(beruf.id)) {
+        const umgestellt = [...frueher].reverse(); // Reihenfolge zählt nicht
+        const s = normalizeSettings({ beruf: beruf.id, quellen: umgestellt });
+        expect(s.quellen, `${beruf.id}: ${frueher.join(', ')}`).toEqual(standardQuellen(beruf.id));
+      }
+    }
+  });
+
+  it('lässt eine eigene Auswahl stehen, auch wenn sie einer früheren ähnelt', () => {
+    // Erste Fassung plus eine eigene Quelle: angefasst, also behalten.
+    const eigene = ['ihk-veroeffentlichungen', 'ausbildungsordnung', 'bgb', 'hgb', 'haufe', 'gabler', 'weg'];
+    const s = normalizeSettings({ beruf: 'immobilien', quellen: eigene });
+    expect(s.quellen).toEqual(['ihk-veroeffentlichungen', 'bgb', 'hgb', 'haufe', 'gabler', 'weg']);
   });
 });

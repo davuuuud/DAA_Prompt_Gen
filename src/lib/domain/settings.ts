@@ -5,7 +5,7 @@
 // unbrauchbar machen. Unbekannte Werte fallen still auf die Vorgabe zurück.
 
 import { AUFGABEN, BERUFE, findAufgabe, FORMATE, NIVEAUS, OPTIONEN } from './catalogs';
-import { quellenFuerBeruf, standardQuellen } from './quellen';
+import { istFruehereVoreinstellung, quellenFuerBeruf, standardQuellen } from './quellen';
 import { zweitsprachen } from './sprachen';
 import { DEFAULT_ANZAHL, parseAnzahl } from './text';
 import type {
@@ -72,9 +72,15 @@ export function normalizeSettings(raw: unknown): Settings {
   const beruf = pickId(BERUFE, data.beruf, fallback.beruf) as BerufId;
 
   // Quellen werden gegen den Katalog des gewählten Berufs geprüft: Nach einem
-  // Berufswechsel dürfen keine unpassenden Vorgaben zurückbleiben.
+  // Berufswechsel dürfen keine unpassenden Vorgaben zurückbleiben. Eine nie
+  // angefasste frühere Voreinstellung weicht der aktuellen.
   const erlaubteQuellen = quellenFuerBeruf(beruf);
-  const quellen = pickIds(erlaubteQuellen, data.quellen);
+  const gespeichert = Array.isArray(data.quellen)
+    ? data.quellen.filter((id): id is string => typeof id === 'string')
+    : [];
+  const quellen = istFruehereVoreinstellung(gespeichert, beruf)
+    ? []
+    : pickIds(erlaubteQuellen, gespeichert);
 
   return {
     version: SETTINGS_VERSION,

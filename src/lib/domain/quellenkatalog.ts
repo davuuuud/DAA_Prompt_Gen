@@ -20,6 +20,8 @@
 //    jede Änderung des Katalogs hinweg; bisherige Bezeichner wurden
 //    übernommen.
 //
+// Welche Quellen je Beruf voreingestellt sind, steht in voreinstellung.ts.
+//
 // Hinweise an die Dozenten stehen bewusst NICHT hier, sondern in
 // quellen-durchsicht/durchsicht.mjs, verknüpft über den Bezeichner. So
 // gelangen sie nicht einmal ins ausgelieferte Programm — rund ein Drittel
@@ -48,8 +50,6 @@ export interface KatalogQuelle {
   art: QuellenArt;
   /** Fehlt die Angabe, gilt die Quelle für alle Berufe. */
   berufe?: BerufId[];
-  /** Beim ersten Start und bei „Auf Standard" angehakt. */
-  standard?: boolean;
   /** Wortlaut im Prompt, wenn „Kürzel (Titel)" dort nicht taugt. */
   prompt?: string;
 }
@@ -248,7 +248,6 @@ export const KATALOG: KatalogQuelle[] = [
     kuerzel: 'gesetze-im-internet.de',
     titel: 'Amtliche Gesetzesfassungen des Bundes',
     art: 'nachschlagewerk',
-    standard: true,
   },
   {
     id: 'recht-nrw-de',
@@ -267,7 +266,6 @@ export const KATALOG: KatalogQuelle[] = [
     kuerzel: 'Gabler',
     titel: 'Springer Gabler Wirtschaftslexikon',
     art: 'nachschlagewerk',
-    standard: true,
   },
   {
     id: 'haufe',
@@ -323,7 +321,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Kompetenzorientiertes Qualifikationsprofil Wirtschafts- und Sozialkunde',
     art: 'vorgabe',
     berufe: ['kgq'],
-    standard: true,
     prompt: 'Kompetenzorientiertes Qualifikationsprofil Wirtschafts- und Sozialkunde der KMK (2021)',
   },
   {
@@ -332,7 +329,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Prüfungskatalog Wirtschafts- und Sozialkunde',
     art: 'vorgabe',
     berufe: ['kgq'],
-    standard: true,
     prompt: 'Prüfungskatalog Wirtschafts- und Sozialkunde der AkA',
   },
   {
@@ -398,7 +394,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Verordnung über die Berufsausbildung im Einzelhandel',
     art: 'vorgabe',
     berufe: ['einzelhandel'],
-    standard: true,
     prompt: 'Verordnung über die Berufsausbildung im Einzelhandel',
   },
   {
@@ -407,7 +402,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Vierzehn Lernfelder, 880 Stunden',
     art: 'vorgabe',
     berufe: ['einzelhandel'],
-    standard: true,
     prompt: 'Rahmenlehrplan der KMK für Kaufleute im Einzelhandel',
   },
   {
@@ -508,7 +502,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Verordnung über die Berufsausbildung in den IT-Berufen',
     art: 'vorgabe',
     berufe: ['fachinformatik'],
-    standard: true,
     prompt: 'Verordnung über die Berufsausbildung in den IT-Berufen',
   },
   {
@@ -517,7 +510,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Zwölf Lernfelder, davon 1 bis 9 gemeinsam',
     art: 'vorgabe',
     berufe: ['fachinformatik'],
-    standard: true,
     prompt: 'Rahmenlehrplan der KMK für Fachinformatiker – Systemintegration',
   },
   {
@@ -645,7 +637,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Verordnung über die Berufsausbildung zur Fachkraft für Lagerlogistik',
     art: 'vorgabe',
     berufe: ['lagerlogistik'],
-    standard: true,
     prompt: 'Verordnung über die Berufsausbildung zur Fachkraft für Lagerlogistik',
   },
   {
@@ -654,7 +645,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Zwölf Lernfelder, 840 Stunden',
     art: 'vorgabe',
     berufe: ['lagerlogistik'],
-    standard: true,
     prompt: 'Rahmenlehrplan der KMK für Fachkräfte für Lagerlogistik',
   },
   {
@@ -768,7 +758,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Verordnung über die Berufsausbildung zur Fachkraft für Schutz und Sicherheit',
     art: 'vorgabe',
     berufe: ['schutzsicherheit'],
-    standard: true,
     prompt: 'Verordnung über die Berufsausbildung zur Fachkraft für Schutz und Sicherheit',
   },
   {
@@ -777,7 +766,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Zwölf Lernfelder, KMK-Beschluss vom 10.04.2008',
     art: 'vorgabe',
     berufe: ['schutzsicherheit'],
-    standard: true,
     prompt: 'Rahmenlehrplan der KMK für Fachkräfte für Schutz und Sicherheit',
   },
   {
@@ -898,7 +886,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Verordnung über die Berufsausbildung im Groß- und Außenhandelsmanagement',
     art: 'vorgabe',
     berufe: ['grosshandel'],
-    standard: true,
     prompt: 'Verordnung über die Berufsausbildung im Groß- und Außenhandelsmanagement',
   },
   {
@@ -907,7 +894,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Dreizehn Lernfelder, ab dem dritten Jahr nach Fachrichtung getrennt',
     art: 'vorgabe',
     berufe: ['grosshandel'],
-    standard: true,
     prompt: 'Rahmenlehrplan der KMK für Kaufleute im Groß- und Außenhandelsmanagement',
   },
   {
@@ -986,7 +972,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Verordnung über die Berufsausbildung zum Industriekaufmann (Neuordnung 2024)',
     art: 'vorgabe',
     berufe: ['industrie'],
-    standard: true,
     prompt: 'Verordnung über die Berufsausbildung zum Industriekaufmann (Neuordnung 2024)',
   },
   {
@@ -997,7 +982,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Lernfelder nach der Neuordnung 2024',
     art: 'vorgabe',
     berufe: ['industrie'],
-    standard: true,
     prompt: 'Rahmenlehrplan der KMK für Industriekaufleute (Neuordnung 2024)',
   },
   {
@@ -1062,7 +1046,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Verordnung über die Berufsausbildung zum Immobilienkaufmann',
     art: 'vorgabe',
     berufe: ['immobilien'],
-    standard: true,
     prompt: 'Verordnung über die Berufsausbildung zum Immobilienkaufmann',
   },
   {
@@ -1071,7 +1054,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Zwölf Lernfelder',
     art: 'vorgabe',
     berufe: ['immobilien'],
-    standard: true,
     prompt: 'Rahmenlehrplan der KMK für Immobilienkaufleute',
   },
   {
@@ -1230,7 +1212,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Verordnung über die Berufsausbildung zum Kaufmann für Büromanagement',
     art: 'vorgabe',
     berufe: ['bueromanagement'],
-    standard: true,
     prompt: 'Verordnung über die Berufsausbildung zum Kaufmann für Büromanagement',
   },
   {
@@ -1239,7 +1220,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Dreizehn Lernfelder, 880 Stunden',
     art: 'vorgabe',
     berufe: ['bueromanagement'],
-    standard: true,
     prompt: 'Rahmenlehrplan der KMK für Kaufleute für Büromanagement',
   },
   {
@@ -1299,7 +1279,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Verordnung über die Berufsausbildung zum Kaufmann im E-Commerce',
     art: 'vorgabe',
     berufe: ['ecommerce'],
-    standard: true,
     prompt: 'Verordnung über die Berufsausbildung zum Kaufmann im E-Commerce',
   },
   {
@@ -1308,7 +1287,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Zwölf Lernfelder',
     art: 'vorgabe',
     berufe: ['ecommerce'],
-    standard: true,
     prompt: 'Rahmenlehrplan der KMK für Kaufleute im E-Commerce',
   },
   {
@@ -1416,7 +1394,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Verordnung über die Berufsausbildung zum Kaufmann im Gesundheitswesen',
     art: 'vorgabe',
     berufe: ['gesundheit'],
-    standard: true,
     prompt: 'Verordnung über die Berufsausbildung zum Kaufmann im Gesundheitswesen',
   },
   {
@@ -1425,7 +1402,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Elf Lernfelder in drei Fächern',
     art: 'vorgabe',
     berufe: ['gesundheit'],
-    standard: true,
     prompt: 'Rahmenlehrplan der KMK für Kaufleute im Gesundheitswesen',
   },
   {
@@ -1567,7 +1543,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Verordnung über die Berufsausbildung zum Personaldienstleistungskaufmann',
     art: 'vorgabe',
     berufe: ['personaldienstleistung'],
-    standard: true,
     prompt: 'Verordnung über die Berufsausbildung zum Personaldienstleistungskaufmann',
   },
   {
@@ -1576,7 +1551,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Zwölf Lernfelder, 880 Stunden',
     art: 'vorgabe',
     berufe: ['personaldienstleistung'],
-    standard: true,
     prompt: 'Rahmenlehrplan der KMK für Personaldienstleistungskaufleute',
   },
   {
@@ -1658,7 +1632,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Verordnung über die Berufsausbildung zum Steuerfachangestellten',
     art: 'vorgabe',
     berufe: ['steuerfach'],
-    standard: true,
     prompt: 'Verordnung über die Berufsausbildung zum Steuerfachangestellten',
   },
   {
@@ -1667,7 +1640,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Zwölf Lernfelder, KMK-Beschluss vom 10.06.2022',
     art: 'vorgabe',
     berufe: ['steuerfach'],
-    standard: true,
     prompt: 'Rahmenlehrplan der KMK für Steuerfachangestellte',
   },
   {
@@ -1769,7 +1741,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Verordnung über die Berufsausbildung zum Kaufmann für Spedition und Logistikdienstleistung',
     art: 'vorgabe',
     berufe: ['spedition'],
-    standard: true,
     prompt: 'Verordnung über die Berufsausbildung zum Kaufmann für Spedition und Logistikdienstleistung',
   },
   {
@@ -1778,7 +1749,6 @@ export const KATALOG: KatalogQuelle[] = [
     titel: 'Fünfzehn Lernfelder, 880 Stunden',
     art: 'vorgabe',
     berufe: ['spedition'],
-    standard: true,
     prompt: 'Rahmenlehrplan der KMK für Kaufleute für Spedition und Logistikdienstleistungen',
   },
   {

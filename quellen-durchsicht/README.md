@@ -43,10 +43,11 @@ aus: Handelskalkulation" sinnlos. Die Hinweise an die Dozenten (`HINWEISE`)
 stehen ebenfalls dort und gelangen damit nicht einmal ins ausgelieferte
 Programm; ein Test prüft zusätzlich, dass keiner im Prompt landet.
 
-Voreingestellt ist je Beruf, was im Katalog `standard: true` trägt: die
-amtlichen Gesetzestexte, das Gabler Wirtschaftslexikon, die
-Ausbildungsordnung und der Rahmenlehrplan des Berufs — bei KGQ das
-KMK-Qualifikationsprofil und der AkA-Katalog Wirtschafts- und Sozialkunde.
+Welche Quellen je Beruf voreingestellt sind, steht mit Begründung in
+`src/lib/domain/voreinstellung.ts`: Ausbildungsordnung und Rahmenlehrplan,
+dazu die zwei bis vier Rechtsquellen, die den Kern des Berufs tragen,
+höchstens sieben Einträge. Nicht voreingestellt wird, woraus eine KI nicht
+belegen kann — etwa die nicht öffentlichen AkA-Prüfungskataloge.
 
 Neu erzeugen nach jeder Änderung am Katalog:
 
@@ -127,7 +128,7 @@ jemand durchgesehen oder nur durchgeklickt hat.
 3. Bogen und Anschreiben verschicken.
 4. Rückläufe sammeln.
 5. Auswerten (Regeln unten).
-6. `src/lib/domain/quellenkatalog.ts` anpassen, `standard` neu setzen und
+6. `src/lib/domain/quellenkatalog.ts` und `voreinstellung.ts` anpassen und
    die Bögen neu erzeugen.
 
 Schritt 2 ist eine Sperre, kein Häkchen: Das Werkzeug trägt „DAA MWW" im Namen
@@ -181,7 +182,7 @@ eine einzelne abweichende Einschätzung ist noch kein Muster.
 
 **Voreinstellung.** Nur was mindestens die Hälfte der Ansprechpartner
 voreingestellt haben will, wird voreingestellt. Die Voreinstellung sollte kurz
-bleiben: höchstens sechs Einträge je Beruf, nicht zwanzig — ein Test achtet
+bleiben: höchstens sieben Einträge je Beruf, nicht zwanzig — ein Test achtet
 darauf. Ein Prompt, der zwanzig
 Quellen nennt, gewichtet keine davon.
 
