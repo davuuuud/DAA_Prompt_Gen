@@ -7,6 +7,7 @@ import {
   niveauBeschriftung,
   NIVEAUS,
   OPTIONEN,
+  wirksameOptionen,
 } from './catalogs';
 import {
   alleQuellen,
@@ -258,10 +259,45 @@ describe('Prompt-Aufbau', () => {
     expect(prompt).not.toContain(einfach.rule);
   });
 
-  it('kehrt die Rückfragen-Regel bei aktivierter Option um', () => {
-    const prompt = buildPrompt(basis({ optionen: ['rueckfragen'] }));
-    expect(prompt).toContain('höchstens drei gezielte Rückfragen');
-    expect(prompt).not.toContain('Stelle keine Rückfragen');
+  it('lässt das Wechselgespräch nur bei der simulierten Prüfung zu', () => {
+    // Sonst stünde "warte auf meine Antwort" neben "Stelle keine
+    // Rückfragen" — zwei einander ausschließende Anweisungen.
+    const simulation = buildPrompt(basis({ aufgabe: 'simulation' }));
+    expect(simulation).toContain('warte nach jeder meine Antwort ab');
+    expect(simulation).not.toContain('Stelle keine Rückfragen');
+
+    for (const aufgabe of AUFGABEN.filter((a) => !a.dialog)) {
+      const prompt = buildPrompt(basis({ aufgabe: aufgabe.id, zusatz: 'Meine Lösung ...' }));
+      expect(prompt, aufgabe.id).toContain('Stelle keine Rückfragen');
+    }
+  });
+
+  it('nennt die Ausgabeform nur, wo die Aufgabe die Form offen lässt', () => {
+    const erklaeren = buildPrompt(basis({ aufgabe: 'erklaeren', format: 'tabelle' }));
+    expect(erklaeren).toContain('Ausgabeform: Tabelle, wenn sinnvoll.');
+
+    // "Karteikarten" plus "Tabelle, wenn sinnvoll" wären zwei Anweisungen
+    // für dieselbe Sache.
+    const karten = buildPrompt(basis({ aufgabe: 'karteikarten', format: 'tabelle' }));
+    expect(karten).not.toContain('Ausgabeform:');
+  });
+
+  it('schreibt keine Option zweimal, die im Auftrag schon steht', () => {
+    const alleOptionen = OPTIONEN.map((option) => option.id);
+    for (const aufgabe of AUFGABEN.filter((a) => a.enthaelt?.length)) {
+      const prompt = buildPrompt(
+        basis({ aufgabe: aufgabe.id, optionen: alleOptionen, zusatz: 'Meine Lösung ...' }),
+      );
+      for (const id of aufgabe.enthaelt!) {
+        const regel = OPTIONEN.find((option) => option.id === id)!.rule;
+        expect(prompt, `${aufgabe.id}/${id}`).not.toContain(regel);
+      }
+      // Die übrigen Optionen wirken weiter.
+      const uebrig = wirksameOptionen(aufgabe.id).filter((option) => option.rule);
+      for (const option of uebrig) {
+        expect(prompt, `${aufgabe.id}/${option.id}`).toContain(option.rule);
+      }
+    }
   });
 });
 
@@ -508,9 +544,9 @@ describe('Auf Standard', () => {
   it('kopiert Listen, damit "Rückgängig" nicht mitverändert wird', () => {
     const vorher = standard();
     const kopie = auswahlVon(vorher);
-    vorher.optionen.push('rueckfragen');
+    vorher.optionen.push('einfache-sprache');
     vorher.quellen.length = 0;
-    expect(kopie.optionen).not.toContain('rueckfragen');
+    expect(kopie.optionen).not.toContain('einfache-sprache');
     expect(kopie.quellen.length).toBeGreaterThan(0);
   });
 
@@ -520,7 +556,7 @@ describe('Auf Standard', () => {
       ...standard(),
       beruf: 'immobilien' as const,
       format: 'tabelle' as const,
-      optionen: ['rueckfragen' as const],
+      optionen: ['einfache-sprache' as const],
       quellenFreitext: 'bleibt stehen',
     };
     const vorher = auswahlVon(zustand);
@@ -531,7 +567,7 @@ describe('Auf Standard', () => {
     Object.assign(zustand, auswahlVon(vorher));
     expect(zustand.beruf).toBe('immobilien');
     expect(zustand.format).toBe('tabelle');
-    expect(zustand.optionen).toEqual(['rueckfragen']);
+    expect(zustand.optionen).toEqual(['einfache-sprache']);
     expect(zustand.quellenFreitext).toBe('bleibt stehen');
   });
 });

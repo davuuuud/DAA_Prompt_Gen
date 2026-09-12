@@ -5,7 +5,14 @@
 // Abschnitt statt eingebettet im Auftragssatz - mehrzeilige Themen bleiben
 // dadurch lesbar.
 
-import { findAufgabe, findBeruf, findFormat, findNiveau, OPTIONEN } from './catalogs';
+import {
+  ausgabeformWirksam,
+  findAufgabe,
+  findBeruf,
+  findFormat,
+  findNiveau,
+  wirksameOptionen,
+} from './catalogs';
 import { ausgewaehlteQuellen, promptBezeichnung, QUELLEN_GRUPPEN } from './quellen';
 import { BASISSPRACHE, findSprache } from './sprachen';
 import { collapseBlankLines, parseAnzahl, splitFreitext, truncateWords } from './text';
@@ -171,10 +178,17 @@ export function buildPrompt(input: PromptInput): string {
   }
 
   // --- ANFORDERUNGEN -------------------------------------------------------
+  // Die Ausgabeform entfällt, wo die Aufgabe die Form selbst vorgibt —
+  // "Karteikarten" und "Tabelle, wenn sinnvoll" wären zwei Anweisungen für
+  // dieselbe Sache. Ebenso die Optionen, die im Auftragstext schon stehen.
   const anforderungen = [
     `Niveau: ${findNiveau(input.niveau).label}.`,
-    `Ausgabeform: ${findFormat(input.format).label}.`,
-    ...OPTIONEN.filter((option) => option.rule && aktiv(option.id)).map((option) => option.rule),
+    ...(ausgabeformWirksam(input.aufgabe)
+      ? [`Ausgabeform: ${findFormat(input.format).label}.`]
+      : []),
+    ...wirksameOptionen(input.aufgabe)
+      .filter((option) => option.rule && aktiv(option.id))
+      .map((option) => option.rule),
   ];
   abschnitt('ANFORDERUNGEN', punkte(anforderungen));
 
@@ -226,9 +240,10 @@ export function buildPrompt(input: PromptInput): string {
       'Beginne unmittelbar mit dem Ergebnis, ohne Vorrede über dich selbst oder die Aufgabenstellung.',
       'Trenne Lösungen, Musterlösungen und Erwartungshorizonte immer sichtbar vom Aufgabenteil, ' +
         'damit ich zuerst selbst überlegen kann.',
-      aktiv('rueckfragen')
-        ? 'Wenn dir wichtige Angaben fehlen, stelle zuerst höchstens drei gezielte Rückfragen und ' +
-          'warte meine Antwort ab.'
+      // Das Wechselgespräch gehört zur Aufgabe, nicht zu den Optionen: Eine
+      // simulierte Prüfung ohne Rückfragen wäre keine.
+      aufgabe.dialog
+        ? 'Stelle die Fragen einzeln und warte nach jeder meine Antwort ab, bevor du weitermachst.'
         : 'Stelle keine Rückfragen. Triff bei fehlenden Angaben plausible Annahmen und mache diese ' +
           'am Anfang transparent.',
     ]),

@@ -7,6 +7,7 @@
   import { APP_NAME, APP_ORG, APP_VERSION, FEEDBACK } from './lib/config';
   import {
     AUFGABEN,
+    ausgabeformWirksam,
     BERUFE,
     berufBeschriftung,
     FORMATE,
@@ -17,6 +18,7 @@
     niveauBeschriftung,
     NIVEAUS,
     OPTIONEN,
+    wirksameOptionen,
   } from './lib/domain/catalogs';
   import { feedbackMailto, kurzeBrowserKennung } from './lib/domain/feedback';
   import { buildPrompt, validate } from './lib/domain/prompt';
@@ -115,6 +117,16 @@
   // sonst liefe er unbemerkt mit dem voreingestellten Beruf.
   const kontext = $derived(
     `für ${findBeruf(settings.beruf).label} · Niveau ${findNiveau(settings.niveau).stufe}`,
+  );
+
+  // --- Was die Aufgabe schon festlegt ----------------------------------------
+  // Karteikarten geben ihre Form selbst vor, eine Prüfungsaufgabe den
+  // Prüfungsbezug. Diese Felder verschwinden dann, statt eine Wahl
+  // vorzutäuschen, die im Prompt nichts bewirkt.
+  const zeigtAusgabeform = $derived(ausgabeformWirksam(settings.aufgabe));
+  const optionen = $derived(wirksameOptionen(settings.aufgabe));
+  const enthaltene = $derived(
+    (aufgabe.enthaelt ?? []).map((id) => OPTIONEN.find((option) => option.id === id)!.label),
   );
 
   function zuDenEinstellungen() {
@@ -351,12 +363,17 @@
         </div>
 
         <div class="feld">
-          <label for="format">Ausgabeform</label>
-          <select id="format" bind:value={settings.format}>
-            {#each FORMATE as format (format.id)}
-              <option value={format.id}>{format.label}</option>
-            {/each}
-          </select>
+          {#if zeigtAusgabeform}
+            <label for="format">Ausgabeform</label>
+            <select id="format" bind:value={settings.format}>
+              {#each FORMATE as format (format.id)}
+                <option value={format.id}>{format.label}</option>
+              {/each}
+            </select>
+          {:else}
+            <span class="beschriftung">Ausgabeform</span>
+            <p class="hinweis">Steht bei „{aufgabe.label}“ fest — die Aufgabe gibt die Form vor.</p>
+          {/if}
         </div>
 
         <div class="feld">
@@ -379,13 +396,19 @@
       <div class="feld">
         <span class="beschriftung">Optionen</span>
         <div class="optionen">
-          {#each OPTIONEN as option (option.id)}
+          {#each optionen as option (option.id)}
             <label class="option">
               <input type="checkbox" bind:group={settings.optionen} value={option.id} />
               <span>{option.label}</span>
             </label>
           {/each}
         </div>
+        {#if enthaltene.length > 0}
+          <p class="hinweis">
+            {enthaltene.join(' und ')}
+            {enthaltene.length === 1 ? 'ist' : 'sind'} bei „{aufgabe.label}“ schon enthalten.
+          </p>
+        {/if}
       </div>
 
       <QuellenWahl beruf={settings.beruf} bind:ausgewaehlt={settings.quellen} />

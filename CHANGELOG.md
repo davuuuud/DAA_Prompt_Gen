@@ -3,6 +3,27 @@
 Was sich von Fassung zu Fassung geändert hat, in der Sprache der Nutzer und
 nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 
+## Unveröffentlicht
+
+- **Neuer Aufhänger:** GIGO — garbage in, garbage out.
+- **Die Eingabefelder erklären sich selbst.** Statt grauer Beispiele
+  ("z. B. Betriebskostenabrechnung ...") steht über jedem Feld in zwei bis
+  drei Sätzen, wofür es gedacht ist und was daraus im Prompt wird.
+- **Jede Aufgabe erklärt sich selbst.** Unter dem Auswahlfeld steht, was bei
+  der gewählten Aufgabe herauskommt — so lassen sich "Zusammenfassung" und
+  "Lernzettel" durch Anklicken vergleichen.
+- **Widersprüchliche Einstellungen sind nicht mehr möglich** (Issue #35):
+  - "Rückfragen erlaubt" ist keine Option mehr. Das Wechselgespräch gehört
+    zur Aufgabe: Die simulierte mündliche Prüfung fragt und wartet ab, alle
+    übrigen Aufgaben antworten ohne Rückfragen. Vorher stand bei der
+    Simulation "warte auf meine Antwort" neben "Stelle keine Rückfragen".
+  - Die **Ausgabeform** erscheint nur noch bei den fünf Aufgaben, die die
+    Form offen lassen. "Karteikarten erstellen" plus "Tabelle, wenn
+    sinnvoll" gibt es nicht mehr.
+  - **Optionen, die die Aufgabe schon enthält**, werden nicht mehr
+    angeboten und stehen nicht zweimal im Prompt — etwa Prüfungsbezug bei
+    einer Prüfungsaufgabe.
+
 ## 0.2.0 — 12.09.2026
 
 Die erste Fassung war ein lauffähiges Gerüst. Diese hier hat einen

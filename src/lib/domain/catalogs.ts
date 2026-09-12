@@ -4,6 +4,7 @@
 
 import type {
   Aufgabe,
+  AufgabeId,
   Ausgabeformat,
   Beruf,
   Niveau,
@@ -130,6 +131,8 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Prüfungsaufgabe erstellen',
     erlaeuterung:
       'Aufgaben im Prüfungsformat mit Punktevorschlag und Bearbeitungszeit; die Musterlösung kommt erst am Ende.',
+    formFest: true,
+    enthaelt: ['ihk-bezug'],
     needsCount: true,
     instruction: ({ anzahl }) =>
       `Erstelle ${anzahl} realistische, prüfungsnahe ` +
@@ -142,6 +145,8 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Eigene Lösung kontrollieren',
     erlaeuterung:
       'Deine Lösung wird durchgesehen: erst das Richtige, dann Fehler, Fehlendes, Musterlösung und eine Punkteschätzung.',
+    formFest: true,
+    enthaelt: ['ihk-bezug'],
     needsZusatz: true,
     instruction: () =>
       'Kontrolliere meine Lösung zum unten genannten Thema. Sie steht im Abschnitt ' +
@@ -154,6 +159,7 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Karteikarten erstellen',
     erlaeuterung:
       'Nummerierte Karten „Frage → Antwort", jede Antwort höchstens drei Sätze.',
+    formFest: true,
     needsCount: true,
     instruction: ({ anzahl }) =>
       `Erstelle ${anzahl} kompakte Lernkarteikarten zum unten genannten Thema im Format ` +
@@ -173,6 +179,7 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Fachbegriff erklären',
     erlaeuterung:
       'Für einen einzelnen Begriff: Definition in einem Satz, Erläuterung, Praxisbeispiel, Abgrenzung.',
+    enthaelt: ['fachbegriffe', 'praxisbeispiel'],
     instruction: () =>
       'Erkläre den unten genannten Fachbegriff kurz, präzise und prüfungstauglich: Definition in ' +
       'einem Satz, anschließend Erläuterung, ein Praxisbeispiel sowie die Abgrenzung zu ähnlichen Begriffen.',
@@ -182,6 +189,9 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Mündliche Prüfung simulieren',
     erlaeuterung:
       'Ein Dialog: Die KI fragt einzeln und wartet auf deine Antwort; der Erwartungshorizont kommt zum Schluss.',
+    formFest: true,
+    dialog: true,
+    enthaelt: ['ihk-bezug'],
     needsCount: true,
     instruction: ({ anzahl }) =>
       `Simuliere eine mündliche Abschlussprüfung zum unten genannten Thema. Stelle mir ${anzahl} ` +
@@ -193,6 +203,8 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Multiple-Choice-Fragen',
     erlaeuterung:
       'Je vier Antworten, genau eine richtig; der Lösungsschlüssel steht erst am Ende.',
+    formFest: true,
+    enthaelt: ['ihk-bezug'],
     needsCount: true,
     instruction: ({ anzahl }) =>
       `Erstelle ${anzahl} Multiple-Choice-${plural(anzahl, 'Frage', 'Fragen')} zum unten genannten ` +
@@ -215,6 +227,8 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Geschäftstext formulieren',
     erlaeuterung:
       'Vollständiger Geschäftsbrief mit Betreff, Anrede und Schluss, danach die sprachlichen Entscheidungen kurz erläutert.',
+    formFest: true,
+    enthaelt: ['praxisbeispiel'],
     instruction: () =>
       'Formuliere einen professionellen kaufmännischen Geschäftstext zum unten genannten Thema. ' +
       'Berücksichtige die Angaben im Abschnitt "ZUSÄTZLICHE ANGABEN". Halte die übliche Form ' +
@@ -226,6 +240,8 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Fallstudie / Praxisfall',
     erlaeuterung:
       'Ein Betrieb, ein Problem, Zahlenmaterial und drei aufbauende Arbeitsaufträge; der Lösungsvorschlag kommt erst am Ende.',
+    formFest: true,
+    enthaelt: ['praxisbeispiel'],
     instruction: () =>
       'Entwickle eine praxisnahe Fallstudie zum unten genannten Thema: Ausgangssituation eines ' +
       'Betriebs, konkretes Problem, Datengrundlage und drei aufeinander aufbauende Arbeitsaufträge. ' +
@@ -266,12 +282,6 @@ export const OPTIONEN: Option[] = [
       'Abschlussprüfung aus ' +
       'und benenne, worauf es in der Prüfung besonders ankommt.',
   },
-  {
-    id: 'rueckfragen',
-    label: 'Rückfragen erlaubt',
-    defaultOn: false,
-    rule: '', // Wird im Abschnitt AUSGABE gesondert behandelt.
-  },
 ];
 
 // Anders als bei Aufgaben und Ausgabeformen ist die Reihenfolge hier eine
@@ -307,3 +317,19 @@ export const findAufgabe = (id: string) => lookup(AUFGABEN, id);
 export const findNiveau = (id: string) => lookup(NIVEAUS, id);
 export const findFormat = (id: string) => lookup(FORMATE, id);
 export const findOption = (id: string) => lookup(OPTIONEN, id);
+
+/**
+ * Die Optionen, die bei dieser Aufgabe noch etwas bewirken. Was der
+ * Auftragstext schon verlangt — Prüfungsbezug bei einer Prüfungsaufgabe,
+ * ein Praxisbeispiel bei einer Fallstudie — erscheint weder in der
+ * Oberfläche noch ein zweites Mal im Prompt.
+ */
+export function wirksameOptionen(aufgabe: AufgabeId): Option[] {
+  const enthalten = new Set(findAufgabe(aufgabe).enthaelt ?? []);
+  return OPTIONEN.filter((option) => !enthalten.has(option.id));
+}
+
+/** Gibt die Aufgabe die Form selbst vor, ist die Ausgabeform gegenstandslos. */
+export function ausgabeformWirksam(aufgabe: AufgabeId): boolean {
+  return findAufgabe(aufgabe).formFest !== true;
+}

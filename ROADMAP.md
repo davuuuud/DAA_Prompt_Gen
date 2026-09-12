@@ -149,9 +149,11 @@ sie mischt Umfang und Darstellung (siehe Issue #33).
 
 ### Optionen und Voreinstellungen
 
-**Voreinstellungen entschieden** (11.09.2026): Fünf Optionen, drei davon an
-— Fachbegriffe erklären, Praxisbeispiel, Prüfungsbezug. „Einfache Sprache"
-und „Rückfragen erlaubt" sind aus. Die übrigen Standardwerte: KGQ, Thema
+**Voreinstellungen entschieden** (11.09.2026): drei Optionen an — Fachbegriffe
+erklären, Praxisbeispiel, Prüfungsbezug; „Einfache Sprache" ist aus.
+„Rückfragen erlaubt" ist am 12.09.2026 entfallen und folgt jetzt der Aufgabe:
+Die simulierte mündliche Prüfung fragt und wartet ab, alles andere antwortet
+ohne Rückfragen (Issue #35). Die übrigen Standardwerte: KGQ, Thema
 erklären, Niveau 3, Kurz und kompakt, keine Zweitsprache, Anzahl 5.
 
 **Offen bleibt die andere Hälfte: Welche Optionen werden wirklich

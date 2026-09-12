@@ -37,12 +37,7 @@ export type AufgabeId =
   | 'geschaeftstext'
   | 'fallstudie';
 
-export type OptionId =
-  | 'einfache-sprache'
-  | 'fachbegriffe'
-  | 'praxisbeispiel'
-  | 'ihk-bezug'
-  | 'rueckfragen';
+export type OptionId = 'einfache-sprache' | 'fachbegriffe' | 'praxisbeispiel' | 'ihk-bezug';
 
 export type NiveauId = 'einstieg' | 'azubi' | 'pruefung' | 'vertieft';
 
@@ -88,6 +83,14 @@ export interface Aufgabe {
   needsCount?: boolean;
   /** Ohne die zusätzlichen Angaben wäre die Aufgabe sinnlos. */
   needsZusatz?: boolean;
+  /** Die Aufgabe gibt die Form der Antwort selbst vor (Karteikarten,
+   *  Multiple-Choice, Geschäftsbrief). Die Ausgabeform entfällt dann. */
+  formFest?: boolean;
+  /** Optionen, die im Auftragstext schon enthalten sind. Sie erscheinen
+   *  nicht in der Oberfläche und stehen kein zweites Mal im Prompt. */
+  enthaelt?: OptionId[];
+  /** Die Aufgabe ist ein Wechselgespräch: Die KI fragt und wartet ab. */
+  dialog?: boolean;
   /** Der Auftragstext. Das Thema wird bewusst nicht eingebettet, sondern
    *  steht im Prompt in einem eigenen Abschnitt. */
   instruction(context: { anzahl: number }): string;
