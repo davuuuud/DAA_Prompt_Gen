@@ -106,6 +106,9 @@ vom Go-Programm ohne einen einzigen Compilerfehler durchlief.
 Der [Fahrplan](ROADMAP.md) beschreibt die nächsten Entwicklungsstufen, die
 Leitentscheidungen dahinter und was bewusst nicht geplant ist.
 
+Was sich von Fassung zu Fassung geändert hat, steht in den
+[Änderungen](CHANGELOG.md).
+
 **Etappe 3** (eigene Unterlagen durchsuchbar machen) ist seit dem 12.09.2026
 zurückgestellt: Taugt die Anwendung etwas, kommt sie ohne die Unterlagen der
 Dozenten aus. Als Nächstes zählt deshalb die Güte der Prompts selbst
