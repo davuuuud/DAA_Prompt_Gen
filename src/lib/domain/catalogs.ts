@@ -114,6 +114,8 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Thema erklären',
     erlaeuterung:
       'Zusammenhängender Erklärtext mit Einordnung in den Betrieb und Abgrenzung zu verwandten Begriffen.',
+    beispiel:
+      'Mach die Erklärung an einem Beispiel aus dem Betriebsalltag fest, mit realistischen Zahlen oder Abläufen.',
     instruction: () =>
       'Erkläre das unten genannte Thema fachlich korrekt und nachvollziehbar. ' +
       'Ordne es in den betrieblichen Gesamtzusammenhang ein und grenze es von verwandten Begriffen ab.',
@@ -123,6 +125,8 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Zusammenfassung erstellen',
     erlaeuterung:
       'Kernaussagen zuerst, am Ende eine Merkhilfe — setzt voraus, dass du das Thema schon einmal gehört hast.',
+    beispiel:
+      'Verankere jede Kernaussage, die sonst abstrakt bliebe, mit einem Beispiel in einem Halbsatz.',
     instruction: () =>
       'Fasse das unten genannte Thema lernorientiert zusammen. Stelle die prüfungsrelevanten ' +
       'Kernaussagen voran und schließe mit einer kurzen Merkhilfe ab.',
@@ -132,6 +136,8 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Prüfungsaufgabe erstellen',
     erlaeuterung:
       'Aufgaben im Prüfungsformat mit Punktevorschlag und Bearbeitungszeit; die Musterlösung kommt erst am Ende.',
+    beispiel:
+      'Jede Aufgabe geht von einer betrieblichen Ausgangssituation mit konkreten Zahlen aus, nicht von einer Wissensfrage.',
     formFest: true,
     enthaelt: ['ihk-bezug'],
     needsCount: true,
@@ -146,6 +152,8 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Eigene Lösung kontrollieren',
     erlaeuterung:
       'Deine Lösung wird durchgesehen: erst das Richtige, dann Fehler, Fehlendes, Musterlösung und eine Punkteschätzung.',
+    beispiel:
+      'Mach jeden Fehler an meiner Lösung konkret fest und rechne in der Musterlösung mit meinen Zahlen, nicht mit erfundenen.',
     formFest: true,
     enthaelt: ['ihk-bezug'],
     needsZusatz: true,
@@ -160,6 +168,8 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Karteikarten erstellen',
     erlaeuterung:
       'Nummerierte Karten „Frage → Antwort", jede Antwort höchstens drei Sätze.',
+    beispiel:
+      'Wo ein Beispiel das Verständnis trägt, steht es in einem Halbsatz auf der Rückseite — die Kürze der Karte geht vor.',
     formFest: true,
     needsCount: true,
     instruction: ({ anzahl }) =>
@@ -171,6 +181,8 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Lernzettel erstellen',
     erlaeuterung:
       'Feste Gliederung: Definition, Kernpunkte, typische Prüfungsfragen, häufige Fehler, Zusammenfassung.',
+    beispiel:
+      'Zu jedem Kernpunkt ein Beispiel in einem Halbsatz.',
     instruction: () =>
       'Erstelle einen strukturierten Lernzettel zum unten genannten Thema: Definition, Kernpunkte, ' +
       'typische Prüfungsfragen, häufige Fehler und eine kurze Zusammenfassung am Ende.',
@@ -180,7 +192,6 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Fachbegriff erklären',
     erlaeuterung:
       'Für einen einzelnen Begriff: Definition in einem Satz, Erläuterung, Praxisbeispiel, Abgrenzung.',
-    enthaelt: ['praxisbeispiel'],
     instruction: () =>
       'Erkläre den unten genannten Fachbegriff kurz, präzise und prüfungstauglich: Definition in ' +
       'einem Satz, anschließend Erläuterung, ein Praxisbeispiel sowie die Abgrenzung zu ähnlichen Begriffen.',
@@ -190,6 +201,8 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Mündliche Prüfung simulieren',
     erlaeuterung:
       'Ein Dialog: Die KI fragt einzeln und wartet auf deine Antwort; der Erwartungshorizont kommt zum Schluss.',
+    beispiel:
+      'Kleide die Fragen in betriebliche Situationen, statt Definitionen abzufragen.',
     formFest: true,
     dialog: true,
     enthaelt: ['ihk-bezug'],
@@ -204,6 +217,8 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Multiple-Choice-Fragen',
     erlaeuterung:
       'Je vier Antworten, genau eine richtig; der Lösungsschlüssel steht erst am Ende.',
+    beispiel:
+      'Formuliere die Fragen als kurze betriebliche Fälle mit konkreten Zahlen, nicht als reine Wissensabfrage.',
     formFest: true,
     enthaelt: ['ihk-bezug'],
     needsCount: true,
@@ -218,6 +233,8 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Berechnung erklären',
     erlaeuterung:
       'Formel, Einheiten und vollständiger Rechenweg, dazu die Aussage des Ergebnisses und typische Fehlerquellen.',
+    beispiel:
+      'Rechne ein vollständiges Beispiel durch; nennt das Thema keine Zahlen, wähle realistische Beträge aus der Praxis.',
     instruction: () =>
       'Erkläre die Berechnung zum unten genannten Thema Schritt für Schritt: Formel, Bedeutung der ' +
       'Größen, Einheiten, vollständiger Rechenweg mit Zwischenergebnissen und Endergebnis. Erläutere ' +
@@ -228,8 +245,9 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Geschäftstext formulieren',
     erlaeuterung:
       'Vollständiger Geschäftsbrief mit Betreff, Anrede und Schluss, danach die sprachlichen Entscheidungen kurz erläutert.',
+    beispiel:
+      'Nimm einen konkreten Anlass an und fülle fehlende Angaben plausibel aus — Namen, Daten, Beträge, Fristen; Erfundenes kennzeichnest du als Platzhalter.',
     formFest: true,
-    enthaelt: ['praxisbeispiel'],
     instruction: () =>
       'Formuliere einen professionellen kaufmännischen Geschäftstext zum unten genannten Thema. ' +
       'Berücksichtige die Angaben im Abschnitt "ZUSÄTZLICHE ANGABEN". Halte die übliche Form ' +
@@ -242,7 +260,6 @@ export const AUFGABEN: Aufgabe[] = [
     erlaeuterung:
       'Ein Betrieb, ein Problem, Zahlenmaterial und drei aufbauende Arbeitsaufträge; der Lösungsvorschlag kommt erst am Ende.',
     formFest: true,
-    enthaelt: ['praxisbeispiel'],
     instruction: () =>
       'Entwickle eine praxisnahe Fallstudie zum unten genannten Thema: Ausgangssituation eines ' +
       'Betriebs, konkretes Problem, Datengrundlage und drei aufeinander aufbauende Arbeitsaufträge. ' +
@@ -251,13 +268,6 @@ export const AUFGABEN: Aufgabe[] = [
 ];
 
 export const OPTIONEN: Option[] = [
-  {
-    id: 'praxisbeispiel',
-    label: 'Praxisbeispiel',
-    defaultOn: true,
-    rule:
-      'Füge mindestens ein konkretes, praxisnahes Beispiel mit realistischen Zahlen oder Abläufen hinzu.',
-  },
   {
     id: 'ihk-bezug',
     label: 'Prüfungsbezug',
@@ -393,9 +403,9 @@ export const findFachsprache = (id: string) =>
 
 /**
  * Die Optionen, die bei dieser Aufgabe noch etwas bewirken. Was der
- * Auftragstext schon verlangt — Prüfungsbezug bei einer Prüfungsaufgabe,
- * ein Praxisbeispiel bei einer Fallstudie — erscheint weder in der
- * Oberfläche noch ein zweites Mal im Prompt.
+ * Auftragstext schon verlangt — etwa den Prüfungsbezug bei einer
+ * Prüfungsaufgabe — erscheint weder in der Oberfläche noch ein zweites Mal
+ * im Prompt.
  */
 export function wirksameOptionen(aufgabe: AufgabeId): Option[] {
   const enthalten = new Set(findAufgabe(aufgabe).enthaelt ?? []);

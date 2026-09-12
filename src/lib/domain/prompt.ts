@@ -186,6 +186,11 @@ export function buildPrompt(input: PromptInput): string {
     findNiveau(input.niveau).rule,
     ...(ausgabeformWirksam(input.aufgabe) ? [findFormat(input.format).rule] : []),
     findFachsprache(input.fachsprache).rule,
+    // Das Praxisbeispiel ist keine Option mehr: Jede Aufgabe sagt selbst,
+    // wie es aussieht — ein Halbsatz auf der Karteikarte, ein betrieblicher
+    // Fall in der Multiple-Choice-Frage. Wo es im Auftrag schon steht,
+    // fehlt der Satz.
+    ...(aufgabe.beispiel ? [aufgabe.beispiel] : []),
     ...wirksameOptionen(input.aufgabe)
       .filter((option) => option.rule && aktiv(option.id))
       .map((option) => option.rule),

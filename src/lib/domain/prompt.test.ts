@@ -253,11 +253,26 @@ describe('Prompt-Aufbau', () => {
   });
 
   it('berücksichtigt aktivierte und ignoriert abgewählte Optionen', () => {
-    const beispiel = OPTIONEN.find((o) => o.id === 'praxisbeispiel')!;
     const pruefung = OPTIONEN.find((o) => o.id === 'ihk-bezug')!;
-    const prompt = buildPrompt(basis({ optionen: ['praxisbeispiel'] }));
-    expect(prompt).toContain(beispiel.rule);
-    expect(prompt).not.toContain(pruefung.rule);
+    expect(buildPrompt(basis({ optionen: ['ihk-bezug'] }))).toContain(pruefung.rule);
+    expect(buildPrompt(basis({ optionen: [] }))).not.toContain(pruefung.rule);
+  });
+
+  it('gibt das Praxisbeispiel je nach Aufgabe vor, ohne Häkchen', () => {
+    // Der frühere Einheitssatz passte nicht zu zwölf Aufgaben: Auf einer
+    // Karteikarte ist ein Beispiel ein Halbsatz, in einer
+    // Multiple-Choice-Frage ein betrieblicher Fall.
+    for (const aufgabe of AUFGABEN) {
+      const prompt = buildPrompt(
+        basis({ aufgabe: aufgabe.id, optionen: [], zusatz: 'Meine Lösung ...' }),
+      );
+      if (aufgabe.beispiel) {
+        expect(prompt, aufgabe.id).toContain(aufgabe.beispiel);
+      } else {
+        // Ohne eigenen Satz muss der Auftragstext das Beispiel selbst mitbringen.
+        expect(aufgabe.instruction({ anzahl: 5 }), aufgabe.id).toMatch(/[Bb]eispiel|[Ff]all|Betrieb/);
+      }
+    }
   });
 
   it('schreibt genau eine der drei Fachbegriff-Stufen in den Prompt', () => {
@@ -509,10 +524,8 @@ describe('Standardwerte', () => {
     expect(standard.anzahl).toBe(5);
   });
 
-  it('schaltet genau Fachbegriffe, Praxisbeispiel und Prüfungsbezug ein', () => {
-    expect([...standard.optionen].sort()).toEqual(
-      ['ihk-bezug', 'praxisbeispiel'].sort(),
-    );
+  it('schaltet den Prüfungsbezug ein', () => {
+    expect(standard.optionen).toEqual(['ihk-bezug']);
   });
 });
 
@@ -566,9 +579,9 @@ describe('Auf Standard', () => {
   it('kopiert Listen, damit "Rückgängig" nicht mitverändert wird', () => {
     const vorher = standard();
     const kopie = auswahlVon(vorher);
-    vorher.optionen.push('praxisbeispiel');
+    vorher.optionen.length = 0;
     vorher.quellen.length = 0;
-    expect(kopie.optionen).toEqual(standard().optionen);
+    expect(kopie.optionen).toEqual(['ihk-bezug']);
     expect(kopie.quellen.length).toBeGreaterThan(0);
   });
 
@@ -578,7 +591,7 @@ describe('Auf Standard', () => {
       ...standard(),
       beruf: 'immobilien' as const,
       format: 'tabelle' as const,
-      optionen: ['praxisbeispiel' as const],
+      optionen: [],
       quellenFreitext: 'bleibt stehen',
     };
     const vorher = auswahlVon(zustand);
@@ -589,7 +602,7 @@ describe('Auf Standard', () => {
     Object.assign(zustand, auswahlVon(vorher));
     expect(zustand.beruf).toBe('immobilien');
     expect(zustand.format).toBe('tabelle');
-    expect(zustand.optionen).toEqual(['praxisbeispiel']);
+    expect(zustand.optionen).toEqual([]);
     expect(zustand.quellenFreitext).toBe('bleibt stehen');
   });
 });
@@ -661,7 +674,7 @@ describe('Fachbegriffe aus alten Einstellungen', () => {
       'erklaert',
     );
     // Wer beide Häkchen bewusst abgewählt hatte, wollte den nackten Begriff.
-    expect(normalizeSettings({ optionen: ['praxisbeispiel'] }).fachsprache).toBe('ohne');
+    expect(normalizeSettings({ optionen: ['ihk-bezug'] }).fachsprache).toBe('ohne');
   });
 
   it('nimmt die neue Angabe, sobald es sie gibt', () => {

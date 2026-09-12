@@ -149,8 +149,9 @@ sie mischt Umfang und Darstellung (siehe Issue #33).
 
 ### Optionen und Voreinstellungen
 
-**Voreinstellungen entschieden** (11.09.2026): Praxisbeispiel und
-Prüfungsbezug sind an.
+**Voreinstellungen entschieden** (11.09.2026): Der Prüfungsbezug ist an. Das
+Praxisbeispiel ist am 12.09.2026 von der Option zur Eigenschaft der Aufgabe
+geworden — jede Aufgabe sagt selbst, wie ein Beispiel bei ihr aussieht.
 
 **Am 12.09.2026 entwirrt** (Issue #35): „Rückfragen erlaubt" ist entfallen und
 folgt jetzt der Aufgabe — die simulierte mündliche Prüfung fragt und wartet

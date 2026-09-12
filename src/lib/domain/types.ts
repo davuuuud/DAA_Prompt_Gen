@@ -37,7 +37,7 @@ export type AufgabeId =
   | 'geschaeftstext'
   | 'fallstudie';
 
-export type OptionId = 'praxisbeispiel' | 'ihk-bezug';
+export type OptionId = 'ihk-bezug';
 
 /**
  * Wie mit Fachbegriffen umgegangen wird — eine Steigerung, keine
@@ -98,6 +98,10 @@ export interface Aufgabe {
   enthaelt?: OptionId[];
   /** Die Aufgabe ist ein Wechselgespräch: Die KI fragt und wartet ab. */
   dialog?: boolean;
+  /** Wie bei dieser Aufgabe das Praxisbeispiel entsteht — ein Satz für den
+   *  Prompt. Fehlt die Angabe, steckt das Beispiel schon im Auftragstext
+   *  (Fallstudie, Geschäftstext, Fachbegriff). */
+  beispiel?: string;
   /** Der Auftragstext. Das Thema wird bewusst nicht eingebettet, sondern
    *  steht im Prompt in einem eigenen Abschnitt. */
   instruction(context: { anzahl: number }): string;

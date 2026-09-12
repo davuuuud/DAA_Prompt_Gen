@@ -37,6 +37,12 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
     zuerst, keine Wiederholung der Frage, keine Zusammenfassung am Ende."
     Entsprechend für alle vier Niveaustufen und alle sechs Formen. Die
     Auswahllisten bleiben unverändert.
+  - **Das Praxisbeispiel ist keine Option mehr**, sondern kommt von selbst —
+    und je Aufgabe anders: auf der Karteikarte als Halbsatz, in der
+    Multiple-Choice-Frage als betrieblicher Fall mit Zahlen, bei der
+    Lösungskontrolle als Rechnung mit deinen eigenen Zahlen. Der frühere
+    Einheitssatz passte nicht zu zwölf verschiedenen Aufgaben. Unter
+    „Optionen" bleibt nur der Prüfungsbezug.
 
 ## 0.2.0 — 12.09.2026
 
