@@ -12,8 +12,9 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 - **Neue Seite „Was die Felder bewirken"** (Fußzeile): Alle zwölf Aufgaben
   mit dem, was jeweils herauskommt, dazu die vier Niveaustufen, die sechs
   Ausgabeformen und die drei Fachbegriff-Stufen. Die Seite ist aus den
-  Katalogen erzeugt und kann deshalb nicht veralten; sie lässt sich als
-  Aushang ausdrucken.
+  Katalogen erzeugt und kann deshalb nicht veralten. Ein Knopf druckt sie
+  als Blatt zum Verteilen: mit Trägerkopf, Herkunftsangabe und einer Seite
+  für Notizen, ohne Bedienelemente der Anwendung.
 - **Die zwölf Aufgaben stehen in vier Gruppen** — Verstehen, Wiederholen,
   Prüfen, Anwenden. Eine ungegliederte Liste mit zwölf Einträgen ließ sich
   nicht überfliegen.

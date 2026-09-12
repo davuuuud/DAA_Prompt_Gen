@@ -5,6 +5,7 @@
   // Alles hier kommt aus den Katalogen, nichts ist abgeschrieben. Wird eine
   // Aufgabe ergänzt oder eine Beschreibung geändert, ändert sich diese Seite
   // mit; eine abgetippte Tabelle wäre nach der ersten Änderung falsch.
+  import { APP_NAME, APP_ORG, APP_VERSION } from '../config';
   import {
     aufgabenNachGruppe,
     FACHSPRACHEN,
@@ -15,6 +16,10 @@
   import Rechtsseite from './Rechtsseite.svelte';
 
   const gruppen = aufgabenNachGruppe();
+
+  // Die Adresse gehört auf den Ausdruck: Ein Blatt ohne Herkunft landet
+  // im Papierkorb, sobald jemand wissen will, wo das Werkzeug steht.
+  const adresse = typeof location === 'undefined' ? '' : location.origin + location.pathname;
 
   /** Was eine Aufgabe zusätzlich verlangt oder festlegt. */
   function merkmale(aufgabe: (typeof gruppen)[number]['aufgaben'][number]): string[] {
@@ -29,9 +34,26 @@
 
 <Rechtsseite titel="Was die Felder bewirken" stand="September 2026">
   <div class="rechtstext">
+    <!-- Nur auf dem Ausdruck: Träger, Titel und Herkunft des Blattes. -->
+    <div class="druckkopf">
+      <img src="{import.meta.env.BASE_URL}logo-144.png" width="48" height="48" alt="" />
+      <div>
+        <p class="traeger">{APP_ORG}</p>
+        <p class="blatt">{APP_NAME} — Was die Felder bewirken</p>
+        <p class="herkunft">{adresse} · Fassung {APP_VERSION}</p>
+      </div>
+    </div>
+
     <p>
       Die Fragenschmiede baut aus deinen Angaben eine Frage an eine KI. Diese Seite sagt, was
-      jedes Feld daran ändert. Sie lässt sich ausdrucken.
+      jedes Feld daran ändert.
+    </p>
+
+    <p class="drucken">
+      <button type="button" class="still" onclick={() => window.print()}>
+        <span aria-hidden="true">🖨</span> Als Blatt drucken
+      </button>
+      <span class="hinweis">Im Druckdialog „Als PDF speichern“ wählen, wenn du es verschicken willst.</span>
     </p>
 
     <h2>Aufgabe</h2>
@@ -142,6 +164,13 @@
       oder Zahlen; Unsicherheiten benennen statt überspielen; Zahlenbeispiele vollständig
       vorrechnen; und die Antwort an den Anforderungen der Abschlussprüfung ausrichten.
     </p>
+
+    <div class="notizen">
+      <h2>Notizen</h2>
+      {#each Array(8) as _, i (i)}
+        <div class="linie"></div>
+      {/each}
+    </div>
   </div>
 </Rechtsseite>
 
@@ -206,10 +235,85 @@
     }
   }
 
-  /* Ausgedruckt als Aushang: keine Seitenumbrüche mitten in einer Zeile. */
+  /* Kopf und Notizen erscheinen nur auf dem Ausdruck. */
+  .druckkopf,
+  .notizen {
+    display: none;
+  }
+
+  .drucken {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin: 0 0 1.5rem;
+  }
+
+  .drucken .hinweis {
+    font-size: 0.8rem;
+    color: var(--text-schwach);
+  }
+
+  /* Als Blatt zum Verteilen: Träger und Herkunft im Kopf, Platz für
+     Notizen am Schluss, ohne Bedienelemente und ohne Fußzeile der
+     Anwendung. */
   @media print {
     tr {
       break-inside: avoid;
+    }
+
+    .druckkopf {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding-bottom: 0.6rem;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #000;
+    }
+
+    .druckkopf p {
+      margin: 0;
+    }
+
+    .druckkopf .traeger {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .druckkopf .blatt {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .druckkopf .herkunft {
+      font-size: 0.7rem;
+    }
+
+    .notizen {
+      display: block;
+      break-before: page;
+    }
+
+    .notizen .linie {
+      border-bottom: 1px solid #999;
+      height: 1.6rem;
+    }
+
+    .drucken {
+      display: none;
+    }
+
+    /* Bedienelemente der Anwendung gehören nicht auf das Blatt. */
+    :global(.zurueck),
+    :global(footer) {
+      display: none !important;
+    }
+
+    :global(h1),
+    :global(.stand) {
+      display: none !important;
     }
   }
 </style>
