@@ -8,6 +8,7 @@
 import {
   ausgabeformWirksam,
   findAufgabe,
+  findFachsprache,
   findBeruf,
   findFormat,
   findNiveau,
@@ -186,6 +187,7 @@ export function buildPrompt(input: PromptInput): string {
     ...(ausgabeformWirksam(input.aufgabe)
       ? [`Ausgabeform: ${findFormat(input.format).label}.`]
       : []),
+    findFachsprache(input.fachsprache).rule,
     ...wirksameOptionen(input.aufgabe)
       .filter((option) => option.rule && aktiv(option.id))
       .map((option) => option.rule),

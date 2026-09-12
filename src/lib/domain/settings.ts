@@ -4,13 +4,14 @@
 // von einer älteren Version geschriebene Datei darf die Anwendung nicht
 // unbrauchbar machen. Unbekannte Werte fallen still auf die Vorgabe zurück.
 
-import { AUFGABEN, BERUFE, FORMATE, NIVEAUS, OPTIONEN } from './catalogs';
+import { AUFGABEN, BERUFE, FACHSPRACHEN, FORMATE, NIVEAUS, OPTIONEN } from './catalogs';
 import { istFruehereVoreinstellung, quellenFuerBeruf, standardQuellen } from './quellen';
 import { zweitsprachen } from './sprachen';
 import { DEFAULT_ANZAHL, parseAnzahl } from './text';
 import type {
   AufgabeId,
   BerufId,
+  FachspracheId,
   FormatId,
   NiveauId,
   OptionId,
@@ -28,6 +29,7 @@ export interface Settings {
   format: FormatId;
   anzahl: number;
   optionen: OptionId[];
+  fachsprache: FachspracheId;
   quellen: string[];
   quellenFreitext: string;
   /** 'keine' bedeutet: einsprachige Antwort auf Deutsch. */
@@ -43,6 +45,7 @@ export function defaultSettings(): Settings {
     format: 'kompakt',
     anzahl: DEFAULT_ANZAHL,
     optionen: OPTIONEN.filter((option) => option.defaultOn).map((option) => option.id),
+    fachsprache: 'erklaert',
     quellen: standardQuellen('kgq'),
     quellenFreitext: '',
     zweitsprache: 'keine',
@@ -90,12 +93,30 @@ export function normalizeSettings(raw: unknown): Settings {
     format: pickId(FORMATE, data.format, fallback.format) as FormatId,
     anzahl: parseAnzahl(typeof data.anzahl === 'number' ? data.anzahl : String(data.anzahl ?? '')),
     optionen: pickIds(OPTIONEN, data.optionen) as OptionId[],
+    fachsprache: fachspracheAus(data),
     quellen: quellen.length > 0 ? quellen : standardQuellen(beruf),
     quellenFreitext: typeof data.quellenFreitext === 'string' ? data.quellenFreitext : '',
     // 'keine' ist hier zugleich Vorgabe und Rückfall: Eine gestrichene Sprache
     // führt zurück auf die einsprachige Antwort, nicht auf eine fremde.
     zweitsprache: pickId(zweitsprachen(), data.zweitsprache, 'keine') as ZweitspracheId,
   };
+}
+
+/**
+ * Der Umgang mit Fachbegriffen war früher zweimal ankreuzbar. Wer noch die
+ * alten Häkchen gespeichert hat, landet auf der entsprechenden Stufe:
+ * „Einfache Sprache" wird zur einfachen Erklärung, ein bloßes „Fachbegriffe
+ * erklären" zur mittleren Stufe, gar nichts davon zur ersten.
+ */
+function fachspracheAus(data: Record<string, unknown>): FachspracheId {
+  const gespeichert = data.fachsprache;
+  if (typeof gespeichert === 'string' && FACHSPRACHEN.some((f) => f.id === gespeichert)) {
+    return gespeichert as FachspracheId;
+  }
+  if (!Array.isArray(data.optionen)) return 'erklaert';
+  if (data.optionen.includes('einfache-sprache')) return 'einfach';
+  if (data.optionen.includes('fachbegriffe')) return 'erklaert';
+  return 'ohne';
 }
 
 /**
@@ -113,6 +134,7 @@ export function toPromptInput(
     format: settings.format,
     anzahl: settings.anzahl,
     optionen: settings.optionen,
+    fachsprache: settings.fachsprache,
     quellen: settings.quellen,
     quellenFreitext: settings.quellenFreitext,
     zweitsprache: settings.zweitsprache,
@@ -134,7 +156,7 @@ export function toPromptInput(
  */
 export type Auswahl = Pick<
   Settings,
-  'beruf' | 'niveau' | 'format' | 'zweitsprache' | 'optionen' | 'quellen'
+  'beruf' | 'niveau' | 'format' | 'zweitsprache' | 'fachsprache' | 'optionen' | 'quellen'
 >;
 
 /** Die aktuelle Auswahl als unabhängige Kopie — für „Rückgängig". */
@@ -144,6 +166,7 @@ export function auswahlVon(settings: Auswahl): Auswahl {
     niveau: settings.niveau,
     format: settings.format,
     zweitsprache: settings.zweitsprache,
+    fachsprache: settings.fachsprache,
     optionen: [...settings.optionen],
     quellen: [...settings.quellen],
   };
@@ -170,7 +193,8 @@ export function weichtVomStandardAb(settings: Auswahl): boolean {
     settings.beruf !== standard.beruf ||
     settings.niveau !== standard.niveau ||
     settings.format !== standard.format ||
-    settings.zweitsprache !== standard.zweitsprache
+    settings.zweitsprache !== standard.zweitsprache ||
+    settings.fachsprache !== standard.fachsprache
   ) {
     return true;
   }

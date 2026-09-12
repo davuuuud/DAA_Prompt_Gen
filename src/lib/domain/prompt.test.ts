@@ -8,6 +8,7 @@ import {
   NIVEAUS,
   OPTIONEN,
   wirksameOptionen,
+  FACHSPRACHEN,
 } from './catalogs';
 import {
   alleQuellen,
@@ -253,10 +254,29 @@ describe('Prompt-Aufbau', () => {
 
   it('berücksichtigt aktivierte und ignoriert abgewählte Optionen', () => {
     const beispiel = OPTIONEN.find((o) => o.id === 'praxisbeispiel')!;
-    const einfach = OPTIONEN.find((o) => o.id === 'einfache-sprache')!;
+    const pruefung = OPTIONEN.find((o) => o.id === 'ihk-bezug')!;
     const prompt = buildPrompt(basis({ optionen: ['praxisbeispiel'] }));
     expect(prompt).toContain(beispiel.rule);
-    expect(prompt).not.toContain(einfach.rule);
+    expect(prompt).not.toContain(pruefung.rule);
+  });
+
+  it('schreibt genau eine der drei Fachbegriff-Stufen in den Prompt', () => {
+    // Früher zwei Häkchen, die nebeneinander wie ein Widerspruch aussahen.
+    for (const stufe of FACHSPRACHEN) {
+      const prompt = buildPrompt(basis({ fachsprache: stufe.id }));
+      expect(prompt, stufe.id).toContain(stufe.rule);
+      for (const andere of FACHSPRACHEN.filter((f) => f.id !== stufe.id)) {
+        expect(prompt, `${stufe.id} enthält ${andere.id}`).not.toContain(andere.rule);
+      }
+    }
+  });
+
+  it('senkt bei der einfachen Stufe nicht das fachliche Niveau', () => {
+    // "Einfach" meint leichter zu lesen, nicht fachlich anspruchsloser —
+    // dafür ist das Niveau da.
+    const prompt = buildPrompt(basis({ fachsprache: 'einfach', niveau: 'pruefung' }));
+    expect(prompt).toContain('Niveau: Niveau der Abschlussprüfung.');
+    expect(prompt).toContain('Die Fachbegriffe selbst bleiben stehen');
   });
 
   it('lässt das Wechselgespräch nur bei der simulierten Prüfung zu', () => {
@@ -490,7 +510,7 @@ describe('Standardwerte', () => {
 
   it('schaltet genau Fachbegriffe, Praxisbeispiel und Prüfungsbezug ein', () => {
     expect([...standard.optionen].sort()).toEqual(
-      ['fachbegriffe', 'ihk-bezug', 'praxisbeispiel'].sort(),
+      ['ihk-bezug', 'praxisbeispiel'].sort(),
     );
   });
 });
@@ -506,7 +526,8 @@ describe('Auf Standard', () => {
     expect(weichtVomStandardAb({ ...standard(), beruf: 'immobilien' })).toBe(true);
     expect(weichtVomStandardAb({ ...standard(), format: 'tabelle' })).toBe(true);
     expect(weichtVomStandardAb({ ...standard(), zweitsprache: 'uk' })).toBe(true);
-    expect(weichtVomStandardAb({ ...standard(), optionen: ['fachbegriffe'] })).toBe(true);
+    expect(weichtVomStandardAb({ ...standard(), optionen: [] })).toBe(true);
+    expect(weichtVomStandardAb({ ...standard(), fachsprache: 'einfach' })).toBe(true);
     expect(weichtVomStandardAb({ ...standard(), quellen: [] })).toBe(true);
   });
 
@@ -544,9 +565,9 @@ describe('Auf Standard', () => {
   it('kopiert Listen, damit "Rückgängig" nicht mitverändert wird', () => {
     const vorher = standard();
     const kopie = auswahlVon(vorher);
-    vorher.optionen.push('einfache-sprache');
+    vorher.optionen.push('praxisbeispiel');
     vorher.quellen.length = 0;
-    expect(kopie.optionen).not.toContain('einfache-sprache');
+    expect(kopie.optionen).toEqual(standard().optionen);
     expect(kopie.quellen.length).toBeGreaterThan(0);
   });
 
@@ -556,7 +577,7 @@ describe('Auf Standard', () => {
       ...standard(),
       beruf: 'immobilien' as const,
       format: 'tabelle' as const,
-      optionen: ['einfache-sprache' as const],
+      optionen: ['praxisbeispiel' as const],
       quellenFreitext: 'bleibt stehen',
     };
     const vorher = auswahlVon(zustand);
@@ -567,7 +588,7 @@ describe('Auf Standard', () => {
     Object.assign(zustand, auswahlVon(vorher));
     expect(zustand.beruf).toBe('immobilien');
     expect(zustand.format).toBe('tabelle');
-    expect(zustand.optionen).toEqual(['einfache-sprache']);
+    expect(zustand.optionen).toEqual(['praxisbeispiel']);
     expect(zustand.quellenFreitext).toBe('bleibt stehen');
   });
 });
@@ -611,5 +632,28 @@ describe('Niveaustufen', () => {
     const prompt = buildPrompt(basis({ niveau: 'pruefung' }));
     expect(prompt).toContain('Niveau: Niveau der Abschlussprüfung.');
     expect(prompt).not.toContain('3 — Niveau der Abschlussprüfung');
+  });
+});
+
+describe('Fachbegriffe aus alten Einstellungen', () => {
+  it('übernimmt die früheren Häkchen auf die passende Stufe', () => {
+    expect(normalizeSettings({ optionen: ['einfache-sprache', 'fachbegriffe'] }).fachsprache).toBe(
+      'einfach',
+    );
+    expect(normalizeSettings({ optionen: ['fachbegriffe', 'ihk-bezug'] }).fachsprache).toBe(
+      'erklaert',
+    );
+    // Wer beide Häkchen bewusst abgewählt hatte, wollte den nackten Begriff.
+    expect(normalizeSettings({ optionen: ['praxisbeispiel'] }).fachsprache).toBe('ohne');
+  });
+
+  it('nimmt die neue Angabe, sobald es sie gibt', () => {
+    const s = normalizeSettings({ fachsprache: 'ohne', optionen: ['einfache-sprache'] });
+    expect(s.fachsprache).toBe('ohne');
+  });
+
+  it('fällt ohne jede Angabe auf die mittlere Stufe zurück', () => {
+    expect(normalizeSettings({}).fachsprache).toBe('erklaert');
+    expect(normalizeSettings({ fachsprache: 'unfug' }).fachsprache).toBe('erklaert');
   });
 });

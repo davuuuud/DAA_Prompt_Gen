@@ -23,6 +23,13 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
   - **Optionen, die die Aufgabe schon enthält**, werden nicht mehr
     angeboten und stehen nicht zweimal im Prompt — etwa Prüfungsbezug bei
     einer Prüfungsaufgabe.
+  - Aus den Häkchen „Fachbegriffe erklären" und „Einfache Sprache" wird
+    ein Auswahlfeld **Fachbegriffe** mit drei Stufen: ohne Erklärung wie in
+    der Prüfung, beim ersten Auftreten erklären (Standard), erklären und
+    einfach halten. Nebeneinander angehakt sahen die beiden alten Optionen
+    wie ein Widerspruch aus. „Einfach" heißt dabei leichter zu lesen, nicht
+    fachlich anspruchsloser — wie tief der Stoff geht, bestimmt weiterhin
+    das Niveau. Gespeicherte Häkchen wandern auf die passende Stufe.
 
 ## 0.2.0 — 12.09.2026
 

@@ -7,6 +7,7 @@ import type {
   AufgabeId,
   Ausgabeformat,
   Beruf,
+  Fachsprache,
   Niveau,
   Option,
 } from './types';
@@ -179,7 +180,7 @@ export const AUFGABEN: Aufgabe[] = [
     label: 'Fachbegriff erklären',
     erlaeuterung:
       'Für einen einzelnen Begriff: Definition in einem Satz, Erläuterung, Praxisbeispiel, Abgrenzung.',
-    enthaelt: ['fachbegriffe', 'praxisbeispiel'],
+    enthaelt: ['praxisbeispiel'],
     instruction: () =>
       'Erkläre den unten genannten Fachbegriff kurz, präzise und prüfungstauglich: Definition in ' +
       'einem Satz, anschließend Erläuterung, ein Praxisbeispiel sowie die Abgrenzung zu ähnlichen Begriffen.',
@@ -251,22 +252,6 @@ export const AUFGABEN: Aufgabe[] = [
 
 export const OPTIONEN: Option[] = [
   {
-    id: 'einfache-sprache',
-    label: 'Einfache Sprache',
-    defaultOn: false,
-    rule:
-      'Erkläre in verständlicher Sprache, ohne fachliche Genauigkeit zu verlieren. ' +
-      'Löse lange Schachtelsätze auf.',
-  },
-  {
-    id: 'fachbegriffe',
-    label: 'Fachbegriffe erklären',
-    defaultOn: true,
-    rule:
-      'Verwende die korrekten Fachbegriffe deines Berufsfelds und erkläre jeden neuen Begriff beim ' +
-      'ersten Auftreten in einem Halbsatz.',
-  },
-  {
     id: 'praxisbeispiel',
     label: 'Praxisbeispiel',
     defaultOn: true,
@@ -281,6 +266,37 @@ export const OPTIONEN: Option[] = [
       'Richte Inhalt, Begriffswahl und Schwerpunkte an den typischen Anforderungen der ' +
       'Abschlussprüfung aus ' +
       'und benenne, worauf es in der Prüfung besonders ankommt.',
+  },
+];
+
+
+// Der Umgang mit Fachbegriffen ist eine Steigerung: erst der nackte Begriff,
+// dann die Erklärung, dann die einfache Erklärung. "Einfach" meint dabei
+// fachlich zugänglich, nicht sprachlich vereinfacht für Deutschlernende —
+// dafür gibt es die zweite Sprache in der Antwort.
+export const FACHSPRACHEN: Fachsprache[] = [
+  {
+    id: 'ohne',
+    label: 'Ohne Erklärung – wie in der Prüfung',
+    rule:
+      'Verwende durchgehend die Fachbegriffe deines Berufsfelds ohne zusätzliche Erklärung, ' +
+      'so wie sie in der Prüfung stehen.',
+  },
+  {
+    id: 'erklaert',
+    label: 'Beim ersten Auftreten erklären',
+    rule:
+      'Verwende die korrekten Fachbegriffe deines Berufsfelds und erkläre jeden neuen Begriff beim ' +
+      'ersten Auftreten in einem Halbsatz.',
+  },
+  {
+    id: 'einfach',
+    label: 'Erklären und einfach halten',
+    rule:
+      'Verwende die korrekten Fachbegriffe deines Berufsfelds, erkläre jeden neuen Begriff beim ' +
+      'ersten Auftreten und halte die Erklärungen einfach: kurze Sätze, ein Gedanke je Satz, ' +
+      'keine verschachtelten Nebensätze, abstrakte Zusammenhänge in Zwischenschritte zerlegt. ' +
+      'Die Fachbegriffe selbst bleiben stehen — sie kommen in der Prüfung so vor.',
   },
 ];
 
@@ -317,6 +333,9 @@ export const findAufgabe = (id: string) => lookup(AUFGABEN, id);
 export const findNiveau = (id: string) => lookup(NIVEAUS, id);
 export const findFormat = (id: string) => lookup(FORMATE, id);
 export const findOption = (id: string) => lookup(OPTIONEN, id);
+// Rückfall ist die mittlere Stufe, nicht die erste: Sie ist die Vorgabe.
+export const findFachsprache = (id: string) =>
+  FACHSPRACHEN.find((eintrag) => eintrag.id === id) ?? FACHSPRACHEN[1];
 
 /**
  * Die Optionen, die bei dieser Aufgabe noch etwas bewirken. Was der

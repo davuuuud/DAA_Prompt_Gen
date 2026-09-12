@@ -10,6 +10,7 @@
     ausgabeformWirksam,
     BERUFE,
     berufBeschriftung,
+    FACHSPRACHEN,
     FORMATE,
     findAufgabe,
     findBeruf,
@@ -373,6 +374,21 @@
           {:else}
             <span class="beschriftung">Ausgabeform</span>
             <p class="hinweis">Steht bei „{aufgabe.label}“ fest — die Aufgabe gibt die Form vor.</p>
+          {/if}
+        </div>
+
+        <div class="feld">
+          <label for="fachsprache">Fachbegriffe</label>
+          <select id="fachsprache" bind:value={settings.fachsprache}>
+            {#each FACHSPRACHEN as stufe (stufe.id)}
+              <option value={stufe.id}>{stufe.label}</option>
+            {/each}
+          </select>
+          {#if settings.fachsprache === 'einfach'}
+            <p class="hinweis">
+              Einfacher zu lesen, fachlich aber gleich anspruchsvoll – wie tief der Stoff geht,
+              bestimmt das Niveau.
+            </p>
           {/if}
         </div>
 

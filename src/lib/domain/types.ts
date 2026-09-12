@@ -37,7 +37,14 @@ export type AufgabeId =
   | 'geschaeftstext'
   | 'fallstudie';
 
-export type OptionId = 'einfache-sprache' | 'fachbegriffe' | 'praxisbeispiel' | 'ihk-bezug';
+export type OptionId = 'praxisbeispiel' | 'ihk-bezug';
+
+/**
+ * Wie mit Fachbegriffen umgegangen wird — eine Steigerung, keine
+ * Mehrfachauswahl. Früher waren das zwei Häkchen ("Fachbegriffe erklären",
+ * "Einfache Sprache"), die nebeneinander wie ein Widerspruch aussahen.
+ */
+export type FachspracheId = 'ohne' | 'erklaert' | 'einfach';
 
 export type NiveauId = 'einstieg' | 'azubi' | 'pruefung' | 'vertieft';
 
@@ -96,6 +103,13 @@ export interface Aufgabe {
   instruction(context: { anzahl: number }): string;
 }
 
+export interface Fachsprache {
+  id: FachspracheId;
+  label: string;
+  /** Anforderungssatz für den Prompt. */
+  rule: string;
+}
+
 export interface Option {
   id: OptionId;
   label: string;
@@ -145,6 +159,8 @@ export interface PromptInput {
   zusatz: string;
   anzahl: number;
   optionen: OptionId[];
+  /** Umgang mit Fachbegriffen: gar nicht erklären, erklären, einfach halten. */
+  fachsprache: FachspracheId;
   /** Ausgewählte Einträge aus dem Quellenkatalog. */
   quellen: string[];
   /**
