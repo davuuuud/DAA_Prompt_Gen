@@ -110,6 +110,8 @@ export const AUFGABEN: Aufgabe[] = [
   {
     id: 'erklaeren',
     label: 'Thema erklären',
+    erlaeuterung:
+      'Zusammenhängender Erklärtext mit Einordnung in den Betrieb und Abgrenzung zu verwandten Begriffen.',
     instruction: () =>
       'Erkläre das unten genannte Thema fachlich korrekt und nachvollziehbar. ' +
       'Ordne es in den betrieblichen Gesamtzusammenhang ein und grenze es von verwandten Begriffen ab.',
@@ -117,6 +119,8 @@ export const AUFGABEN: Aufgabe[] = [
   {
     id: 'zusammenfassen',
     label: 'Zusammenfassung erstellen',
+    erlaeuterung:
+      'Kernaussagen zuerst, am Ende eine Merkhilfe — setzt voraus, dass du das Thema schon einmal gehört hast.',
     instruction: () =>
       'Fasse das unten genannte Thema lernorientiert zusammen. Stelle die prüfungsrelevanten ' +
       'Kernaussagen voran und schließe mit einer kurzen Merkhilfe ab.',
@@ -124,6 +128,8 @@ export const AUFGABEN: Aufgabe[] = [
   {
     id: 'pruefungsaufgabe',
     label: 'Prüfungsaufgabe erstellen',
+    erlaeuterung:
+      'Aufgaben im Prüfungsformat mit Punktevorschlag und Bearbeitungszeit; die Musterlösung kommt erst am Ende.',
     needsCount: true,
     instruction: ({ anzahl }) =>
       `Erstelle ${anzahl} realistische, prüfungsnahe ` +
@@ -134,6 +140,8 @@ export const AUFGABEN: Aufgabe[] = [
   {
     id: 'loesung-pruefen',
     label: 'Eigene Lösung kontrollieren',
+    erlaeuterung:
+      'Deine Lösung wird durchgesehen: erst das Richtige, dann Fehler, Fehlendes, Musterlösung und eine Punkteschätzung.',
     needsZusatz: true,
     instruction: () =>
       'Kontrolliere meine Lösung zum unten genannten Thema. Sie steht im Abschnitt ' +
@@ -144,6 +152,8 @@ export const AUFGABEN: Aufgabe[] = [
   {
     id: 'karteikarten',
     label: 'Karteikarten erstellen',
+    erlaeuterung:
+      'Nummerierte Karten „Frage → Antwort", jede Antwort höchstens drei Sätze.',
     needsCount: true,
     instruction: ({ anzahl }) =>
       `Erstelle ${anzahl} kompakte Lernkarteikarten zum unten genannten Thema im Format ` +
@@ -152,6 +162,8 @@ export const AUFGABEN: Aufgabe[] = [
   {
     id: 'lernzettel',
     label: 'Lernzettel erstellen',
+    erlaeuterung:
+      'Feste Gliederung: Definition, Kernpunkte, typische Prüfungsfragen, häufige Fehler, Zusammenfassung.',
     instruction: () =>
       'Erstelle einen strukturierten Lernzettel zum unten genannten Thema: Definition, Kernpunkte, ' +
       'typische Prüfungsfragen, häufige Fehler und eine kurze Zusammenfassung am Ende.',
@@ -159,6 +171,8 @@ export const AUFGABEN: Aufgabe[] = [
   {
     id: 'fachbegriff',
     label: 'Fachbegriff erklären',
+    erlaeuterung:
+      'Für einen einzelnen Begriff: Definition in einem Satz, Erläuterung, Praxisbeispiel, Abgrenzung.',
     instruction: () =>
       'Erkläre den unten genannten Fachbegriff kurz, präzise und prüfungstauglich: Definition in ' +
       'einem Satz, anschließend Erläuterung, ein Praxisbeispiel sowie die Abgrenzung zu ähnlichen Begriffen.',
@@ -166,6 +180,8 @@ export const AUFGABEN: Aufgabe[] = [
   {
     id: 'simulation',
     label: 'Mündliche Prüfung simulieren',
+    erlaeuterung:
+      'Ein Dialog: Die KI fragt einzeln und wartet auf deine Antwort; der Erwartungshorizont kommt zum Schluss.',
     needsCount: true,
     instruction: ({ anzahl }) =>
       `Simuliere eine mündliche Abschlussprüfung zum unten genannten Thema. Stelle mir ${anzahl} ` +
@@ -175,6 +191,8 @@ export const AUFGABEN: Aufgabe[] = [
   {
     id: 'multiple-choice',
     label: 'Multiple-Choice-Fragen',
+    erlaeuterung:
+      'Je vier Antworten, genau eine richtig; der Lösungsschlüssel steht erst am Ende.',
     needsCount: true,
     instruction: ({ anzahl }) =>
       `Erstelle ${anzahl} Multiple-Choice-${plural(anzahl, 'Frage', 'Fragen')} zum unten genannten ` +
@@ -185,6 +203,8 @@ export const AUFGABEN: Aufgabe[] = [
   {
     id: 'berechnung',
     label: 'Berechnung erklären',
+    erlaeuterung:
+      'Formel, Einheiten und vollständiger Rechenweg, dazu die Aussage des Ergebnisses und typische Fehlerquellen.',
     instruction: () =>
       'Erkläre die Berechnung zum unten genannten Thema Schritt für Schritt: Formel, Bedeutung der ' +
       'Größen, Einheiten, vollständiger Rechenweg mit Zwischenergebnissen und Endergebnis. Erläutere ' +
@@ -193,6 +213,8 @@ export const AUFGABEN: Aufgabe[] = [
   {
     id: 'geschaeftstext',
     label: 'Geschäftstext formulieren',
+    erlaeuterung:
+      'Vollständiger Geschäftsbrief mit Betreff, Anrede und Schluss, danach die sprachlichen Entscheidungen kurz erläutert.',
     instruction: () =>
       'Formuliere einen professionellen kaufmännischen Geschäftstext zum unten genannten Thema. ' +
       'Berücksichtige die Angaben im Abschnitt "ZUSÄTZLICHE ANGABEN". Halte die übliche Form ' +
@@ -202,6 +224,8 @@ export const AUFGABEN: Aufgabe[] = [
   {
     id: 'fallstudie',
     label: 'Fallstudie / Praxisfall',
+    erlaeuterung:
+      'Ein Betrieb, ein Problem, Zahlenmaterial und drei aufbauende Arbeitsaufträge; der Lösungsvorschlag kommt erst am Ende.',
     instruction: () =>
       'Entwickle eine praxisnahe Fallstudie zum unten genannten Thema: Ausgangssituation eines ' +
       'Betriebs, konkretes Problem, Datengrundlage und drei aufeinander aufbauende Arbeitsaufträge. ' +

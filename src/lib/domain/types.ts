@@ -81,6 +81,9 @@ export interface Beruf {
 export interface Aufgabe {
   id: AufgabeId;
   label: string;
+  /** Ein Satz in der Oberfläche: Was bei dieser Aufgabe herauskommt.
+   *  Nicht Teil des Prompts. */
+  erlaeuterung: string;
   /** Wertet das Feld "Anzahl" aus. */
   needsCount?: boolean;
   /** Ohne die zusätzlichen Angaben wäre die Aufgabe sinnlos. */

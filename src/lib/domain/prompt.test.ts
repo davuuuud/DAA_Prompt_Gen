@@ -142,6 +142,16 @@ describe('Kataloge', () => {
     }
   });
 
+  it('erläutert jede Aufgabe in der Oberfläche, nie im Prompt', () => {
+    // Die Erläuterung sagt, was herauskommt ("Nummerierte Karten ..."). Im
+    // Prompt hätte sie nichts zu suchen — dort steht der Auftrag.
+    for (const aufgabe of AUFGABEN) {
+      expect(aufgabe.erlaeuterung.trim(), aufgabe.id).not.toBe('');
+      const prompt = buildPrompt(basis({ aufgabe: aufgabe.id, zusatz: 'Meine Lösung ...' }));
+      expect(prompt, aufgabe.id).not.toContain(aufgabe.erlaeuterung);
+    }
+  });
+
   it('bilden Einzahl und Mehrzahl korrekt', () => {
     const mc = AUFGABEN.find((a) => a.id === 'multiple-choice')!;
     expect(mc.instruction({ anzahl: 1 })).toContain('1 Multiple-Choice-Frage ');

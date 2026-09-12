@@ -280,6 +280,7 @@
               <option value={eintrag.id}>{eintrag.label}</option>
             {/each}
           </select>
+          <p class="hinweis">{aufgabe.erlaeuterung}</p>
         </div>
 
         {#if aufgabe.needsCount}
