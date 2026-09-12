@@ -251,10 +251,14 @@
     <section class="karte">
       <div class="feld">
         <h2><label for="thema">Thema oder konkrete Fragestellung</label></h2>
+        <p class="hinweis">
+          Hier steht, worum es gehen soll: ein Stichwort, ein Lernfeld oder eine ausformulierte
+          Frage. Je genauer die Angabe, desto brauchbarer die Antwort. Alles Übrige — Beruf,
+          Niveau, Quellen und Regeln — ergänzt die Fragenschmiede von selbst.
+        </p>
         <textarea
           id="thema"
           rows="3"
-          placeholder="z. B. Betriebskostenabrechnung: Umlagefähigkeit und Fristen"
           bind:value={draft.thema}
           onblur={() => (beruehrt.thema = true)}
           aria-invalid={zeigeFehler && pruefung.feld === 'thema'}
@@ -293,7 +297,12 @@
       </div>
 
       {#if zusatzBeimThema}
-        {@render zusatzFeld('Deine Lösung')}
+        {@render zusatzFeld(
+          'Deine Lösung',
+          'Trag hier ein, was du selbst geschrieben hast — so, wie du es in der Prüfung ' +
+            'abgeben würdest. Die KI nennt zuerst, was richtig ist, danach die Fehler mit ' +
+            'Begründung und zuletzt eine Musterlösung. Ohne diese Angabe geht es nicht.',
+        )}
       {/if}
     </section>
 
@@ -388,28 +397,35 @@
         <div class="sonstige">
           <div class="feld">
             <label for="quellen-frei">Weitere Quellen (optional)</label>
+            <p class="hinweis">
+              Für Quellen, die im Katalog fehlen: ein Lehrbuch, ein Skript, eine Vorgabe aus dem
+              Betrieb. Sie kommen zusätzlich zu den angehakten Quellen in den Prompt. Eine je
+              Zeile; getrennt wird an Zeilenumbruch und Semikolon, Kommas bleiben erhalten.
+            </p>
             <textarea
               id="quellen-frei"
               rows="2"
-              placeholder="Eine Quelle je Zeile, z. B. Schmidt/Futterer, Mietrecht"
               bind:value={settings.quellenFreitext}
             ></textarea>
-            <p class="hinweis">
-              Getrennt wird an Zeilenumbruch und Semikolon – Kommas bleiben erhalten.
-            </p>
           </div>
 
           {#if !zusatzBeimThema}
-            {@render zusatzFeld('Zusätzliche Angaben, eigene Lösung oder besondere Vorgaben')}
+            {@render zusatzFeld(
+              'Zusätzliche Angaben, eigene Lösung oder besondere Vorgaben',
+              'Alles, was die KI sonst nicht wissen kann: der Stand im Unterricht, eine ' +
+                'Vorgabe deiner Prüfungsstelle, ein Betrieb als Beispiel. Der Text wird ' +
+                'unverändert in den Prompt übernommen und dort als eigener Abschnitt geführt.',
+            )}
           {/if}
         </div>
       </Aufklappbereich>
     </section>
 
     <!-- Dasselbe Feld an zwei möglichen Orten, je nach Aufgabe. -->
-    {#snippet zusatzFeld(beschriftung: string)}
+    {#snippet zusatzFeld(beschriftung: string, erklaerung: string)}
       <div class="feld">
         <label for="zusatz">{beschriftung}</label>
+        <p class="hinweis">{erklaerung}</p>
         <textarea
           id="zusatz"
           rows="3"
