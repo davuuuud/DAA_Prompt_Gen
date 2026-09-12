@@ -4,6 +4,7 @@
 
 import type {
   Aufgabe,
+  AufgabeGruppeId,
   AufgabeId,
   Ausgabeformat,
   Beruf,
@@ -107,12 +108,23 @@ export function berufBeschriftung(beruf: Beruf): string {
   return `${beruf.kuerzel} — ${beruf.label}`;
 }
 
+// Zwölf Aufgaben sind zu viele für eine ungegliederte Liste. Die vier
+// Gruppen sagen, wonach man sucht: erst verstehen, dann wiederholen, dann
+// prüfen — anwenden steht für sich.
+export const AUFGABEN_GRUPPEN: { id: AufgabeGruppeId; label: string }[] = [
+  { id: 'verstehen', label: 'Verstehen' },
+  { id: 'wiederholen', label: 'Wiederholen' },
+  { id: 'pruefen', label: 'Prüfen' },
+  { id: 'anwenden', label: 'Anwenden' },
+];
+
 export const AUFGABEN: Aufgabe[] = [
   {
     id: 'erklaeren',
     label: 'Thema erklären',
+    gruppe: 'verstehen',
     erlaeuterung:
-      'Zusammenhängender Erklärtext mit Einordnung in den Betrieb und Abgrenzung zu verwandten Begriffen.',
+      'Zusammenhängender Erklärtext: Einordnung in den betrieblichen Ablauf, Abgrenzung zu verwandten Begriffen. Der Allrounder, wenn du etwas zum ersten Mal durchdringen willst.',
     beispiel:
       'Mach die Erklärung an einem Beispiel aus dem Betriebsalltag fest, mit realistischen Zahlen oder Abläufen.',
     instruction: () =>
@@ -120,10 +132,34 @@ export const AUFGABEN: Aufgabe[] = [
       'Ordne es in den betrieblichen Gesamtzusammenhang ein und grenze es von verwandten Begriffen ab.',
   },
   {
+    id: 'fachbegriff',
+    label: 'Fachbegriff erklären',
+    gruppe: 'verstehen',
+    erlaeuterung:
+      'Eng geführt: Definition in einem Satz, dann Erläuterung, Praxisbeispiel, Abgrenzung. Für einen Begriff, nicht für ein Kapitel.',
+    instruction: () =>
+      'Erkläre den unten genannten Fachbegriff kurz, präzise und prüfungstauglich: Definition in ' +
+      'einem Satz, anschließend Erläuterung, ein Praxisbeispiel sowie die Abgrenzung zu ähnlichen Begriffen.',
+  },
+  {
+    id: 'berechnung',
+    label: 'Berechnung erklären',
+    gruppe: 'verstehen',
+    erlaeuterung:
+      'Formel, Bedeutung der Größen, Einheiten, vollständiger Rechenweg mit Zwischenergebnissen — dazu, was das Ergebnis betriebswirtschaftlich bedeutet, und typische Fehlerquellen.',
+    beispiel:
+      'Rechne ein vollständiges Beispiel durch; nennt das Thema keine Zahlen, wähle realistische Beträge aus der Praxis.',
+    instruction: () =>
+      'Erkläre die Berechnung zum unten genannten Thema Schritt für Schritt: Formel, Bedeutung der ' +
+      'Größen, Einheiten, vollständiger Rechenweg mit Zwischenergebnissen und Endergebnis. Erläutere ' +
+      'abschließend die betriebswirtschaftliche Aussage des Ergebnisses und nenne typische Fehlerquellen.',
+  },
+  {
     id: 'zusammenfassen',
     label: 'Zusammenfassung erstellen',
+    gruppe: 'wiederholen',
     erlaeuterung:
-      'Kernaussagen zuerst, am Ende eine Merkhilfe — setzt voraus, dass du das Thema schon einmal gehört hast.',
+      'Fließtext, prüfungsrelevante Kernaussagen zuerst, am Ende eine Merkhilfe. Setzt voraus, dass du das Thema schon einmal gehört hast.',
     beispiel:
       'Verankere jede Kernaussage, die sonst abstrakt bliebe, mit einem Beispiel in einem Halbsatz.',
     instruction: () =>
@@ -131,10 +167,37 @@ export const AUFGABEN: Aufgabe[] = [
       'Kernaussagen voran und schließe mit einer kurzen Merkhilfe ab.',
   },
   {
+    id: 'lernzettel',
+    label: 'Lernzettel erstellen',
+    gruppe: 'wiederholen',
+    erlaeuterung:
+      'Feste Gliederung: Definition, Kernpunkte, typische Prüfungsfragen, häufige Fehler, Zusammenfassung. Zum Ausdrucken und Danebenlegen.',
+    beispiel:
+      'Zu jedem Kernpunkt ein Beispiel in einem Halbsatz.',
+    instruction: () =>
+      'Erstelle einen strukturierten Lernzettel zum unten genannten Thema: Definition, Kernpunkte, ' +
+      'typische Prüfungsfragen, häufige Fehler und eine kurze Zusammenfassung am Ende.',
+  },
+  {
+    id: 'karteikarten',
+    label: 'Karteikarten erstellen',
+    gruppe: 'wiederholen',
+    erlaeuterung:
+      'Nummerierte Paare „Frage → Antwort", jede Antwort höchstens drei Sätze.',
+    beispiel:
+      'Wo ein Beispiel das Verständnis trägt, steht es in einem Halbsatz auf der Rückseite — die Kürze der Karte geht vor.',
+    formFest: true,
+    needsCount: true,
+    instruction: ({ anzahl }) =>
+      `Erstelle ${anzahl} kompakte Lernkarteikarten zum unten genannten Thema im Format ` +
+      '"Frage → Antwort". Jede Antwort umfasst höchstens drei Sätze. Nummeriere die Karten fortlaufend.',
+  },
+  {
     id: 'pruefungsaufgabe',
     label: 'Prüfungsaufgabe erstellen',
+    gruppe: 'pruefen',
     erlaeuterung:
-      'Aufgaben im Prüfungsformat mit Punktevorschlag und Bearbeitungszeit; die Musterlösung kommt erst am Ende.',
+      'Aufgaben im Prüfungsformat: Ausgangssituation, Arbeitsauftrag, Punktevorschlag, Bearbeitungszeit. Musterlösung erst nach allen Aufgaben, klar abgetrennt.',
     beispiel:
       'Jede Aufgabe geht von einer betrieblichen Ausgangssituation mit konkreten Zahlen aus, nicht von einer Wissensfrage.',
     formFest: true,
@@ -147,75 +210,11 @@ export const AUFGABEN: Aufgabe[] = [
       'Gib die Musterlösung erst nach allen Aufgaben in einem klar getrennten Abschnitt aus.',
   },
   {
-    id: 'loesung-pruefen',
-    label: 'Eigene Lösung kontrollieren',
-    erlaeuterung:
-      'Deine Lösung wird durchgesehen: erst das Richtige, dann Fehler, Fehlendes, Musterlösung und eine Punkteschätzung.',
-    beispiel:
-      'Mach jeden Fehler an meiner Lösung konkret fest und rechne in der Musterlösung mit meinen Zahlen, nicht mit erfundenen.',
-    formFest: true,
-    pruefungsbezugEnthalten: true,
-    needsZusatz: true,
-    instruction: () =>
-      'Kontrolliere meine Lösung zum unten genannten Thema. Sie steht im Abschnitt ' +
-      '"ZUSÄTZLICHE ANGABEN". Nenne zuerst, was fachlich richtig ist, danach die Fehler mit ' +
-      'Begründung, dann die fehlenden Punkte und zuletzt eine vollständige Musterlösung. ' +
-      'Schätze abschließend, wie viele Punkte die Lösung in der Abschlussprüfung bekäme.',
-  },
-  {
-    id: 'karteikarten',
-    label: 'Karteikarten erstellen',
-    erlaeuterung:
-      'Nummerierte Karten „Frage → Antwort", jede Antwort höchstens drei Sätze.',
-    beispiel:
-      'Wo ein Beispiel das Verständnis trägt, steht es in einem Halbsatz auf der Rückseite — die Kürze der Karte geht vor.',
-    formFest: true,
-    needsCount: true,
-    instruction: ({ anzahl }) =>
-      `Erstelle ${anzahl} kompakte Lernkarteikarten zum unten genannten Thema im Format ` +
-      '"Frage → Antwort". Jede Antwort umfasst höchstens drei Sätze. Nummeriere die Karten fortlaufend.',
-  },
-  {
-    id: 'lernzettel',
-    label: 'Lernzettel erstellen',
-    erlaeuterung:
-      'Feste Gliederung: Definition, Kernpunkte, typische Prüfungsfragen, häufige Fehler, Zusammenfassung.',
-    beispiel:
-      'Zu jedem Kernpunkt ein Beispiel in einem Halbsatz.',
-    instruction: () =>
-      'Erstelle einen strukturierten Lernzettel zum unten genannten Thema: Definition, Kernpunkte, ' +
-      'typische Prüfungsfragen, häufige Fehler und eine kurze Zusammenfassung am Ende.',
-  },
-  {
-    id: 'fachbegriff',
-    label: 'Fachbegriff erklären',
-    erlaeuterung:
-      'Für einen einzelnen Begriff: Definition in einem Satz, Erläuterung, Praxisbeispiel, Abgrenzung.',
-    instruction: () =>
-      'Erkläre den unten genannten Fachbegriff kurz, präzise und prüfungstauglich: Definition in ' +
-      'einem Satz, anschließend Erläuterung, ein Praxisbeispiel sowie die Abgrenzung zu ähnlichen Begriffen.',
-  },
-  {
-    id: 'simulation',
-    label: 'Mündliche Prüfung simulieren',
-    erlaeuterung:
-      'Ein Dialog: Die KI fragt einzeln und wartet auf deine Antwort; der Erwartungshorizont kommt zum Schluss.',
-    beispiel:
-      'Kleide die Fragen in betriebliche Situationen, statt Definitionen abzufragen.',
-    formFest: true,
-    dialog: true,
-    pruefungsbezugEnthalten: true,
-    needsCount: true,
-    instruction: ({ anzahl }) =>
-      `Simuliere eine mündliche Abschlussprüfung zum unten genannten Thema. Stelle mir ${anzahl} ` +
-      `${plural(anzahl, 'Frage', 'Fragen')} nacheinander und warte nach jeder Frage auf meine Antwort. ` +
-      'Gib den Erwartungshorizont erst am Ende in einem eigenen Abschnitt aus.',
-  },
-  {
     id: 'multiple-choice',
     label: 'Multiple-Choice-Fragen',
+    gruppe: 'pruefen',
     erlaeuterung:
-      'Je vier Antworten, genau eine richtig; der Lösungsschlüssel steht erst am Ende.',
+      'Je vier Antworten, genau eine richtig, die falschen fachlich plausibel. Lösungsschlüssel mit Begründung erst am Ende.',
     beispiel:
       'Formuliere die Fragen als kurze betriebliche Fälle mit konkreten Zahlen, nicht als reine Wissensabfrage.',
     formFest: true,
@@ -228,22 +227,57 @@ export const AUFGABEN: Aufgabe[] = [
       'getrennten Abschnitt am Ende aus.',
   },
   {
-    id: 'berechnung',
-    label: 'Berechnung erklären',
+    id: 'fallstudie',
+    label: 'Fallstudie / Praxisfall',
+    gruppe: 'pruefen',
     erlaeuterung:
-      'Formel, Einheiten und vollständiger Rechenweg, dazu die Aussage des Ergebnisses und typische Fehlerquellen.',
-    beispiel:
-      'Rechne ein vollständiges Beispiel durch; nennt das Thema keine Zahlen, wähle realistische Beträge aus der Praxis.',
+      'Ein Betrieb, ein Problem, Zahlenmaterial und drei aufeinander aufbauende Arbeitsaufträge. Lösungsvorschlag erst am Schluss. Die anspruchsvollste Form.',
+    formFest: true,
     instruction: () =>
-      'Erkläre die Berechnung zum unten genannten Thema Schritt für Schritt: Formel, Bedeutung der ' +
-      'Größen, Einheiten, vollständiger Rechenweg mit Zwischenergebnissen und Endergebnis. Erläutere ' +
-      'abschließend die betriebswirtschaftliche Aussage des Ergebnisses und nenne typische Fehlerquellen.',
+      'Entwickle eine praxisnahe Fallstudie zum unten genannten Thema: Ausgangssituation eines ' +
+      'Betriebs, konkretes Problem, Datengrundlage und drei aufeinander aufbauende Arbeitsaufträge. ' +
+      'Gib den Lösungsvorschlag erst in einem getrennten Abschnitt am Ende aus.',
+  },
+  {
+    id: 'simulation',
+    label: 'Mündliche Prüfung simulieren',
+    gruppe: 'pruefen',
+    erlaeuterung:
+      'Ein echter Dialog: Die KI stellt eine Frage nach der anderen und wartet auf deine Antwort. Erwartungshorizont erst am Ende — die einzige Aufgabe, bei der du im Chat weiterarbeitest, statt nur zu lesen.',
+    beispiel:
+      'Kleide die Fragen in betriebliche Situationen, statt Definitionen abzufragen.',
+    formFest: true,
+    dialog: true,
+    pruefungsbezugEnthalten: true,
+    needsCount: true,
+    instruction: ({ anzahl }) =>
+      `Simuliere eine mündliche Abschlussprüfung zum unten genannten Thema. Stelle mir ${anzahl} ` +
+      `${plural(anzahl, 'Frage', 'Fragen')} nacheinander und warte nach jeder Frage auf meine Antwort. ` +
+      'Gib den Erwartungshorizont erst am Ende in einem eigenen Abschnitt aus.',
+  },
+  {
+    id: 'loesung-pruefen',
+    label: 'Eigene Lösung kontrollieren',
+    gruppe: 'pruefen',
+    erlaeuterung:
+      'Erst was richtig ist, dann die Fehler mit Begründung, dann das Fehlende, dann eine Musterlösung — und eine Schätzung, wie viele Punkte es in der Prüfung gäbe. Ohne deine Lösung im Feld darunter entsteht kein Prompt.',
+    beispiel:
+      'Mach jeden Fehler an meiner Lösung konkret fest und rechne in der Musterlösung mit meinen Zahlen, nicht mit erfundenen.',
+    formFest: true,
+    pruefungsbezugEnthalten: true,
+    needsZusatz: true,
+    instruction: () =>
+      'Kontrolliere meine Lösung zum unten genannten Thema. Sie steht im Abschnitt ' +
+      '"ZUSÄTZLICHE ANGABEN". Nenne zuerst, was fachlich richtig ist, danach die Fehler mit ' +
+      'Begründung, dann die fehlenden Punkte und zuletzt eine vollständige Musterlösung. ' +
+      'Schätze abschließend, wie viele Punkte die Lösung in der Abschlussprüfung bekäme.',
   },
   {
     id: 'geschaeftstext',
     label: 'Geschäftstext formulieren',
+    gruppe: 'anwenden',
     erlaeuterung:
-      'Vollständiger Geschäftsbrief mit Betreff, Anrede und Schluss, danach die sprachlichen Entscheidungen kurz erläutert.',
+      'Betreff, Anrede, Hauptteil, Schluss, Grußformel — danach eine kurze Erläuterung der sprachlichen Entscheidungen. Greift auf „Zusätzliche Angaben" zu: Empfänger, Anlass, Tonfall.',
     beispiel:
       'Nimm einen konkreten Anlass an und fülle fehlende Angaben plausibel aus — Namen, Daten, Beträge, Fristen; Erfundenes kennzeichnest du als Platzhalter.',
     formFest: true,
@@ -252,17 +286,6 @@ export const AUFGABEN: Aufgabe[] = [
       'Berücksichtige die Angaben im Abschnitt "ZUSÄTZLICHE ANGABEN". Halte die übliche Form ' +
       '(Betreff, Anrede, Hauptteil, Schluss, Grußformel) ein und erläutere danach kurz die ' +
       'wichtigsten sprachlichen Entscheidungen.',
-  },
-  {
-    id: 'fallstudie',
-    label: 'Fallstudie / Praxisfall',
-    erlaeuterung:
-      'Ein Betrieb, ein Problem, Zahlenmaterial und drei aufbauende Arbeitsaufträge; der Lösungsvorschlag kommt erst am Ende.',
-    formFest: true,
-    instruction: () =>
-      'Entwickle eine praxisnahe Fallstudie zum unten genannten Thema: Ausgangssituation eines ' +
-      'Betriebs, konkretes Problem, Datengrundlage und drei aufeinander aufbauende Arbeitsaufträge. ' +
-      'Gib den Lösungsvorschlag erst in einem getrennten Abschnitt am Ende aus.',
   },
 ];
 
@@ -393,6 +416,14 @@ export const findFormat = (id: string) => lookup(FORMATE, id);
 // Rückfall ist die mittlere Stufe, nicht die erste: Sie ist die Vorgabe.
 export const findFachsprache = (id: string) =>
   FACHSPRACHEN.find((eintrag) => eintrag.id === id) ?? FACHSPRACHEN[1];
+
+/** Nach Gruppen geordnet, für die Auswahlliste. */
+export function aufgabenNachGruppe(): { gruppe: string; aufgaben: Aufgabe[] }[] {
+  return AUFGABEN_GRUPPEN.map(({ id, label }) => ({
+    gruppe: label,
+    aufgaben: AUFGABEN.filter((aufgabe) => aufgabe.gruppe === id),
+  })).filter((eintrag) => eintrag.aufgaben.length > 0);
+}
 
 /** Gibt die Aufgabe die Form selbst vor, ist die Ausgabeform gegenstandslos. */
 export function ausgabeformWirksam(aufgabe: AufgabeId): boolean {

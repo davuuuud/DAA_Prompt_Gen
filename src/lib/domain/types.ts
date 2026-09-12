@@ -78,9 +78,14 @@ export interface Beruf {
   pruefstelle?: string;
 }
 
+/** Wonach man in der Auswahlliste sucht: erst verstehen, dann wiederholen,
+ *  dann prüfen; anwenden steht für sich. */
+export type AufgabeGruppeId = 'verstehen' | 'wiederholen' | 'pruefen' | 'anwenden';
+
 export interface Aufgabe {
   id: AufgabeId;
   label: string;
+  gruppe: AufgabeGruppeId;
   /** Ein Satz in der Oberfläche: Was bei dieser Aufgabe herauskommt.
    *  Nicht Teil des Prompts. */
   erlaeuterung: string;

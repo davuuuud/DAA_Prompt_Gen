@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   AUFGABEN,
+  aufgabenNachGruppe,
   BERUFE,
   berufBeschriftung,
   FORMATE,
@@ -151,6 +152,19 @@ describe('Kataloge', () => {
       const prompt = buildPrompt(basis({ aufgabe: aufgabe.id, zusatz: 'Meine Lösung ...' }));
       expect(prompt, aufgabe.id).not.toContain(aufgabe.erlaeuterung);
     }
+  });
+
+  it('ordnet jede Aufgabe genau einer Gruppe zu', () => {
+    // Die Auswahlliste zeigt vier Gruppen; eine Aufgabe ohne Gruppe fiele
+    // still heraus.
+    const gruppiert = aufgabenNachGruppe().flatMap((g) => g.aufgaben);
+    expect(gruppiert.map((a) => a.id).sort()).toEqual(AUFGABEN.map((a) => a.id).sort());
+    expect(aufgabenNachGruppe().map((g) => g.gruppe)).toEqual([
+      'Verstehen',
+      'Wiederholen',
+      'Prüfen',
+      'Anwenden',
+    ]);
   });
 
   it('bilden Einzahl und Mehrzahl korrekt', () => {

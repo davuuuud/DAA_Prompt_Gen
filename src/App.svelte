@@ -6,7 +6,7 @@
   import QuellenWahl from './lib/components/QuellenWahl.svelte';
   import { APP_NAME, APP_ORG, APP_VERSION, FEEDBACK } from './lib/config';
   import {
-    AUFGABEN,
+    aufgabenNachGruppe,
     ausgabeformWirksam,
     BERUFE,
     berufBeschriftung,
@@ -281,9 +281,15 @@
       <div class="raster">
         <div class="feld">
           <label for="aufgabe">Aufgabe</label>
+          <!-- Zwölf Aufgaben in vier Gruppen: Verstehen, Wiederholen, Prüfen,
+               Anwenden. Ungegliedert war die Liste zu lang zum Überfliegen. -->
           <select id="aufgabe" bind:value={settings.aufgabe}>
-            {#each AUFGABEN as eintrag (eintrag.id)}
-              <option value={eintrag.id}>{eintrag.label}</option>
+            {#each aufgabenNachGruppe() as gruppe (gruppe.gruppe)}
+              <optgroup label={gruppe.gruppe}>
+                {#each gruppe.aufgaben as eintrag (eintrag.id)}
+                  <option value={eintrag.id}>{eintrag.label}</option>
+                {/each}
+              </optgroup>
             {/each}
           </select>
           <p class="hinweis">{aufgabe.erlaeuterung}</p>

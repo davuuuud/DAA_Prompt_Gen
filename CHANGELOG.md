@@ -9,6 +9,9 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 - **Die Eingabefelder erklären sich selbst.** Statt grauer Beispiele
   ("z. B. Betriebskostenabrechnung ...") steht über jedem Feld in zwei bis
   drei Sätzen, wofür es gedacht ist und was daraus im Prompt wird.
+- **Die zwölf Aufgaben stehen in vier Gruppen** — Verstehen, Wiederholen,
+  Prüfen, Anwenden. Eine ungegliederte Liste mit zwölf Einträgen ließ sich
+  nicht überfliegen.
 - **Jede Aufgabe erklärt sich selbst.** Unter dem Auswahlfeld steht, was bei
   der gewählten Aufgabe herauskommt — so lassen sich "Zusammenfassung" und
   "Lernzettel" durch Anklicken vergleichen.
