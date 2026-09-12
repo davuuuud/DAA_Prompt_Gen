@@ -159,7 +159,12 @@ ab, alles andere antwortet ohne Rückfragen. Aus „Fachbegriffe erklären" und
 „einfach" meint dort leichter zu lesen, nicht fachlich anspruchsloser. Für
 Lernende mit geringen Deutschkenntnissen ist weiterhin die zweite Sprache in
 der Antwort gedacht — bei den Grundkompetenzen (#27) kann das neu bewertet
-werden. Die übrigen Standardwerte: KGQ, Thema
+werden. Niveau und Ausgabeform tragen seither eine Verhaltensbeschreibung
+statt eines Etiketts; das Etikett allein legte jedes Modell anders aus.
+
+**Offen aus #35:** ob „Prüfungsbezug" eine Option bleibt oder eine feste
+Regel wird. Das lässt sich erst nach der Erprobung sagen — wenn niemand sie je
+abwählt, gehört sie in den Prompt statt in die Oberfläche (#6). Die übrigen Standardwerte: KGQ, Thema
 erklären, Niveau 3, Kurz und kompakt, keine Zweitsprache, Anzahl 5.
 
 **Offen bleibt die andere Hälfte: Welche Optionen werden wirklich

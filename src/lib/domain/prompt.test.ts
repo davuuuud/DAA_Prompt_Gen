@@ -275,7 +275,7 @@ describe('Prompt-Aufbau', () => {
     // "Einfach" meint leichter zu lesen, nicht fachlich anspruchsloser —
     // dafür ist das Niveau da.
     const prompt = buildPrompt(basis({ fachsprache: 'einfach', niveau: 'pruefung' }));
-    expect(prompt).toContain('Niveau: Niveau der Abschlussprüfung.');
+    expect(prompt).toContain(NIVEAUS.find((n) => n.id === 'pruefung')!.rule);
     expect(prompt).toContain('Die Fachbegriffe selbst bleiben stehen');
   });
 
@@ -293,13 +293,14 @@ describe('Prompt-Aufbau', () => {
   });
 
   it('nennt die Ausgabeform nur, wo die Aufgabe die Form offen lässt', () => {
+    const tabelle = FORMATE.find((f) => f.id === 'tabelle')!;
     const erklaeren = buildPrompt(basis({ aufgabe: 'erklaeren', format: 'tabelle' }));
-    expect(erklaeren).toContain('Ausgabeform: Tabelle, wenn sinnvoll.');
+    expect(erklaeren).toContain(tabelle.rule);
 
     // "Karteikarten" plus "Tabelle, wenn sinnvoll" wären zwei Anweisungen
     // für dieselbe Sache.
     const karten = buildPrompt(basis({ aufgabe: 'karteikarten', format: 'tabelle' }));
-    expect(karten).not.toContain('Ausgabeform:');
+    expect(karten).not.toContain(tabelle.rule);
   });
 
   it('schreibt keine Option zweimal, die im Auftrag schon steht', () => {
@@ -410,7 +411,7 @@ describe('Belegstellen aus eigenen Unterlagen', () => {
       }),
     );
     expect(prompt).toContain('[…]');
-    expect(prompt.length).toBeLessThan(MAX_FUNDSTELLE_ZEICHEN + 4000);
+    expect(prompt.length).toBeLessThan(MAX_FUNDSTELLE_ZEICHEN + 4500);
   });
 });
 
@@ -628,10 +629,26 @@ describe('Niveaustufen', () => {
 
   it('schreibt die Stufenzahl NICHT in den Prompt', () => {
     // Eine Zahl ohne die Skala dahinter waere fuer ein Sprachmodell
-    // nichtssagend - im Prompt steht deshalb nur die Bezeichnung.
+    // nichtssagend - im Prompt steht deshalb, was die Stufe bedeutet.
     const prompt = buildPrompt(basis({ niveau: 'pruefung' }));
-    expect(prompt).toContain('Niveau: Niveau der Abschlussprüfung.');
+    expect(prompt).toContain('Anspruch: schriftliche Abschlussprüfung.');
     expect(prompt).not.toContain('3 — Niveau der Abschlussprüfung');
+  });
+
+  it('beschreibt jede Stufe und jede Form, statt sie nur zu benennen', () => {
+    // "Ausgabeform: Kurz und kompakt." legt ein Modell nach eigenem
+    // Gutdünken aus; "höchstens rund 250 Wörter" nicht.
+    for (const niveau of NIVEAUS) {
+      expect(niveau.rule.trim(), niveau.id).not.toBe('');
+      expect(buildPrompt(basis({ niveau: niveau.id })), niveau.id).toContain(niveau.rule);
+    }
+    for (const format of FORMATE) {
+      expect(format.rule.trim(), format.id).not.toBe('');
+      expect(
+        buildPrompt(basis({ aufgabe: 'erklaeren', format: format.id })),
+        format.id,
+      ).toContain(format.rule);
+    }
   });
 });
 

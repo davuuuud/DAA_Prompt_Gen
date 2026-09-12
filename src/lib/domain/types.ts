@@ -129,11 +129,17 @@ export interface Niveau {
    */
   stufe: number;
   label: string;
+  /** Was das Niveau für die Antwort bedeutet — der Satz für den Prompt.
+   *  Das Etikett allein („Niveau: Niveau der Abschlussprüfung") legt ein
+   *  Sprachmodell nach eigenem Gutdünken aus. */
+  rule: string;
 }
 
 export interface Ausgabeformat {
   id: FormatId;
   label: string;
+  /** Was die Form für die Antwort bedeutet; siehe Niveau. */
+  rule: string;
 }
 
 /**

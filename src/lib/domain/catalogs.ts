@@ -303,10 +303,34 @@ export const FACHSPRACHEN: Fachsprache[] = [
 // Anders als bei Aufgaben und Ausgabeformen ist die Reihenfolge hier eine
 // Rangfolge. Die Stufenzahl steht deshalb in der Auswahlliste voran.
 export const NIVEAUS: Niveau[] = [
-  { id: 'einstieg', stufe: 1, label: 'Sehr einfach / Einstieg' },
-  { id: 'azubi', stufe: 2, label: 'Azubi- und Umschüler-Niveau' },
-  { id: 'pruefung', stufe: 3, label: 'Niveau der Abschlussprüfung' },
-  { id: 'vertieft', stufe: 4, label: 'Vertieft / fachlich detailliert' },
+  {
+    id: 'einstieg',
+    stufe: 1,
+    label: 'Sehr einfach / Einstieg',
+    rule:
+      'Anspruch: erste Begegnung mit dem Thema. Setze kein Vorwissen voraus, bleib beim Grundgedanken und lass Sonderfälle weg.',
+  },
+  {
+    id: 'azubi',
+    stufe: 2,
+    label: 'Azubi- und Umschüler-Niveau',
+    rule:
+      'Anspruch: laufende Ausbildung oder Umschulung. Der Stoff des Lehrjahres, die üblichen Fälle und die wichtigsten Ausnahmen — noch nicht die Feinheiten.',
+  },
+  {
+    id: 'pruefung',
+    stufe: 3,
+    label: 'Niveau der Abschlussprüfung',
+    rule:
+      'Anspruch: schriftliche Abschlussprüfung. Fachbegriffe ohne Vereinfachung, typische Prüfungsfälle samt ihrer Fallstricke, Anwenden statt Aufsagen.',
+  },
+  {
+    id: 'vertieft',
+    stufe: 4,
+    label: 'Vertieft / fachlich detailliert',
+    rule:
+      'Anspruch: über die Prüfung hinaus. Sonderfälle, Streitfragen und Verweise auf die einschlägigen Vorschriften; kennzeichne Vereinfachungen ausdrücklich als solche.',
+  },
 ];
 
 /** Anzeige in der Auswahlliste: „3 — Niveau der Abschlussprüfung". */
@@ -315,12 +339,42 @@ export function niveauBeschriftung(niveau: Niveau): string {
 }
 
 export const FORMATE: Ausgabeformat[] = [
-  { id: 'kompakt', label: 'Kurz und kompakt' },
-  { id: 'stichpunkte', label: 'Strukturiert mit Stichpunkten' },
-  { id: 'schritt-fuer-schritt', label: 'Schritt für Schritt' },
-  { id: 'tabelle', label: 'Tabelle, wenn sinnvoll' },
-  { id: 'ausfuehrlich', label: 'Ausführlich mit Begründungen' },
-  { id: 'ganze-saetze', label: 'Prüfungsantwort in ganzen Sätzen' },
+  {
+    id: 'kompakt',
+    label: 'Kurz und kompakt',
+    rule:
+      'Form: höchstens rund 250 Wörter. Kernaussage zuerst, keine Wiederholung der Frage, keine Zusammenfassung am Ende.',
+  },
+  {
+    id: 'stichpunkte',
+    label: 'Strukturiert mit Stichpunkten',
+    rule:
+      'Form: gegliederte Stichpunkte mit Zwischenüberschriften, je Punkt ein Gedanke. Ganze Sätze nur, wo es ohne sie unklar würde.',
+  },
+  {
+    id: 'schritt-fuer-schritt',
+    label: 'Schritt für Schritt',
+    rule:
+      'Form: nummerierte Schritte in der Reihenfolge des Vorgehens. Je Schritt eine Handlung und das Ergebnis, das danach vorliegt.',
+  },
+  {
+    id: 'tabelle',
+    label: 'Tabelle, wenn sinnvoll',
+    rule:
+      'Form: was sich gegenüberstellen oder vergleichen lässt, gehört in eine Tabelle; der übrige Text bleibt Fließtext. Erzwinge keine Tabelle, wo es nichts zu vergleichen gibt.',
+  },
+  {
+    id: 'ausfuehrlich',
+    label: 'Ausführlich mit Begründungen',
+    rule:
+      'Form: ausführlich. Zu jeder Aussage die Begründung, dazu Herleitungen und Abgrenzungen; die Länge richtet sich nach dem Stoff.',
+  },
+  {
+    id: 'ganze-saetze',
+    label: 'Prüfungsantwort in ganzen Sätzen',
+    rule:
+      'Form: wie eine schriftliche Prüfungsantwort — vollständige Sätze, keine Stichpunkte, keine Aufzählungszeichen, sachlicher Ton.',
+  },
 ];
 
 /** Nachschlagen mit sicherem Rückfall auf den ersten Eintrag. */

@@ -183,10 +183,8 @@ export function buildPrompt(input: PromptInput): string {
   // "Karteikarten" und "Tabelle, wenn sinnvoll" wären zwei Anweisungen für
   // dieselbe Sache. Ebenso die Optionen, die im Auftragstext schon stehen.
   const anforderungen = [
-    `Niveau: ${findNiveau(input.niveau).label}.`,
-    ...(ausgabeformWirksam(input.aufgabe)
-      ? [`Ausgabeform: ${findFormat(input.format).label}.`]
-      : []),
+    findNiveau(input.niveau).rule,
+    ...(ausgabeformWirksam(input.aufgabe) ? [findFormat(input.format).rule] : []),
     findFachsprache(input.fachsprache).rule,
     ...wirksameOptionen(input.aufgabe)
       .filter((option) => option.rule && aktiv(option.id))

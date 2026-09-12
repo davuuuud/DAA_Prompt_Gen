@@ -30,6 +30,13 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
     wie ein Widerspruch aus. „Einfach" heißt dabei leichter zu lesen, nicht
     fachlich anspruchsloser — wie tief der Stoff geht, bestimmt weiterhin
     das Niveau. Gespeicherte Häkchen wandern auf die passende Stufe.
+  - **Niveau und Ausgabeform sagen jetzt, was sie bedeuten.** Bisher stand
+    im Prompt nur das Etikett aus der Oberfläche („Ausgabeform: Kurz und
+    kompakt."), das jedes Modell nach eigenem Gutdünken auslegte. Jetzt
+    steht dort, was folgt: „Form: höchstens rund 250 Wörter. Kernaussage
+    zuerst, keine Wiederholung der Frage, keine Zusammenfassung am Ende."
+    Entsprechend für alle vier Niveaustufen und alle sechs Formen. Die
+    Auswahllisten bleiben unverändert.
 
 ## 0.2.0 — 12.09.2026
 
