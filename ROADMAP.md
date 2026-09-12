@@ -149,29 +149,29 @@ sie mischt Umfang und Darstellung (siehe Issue #33).
 
 ### Optionen und Voreinstellungen
 
-**Voreinstellungen entschieden** (11.09.2026): Der Prüfungsbezug ist an. Das
-Praxisbeispiel ist am 12.09.2026 von der Option zur Eigenschaft der Aufgabe
-geworden — jede Aufgabe sagt selbst, wie ein Beispiel bei ihr aussieht.
+**Standardwerte entschieden** (11.09.2026): KGQ, Thema erklären, Niveau 3,
+Kurz und kompakt, keine Zweitsprache, Anzahl 5.
 
-**Am 12.09.2026 entwirrt** (Issue #35): „Rückfragen erlaubt" ist entfallen und
-folgt jetzt der Aufgabe — die simulierte mündliche Prüfung fragt und wartet
-ab, alles andere antwortet ohne Rückfragen. Aus „Fachbegriffe erklären" und
-„Einfache Sprache" wurde das Auswahlfeld *Fachbegriffe* mit drei Stufen;
-„einfach" meint dort leichter zu lesen, nicht fachlich anspruchsloser. Für
-Lernende mit geringen Deutschkenntnissen ist weiterhin die zweite Sprache in
-der Antwort gedacht — bei den Grundkompetenzen (#27) kann das neu bewertet
-werden. Niveau und Ausgabeform tragen seither eine Verhaltensbeschreibung
-statt eines Etiketts; das Etikett allein legte jedes Modell anders aus.
+**Erledigt am 12.09.2026: Es gibt keine Optionen mehr** (Issue #35, #6). Aus
+den fünf Häkchen sind geworden:
 
-**Offen aus #35:** ob „Prüfungsbezug" eine Option bleibt oder eine feste
-Regel wird. Das lässt sich erst nach der Erprobung sagen — wenn niemand sie je
-abwählt, gehört sie in den Prompt statt in die Oberfläche (#6). Die übrigen Standardwerte: KGQ, Thema
-erklären, Niveau 3, Kurz und kompakt, keine Zweitsprache, Anzahl 5.
+| früheres Häkchen | heute |
+|---|---|
+| Einfache Sprache | dritte Stufe der Auswahl *Fachbegriffe* |
+| Fachbegriffe erklären | zweite Stufe ebenda, Standard |
+| Praxisbeispiel | Eigenschaft der Aufgabe, je Aufgabe eigens formuliert |
+| Rückfragen erlaubt | Eigenschaft der Aufgabe — nur die simulierte Prüfung fragt zurück |
+| Prüfungsbezug | feste Regel im Prompt |
 
-**Offen bleibt die andere Hälfte: Welche Optionen werden wirklich
-gebraucht?** Eine Option, die niemand je abwählt, kann genauso gut eine feste
-Regel im Prompt sein — eine, die niemand je anwählt, kann verschwinden. Das
-lässt sich erst nach der Erprobung beantworten.
+„Einfach" meint dabei leichter zu lesen, nicht fachlich anspruchsloser; für
+Lernende mit geringen Deutschkenntnissen ist die zweite Sprache in der Antwort
+gedacht — bei den Grundkompetenzen (#27) kann das neu bewertet werden. Niveau
+und Ausgabeform tragen seither eine Verhaltensbeschreibung statt eines
+Etiketts; das Etikett allein legte jedes Modell anders aus.
+
+**Offen bleibt, ob die verbliebenen Auswahlfelder taugen** — vier Niveaus,
+sechs Ausgabeformen, drei Fachbegriff-Stufen. Ob die Abstände stimmen und ob
+jemand die Ränder je benutzt, zeigt erst die Erprobung (#34).
 
 ### Name der Anwendung
 
