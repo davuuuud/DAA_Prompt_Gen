@@ -2,6 +2,7 @@
   import { untrack } from 'svelte';
   import Aufklappbereich from './lib/components/Aufklappbereich.svelte';
   import Datenschutz from './lib/components/Datenschutz.svelte';
+  import Hilfe from './lib/components/Hilfe.svelte';
   import Impressum from './lib/components/Impressum.svelte';
   import QuellenWahl from './lib/components/QuellenWahl.svelte';
   import { APP_NAME, APP_ORG, APP_VERSION, FEEDBACK } from './lib/config';
@@ -135,6 +136,7 @@
   // Impressum nicht "Fragenschmiede" heißt.
   const SEITENTITEL: Record<string, string> = {
     app: APP_NAME,
+    hilfe: `Was die Felder bewirken – ${APP_NAME}`,
     impressum: `Impressum – ${APP_NAME}`,
     datenschutz: `Datenschutz – ${APP_NAME}`,
   };
@@ -211,7 +213,9 @@
 </script>
 
 <div class="huelle">
-  {#if navigation.seite === 'impressum'}
+  {#if navigation.seite === 'hilfe'}
+    <Hilfe />
+  {:else if navigation.seite === 'impressum'}
     <Impressum />
   {:else if navigation.seite === 'datenschutz'}
     <Datenschutz />
@@ -502,6 +506,8 @@
     {/if}
     <p class="fusszeile">
       Fassung {APP_VERSION}
+      <span aria-hidden="true">·</span>
+      <a href={ANKER.hilfe}>Was die Felder bewirken</a>
       <span aria-hidden="true">·</span>
       <a href={ANKER.impressum}>Impressum</a>
       <span aria-hidden="true">·</span>
