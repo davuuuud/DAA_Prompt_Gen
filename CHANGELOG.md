@@ -14,7 +14,9 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
   Ausgabeformen und die drei Fachbegriff-Stufen. Die Seite ist aus den
   Katalogen erzeugt und kann deshalb nicht veralten. Ein Knopf druckt sie
   als Blatt zum Verteilen: mit Trägerkopf, Herkunftsangabe und einer Seite
-  für Notizen, ohne Bedienelemente der Anwendung.
+  für Notizen, ohne Bedienelemente der Anwendung. Wer die Übersicht in eine
+  bestehende Mappe einfügen will, erzeugt sie mit `npm run merkblatt` als
+  Word-Datei — aus denselben Katalogen, also ebenfalls nie veraltet.
 - **Die zwölf Aufgaben stehen in vier Gruppen** — Verstehen, Wiederholen,
   Prüfen, Anwenden. Eine ungegliederte Liste mit zwölf Einträgen ließ sich
   nicht überfliegen.

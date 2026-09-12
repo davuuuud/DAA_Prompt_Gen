@@ -28,3 +28,6 @@ dist-datei
 # ein oeffentliches Repository.
 quellen-durchsicht/*.local.*
 quellen-durchsicht/blaetter/fuer-*.html
+
+# Erzeugtes Merkblatt (node scripts/merkblatt.mjs)
+merkblatt/

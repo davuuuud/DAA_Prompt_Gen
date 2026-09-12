@@ -43,6 +43,7 @@ npm run check      # Typprüfung (TypeScript und Svelte)
 npm run build      # Produktionsbau nach dist/
 npm run preview    # dist/ ausliefern, http://localhost:4173
 npm run icons      # App-Symbole aus assets-src/ neu erzeugen
+npm run merkblatt  # Merkblatt "Was die Felder bewirken" als .docx
 ```
 
 Der Offline-Betrieb lässt sich nur im Produktionsbau prüfen (`npm run build`
@@ -94,7 +95,7 @@ src/lib/state/       Zustand und Ablage auf dem Gerät
 src/lib/platform/    Zwischenablage und Teilen-Dialog
 src/lib/components/  Svelte-Bausteine
 assets-src/          SVG-Vorlagen der App-Symbole
-scripts/             Erzeugung der PNG-Symbole (nur auf Zuruf)
+scripts/             PNG-Symbole und das Merkblatt (nur auf Zuruf)
 ```
 
 Die Fachlogik kennt die Windows-API ebenso wenig wie den Browser. Sie ist
