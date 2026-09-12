@@ -6,8 +6,7 @@ import {
   FORMATE,
   niveauBeschriftung,
   NIVEAUS,
-  OPTIONEN,
-  wirksameOptionen,
+  PRUEFUNGSBEZUG,
   FACHSPRACHEN,
 } from './catalogs';
 import {
@@ -114,7 +113,7 @@ describe('Kataloge', () => {
   });
 
   it('haben durchgehend Beschriftungen und eindeutige Bezeichner', () => {
-    for (const liste of [BERUFE, AUFGABEN, NIVEAUS, FORMATE, OPTIONEN]) {
+    for (const liste of [BERUFE, AUFGABEN, NIVEAUS, FORMATE]) {
       expect(liste.length).toBeGreaterThan(0);
       const ids = liste.map((e) => e.id);
       expect(new Set(ids).size).toBe(ids.length);
@@ -246,16 +245,16 @@ describe('Prompt-Aufbau', () => {
     expect(prompt).not.toContain('\\n');
   });
 
-  it('gibt die Qualitätsregeln unabhängig von den Optionen aus', () => {
-    const prompt = buildPrompt(basis({ optionen: [] }));
+  it('gibt die Qualitätsregeln bei jeder Aufgabe aus', () => {
+    const prompt = buildPrompt(basis());
     expect(prompt).toContain('Erfinde keine Quellen');
     expect(prompt).toContain('Stelle keine Rückfragen');
   });
 
-  it('berücksichtigt aktivierte und ignoriert abgewählte Optionen', () => {
-    const pruefung = OPTIONEN.find((o) => o.id === 'ihk-bezug')!;
-    expect(buildPrompt(basis({ optionen: ['ihk-bezug'] }))).toContain(pruefung.rule);
-    expect(buildPrompt(basis({ optionen: [] }))).not.toContain(pruefung.rule);
+  it('richtet die Antwort immer an der Prüfung aus', () => {
+    // Seit dem 12.09.2026 feste Regel statt Häkchen: Die Anwendung ist
+    // Prüfungsvorbereitung.
+    expect(buildPrompt(basis({ aufgabe: 'erklaeren' }))).toContain(PRUEFUNGSBEZUG);
   });
 
   it('gibt das Praxisbeispiel je nach Aufgabe vor, ohne Häkchen', () => {
@@ -264,7 +263,7 @@ describe('Prompt-Aufbau', () => {
     // Multiple-Choice-Frage ein betrieblicher Fall.
     for (const aufgabe of AUFGABEN) {
       const prompt = buildPrompt(
-        basis({ aufgabe: aufgabe.id, optionen: [], zusatz: 'Meine Lösung ...' }),
+        basis({ aufgabe: aufgabe.id, zusatz: 'Meine Lösung ...' }),
       );
       if (aufgabe.beispiel) {
         expect(prompt, aufgabe.id).toContain(aufgabe.beispiel);
@@ -318,21 +317,18 @@ describe('Prompt-Aufbau', () => {
     expect(karten).not.toContain(tabelle.rule);
   });
 
-  it('schreibt keine Option zweimal, die im Auftrag schon steht', () => {
-    const alleOptionen = OPTIONEN.map((option) => option.id);
-    for (const aufgabe of AUFGABEN.filter((a) => a.enthaelt?.length)) {
-      const prompt = buildPrompt(
-        basis({ aufgabe: aufgabe.id, optionen: alleOptionen, zusatz: 'Meine Lösung ...' }),
-      );
-      for (const id of aufgabe.enthaelt!) {
-        const regel = OPTIONEN.find((option) => option.id === id)!.rule;
-        expect(prompt, `${aufgabe.id}/${id}`).not.toContain(regel);
-      }
-      // Die übrigen Optionen wirken weiter.
-      const uebrig = wirksameOptionen(aufgabe.id).filter((option) => option.rule);
-      for (const option of uebrig) {
-        expect(prompt, `${aufgabe.id}/${option.id}`).toContain(option.rule);
-      }
+  it('verlangt den Prüfungsbezug nicht zweimal', () => {
+    // Prüfungsaufgaben, Multiple-Choice, die simulierte Prüfung und die
+    // Lösungskontrolle tragen ihn schon im Auftragstext.
+    const mitBezug = AUFGABEN.filter((a) => a.pruefungsbezugEnthalten);
+    expect(mitBezug.length).toBeGreaterThan(0);
+    for (const aufgabe of mitBezug) {
+      const prompt = buildPrompt(basis({ aufgabe: aufgabe.id, zusatz: 'Meine Lösung ...' }));
+      expect(prompt, aufgabe.id).not.toContain(PRUEFUNGSBEZUG);
+    }
+    for (const aufgabe of AUFGABEN.filter((a) => !a.pruefungsbezugEnthalten)) {
+      const prompt = buildPrompt(basis({ aufgabe: aufgabe.id, zusatz: 'Meine Lösung ...' }));
+      expect(prompt, aufgabe.id).toContain(PRUEFUNGSBEZUG);
     }
   });
 });
@@ -524,8 +520,10 @@ describe('Standardwerte', () => {
     expect(standard.anzahl).toBe(5);
   });
 
-  it('schaltet den Prüfungsbezug ein', () => {
-    expect(standard.optionen).toEqual(['ihk-bezug']);
+  it('kennt keine Optionen mehr', () => {
+    // Aus den fünf Häkchen sind Eigenschaften der Aufgabe und die
+    // Fachbegriff-Stufen geworden.
+    expect(standard).not.toHaveProperty('optionen');
   });
 });
 
@@ -540,16 +538,13 @@ describe('Auf Standard', () => {
     expect(weichtVomStandardAb({ ...standard(), beruf: 'immobilien' })).toBe(true);
     expect(weichtVomStandardAb({ ...standard(), format: 'tabelle' })).toBe(true);
     expect(weichtVomStandardAb({ ...standard(), zweitsprache: 'uk' })).toBe(true);
-    expect(weichtVomStandardAb({ ...standard(), optionen: [] })).toBe(true);
     expect(weichtVomStandardAb({ ...standard(), fachsprache: 'einfach' })).toBe(true);
     expect(weichtVomStandardAb({ ...standard(), quellen: [] })).toBe(true);
   });
 
-  it('achtet bei Optionen und Quellen nicht auf die Reihenfolge', () => {
+  it('achtet bei den Quellen nicht auf die Reihenfolge', () => {
     const s = standard();
-    expect(
-      weichtVomStandardAb({ ...s, optionen: [...s.optionen].reverse(), quellen: [...s.quellen].reverse() }),
-    ).toBe(false);
+    expect(weichtVomStandardAb({ ...s, quellen: [...s.quellen].reverse() })).toBe(false);
   });
 
   it('lässt Aufgabe und Anzahl außen vor — sie gehören zur Frage', () => {
@@ -579,9 +574,7 @@ describe('Auf Standard', () => {
   it('kopiert Listen, damit "Rückgängig" nicht mitverändert wird', () => {
     const vorher = standard();
     const kopie = auswahlVon(vorher);
-    vorher.optionen.length = 0;
     vorher.quellen.length = 0;
-    expect(kopie.optionen).toEqual(['ihk-bezug']);
     expect(kopie.quellen.length).toBeGreaterThan(0);
   });
 
@@ -591,7 +584,6 @@ describe('Auf Standard', () => {
       ...standard(),
       beruf: 'immobilien' as const,
       format: 'tabelle' as const,
-      optionen: [],
       quellenFreitext: 'bleibt stehen',
     };
     const vorher = auswahlVon(zustand);
@@ -602,7 +594,6 @@ describe('Auf Standard', () => {
     Object.assign(zustand, auswahlVon(vorher));
     expect(zustand.beruf).toBe('immobilien');
     expect(zustand.format).toBe('tabelle');
-    expect(zustand.optionen).toEqual([]);
     expect(zustand.quellenFreitext).toBe('bleibt stehen');
   });
 });

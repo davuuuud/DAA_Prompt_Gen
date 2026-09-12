@@ -42,7 +42,13 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
     Multiple-Choice-Frage als betrieblicher Fall mit Zahlen, bei der
     Lösungskontrolle als Rechnung mit deinen eigenen Zahlen. Der frühere
     Einheitssatz passte nicht zu zwölf verschiedenen Aufgaben. Unter
-    „Optionen" bleibt nur der Prüfungsbezug.
+    „Optionen" bleibt zunächst nur der Prüfungsbezug.
+  - **Die Optionen sind ganz verschwunden.** Auch der Prüfungsbezug ist
+    jetzt feste Regel: Die Anwendung ist Prüfungsvorbereitung, und bei den
+    prüfungsnahen Aufgaben stand er ohnehin schon im Auftrag. Aus fünf
+    Häkchen sind damit Eigenschaften der Aufgabe und die Stufenwahl
+    „Fachbegriffe" geworden; die Einstellungskarte zeigt nur noch
+    Ausbildungsberuf, Niveau, Ausgabeform, Fachbegriffe und zweite Sprache.
 
 ## 0.2.0 — 12.09.2026
 

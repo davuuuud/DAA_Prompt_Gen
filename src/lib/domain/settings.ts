@@ -4,7 +4,7 @@
 // von einer älteren Version geschriebene Datei darf die Anwendung nicht
 // unbrauchbar machen. Unbekannte Werte fallen still auf die Vorgabe zurück.
 
-import { AUFGABEN, BERUFE, FACHSPRACHEN, FORMATE, NIVEAUS, OPTIONEN } from './catalogs';
+import { AUFGABEN, BERUFE, FACHSPRACHEN, FORMATE, NIVEAUS } from './catalogs';
 import { istFruehereVoreinstellung, quellenFuerBeruf, standardQuellen } from './quellen';
 import { zweitsprachen } from './sprachen';
 import { DEFAULT_ANZAHL, parseAnzahl } from './text';
@@ -14,7 +14,6 @@ import type {
   FachspracheId,
   FormatId,
   NiveauId,
-  OptionId,
   PromptInput,
   ZweitspracheId,
 } from './types';
@@ -28,7 +27,6 @@ export interface Settings {
   niveau: NiveauId;
   format: FormatId;
   anzahl: number;
-  optionen: OptionId[];
   fachsprache: FachspracheId;
   quellen: string[];
   quellenFreitext: string;
@@ -44,7 +42,6 @@ export function defaultSettings(): Settings {
     niveau: 'pruefung',
     format: 'kompakt',
     anzahl: DEFAULT_ANZAHL,
-    optionen: OPTIONEN.filter((option) => option.defaultOn).map((option) => option.id),
     fachsprache: 'erklaert',
     quellen: standardQuellen('kgq'),
     quellenFreitext: '',
@@ -92,7 +89,6 @@ export function normalizeSettings(raw: unknown): Settings {
     niveau: pickId(NIVEAUS, data.niveau, fallback.niveau) as NiveauId,
     format: pickId(FORMATE, data.format, fallback.format) as FormatId,
     anzahl: parseAnzahl(typeof data.anzahl === 'number' ? data.anzahl : String(data.anzahl ?? '')),
-    optionen: pickIds(OPTIONEN, data.optionen) as OptionId[],
     fachsprache: fachspracheAus(data),
     quellen: quellen.length > 0 ? quellen : standardQuellen(beruf),
     quellenFreitext: typeof data.quellenFreitext === 'string' ? data.quellenFreitext : '',
@@ -133,7 +129,6 @@ export function toPromptInput(
     niveau: settings.niveau,
     format: settings.format,
     anzahl: settings.anzahl,
-    optionen: settings.optionen,
     fachsprache: settings.fachsprache,
     quellen: settings.quellen,
     quellenFreitext: settings.quellenFreitext,
@@ -156,7 +151,7 @@ export function toPromptInput(
  */
 export type Auswahl = Pick<
   Settings,
-  'beruf' | 'niveau' | 'format' | 'zweitsprache' | 'fachsprache' | 'optionen' | 'quellen'
+  'beruf' | 'niveau' | 'format' | 'zweitsprache' | 'fachsprache' | 'quellen'
 >;
 
 /** Die aktuelle Auswahl als unabhängige Kopie — für „Rückgängig". */
@@ -167,7 +162,6 @@ export function auswahlVon(settings: Auswahl): Auswahl {
     format: settings.format,
     zweitsprache: settings.zweitsprache,
     fachsprache: settings.fachsprache,
-    optionen: [...settings.optionen],
     quellen: [...settings.quellen],
   };
 }
@@ -198,8 +192,5 @@ export function weichtVomStandardAb(settings: Auswahl): boolean {
   ) {
     return true;
   }
-  return (
-    !gleicheMenge(settings.optionen, standard.optionen) ||
-    !gleicheMenge(settings.quellen, standard.quellen)
-  );
+  return !gleicheMenge(settings.quellen, standard.quellen);
 }

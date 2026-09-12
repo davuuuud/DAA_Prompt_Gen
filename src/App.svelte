@@ -18,8 +18,6 @@
     findNiveau,
     niveauBeschriftung,
     NIVEAUS,
-    OPTIONEN,
-    wirksameOptionen,
   } from './lib/domain/catalogs';
   import { feedbackMailto, kurzeBrowserKennung } from './lib/domain/feedback';
   import { buildPrompt, validate } from './lib/domain/prompt';
@@ -121,14 +119,9 @@
   );
 
   // --- Was die Aufgabe schon festlegt ----------------------------------------
-  // Karteikarten geben ihre Form selbst vor, eine Prüfungsaufgabe den
-  // Prüfungsbezug. Diese Felder verschwinden dann, statt eine Wahl
-  // vorzutäuschen, die im Prompt nichts bewirkt.
+  // Karteikarten geben ihre Form selbst vor. Das Feld verschwindet dann,
+  // statt eine Wahl vorzutäuschen, die im Prompt nichts bewirkt.
   const zeigtAusgabeform = $derived(ausgabeformWirksam(settings.aufgabe));
-  const optionen = $derived(wirksameOptionen(settings.aufgabe));
-  const enthaltene = $derived(
-    (aufgabe.enthaelt ?? []).map((id) => OPTIONEN.find((option) => option.id === id)!.label),
-  );
 
   function zuDenEinstellungen() {
     const feld = document.getElementById('beruf');
@@ -409,24 +402,6 @@
         </div>
       </div>
 
-      <div class="feld">
-        <span class="beschriftung">Optionen</span>
-        <div class="optionen">
-          {#each optionen as option (option.id)}
-            <label class="option">
-              <input type="checkbox" bind:group={settings.optionen} value={option.id} />
-              <span>{option.label}</span>
-            </label>
-          {/each}
-        </div>
-        {#if enthaltene.length > 0}
-          <p class="hinweis">
-            {enthaltene.join(' und ')}
-            {enthaltene.length === 1 ? 'ist' : 'sind'} bei „{aufgabe.label}“ schon enthalten.
-          </p>
-        {/if}
-      </div>
-
       <QuellenWahl beruf={settings.beruf} bind:ausgewaehlt={settings.quellen} />
 
       <Aufklappbereich
@@ -657,20 +632,6 @@
   .beschriftung {
     font-size: 0.85rem;
     font-weight: 600;
-  }
-
-  .optionen {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 1.1rem;
-  }
-
-  .option {
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    font-weight: 400;
-    cursor: pointer;
   }
 
   /* Kopfzeile der Einstellungskarte. Die Mindesthöhe verhindert, dass das

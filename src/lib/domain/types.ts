@@ -37,8 +37,6 @@ export type AufgabeId =
   | 'geschaeftstext'
   | 'fallstudie';
 
-export type OptionId = 'ihk-bezug';
-
 /**
  * Wie mit Fachbegriffen umgegangen wird — eine Steigerung, keine
  * Mehrfachauswahl. Früher waren das zwei Häkchen ("Fachbegriffe erklären",
@@ -93,9 +91,9 @@ export interface Aufgabe {
   /** Die Aufgabe gibt die Form der Antwort selbst vor (Karteikarten,
    *  Multiple-Choice, Geschäftsbrief). Die Ausgabeform entfällt dann. */
   formFest?: boolean;
-  /** Optionen, die im Auftragstext schon enthalten sind. Sie erscheinen
-   *  nicht in der Oberfläche und stehen kein zweites Mal im Prompt. */
-  enthaelt?: OptionId[];
+  /** Der Prüfungsbezug steckt schon im Auftragstext; die feste Regel
+   *  entfällt dann, statt zweimal dasselbe zu verlangen. */
+  pruefungsbezugEnthalten?: boolean;
   /** Die Aufgabe ist ein Wechselgespräch: Die KI fragt und wartet ab. */
   dialog?: boolean;
   /** Wie bei dieser Aufgabe das Praxisbeispiel entsteht — ein Satz für den
@@ -112,15 +110,6 @@ export interface Fachsprache {
   label: string;
   /** Anforderungssatz für den Prompt. */
   rule: string;
-}
-
-export interface Option {
-  id: OptionId;
-  label: string;
-  /** Anforderungssatz, der bei aktivierter Option in den Prompt wandert. */
-  rule: string;
-  /** Voreinstellung beim ersten Start und bei „Auf Standard“. */
-  defaultOn: boolean;
 }
 
 export interface Niveau {
@@ -168,7 +157,6 @@ export interface PromptInput {
   thema: string;
   zusatz: string;
   anzahl: number;
-  optionen: OptionId[];
   /** Umgang mit Fachbegriffen: gar nicht erklären, erklären, einfach halten. */
   fachsprache: FachspracheId;
   /** Ausgewählte Einträge aus dem Quellenkatalog. */

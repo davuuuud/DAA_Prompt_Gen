@@ -12,12 +12,12 @@ import {
   findBeruf,
   findFormat,
   findNiveau,
-  wirksameOptionen,
+  PRUEFUNGSBEZUG,
 } from './catalogs';
 import { ausgewaehlteQuellen, promptBezeichnung, QUELLEN_GRUPPEN } from './quellen';
 import { BASISSPRACHE, findSprache } from './sprachen';
 import { collapseBlankLines, parseAnzahl, splitFreitext, truncateWords } from './text';
-import type { Fundstelle, OptionId, PromptInput } from './types';
+import type { Fundstelle, PromptInput } from './types';
 
 /** Zeichenbudget je Belegstelle, damit der Prompt handhabbar bleibt. */
 export const MAX_FUNDSTELLE_ZEICHEN = 1200;
@@ -136,7 +136,6 @@ export function buildPrompt(input: PromptInput): string {
   const beruf = findBeruf(input.beruf);
   const aufgabe = findAufgabe(input.aufgabe);
   const anzahl = parseAnzahl(input.anzahl);
-  const aktiv = (id: OptionId) => input.optionen.includes(id);
   const fundstellen = input.fundstellen ?? [];
 
   // --- ROLLE ---------------------------------------------------------------
@@ -191,9 +190,7 @@ export function buildPrompt(input: PromptInput): string {
     // Fall in der Multiple-Choice-Frage. Wo es im Auftrag schon steht,
     // fehlt der Satz.
     ...(aufgabe.beispiel ? [aufgabe.beispiel] : []),
-    ...wirksameOptionen(input.aufgabe)
-      .filter((option) => option.rule && aktiv(option.id))
-      .map((option) => option.rule),
+    ...(aufgabe.pruefungsbezugEnthalten ? [] : [PRUEFUNGSBEZUG]),
   ];
   abschnitt('ANFORDERUNGEN', punkte(anforderungen));
 

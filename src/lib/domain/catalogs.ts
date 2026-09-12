@@ -9,7 +9,6 @@ import type {
   Beruf,
   Fachsprache,
   Niveau,
-  Option,
 } from './types';
 import { plural } from './text';
 
@@ -139,7 +138,7 @@ export const AUFGABEN: Aufgabe[] = [
     beispiel:
       'Jede Aufgabe geht von einer betrieblichen Ausgangssituation mit konkreten Zahlen aus, nicht von einer Wissensfrage.',
     formFest: true,
-    enthaelt: ['ihk-bezug'],
+    pruefungsbezugEnthalten: true,
     needsCount: true,
     instruction: ({ anzahl }) =>
       `Erstelle ${anzahl} realistische, prüfungsnahe ` +
@@ -155,7 +154,7 @@ export const AUFGABEN: Aufgabe[] = [
     beispiel:
       'Mach jeden Fehler an meiner Lösung konkret fest und rechne in der Musterlösung mit meinen Zahlen, nicht mit erfundenen.',
     formFest: true,
-    enthaelt: ['ihk-bezug'],
+    pruefungsbezugEnthalten: true,
     needsZusatz: true,
     instruction: () =>
       'Kontrolliere meine Lösung zum unten genannten Thema. Sie steht im Abschnitt ' +
@@ -205,7 +204,7 @@ export const AUFGABEN: Aufgabe[] = [
       'Kleide die Fragen in betriebliche Situationen, statt Definitionen abzufragen.',
     formFest: true,
     dialog: true,
-    enthaelt: ['ihk-bezug'],
+    pruefungsbezugEnthalten: true,
     needsCount: true,
     instruction: ({ anzahl }) =>
       `Simuliere eine mündliche Abschlussprüfung zum unten genannten Thema. Stelle mir ${anzahl} ` +
@@ -220,7 +219,7 @@ export const AUFGABEN: Aufgabe[] = [
     beispiel:
       'Formuliere die Fragen als kurze betriebliche Fälle mit konkreten Zahlen, nicht als reine Wissensabfrage.',
     formFest: true,
-    enthaelt: ['ihk-bezug'],
+    pruefungsbezugEnthalten: true,
     needsCount: true,
     instruction: ({ anzahl }) =>
       `Erstelle ${anzahl} Multiple-Choice-${plural(anzahl, 'Frage', 'Fragen')} zum unten genannten ` +
@@ -267,17 +266,12 @@ export const AUFGABEN: Aufgabe[] = [
   },
 ];
 
-export const OPTIONEN: Option[] = [
-  {
-    id: 'ihk-bezug',
-    label: 'Prüfungsbezug',
-    defaultOn: true,
-    rule:
-      'Richte Inhalt, Begriffswahl und Schwerpunkte an den typischen Anforderungen der ' +
-      'Abschlussprüfung aus ' +
-      'und benenne, worauf es in der Prüfung besonders ankommt.',
-  },
-];
+// Der Prüfungsbezug war bis zum 12.09.2026 ein Häkchen. Er ist jetzt feste
+// Regel: Die Anwendung ist Prüfungsvorbereitung, und bei den prüfungsnahen
+// Aufgaben stand er ohnehin schon im Auftragstext.
+export const PRUEFUNGSBEZUG =
+  'Richte Inhalt, Begriffswahl und Schwerpunkte an den typischen Anforderungen der ' +
+  'Abschlussprüfung aus und benenne, worauf es in der Prüfung besonders ankommt.';
 
 
 // Der Umgang mit Fachbegriffen ist eine Steigerung: erst der nackte Begriff,
@@ -396,21 +390,9 @@ export const findBeruf = (id: string) => lookup(BERUFE, id);
 export const findAufgabe = (id: string) => lookup(AUFGABEN, id);
 export const findNiveau = (id: string) => lookup(NIVEAUS, id);
 export const findFormat = (id: string) => lookup(FORMATE, id);
-export const findOption = (id: string) => lookup(OPTIONEN, id);
 // Rückfall ist die mittlere Stufe, nicht die erste: Sie ist die Vorgabe.
 export const findFachsprache = (id: string) =>
   FACHSPRACHEN.find((eintrag) => eintrag.id === id) ?? FACHSPRACHEN[1];
-
-/**
- * Die Optionen, die bei dieser Aufgabe noch etwas bewirken. Was der
- * Auftragstext schon verlangt — etwa den Prüfungsbezug bei einer
- * Prüfungsaufgabe — erscheint weder in der Oberfläche noch ein zweites Mal
- * im Prompt.
- */
-export function wirksameOptionen(aufgabe: AufgabeId): Option[] {
-  const enthalten = new Set(findAufgabe(aufgabe).enthaelt ?? []);
-  return OPTIONEN.filter((option) => !enthalten.has(option.id));
-}
 
 /** Gibt die Aufgabe die Form selbst vor, ist die Ausgabeform gegenstandslos. */
 export function ausgabeformWirksam(aufgabe: AufgabeId): boolean {

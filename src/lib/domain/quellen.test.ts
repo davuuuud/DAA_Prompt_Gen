@@ -263,7 +263,6 @@ describe('Einstellungen', () => {
       niveau: null,
       format: [],
       anzahl: 'viele',
-      optionen: 'keine Liste',
       quellen: ['bgb', 'unfug', 'bgb'],
       quellenFreitext: 17,
     });
@@ -275,7 +274,6 @@ describe('Einstellungen', () => {
     expect(s.niveau).toBe(standard.niveau);
     expect(s.format).toBe(standard.format);
     expect(s.anzahl).toBe(standard.anzahl);
-    expect(s.optionen).toEqual([]);
     expect(s.quellen).toEqual(['bgb']);
     expect(s.quellenFreitext).toBe('');
   });
