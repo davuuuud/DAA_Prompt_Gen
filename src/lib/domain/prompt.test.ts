@@ -4,11 +4,12 @@ import {
   aufgabenNachGruppe,
   BERUFE,
   berufBeschriftung,
-  FORMATE,
+  DARSTELLUNGEN,
+  FACHSPRACHEN,
   niveauBeschriftung,
   NIVEAUS,
   PRUEFUNGSBEZUG,
-  FACHSPRACHEN,
+  UMFAENGE,
 } from './catalogs';
 import {
   alleQuellen,
@@ -114,7 +115,7 @@ describe('Kataloge', () => {
   });
 
   it('haben durchgehend Beschriftungen und eindeutige Bezeichner', () => {
-    for (const liste of [BERUFE, AUFGABEN, NIVEAUS, FORMATE]) {
+    for (const liste of [BERUFE, AUFGABEN, NIVEAUS, UMFAENGE, DARSTELLUNGEN]) {
       expect(liste.length).toBeGreaterThan(0);
       const ids = liste.map((e) => e.id);
       expect(new Set(ids).size).toBe(ids.length);
@@ -321,13 +322,13 @@ describe('Prompt-Aufbau', () => {
   });
 
   it('nennt die Ausgabeform nur, wo die Aufgabe die Form offen lässt', () => {
-    const tabelle = FORMATE.find((f) => f.id === 'tabelle')!;
-    const erklaeren = buildPrompt(basis({ aufgabe: 'erklaeren', format: 'tabelle' }));
+    const tabelle = DARSTELLUNGEN.find((d) => d.id === 'tabelle')!;
+    const erklaeren = buildPrompt(basis({ aufgabe: 'erklaeren', darstellung: 'tabelle' }));
     expect(erklaeren).toContain(tabelle.rule);
 
     // "Karteikarten" plus "Tabelle, wenn sinnvoll" wären zwei Anweisungen
     // für dieselbe Sache.
-    const karten = buildPrompt(basis({ aufgabe: 'karteikarten', format: 'tabelle' }));
+    const karten = buildPrompt(basis({ aufgabe: 'karteikarten', darstellung: 'tabelle' }));
     expect(karten).not.toContain(tabelle.rule);
   });
 
@@ -526,7 +527,8 @@ describe('Standardwerte', () => {
     expect(standard.beruf).toBe('kgq');
     expect(standard.aufgabe).toBe('erklaeren');
     expect(NIVEAUS.find((n) => n.id === standard.niveau)?.stufe).toBe(3);
-    expect(standard.format).toBe('kompakt');
+    expect(standard.umfang).toBe('kurz');
+    expect(standard.darstellung).toBe('fliesstext');
     expect(standard.zweitsprache).toBe('keine');
   });
 
@@ -550,7 +552,8 @@ describe('Auf Standard', () => {
 
   it('erkennt jede geänderte Auswahl', () => {
     expect(weichtVomStandardAb({ ...standard(), beruf: 'immobilien' })).toBe(true);
-    expect(weichtVomStandardAb({ ...standard(), format: 'tabelle' })).toBe(true);
+    expect(weichtVomStandardAb({ ...standard(), umfang: 'ausfuehrlich' })).toBe(true);
+    expect(weichtVomStandardAb({ ...standard(), darstellung: 'tabelle' })).toBe(true);
     expect(weichtVomStandardAb({ ...standard(), zweitsprache: 'uk' })).toBe(true);
     expect(weichtVomStandardAb({ ...standard(), fachsprache: 'einfach' })).toBe(true);
     expect(weichtVomStandardAb({ ...standard(), quellen: [] })).toBe(true);
@@ -597,7 +600,7 @@ describe('Auf Standard', () => {
     const zustand = {
       ...standard(),
       beruf: 'immobilien' as const,
-      format: 'tabelle' as const,
+      darstellung: 'tabelle' as const,
       quellenFreitext: 'bleibt stehen',
     };
     const vorher = auswahlVon(zustand);
@@ -607,7 +610,7 @@ describe('Auf Standard', () => {
 
     Object.assign(zustand, auswahlVon(vorher));
     expect(zustand.beruf).toBe('immobilien');
-    expect(zustand.format).toBe('tabelle');
+    expect(zustand.darstellung).toBe('tabelle');
     expect(zustand.quellenFreitext).toBe('bleibt stehen');
   });
 });
@@ -660,12 +663,16 @@ describe('Niveaustufen', () => {
       expect(niveau.rule.trim(), niveau.id).not.toBe('');
       expect(buildPrompt(basis({ niveau: niveau.id })), niveau.id).toContain(niveau.rule);
     }
-    for (const format of FORMATE) {
-      expect(format.rule.trim(), format.id).not.toBe('');
+    for (const umfang of UMFAENGE) {
+      expect(umfang.rule.trim(), umfang.id).not.toBe('');
+      expect(buildPrompt(basis({ umfang: umfang.id })), umfang.id).toContain(umfang.rule);
+    }
+    for (const darstellung of DARSTELLUNGEN) {
+      expect(darstellung.rule.trim(), darstellung.id).not.toBe('');
       expect(
-        buildPrompt(basis({ aufgabe: 'erklaeren', format: format.id })),
-        format.id,
-      ).toContain(format.rule);
+        buildPrompt(basis({ aufgabe: 'erklaeren', darstellung: darstellung.id })),
+        darstellung.id,
+      ).toContain(darstellung.rule);
     }
   });
 });
@@ -690,5 +697,41 @@ describe('Fachbegriffe aus alten Einstellungen', () => {
   it('fällt ohne jede Angabe auf die mittlere Stufe zurück', () => {
     expect(normalizeSettings({}).fachsprache).toBe('erklaert');
     expect(normalizeSettings({ fachsprache: 'unfug' }).fachsprache).toBe('erklaert');
+  });
+});
+
+describe('Umfang und Darstellung aus der früheren Ausgabeform', () => {
+  it('teilt die alte Wahl auf beide Felder auf', () => {
+    // "Kurz und kompakt" sagte etwas über die Länge, "Tabelle" über die
+    // Form. Wer eines von beiden gespeichert hat, landet dort, wo dasselbe
+    // gemeint ist (Issue #33).
+    const faelle = [
+      ['kompakt', 'kurz', 'fliesstext'],
+      ['stichpunkte', 'mittel', 'stichpunkte'],
+      ['schritt-fuer-schritt', 'mittel', 'schritte'],
+      ['tabelle', 'mittel', 'tabelle'],
+      ['ausfuehrlich', 'ausfuehrlich', 'fliesstext'],
+      ['ganze-saetze', 'mittel', 'ganze-saetze'],
+    ] as const;
+    for (const [format, umfang, darstellung] of faelle) {
+      const s = normalizeSettings({ format });
+      expect(s.umfang, format).toBe(umfang);
+      expect(s.darstellung, format).toBe(darstellung);
+    }
+  });
+
+  it('nimmt die neuen Angaben, sobald es sie gibt', () => {
+    const s = normalizeSettings({
+      format: 'tabelle',
+      umfang: 'ausfuehrlich',
+      darstellung: 'stichpunkte',
+    });
+    expect(s.umfang).toBe('ausfuehrlich');
+    expect(s.darstellung).toBe('stichpunkte');
+  });
+
+  it('fällt ohne jede Angabe auf kurzen Fließtext zurück', () => {
+    expect(normalizeSettings({}).umfang).toBe('kurz');
+    expect(normalizeSettings({ format: 'unfug' }).darstellung).toBe('fliesstext');
   });
 });

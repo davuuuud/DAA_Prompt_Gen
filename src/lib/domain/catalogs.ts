@@ -6,10 +6,11 @@ import type {
   Aufgabe,
   AufgabeGruppeId,
   AufgabeId,
-  Ausgabeformat,
   Beruf,
+  Darstellung,
   Fachsprache,
   Niveau,
+  Umfang,
 } from './types';
 import { plural } from './text';
 
@@ -365,44 +366,80 @@ export function niveauBeschriftung(niveau: Niveau): string {
   return `${niveau.stufe} — ${niveau.label}`;
 }
 
-export const FORMATE: Ausgabeformat[] = [
+// Umfang ist eine Skala und deshalb nummeriert wie das Niveau — aber eine
+// andere: Das Niveau meint die Fachtiefe, der Umfang die Länge.
+export const UMFAENGE: Umfang[] = [
   {
-    id: 'kompakt',
-    label: 'Kurz und kompakt',
+    id: 'kurz',
+    stufe: 1,
+    label: 'Kurz',
     rule:
-      'Form: höchstens rund 250 Wörter. Kernaussage zuerst, keine Wiederholung der Frage, keine Zusammenfassung am Ende.',
+      'Umfang: höchstens rund 250 Wörter. Kernaussage zuerst, keine Wiederholung der Frage, ' +
+      'keine Zusammenfassung am Ende.',
   },
   {
-    id: 'stichpunkte',
-    label: 'Strukturiert mit Stichpunkten',
+    id: 'mittel',
+    stufe: 2,
+    label: 'Mittel',
     rule:
-      'Form: gegliederte Stichpunkte mit Zwischenüberschriften, je Punkt ein Gedanke. Ganze Sätze nur, wo es ohne sie unklar würde.',
-  },
-  {
-    id: 'schritt-fuer-schritt',
-    label: 'Schritt für Schritt',
-    rule:
-      'Form: nummerierte Schritte in der Reihenfolge des Vorgehens. Je Schritt eine Handlung und das Ergebnis, das danach vorliegt.',
-  },
-  {
-    id: 'tabelle',
-    label: 'Tabelle, wenn sinnvoll',
-    rule:
-      'Form: was sich gegenüberstellen oder vergleichen lässt, gehört in eine Tabelle; der übrige Text bleibt Fließtext. Erzwinge keine Tabelle, wo es nichts zu vergleichen gibt.',
+      'Umfang: rund 400 bis 600 Wörter — genug für Begründungen und ein Beispiel, ohne ' +
+      'abzuschweifen.',
   },
   {
     id: 'ausfuehrlich',
-    label: 'Ausführlich mit Begründungen',
+    stufe: 3,
+    label: 'Ausführlich',
     rule:
-      'Form: ausführlich. Zu jeder Aussage die Begründung, dazu Herleitungen und Abgrenzungen; die Länge richtet sich nach dem Stoff.',
+      'Umfang: so ausführlich, wie der Stoff es verlangt. Zu jeder Aussage die Begründung, ' +
+      'dazu Herleitungen und Abgrenzungen.',
+  },
+];
+
+/** Anzeige in der Auswahlliste: „1 — Kurz". */
+export function umfangBeschriftung(umfang: Umfang): string {
+  return `${umfang.stufe} — ${umfang.label}`;
+}
+
+// Die Darstellung ist keine Rangfolge: Eine Tabelle steht nicht zwischen
+// Fließtext und Stichpunkten, sie ist etwas anderes. Deshalb keine Nummern.
+export const DARSTELLUNGEN: Darstellung[] = [
+  {
+    id: 'fliesstext',
+    label: 'Fließtext',
+    rule:
+      'Darstellung: zusammenhängender Fließtext mit Absätzen. Aufzählungen nur dort, wo sie ' +
+      'wirklich helfen.',
+  },
+  {
+    id: 'stichpunkte',
+    label: 'Stichpunkte',
+    rule:
+      'Darstellung: gegliederte Stichpunkte mit Zwischenüberschriften, je Punkt ein Gedanke. ' +
+      'Ganze Sätze nur, wo es ohne sie unklar würde.',
+  },
+  {
+    id: 'schritte',
+    label: 'Schritt für Schritt',
+    rule:
+      'Darstellung: nummerierte Schritte in der Reihenfolge des Vorgehens. Je Schritt eine ' +
+      'Handlung und das Ergebnis, das danach vorliegt.',
+  },
+  {
+    id: 'tabelle',
+    label: 'Tabelle, wo es sich vergleichen lässt',
+    rule:
+      'Darstellung: was sich gegenüberstellen oder vergleichen lässt, gehört in eine Tabelle; ' +
+      'der übrige Text bleibt Fließtext. Erzwinge keine Tabelle, wo es nichts zu vergleichen gibt.',
   },
   {
     id: 'ganze-saetze',
     label: 'Prüfungsantwort in ganzen Sätzen',
     rule:
-      'Form: wie eine schriftliche Prüfungsantwort — vollständige Sätze, keine Stichpunkte, keine Aufzählungszeichen, sachlicher Ton.',
+      'Darstellung: wie eine schriftliche Prüfungsantwort — vollständige Sätze, keine ' +
+      'Stichpunkte, keine Aufzählungszeichen, sachlicher Ton.',
   },
 ];
+
 
 /** Nachschlagen mit sicherem Rückfall auf den ersten Eintrag. */
 function lookup<T extends { id: string }>(list: T[], id: string): T {
@@ -412,7 +449,8 @@ function lookup<T extends { id: string }>(list: T[], id: string): T {
 export const findBeruf = (id: string) => lookup(BERUFE, id);
 export const findAufgabe = (id: string) => lookup(AUFGABEN, id);
 export const findNiveau = (id: string) => lookup(NIVEAUS, id);
-export const findFormat = (id: string) => lookup(FORMATE, id);
+export const findUmfang = (id: string) => lookup(UMFAENGE, id);
+export const findDarstellung = (id: string) => lookup(DARSTELLUNGEN, id);
 // Rückfall ist die mittlere Stufe, nicht die erste: Sie ist die Vorgabe.
 export const findFachsprache = (id: string) =>
   FACHSPRACHEN.find((eintrag) => eintrag.id === id) ?? FACHSPRACHEN[1];
@@ -425,7 +463,7 @@ export function aufgabenNachGruppe(): { gruppe: string; aufgaben: Aufgabe[] }[] 
   })).filter((eintrag) => eintrag.aufgaben.length > 0);
 }
 
-/** Gibt die Aufgabe die Form selbst vor, ist die Ausgabeform gegenstandslos. */
-export function ausgabeformWirksam(aufgabe: AufgabeId): boolean {
+/** Gibt die Aufgabe die Form selbst vor, sind Umfang und Darstellung gegenstandslos. */
+export function formWaehlbar(aufgabe: AufgabeId): boolean {
   return findAufgabe(aufgabe).formFest !== true;
 }

@@ -8,17 +8,20 @@
   import { APP_NAME, APP_ORG, APP_VERSION, FEEDBACK } from './lib/config';
   import {
     aufgabenNachGruppe,
-    ausgabeformWirksam,
     BERUFE,
     berufBeschriftung,
+    DARSTELLUNGEN,
     FACHSPRACHEN,
-    FORMATE,
     findAufgabe,
     findBeruf,
-    findFormat,
+    findDarstellung,
     findNiveau,
+    findUmfang,
+    formWaehlbar,
     niveauBeschriftung,
     NIVEAUS,
+    UMFAENGE,
+    umfangBeschriftung,
   } from './lib/domain/catalogs';
   import { feedbackMailto, kurzeBrowserKennung } from './lib/domain/feedback';
   import { buildPrompt, validate } from './lib/domain/prompt';
@@ -64,7 +67,8 @@
       beruf: findBeruf(settings.beruf).label,
       aufgabe: aufgabe.label,
       niveau: findNiveau(settings.niveau).label,
-      format: findFormat(settings.format).label,
+      umfang: findUmfang(settings.umfang).label,
+      darstellung: findDarstellung(settings.darstellung).label,
       browser: kurzeBrowserKennung(navigator.userAgent),
       // Ohne Anker: Sonst stünde in der Rückmeldung die zuletzt besuchte
       // Rechtsseite statt der Adresse der Anwendung.
@@ -122,7 +126,7 @@
   // --- Was die Aufgabe schon festlegt ----------------------------------------
   // Karteikarten geben ihre Form selbst vor. Das Feld verschwindet dann,
   // statt eine Wahl vorzutäuschen, die im Prompt nichts bewirkt.
-  const zeigtAusgabeform = $derived(ausgabeformWirksam(settings.aufgabe));
+  const zeigtForm = $derived(formWaehlbar(settings.aufgabe));
 
   function zuDenEinstellungen() {
     const feld = document.getElementById('beruf');
@@ -366,19 +370,33 @@
           </select>
         </div>
 
-        <div class="feld">
-          {#if zeigtAusgabeform}
-            <label for="format">Ausgabeform</label>
-            <select id="format" bind:value={settings.format}>
-              {#each FORMATE as format (format.id)}
-                <option value={format.id}>{format.label}</option>
+        <!-- Umfang und Darstellung messen Verschiedenes: "kurz" sagt etwas über
+             die Länge, "Tabelle" über die Form. In einem Feld ließ sich beides
+             nicht verbinden (Issue #33). -->
+        {#if zeigtForm}
+          <div class="feld">
+            <label for="umfang">Umfang</label>
+            <select id="umfang" bind:value={settings.umfang}>
+              {#each UMFAENGE as umfang (umfang.id)}
+                <option value={umfang.id}>{umfangBeschriftung(umfang)}</option>
               {/each}
             </select>
-          {:else}
-            <span class="beschriftung">Ausgabeform</span>
-            <p class="hinweis">Steht bei „{aufgabe.label}“ fest — die Aufgabe gibt die Form vor.</p>
-          {/if}
-        </div>
+          </div>
+
+          <div class="feld">
+            <label for="darstellung">Darstellung</label>
+            <select id="darstellung" bind:value={settings.darstellung}>
+              {#each DARSTELLUNGEN as darstellung (darstellung.id)}
+                <option value={darstellung.id}>{darstellung.label}</option>
+              {/each}
+            </select>
+          </div>
+        {:else}
+          <div class="feld">
+            <span class="beschriftung">Umfang und Darstellung</span>
+            <p class="hinweis">Stehen bei „{aufgabe.label}“ fest — die Aufgabe gibt die Form vor.</p>
+          </div>
+        {/if}
 
         <div class="feld">
           <label for="fachsprache">Fachbegriffe</label>

@@ -52,7 +52,15 @@ await build({
   },
 });
 const kataloge = await import(pathToFileURL(join(zwischen, 'kataloge.mjs')).href);
-const { aufgabenNachGruppe, FACHSPRACHEN, FORMATE, NIVEAUS, niveauBeschriftung } = kataloge;
+const {
+  aufgabenNachGruppe,
+  DARSTELLUNGEN,
+  FACHSPRACHEN,
+  NIVEAUS,
+  niveauBeschriftung,
+  UMFAENGE,
+  umfangBeschriftung,
+} = kataloge;
 
 const { version } = JSON.parse(readFileSync(join(projekt, 'package.json'), 'utf8'));
 const ADRESSE = 'davuuuud.github.io/DAA_Prompt_Gen';
@@ -187,16 +195,29 @@ inhalt.push(
   ),
 );
 
-inhalt.push(ueberschrift('Ausgabeform', HeadingLevel.HEADING_1));
+inhalt.push(ueberschrift('Umfang', HeadingLevel.HEADING_1));
 inhalt.push(
   absatz(
-    'Die Ausgabeform bestimmt die Darstellung. Sie erscheint nur bei den Aufgaben, die die Form offen lassen — bei Karteikarten oder einem Geschäftsbrief steht sie schon fest.',
+    'Der Umfang bestimmt die Länge — nicht zu verwechseln mit dem Niveau, das die Fachtiefe meint. Umfang und Darstellung erscheinen nur bei den Aufgaben, die die Form offen lassen; bei Karteikarten oder einem Geschäftsbrief steht sie schon fest.',
+  ),
+);
+inhalt.push(
+  tabelle(
+    ['Stufe', 'Was das heißt'],
+    UMFAENGE.map((u) => [umfangBeschriftung(u), u.rule.replace(/^Umfang: /, '')]),
+  ),
+);
+
+inhalt.push(ueberschrift('Darstellung', HeadingLevel.HEADING_1));
+inhalt.push(
+  absatz(
+    'Die Darstellung ist keine Rangfolge: Eine Tabelle steht nicht zwischen Fließtext und Stichpunkten, sie ist etwas anderes. Deshalb ohne Nummern.',
   ),
 );
 inhalt.push(
   tabelle(
     ['Form', 'Was das heißt'],
-    FORMATE.map((f) => [f.label, f.rule.replace(/^Form: /, '')]),
+    DARSTELLUNGEN.map((d) => [d.label, d.rule.replace(/^Darstellung: /, '')]),
   ),
 );
 
@@ -290,5 +311,6 @@ writeFileSync(ziel, await Packer.toBuffer(dokument));
 console.log(`Merkblatt geschrieben: ${ziel}`);
 console.log(
   `${aufgabenNachGruppe().reduce((n, g) => n + g.aufgaben.length, 0)} Aufgaben, ` +
-    `${NIVEAUS.length} Niveaustufen, ${FORMATE.length} Ausgabeformen, ${FACHSPRACHEN.length} Fachbegriff-Stufen.`,
+    `${NIVEAUS.length} Niveaustufen, ${UMFAENGE.length} Umfänge, ${DARSTELLUNGEN.length} Darstellungen, ` +
+    `${FACHSPRACHEN.length} Fachbegriff-Stufen.`,
 );

@@ -8,10 +8,12 @@
   import { APP_NAME, APP_ORG, APP_VERSION } from '../config';
   import {
     aufgabenNachGruppe,
+    DARSTELLUNGEN,
     FACHSPRACHEN,
-    FORMATE,
     NIVEAUS,
     niveauBeschriftung,
+    UMFAENGE,
+    umfangBeschriftung,
   } from '../domain/catalogs';
   import Rechtsseite from './Rechtsseite.svelte';
 
@@ -100,20 +102,40 @@
       </tbody>
     </table>
 
-    <h2>Ausgabeform</h2>
+    <h2>Umfang</h2>
     <p>
-      Die Ausgabeform bestimmt die <em>Darstellung</em>. Sie erscheint nur bei den Aufgaben, die
-      die Form offen lassen — bei Karteikarten oder einem Geschäftsbrief steht sie schon fest.
+      Der Umfang bestimmt die <em>Länge</em> — nicht zu verwechseln mit dem Niveau, das die
+      Fachtiefe meint. Umfang und Darstellung erscheinen nur bei den Aufgaben, die die Form offen
+      lassen; bei Karteikarten oder einem Geschäftsbrief steht sie schon fest.
+    </p>
+    <table>
+      <thead>
+        <tr><th scope="col">Stufe</th><th scope="col">Was das heißt</th></tr>
+      </thead>
+      <tbody>
+        {#each UMFAENGE as umfang (umfang.id)}
+          <tr>
+            <th scope="row">{umfangBeschriftung(umfang)}</th>
+            <td>{umfang.rule.replace(/^Umfang: /, '')}</td>
+          </tr>
+        {/each}
+      </tbody>
+    </table>
+
+    <h2>Darstellung</h2>
+    <p>
+      Die Darstellung ist keine Rangfolge: Eine Tabelle steht nicht zwischen Fließtext und
+      Stichpunkten, sie ist etwas anderes. Deshalb ohne Nummern.
     </p>
     <table>
       <thead>
         <tr><th scope="col">Form</th><th scope="col">Was das heißt</th></tr>
       </thead>
       <tbody>
-        {#each FORMATE as format (format.id)}
+        {#each DARSTELLUNGEN as darstellung (darstellung.id)}
           <tr>
-            <th scope="row">{format.label}</th>
-            <td>{format.rule.replace(/^Form: /, '')}</td>
+            <th scope="row">{darstellung.label}</th>
+            <td>{darstellung.rule.replace(/^Darstellung: /, '')}</td>
           </tr>
         {/each}
       </tbody>

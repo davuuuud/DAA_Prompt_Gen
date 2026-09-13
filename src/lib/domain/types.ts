@@ -46,12 +46,19 @@ export type FachspracheId = 'ohne' | 'erklaert' | 'einfach';
 
 export type NiveauId = 'einstieg' | 'azubi' | 'pruefung' | 'vertieft';
 
-export type FormatId =
-  | 'kompakt'
+/**
+ * Länge und Darstellung waren bis zum 13.09.2026 ein Feld ("Ausgabeform").
+ * Das maß zwei verschiedene Dinge: "Kurz und kompakt" sagt etwas über den
+ * Umfang, "Tabelle" über die Form — und beides ließ sich nicht verbinden,
+ * obwohl eine knappe Tabelle durchaus sinnvoll ist (Issue #33).
+ */
+export type UmfangId = 'kurz' | 'mittel' | 'ausfuehrlich';
+
+export type DarstellungId =
+  | 'fliesstext'
   | 'stichpunkte'
-  | 'schritt-fuer-schritt'
+  | 'schritte'
   | 'tabelle'
-  | 'ausfuehrlich'
   | 'ganze-saetze';
 
 export interface Beruf {
@@ -133,10 +140,18 @@ export interface Niveau {
   rule: string;
 }
 
-export interface Ausgabeformat {
-  id: FormatId;
+export interface Umfang {
+  id: UmfangId;
+  /** Rangzahl 1 bis 3 — eine echte Skala, anders als die Darstellung. */
+  stufe: number;
   label: string;
-  /** Was die Form für die Antwort bedeutet; siehe Niveau. */
+  /** Was der Umfang für die Antwort bedeutet; siehe Niveau. */
+  rule: string;
+}
+
+export interface Darstellung {
+  id: DarstellungId;
+  label: string;
   rule: string;
 }
 
@@ -158,7 +173,8 @@ export interface PromptInput {
   beruf: BerufId;
   aufgabe: AufgabeId;
   niveau: NiveauId;
-  format: FormatId;
+  umfang: UmfangId;
+  darstellung: DarstellungId;
   thema: string;
   zusatz: string;
   anzahl: number;

@@ -14,7 +14,8 @@ const kontext: FeedbackKontext = {
   beruf: 'Immobilienkaufmann/-frau',
   aufgabe: 'Multiple-Choice-Fragen',
   niveau: 'IHK-Prüfungsniveau',
-  format: 'Strukturiert mit Stichpunkten',
+  umfang: 'Mittel',
+  darstellung: 'Stichpunkte',
   browser: 'Chrome 141, Windows',
   adresse: 'https://davuuuud.github.io/DAA_Prompt_Gen/',
 };

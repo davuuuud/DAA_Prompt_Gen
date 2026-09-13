@@ -6,12 +6,13 @@
 // dadurch lesbar.
 
 import {
-  ausgabeformWirksam,
   findAufgabe,
-  findFachsprache,
   findBeruf,
-  findFormat,
+  findDarstellung,
+  findFachsprache,
   findNiveau,
+  findUmfang,
+  formWaehlbar,
   PRUEFUNGSBEZUG,
 } from './catalogs';
 import { ausgewaehlteQuellen, promptBezeichnung, QUELLEN_GRUPPEN } from './quellen';
@@ -183,7 +184,9 @@ export function buildPrompt(input: PromptInput): string {
   // dieselbe Sache. Ebenso die Optionen, die im Auftragstext schon stehen.
   const anforderungen = [
     findNiveau(input.niveau).rule,
-    ...(ausgabeformWirksam(input.aufgabe) ? [findFormat(input.format).rule] : []),
+    ...(formWaehlbar(input.aufgabe)
+      ? [findUmfang(input.umfang).rule, findDarstellung(input.darstellung).rule]
+      : []),
     findFachsprache(input.fachsprache).rule,
     // Das Praxisbeispiel ist keine Option mehr: Jede Aufgabe sagt selbst,
     // wie es aussieht — ein Halbsatz auf der Karteikarte, ein betrieblicher

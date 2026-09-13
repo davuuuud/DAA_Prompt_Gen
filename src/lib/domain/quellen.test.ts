@@ -261,7 +261,7 @@ describe('Einstellungen', () => {
       beruf: 'gibt-es-nicht',
       aufgabe: 42,
       niveau: null,
-      format: [],
+      umfang: [],
       anzahl: 'viele',
       quellen: ['bgb', 'unfug', 'bgb'],
       quellenFreitext: 17,
@@ -272,7 +272,7 @@ describe('Einstellungen', () => {
     expect(s.beruf).toBe(standard.beruf);
     expect(s.aufgabe).toBe(standard.aufgabe);
     expect(s.niveau).toBe(standard.niveau);
-    expect(s.format).toBe(standard.format);
+    expect(s.umfang).toBe(standard.umfang);
     expect(s.anzahl).toBe(standard.anzahl);
     expect(s.quellen).toEqual(['bgb']);
     expect(s.quellenFreitext).toBe('');

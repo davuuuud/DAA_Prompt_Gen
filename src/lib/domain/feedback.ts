@@ -16,7 +16,8 @@ export interface FeedbackKontext {
   beruf: string;
   aufgabe: string;
   niveau: string;
-  format: string;
+  umfang: string;
+  darstellung: string;
   /** Kennung des Browsers, für die Einordnung von Darstellungsfehlern. */
   browser: string;
   /** Adresse der laufenden Anwendung. */
@@ -41,7 +42,8 @@ export function feedbackAnhang(kontext: FeedbackKontext): string {
     `Beruf:       ${kontext.beruf}`,
     `Aufgabe:     ${kontext.aufgabe}`,
     `Niveau:      ${kontext.niveau}`,
-    `Ausgabeform: ${kontext.format}`,
+    `Umfang:      ${kontext.umfang}`,
+    `Darstellung: ${kontext.darstellung}`,
     `Browser:     ${kontext.browser}`,
   ].join('\n');
 }

@@ -5,6 +5,16 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 
 ## Unveröffentlicht
 
+- **„Ausgabeform" ist in zwei Felder geteilt** (Issue #33). Sie maß zwei
+  verschiedene Dinge: „Kurz und kompakt" sagte etwas über die Länge,
+  „Tabelle" über die Form — und beides ließ sich nicht verbinden. Jetzt
+  gibt es **Umfang** als nummerierte Skala wie das Niveau (1 kurz · 2
+  mittel · 3 ausführlich) und **Darstellung** ohne Nummern (Fließtext ·
+  Stichpunkte · Schritt für Schritt · Tabelle · Prüfungsantwort in ganzen
+  Sätzen). „Kurz und als Tabelle" ist damit wählbar. Gespeicherte
+  Einstellungen werden aufgeteilt: „Tabelle" wird zu mittlerem Umfang mit
+  Tabellendarstellung.
+
 - **Neuer Aufhänger:** GIGO — garbage in, garbage out.
 - **Die Eingabefelder erklären sich selbst.** Statt grauer Beispiele
   ("z. B. Betriebskostenabrechnung ...") steht über jedem Feld in zwei bis

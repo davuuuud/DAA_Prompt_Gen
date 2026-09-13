@@ -23,7 +23,7 @@ Nachfolger des Windows-Programms `IHK-Prompt-Assistent-v2` (Go/Win32).
 
 ## Was die Anwendung kann
 
-- Auswahl von Ausbildungsberuf, Aufgabenart, Niveau und Ausgabeform
+- Auswahl von Ausbildungsberuf, Aufgabenart, Niveau, Umfang und Darstellung
 - Kuratierter Quellenkatalog, nach Ausbildungsberuf gefiltert (WEG und MaBV
   bei Immobilienkaufleuten, UrhG und BSI-Grundschutz in der Systemintegration)
 - Feste Qualitätsregeln gegen erfundene Quellen, Paragraphen und Zahlen
@@ -84,7 +84,7 @@ Wurzelverzeichnis genügt `npm run build`.
 ```
 src/lib/domain/      Fachlogik ohne Oberfläche, vollständig durch Tests gedeckt
   types.ts             gemeinsame Typen, stabile Bezeichner statt Indizes
-  catalogs.ts          Berufe, Aufgaben, Optionen, Niveaus, Ausgabeformate
+  catalogs.ts          Berufe, Aufgaben, Niveaus, Umfänge, Darstellungen
   quellenkatalog.ts    alle Quellen, je Beruf zugeordnet
   voreinstellung.ts    was je Beruf nicht vorab angehakt ist, mit Begründung
   quellen.ts           Berufsfilter, Berufswechsel, Wortlaut im Prompt
@@ -122,4 +122,5 @@ Offen und nicht durch Programmieren zu lösen:
   der Dozenten stehen noch aus
 - **Fehlende Dateiformate klären** — bekannt sind PDF, Word, Excel, Scans,
   Bilder und OneNote
-- **OneNote** — lässt sich im Browser nicht lesen, Export nach PDF nötig
+- **OneNote** — lässt sich im Browser nicht lesen, Export nach PDF nötig;
+  zurückgestellt mit Etappe 3, im Fahrplan festgehalten

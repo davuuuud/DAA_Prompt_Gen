@@ -126,10 +126,10 @@ Sind sie zu fein aufgeteilt, sodass die Auswahl unübersichtlich wird? Werden
 manche nie benutzt? Fehlen Arbeitsformen, die im Unterricht vorkommen?
 *Vorschlag von der Entwicklung, Entscheidung fachlich.*
 
-**Niveau und Ausgabeform** — Stimmen die vier Niveaustufen und die sechs
-Ausgabeformen? Sind die Abstände sinnvoll, oder liegen zwei Stufen so dicht
-beieinander, dass niemand sie unterscheiden kann? *Vorschlag von der
-Entwicklung, Entscheidung fachlich.*
+**Niveau, Umfang und Darstellung** — Stimmen die vier Niveaustufen, die drei
+Umfänge und die fünf Darstellungen? Sind die Abstände sinnvoll, oder liegen
+zwei Stufen so dicht beieinander, dass niemand sie unterscheiden kann?
+*Vorschlag von der Entwicklung, Entscheidung fachlich.*
 
 ### Reihenfolge und Nummerierung
 
@@ -143,9 +143,15 @@ Entwicklung, Entscheidung fachlich.*
   Einstellungen. Das Thema ändert sich bei jeder Frage, die Einstellungen
   kaum — sie werden gespeichert.
 
-**Offen:** Wonach Aufgaben und Ausgabeformen sortiert sein sollen. Bei der
-Ausgabeform stellt sich zuerst die Frage, ob sie überhaupt eine Skala ist —
-sie mischt Umfang und Darstellung (siehe Issue #33).
+- **Ausgabeform geteilt** (13.09.2026, Issue #33): Sie maß zwei Dinge in
+  einem Feld. Jetzt gibt es **Umfang** als nummerierte Skala (1 kurz · 2
+  mittel · 3 ausführlich) und **Darstellung** ohne Nummern (Fließtext ·
+  Stichpunkte · Schritt für Schritt · Tabelle · Prüfungsantwort in ganzen
+  Sätzen). Damit lässt sich auch „kurz und als Tabelle" wählen, was vorher
+  unmöglich war.
+
+**Offen:** Wonach die Aufgaben innerhalb ihrer vier Gruppen sortiert sein
+sollen.
 
 ### Optionen und Voreinstellungen
 
@@ -170,7 +176,7 @@ und Ausgabeform tragen seither eine Verhaltensbeschreibung statt eines
 Etiketts; das Etikett allein legte jedes Modell anders aus.
 
 **Offen bleibt, ob die verbliebenen Auswahlfelder taugen** — vier Niveaus,
-sechs Ausgabeformen, drei Fachbegriff-Stufen. Ob die Abstände stimmen und ob
+drei Umfänge, fünf Darstellungen, drei Fachbegriff-Stufen. Ob die Abstände stimmen und ob
 jemand die Ränder je benutzt, zeigt erst die Erprobung (#34).
 
 ### Name der Anwendung
@@ -666,8 +672,13 @@ Zugangsprüfung ist die Seite kein öffentliches Angebot mehr.
   nennen, nicht „Datei 3.pdf".
 - **OneNote.** Das Format lässt sich im Browser nicht lesen — es gibt keine
   brauchbare Bibliothek dafür. Der Weg führt über den Export nach PDF
-  (OneNote: *Datei → Exportieren → Abschnitt → PDF*). Zu klären ist, wie viel
-  Material dort liegt.
+  (OneNote: *Datei → Exportieren → Abschnitt → PDF*).
+
+  *Stand 13.09.2026:* Wie viel Material dort liegt, ist unbekannt und wurde
+  bewusst nicht weiter verfolgt (Issue #16 geschlossen), weil Etappe 3 ruht.
+  **Der Punkt bleibt hier verankert:** Sobald eigene Unterlagen wieder Thema
+  werden, ist als Erstes zu klären, wie viel in OneNote liegt — sonst fehlt
+  ausgerechnet das Material, das die Dozenten selbst gepflegt haben.
 
 Die fachlichen Fragen zu Katalogen, Quellen, Namen und Einleitung stehen
 weiter oben im Abschnitt [Inhaltliche

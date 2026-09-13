@@ -4,17 +4,18 @@
 // von einer älteren Version geschriebene Datei darf die Anwendung nicht
 // unbrauchbar machen. Unbekannte Werte fallen still auf die Vorgabe zurück.
 
-import { AUFGABEN, BERUFE, FACHSPRACHEN, FORMATE, NIVEAUS } from './catalogs';
+import { AUFGABEN, BERUFE, DARSTELLUNGEN, FACHSPRACHEN, NIVEAUS, UMFAENGE } from './catalogs';
 import { istFruehereVoreinstellung, quellenFuerBeruf, standardQuellen } from './quellen';
 import { zweitsprachen } from './sprachen';
 import { DEFAULT_ANZAHL, parseAnzahl } from './text';
 import type {
   AufgabeId,
   BerufId,
+  DarstellungId,
   FachspracheId,
-  FormatId,
   NiveauId,
   PromptInput,
+  UmfangId,
   ZweitspracheId,
 } from './types';
 
@@ -25,7 +26,8 @@ export interface Settings {
   beruf: BerufId;
   aufgabe: AufgabeId;
   niveau: NiveauId;
-  format: FormatId;
+  umfang: UmfangId;
+  darstellung: DarstellungId;
   anzahl: number;
   fachsprache: FachspracheId;
   quellen: string[];
@@ -40,7 +42,8 @@ export function defaultSettings(): Settings {
     beruf: 'kgq',
     aufgabe: 'erklaeren',
     niveau: 'pruefung',
-    format: 'kompakt',
+    umfang: 'kurz',
+    darstellung: 'fliesstext',
     anzahl: DEFAULT_ANZAHL,
     fachsprache: 'erklaert',
     quellen: standardQuellen('kgq'),
@@ -87,7 +90,8 @@ export function normalizeSettings(raw: unknown): Settings {
     beruf,
     aufgabe: pickId(AUFGABEN, data.aufgabe, fallback.aufgabe) as AufgabeId,
     niveau: pickId(NIVEAUS, data.niveau, fallback.niveau) as NiveauId,
-    format: pickId(FORMATE, data.format, fallback.format) as FormatId,
+    umfang: umfangAus(data, fallback),
+    darstellung: darstellungAus(data, fallback),
     anzahl: parseAnzahl(typeof data.anzahl === 'number' ? data.anzahl : String(data.anzahl ?? '')),
     fachsprache: fachspracheAus(data),
     quellen: quellen.length > 0 ? quellen : standardQuellen(beruf),
@@ -96,6 +100,42 @@ export function normalizeSettings(raw: unknown): Settings {
     // führt zurück auf die einsprachige Antwort, nicht auf eine fremde.
     zweitsprache: pickId(zweitsprachen(), data.zweitsprache, 'keine') as ZweitspracheId,
   };
+}
+
+/**
+ * Die frühere "Ausgabeform" maß Umfang und Darstellung in einem Feld. Wer
+ * sie gespeichert hat, landet auf der Kombination, die dasselbe meint
+ * (Issue #33).
+ */
+const FRUEHERE_AUSGABEFORM: Record<string, { umfang: UmfangId; darstellung: DarstellungId }> = {
+  kompakt: { umfang: 'kurz', darstellung: 'fliesstext' },
+  stichpunkte: { umfang: 'mittel', darstellung: 'stichpunkte' },
+  'schritt-fuer-schritt': { umfang: 'mittel', darstellung: 'schritte' },
+  tabelle: { umfang: 'mittel', darstellung: 'tabelle' },
+  ausfuehrlich: { umfang: 'ausfuehrlich', darstellung: 'fliesstext' },
+  'ganze-saetze': { umfang: 'mittel', darstellung: 'ganze-saetze' },
+};
+
+function umfangAus(data: Record<string, unknown>, fallback: Settings): UmfangId {
+  const gespeichert = data.umfang;
+  if (typeof gespeichert === 'string' && UMFAENGE.some((u) => u.id === gespeichert)) {
+    return gespeichert as UmfangId;
+  }
+  if (typeof data.format === 'string' && FRUEHERE_AUSGABEFORM[data.format]) {
+    return FRUEHERE_AUSGABEFORM[data.format].umfang;
+  }
+  return fallback.umfang;
+}
+
+function darstellungAus(data: Record<string, unknown>, fallback: Settings): DarstellungId {
+  const gespeichert = data.darstellung;
+  if (typeof gespeichert === 'string' && DARSTELLUNGEN.some((d) => d.id === gespeichert)) {
+    return gespeichert as DarstellungId;
+  }
+  if (typeof data.format === 'string' && FRUEHERE_AUSGABEFORM[data.format]) {
+    return FRUEHERE_AUSGABEFORM[data.format].darstellung;
+  }
+  return fallback.darstellung;
 }
 
 /**
@@ -127,7 +167,8 @@ export function toPromptInput(
     beruf: settings.beruf,
     aufgabe: settings.aufgabe,
     niveau: settings.niveau,
-    format: settings.format,
+    umfang: settings.umfang,
+    darstellung: settings.darstellung,
     anzahl: settings.anzahl,
     fachsprache: settings.fachsprache,
     quellen: settings.quellen,
@@ -151,7 +192,7 @@ export function toPromptInput(
  */
 export type Auswahl = Pick<
   Settings,
-  'beruf' | 'niveau' | 'format' | 'zweitsprache' | 'fachsprache' | 'quellen'
+  'beruf' | 'niveau' | 'umfang' | 'darstellung' | 'zweitsprache' | 'fachsprache' | 'quellen'
 >;
 
 /** Die aktuelle Auswahl als unabhängige Kopie — für „Rückgängig". */
@@ -159,7 +200,8 @@ export function auswahlVon(settings: Auswahl): Auswahl {
   return {
     beruf: settings.beruf,
     niveau: settings.niveau,
-    format: settings.format,
+    umfang: settings.umfang,
+    darstellung: settings.darstellung,
     zweitsprache: settings.zweitsprache,
     fachsprache: settings.fachsprache,
     quellen: [...settings.quellen],
@@ -186,7 +228,8 @@ export function weichtVomStandardAb(settings: Auswahl): boolean {
   if (
     settings.beruf !== standard.beruf ||
     settings.niveau !== standard.niveau ||
-    settings.format !== standard.format ||
+    settings.umfang !== standard.umfang ||
+    settings.darstellung !== standard.darstellung ||
     settings.zweitsprache !== standard.zweitsprache ||
     settings.fachsprache !== standard.fachsprache
   ) {
