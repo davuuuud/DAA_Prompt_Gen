@@ -260,6 +260,17 @@ describe('Prompt-Aufbau', () => {
     expect(prompt).not.toContain('\\n');
   });
 
+  it('verlangt eine Schlusskontrolle und eine Prüfliste', () => {
+    // Die Selbstprüfung findet Rechenfehler und Widersprüche; falsche
+    // Erinnerungen findet sie nicht. Deshalb zusätzlich die Liste, die sagt,
+    // was nachzuschlagen ist.
+    for (const aufgabe of AUFGABEN) {
+      const prompt = buildPrompt(basis({ aufgabe: aufgabe.id, zusatz: 'Meine Lösung ...' }));
+      expect(prompt, aufgabe.id).toContain('vor der Ausgabe noch einmal durch');
+      expect(prompt, aufgabe.id).toContain('Bitte nachschlagen:');
+    }
+  });
+
   it('gibt die Qualitätsregeln bei jeder Aufgabe aus', () => {
     const prompt = buildPrompt(basis());
     expect(prompt).toContain('Erfinde keine Quellen');
@@ -437,7 +448,10 @@ describe('Belegstellen aus eigenen Unterlagen', () => {
       }),
     );
     expect(prompt).toContain('[…]');
-    expect(prompt.length).toBeLessThan(MAX_FUNDSTELLE_ZEICHEN + 4500);
+    // Gemessen wird der zitierte Ausschnitt selbst, nicht der ganze Prompt:
+    // Der wächst mit jeder neuen Regel, der Ausschnitt darf das nicht.
+    const zitat = prompt.split('"""')[1];
+    expect(zitat.length).toBeLessThanOrEqual(MAX_FUNDSTELLE_ZEICHEN + 10);
   });
 });
 

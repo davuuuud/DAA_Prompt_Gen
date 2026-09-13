@@ -233,6 +233,14 @@ export function buildPrompt(input: PromptInput): string {
       'Rechne Zahlenbeispiele vollständig vor, nenne die Einheiten und prüfe das Ergebnis auf ' +
         'Plausibilität.',
       'Strukturiere logisch, vermeide Wiederholungen, Füllsätze und Werbesprache.',
+      // Ein letzter Durchgang findet Rechenfehler und Widersprüche
+      // zuverlässig. Falsche Erinnerungen findet er nicht — dafür ist die
+      // Prüfliste darunter da.
+      'Geh deine Antwort vor der Ausgabe noch einmal durch: Stimmt jede genannte Vorschrift? ' +
+        'Ist jede Zahl nachgerechnet? Widerspricht sich nichts?',
+      'Schließe mit einer Zeile "Bitte nachschlagen:" und nenne dort in höchstens drei Zeilen ' +
+        'die Fundstellen und Zahlen, bei denen du dir nicht sicher bist — ausdrücklich und ' +
+        'nicht im Fließtext versteckt. Bist du dir überall sicher, schreibe dort "nichts".',
     ]),
   );
 

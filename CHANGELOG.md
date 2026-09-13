@@ -3,6 +3,16 @@
 Was sich von Fassung zu Fassung geändert hat, in der Sprache der Nutzer und
 nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 
+## Unveröffentlicht
+
+- **Zwei neue Qualitätsregeln im Prompt.** Die KI geht ihre Antwort vor der
+  Ausgabe noch einmal durch (stimmt jede Vorschrift, ist jede Zahl
+  nachgerechnet, widerspricht sich nichts?) und schließt mit einer Zeile
+  „Bitte nachschlagen:", in der sie die unsicheren Fundstellen und Zahlen
+  ausdrücklich nennt. Der Durchgang findet Rechenfehler und Widersprüche
+  zuverlässig; falsche Erinnerungen findet er nicht — dafür ist die Zeile
+  da, die sagt, was nachzuschlagen ist.
+
 ## 0.3.0 — 13.09.2026
 
 - **Neue Adresse für Rückmeldungen:** daa-mww-ki-genies@tinytux.de. Die
