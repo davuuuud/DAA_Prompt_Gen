@@ -4,8 +4,9 @@
   import Datenschutz from './lib/components/Datenschutz.svelte';
   import Hilfe from './lib/components/Hilfe.svelte';
   import Impressum from './lib/components/Impressum.svelte';
+  import NeueFassung from './lib/components/NeueFassung.svelte';
   import QuellenWahl from './lib/components/QuellenWahl.svelte';
-  import { APP_NAME, APP_ORG, APP_VERSION, FEEDBACK } from './lib/config';
+  import { APP_NAME, APP_ORG, APP_VERSION, BUILD_DATE, FEEDBACK } from './lib/config';
   import {
     aufgabenNachGruppe,
     BERUFE,
@@ -217,6 +218,8 @@
 </script>
 
 <div class="huelle">
+  <NeueFassung />
+
   {#if navigation.seite === 'hilfe'}
     <Hilfe />
   {:else if navigation.seite === 'impressum'}
@@ -523,7 +526,7 @@
       </p>
     {/if}
     <p class="fusszeile">
-      Fassung {APP_VERSION}
+      Fassung {APP_VERSION} · {BUILD_DATE}
       <span aria-hidden="true">·</span>
       <a href={ANKER.hilfe}>Was die Felder bewirken</a>
       <span aria-hidden="true">·</span>

@@ -2,10 +2,15 @@
 
 // Werden von Vite beim Bauen eingesetzt; gepflegt in vite.config.ts.
 declare const __APP_VERSION__: string;
+declare const __BUILD_DATE__: string;
 declare const __APP_NAME__: string;
 declare const __APP_ORG__: string;
 
 export const APP_VERSION: string = __APP_VERSION__;
+
+/** Tag der Auslieferung, „13.09." — unterscheidet zwei Bauläufe derselben
+ *  Fassung. */
+export const BUILD_DATE: string = __BUILD_DATE__;
 
 /** Name der Anwendung, z. B. für Überschrift und Betreffzeilen. */
 export const APP_NAME: string = __APP_NAME__;

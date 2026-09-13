@@ -28,6 +28,12 @@ export default defineConfig({
   // damit Rückmeldungen einer Fassung zugeordnet werden können.
   define: {
     __APP_VERSION__: JSON.stringify(version),
+    // Das Baudatum unterscheidet zwei Auslieferungen derselben
+    // Versionsnummer — zwischen 0.2.0 und 0.2.0 liegen sonst unsichtbar
+    // zwölf Commits.
+    __BUILD_DATE__: JSON.stringify(
+      new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' }),
+    ),
     __APP_NAME__: JSON.stringify(APP_NAME),
     __APP_ORG__: JSON.stringify(APP_ORG),
   },
@@ -35,11 +41,13 @@ export default defineConfig({
   plugins: [
     svelte(),
     VitePWA({
-      // Eine neue Fassung wird im Hintergrund geladen und beim nächsten
-      // Start übernommen - für ein Werkzeug ohne Sitzungszustand der
-      // unauffälligste Weg.
-      registerType: 'autoUpdate',
-      injectRegister: 'auto',
+      // Eine neue Fassung wird im Hintergrund geladen, aber nicht
+      // stillschweigend übernommen: Die Anwendung fragt (NeueFassung.svelte).
+      // Vorher galt 'autoUpdate' — die neue Fassung erschien dann erst beim
+      // übernächsten Start, ohne dass jemand wusste, warum eine Änderung
+      // fehlte.
+      registerType: 'prompt',
+      injectRegister: null,
 
       // Damit die Anwendung auch beim Entwickeln als installierbar gilt und
       // sich das Offline-Verhalten prüfen lässt.

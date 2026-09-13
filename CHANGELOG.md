@@ -5,6 +5,16 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 
 ## Unveröffentlicht
 
+- **Hinweis auf eine neue Fassung.** Die Anwendung läuft offline und liegt
+  deshalb im Zwischenspeicher des Browsers; bisher arbeitete man beliebig
+  lange mit einer alten Fassung weiter, ohne es zu merken. Jetzt erscheint
+  oben ein Streifen „Eine neue Fassung liegt bereit" mit den Knöpfen
+  *Neu laden* und *Später*. Geprüft wird beim Öffnen und danach stündlich —
+  wichtig für die installierte App auf dem Telefon, die tagelang offen
+  bleibt.
+- **Das Baudatum steht neben der Fassungsnummer** („0.2.0 · 13.09."). Zwei
+  Auslieferungen derselben Nummer ließen sich sonst nicht unterscheiden.
+
 - **„Ausgabeform" ist in zwei Felder geteilt** (Issue #33). Sie maß zwei
   verschiedene Dinge: „Kurz und kompakt" sagte etwas über die Länge,
   „Tabelle" über die Form — und beides ließ sich nicht verbinden. Jetzt
