@@ -3,7 +3,14 @@
 Was sich von Fassung zu Fassung geändert hat, in der Sprache der Nutzer und
 nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 
-## Unveröffentlicht
+## 0.3.0 — 13.09.2026
+
+- **Neue Adresse für Rückmeldungen:** daa-mww-ki-genies@tinytux.de. Die
+  Durchsichtsbögen für die Dozenten nennen sie ebenfalls.
+- **Die Rückmeldemail fragt jetzt nach dem Zusammenhang** („Woran hast du
+  gerade gearbeitet?"), nennt zusätzlich die eingestellten Fachbegriffe und
+  das Baudatum und sagt ausdrücklich, dass Thema und eigene Angaben nicht
+  mitgeschickt werden.
 
 - **Hinweis auf eine neue Fassung.** Die Anwendung läuft offline und liegt
   deshalb im Zwischenspeicher des Browsers; bisher arbeitete man beliebig

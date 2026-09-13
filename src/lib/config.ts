@@ -30,6 +30,6 @@ export const APP_ORG: string = __APP_ORG__;
  * private.
  */
 export const FEEDBACK = {
-  email: 'mitte-west-ki-genies@tinytux.de',
+  email: 'daa-mww-ki-genies@tinytux.de',
   url: 'https://github.com/davuuuud/DAA_Prompt_Gen/issues',
 } as const;

@@ -16,6 +16,7 @@ export interface FeedbackKontext {
   beruf: string;
   aufgabe: string;
   niveau: string;
+  fachsprache: string;
   umfang: string;
   darstellung: string;
   /** Kennung des Browsers, für die Einordnung von Darstellungsfehlern. */
@@ -24,11 +25,17 @@ export interface FeedbackKontext {
   adresse: string;
 }
 
+// Drei Fragen statt zweier: Ohne die dritte fehlt fast immer der
+// Zusammenhang, und eine Rückmeldung, die sich nicht nachstellen lässt,
+// hilft niemandem. Die Leerzeilen sind der Platz zum Hineinschreiben.
 const VORLAGE = [
   'Was ist aufgefallen?',
   '',
   '',
   'Was hattest du erwartet?',
+  '',
+  '',
+  'Woran hast du gerade gearbeitet? (Thema oder Aufgabe, soweit es zur Sache gehört)',
   '',
   '',
 ].join('\n');
@@ -37,14 +44,16 @@ const VORLAGE = [
 export function feedbackAnhang(kontext: FeedbackKontext): string {
   return [
     '--- Angaben zur Einordnung (bei Bedarf löschen) ---',
-    `Fassung:     ${kontext.version}`,
-    `Adresse:     ${kontext.adresse}`,
-    `Beruf:       ${kontext.beruf}`,
-    `Aufgabe:     ${kontext.aufgabe}`,
-    `Niveau:      ${kontext.niveau}`,
-    `Umfang:      ${kontext.umfang}`,
-    `Darstellung: ${kontext.darstellung}`,
-    `Browser:     ${kontext.browser}`,
+    '(Dein Thema und deine eigenen Angaben stehen bewusst nicht hier.)',
+    `Fassung:      ${kontext.version}`,
+    `Adresse:      ${kontext.adresse}`,
+    `Beruf:        ${kontext.beruf}`,
+    `Aufgabe:      ${kontext.aufgabe}`,
+    `Niveau:       ${kontext.niveau}`,
+    `Fachbegriffe: ${kontext.fachsprache}`,
+    `Umfang:       ${kontext.umfang}`,
+    `Darstellung:  ${kontext.darstellung}`,
+    `Browser:      ${kontext.browser}`,
   ].join('\n');
 }
 

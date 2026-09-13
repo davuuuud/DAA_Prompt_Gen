@@ -706,7 +706,7 @@ irreführend sind? Dann kann die Anwendung dort besonders warnen.</p>
 
 <footer>
   <p>Fragenschmiede — ein privates Projekt, kein Angebot der DAA.
-  Rückmeldung an mitte-west-ki-genies@tinytux.de.
+  Rückmeldung an daa-mww-ki-genies@tinytux.de.
   Dieser Bogen speichert Ihre Eingaben nur in diesem Browser und sendet
   nichts von allein.</p>
 </footer>

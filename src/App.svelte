@@ -14,6 +14,7 @@
     DARSTELLUNGEN,
     FACHSPRACHEN,
     findAufgabe,
+    findFachsprache,
     findBeruf,
     findDarstellung,
     findNiveau,
@@ -64,10 +65,11 @@
     if (!FEEDBACK.email) return FEEDBACK.url;
     return feedbackMailto(FEEDBACK.email, {
       app: APP_NAME,
-      version: APP_VERSION,
+      version: `${APP_VERSION} · ${BUILD_DATE}`,
       beruf: findBeruf(settings.beruf).label,
       aufgabe: aufgabe.label,
       niveau: findNiveau(settings.niveau).label,
+      fachsprache: findFachsprache(settings.fachsprache).label,
       umfang: findUmfang(settings.umfang).label,
       darstellung: findDarstellung(settings.darstellung).label,
       browser: kurzeBrowserKennung(navigator.userAgent),

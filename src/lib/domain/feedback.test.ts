@@ -14,6 +14,7 @@ const kontext: FeedbackKontext = {
   beruf: 'Immobilienkaufmann/-frau',
   aufgabe: 'Multiple-Choice-Fragen',
   niveau: 'IHK-Prüfungsniveau',
+  fachsprache: 'Beim ersten Auftreten erklären',
   umfang: 'Mittel',
   darstellung: 'Stichpunkte',
   browser: 'Chrome 141, Windows',
@@ -37,10 +38,18 @@ describe('Anhang zur Einordnung', () => {
 describe('Datensparsamkeit', () => {
   it('überträgt weder Thema noch Zusatzangaben', () => {
     // Der Typ sieht diese Felder gar nicht erst vor. Der Test hält fest,
-    // dass das Absicht ist und nicht versehentlich ergänzt werden darf.
-    const text = feedbackText(kontext);
-    expect(text).not.toContain('Thema');
-    expect(text).not.toContain('Zusätzliche Angaben');
+    // dass das Absicht ist — auch dann, wenn jemand sie versehentlich
+    // durchreicht. Die Wörter selbst dürfen vorkommen: Die Vorlage fragt
+    // danach, und der Anhang sagt ausdrücklich, dass beides nicht mitgeht.
+    const mitInhalt = {
+      ...kontext,
+      thema: 'Betriebskostenabrechnung',
+      zusatz: 'Meine eigene Lösung',
+    } as FeedbackKontext;
+    const text = feedbackText(mitInhalt);
+    expect(text).not.toContain('Betriebskostenabrechnung');
+    expect(text).not.toContain('Meine eigene Lösung');
+    expect(text).toContain('stehen bewusst nicht hier');
     expect(Object.keys(kontext)).not.toContain('thema');
     expect(Object.keys(kontext)).not.toContain('zusatz');
   });
