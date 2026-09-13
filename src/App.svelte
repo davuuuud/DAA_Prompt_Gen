@@ -515,6 +515,14 @@
         <button type="button" onclick={openChatGPT}>ChatGPT öffnen</button>
       </div>
 
+      <!-- Der stärkste Hebel gegen erfundene Paragraphen, und der einzige,
+           den der Prompt selbst nicht ziehen kann: Er steht deshalb hier,
+           wo der fertige Text abgeholt wird. -->
+      <p class="hinweis">
+        Kommt es auf den genauen Wortlaut an, kopiere den Gesetzestext nach dem Prompt in den
+        Chat – aus dem Gedächtnis zitiert die KI oft den falschen Absatz.
+      </p>
+
       <p class="status" role="status" aria-live="polite">{status}</p>
     </section>
   </main>

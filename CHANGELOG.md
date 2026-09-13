@@ -12,6 +12,13 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
   ausdrücklich nennt. Der Durchgang findet Rechenfehler und Widersprüche
   zuverlässig; falsche Erinnerungen findet er nicht — dafür ist die Zeile
   da, die sagt, was nachzuschlagen ist.
+- **Hinweis unter dem fertigen Prompt:** „Kommt es auf den genauen Wortlaut
+  an, kopiere den Gesetzestext nach dem Prompt in den Chat." Das ist der
+  stärkste Hebel gegen erfundene Absätze — und der einzige, den der Prompt
+  selbst nicht ziehen kann.
+- **Neuer Abschnitt auf der Hilfeseite und im Merkblatt:** „Was die
+  Anwendung nicht kann — und du schon" — Gesetzestext mitliefern, eine
+  Fundstelle nachschlagen, nachfragen.
 
 ## 0.3.0 — 13.09.2026
 

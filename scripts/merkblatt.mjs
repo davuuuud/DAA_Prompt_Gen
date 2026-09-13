@@ -261,6 +261,29 @@ for (const [feld, text] of [
   );
 }
 
+inhalt.push(ueberschrift('Was die Anwendung nicht kann — und du schon', HeadingLevel.HEADING_1));
+for (const [was, text] of [
+  [
+    'Den Gesetzestext mitliefern',
+    'Der Prompt nennt die einschlägigen Quellen, aber die KI zitiert sie aus dem Gedächtnis — und da entstehen die falschen Absatznummern. Kopiere den Wortlaut nach dem Prompt in den Chat, etwa von gesetze-im-internet.de. Das ist der größte Unterschied, den du von Hand machen kannst.',
+  ],
+  [
+    'Eine Fundstelle nachschlagen',
+    'Nicht alle — eine, je Antwort. Am besten eine aus der Zeile „Bitte nachschlagen:“, die die KI selbst am Ende nennt.',
+  ],
+  [
+    'Nachfragen',
+    'Die erste Antwort ist ein Entwurf. „Was würde ein Prüfer hieran bemängeln?“ bringt fast immer etwas — beim Kritisieren sind Sprachmodelle zuverlässiger als beim Verfassen.',
+  ],
+]) {
+  inhalt.push(
+    new Paragraph({
+      spacing: { after: 100 },
+      children: [new TextRun({ text: `${was} — `, bold: true }), new TextRun(text)],
+    }),
+  );
+}
+
 inhalt.push(ueberschrift('Was immer gilt', HeadingLevel.HEADING_1));
 inhalt.push(
   absatz(

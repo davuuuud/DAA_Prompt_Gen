@@ -180,6 +180,26 @@
       </li>
     </ul>
 
+    <h2>Was die Anwendung nicht kann — und du schon</h2>
+    <ul>
+      <li>
+        <strong>Den Gesetzestext mitliefern.</strong> Der Prompt nennt die einschlägigen Quellen,
+        aber die KI zitiert sie aus dem Gedächtnis — und da entstehen die falschen Absatznummern.
+        Kopiere den Wortlaut nach dem Prompt in den Chat, etwa von gesetze-im-internet.de. Das ist
+        der größte Unterschied, den du von Hand machen kannst.
+      </li>
+      <li>
+        <strong>Eine Fundstelle nachschlagen.</strong> Nicht alle — eine, je Antwort. Am besten
+        eine aus der Zeile „Bitte nachschlagen:", die die KI selbst am Ende nennt. Wer das zur
+        Gewohnheit macht, merkt schnell, wie oft eine Antwort danebenliegt.
+      </li>
+      <li>
+        <strong>Nachfragen.</strong> Die erste Antwort ist ein Entwurf. „Was würde ein Prüfer
+        hieran bemängeln?" bringt fast immer etwas — beim Kritisieren sind Sprachmodelle
+        zuverlässiger als beim Verfassen.
+      </li>
+    </ul>
+
     <h2>Was immer gilt</h2>
     <p>
       Unabhängig von der Auswahl steht in jedem Prompt: keine erfundenen Quellen, Paragraphen
