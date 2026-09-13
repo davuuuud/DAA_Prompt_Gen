@@ -8,7 +8,7 @@ keine Festlegung.
 
 ## Stand heute
 
-**Fassung 0.2.0 (12.09.2026).** Erreicht sind die ersten beiden Etappen:
+**Fassung 0.3.0 (13.09.2026).** Erreicht sind die ersten beiden Etappen:
 
 | Etappe | Inhalt | Zustand |
 |---|---|---|
@@ -19,26 +19,39 @@ keine Festlegung.
 Die Anwendung läuft unter
 [davuuuud.github.io/DAA_Prompt_Gen](https://davuuuud.github.io/DAA_Prompt_Gen/),
 lässt sich auf dem Telefon zum Startbildschirm hinzufügen und funktioniert
-ohne Internetverbindung. Die Fachlogik ist durch 155 Tests abgedeckt.
+ohne Internetverbindung. Die Fachlogik ist durch 170 Tests abgedeckt.
 
-### Seit 0.1.0 dazugekommen
+**Als Nächstes steht keine Programmierarbeit an, sondern die Erprobung:**
+zwei, drei Umschüler und ein Dozent, zwei Wochen, echte Themen. Jede der
+offenen fachlichen Fragen — welche Quellen taugen (#1), ob die Prompts
+wirken (#34), ob die Auswahlfelder in ihrer Abstufung stimmen (#3, #4) —
+hängt an Benutzung, nicht an Nachdenken.
+
+### Was dazugekommen ist
+
+Die vollständige Aufstellung führt der [Changelog](CHANGELOG.md); hier nur,
+was den Zuschnitt des Projekts verändert hat:
 
 - **Quellenkatalog von 51 auf 254 Einträge**, abgeglichen mit den
-  Rahmenlehrplänen aller vierzehn Berufe. Vorab angehakt ist alles, was für
-  den Beruf wichtig ist oder normalerweise vorkommt (39 bis 52 je Beruf);
-  nur Nebensächliches bleibt frei. Vorläufig — die fachliche Durchsicht
-  läuft (Issue #1).
+  Rahmenlehrplänen aller vierzehn Berufe; vorab angehakt ist alles, was für
+  den Beruf wichtig ist oder normalerweise vorkommt. Vorläufig — die
+  fachliche Durchsicht läuft (Issue #1).
 - **Durchsichtsbögen** für die Dozenten unter `quellen-durchsicht/`, aus
   demselben Katalog erzeugt wie die Anwendung.
-- **Zweite Sprache in der Antwort:** dreizehn Sprachen zur Wahl, die
-  Oberfläche bleibt deutsch. Die Antwort bleibt vollständig auf Deutsch,
-  Fachbegriffe ebenfalls — die zweite Sprache erklärt sie zusätzlich.
+- **Zweite Sprache in der Antwort:** dreizehn Sprachen, die Oberfläche bleibt
+  deutsch.
+- **Die Auswahlfelder sind entwirrt** (Issue #35): keine Optionen mehr,
+  Fachbegriffe als Stufenwahl, Umfang und Darstellung statt einer
+  vermischten "Ausgabeform". Niveau, Umfang und Darstellung sagen im Prompt,
+  was sie bedeuten, statt nur ihr Etikett zu nennen.
+- **Erklärt sich selbst:** jede Aufgabe mit einem Satz unter dem Auswahlfeld,
+  dazu die Seite „Was die Felder bewirken" (#/hilfe) und dasselbe als
+  Merkblatt zum Ausdrucken oder als Word-Datei (`npm run merkblatt`).
+- **Hinweis auf neue Fassungen**, weil die Anwendung offline läuft und sonst
+  unbemerkt veraltet.
 - **Impressum und Datenschutzerklärung** als eigene Seiten.
 - **Leser für altes `.doc`** (`src/lib/import/doc.ts`), geprüft an 778
   echten Dateien — Vorarbeit für Etappe 3b.
-- **Oberfläche:** Thema und Aufgabe stehen vor den Einstellungen; Bevorzugte
-  Quellen, Sonstige Optionen und der fertige Prompt lassen sich auf- und
-  zuklappen; „Auf Standard" mit „Rückgängig"; neue Standardwerte.
 
 ---
 
@@ -155,8 +168,9 @@ sollen.
 
 ### Optionen und Voreinstellungen
 
-**Standardwerte entschieden** (11.09.2026): KGQ, Thema erklären, Niveau 3,
-Kurz und kompakt, keine Zweitsprache, Anzahl 5.
+**Standardwerte entschieden** (11.09.2026, seither nachgezogen): KGQ, Thema
+erklären, Niveau 3, Umfang 1 (kurz), Darstellung Fließtext, Fachbegriffe beim
+ersten Auftreten erklärt, keine Zweitsprache, Anzahl 5.
 
 **Erledigt am 12.09.2026: Es gibt keine Optionen mehr** (Issue #35, #6). Aus
 den fünf Häkchen sind geworden:
@@ -171,8 +185,8 @@ den fünf Häkchen sind geworden:
 
 „Einfach" meint dabei leichter zu lesen, nicht fachlich anspruchsloser; für
 Lernende mit geringen Deutschkenntnissen ist die zweite Sprache in der Antwort
-gedacht — bei den Grundkompetenzen (#27) kann das neu bewertet werden. Niveau
-und Ausgabeform tragen seither eine Verhaltensbeschreibung statt eines
+gedacht — bei den Grundkompetenzen (#27) kann das neu bewertet werden. Niveau,
+Umfang und Darstellung tragen seither eine Verhaltensbeschreibung statt eines
 Etiketts; das Etikett allein legte jedes Modell anders aus.
 
 **Offen bleibt, ob die verbliebenen Auswahlfelder taugen** — vier Niveaus,
@@ -206,10 +220,15 @@ ein offizielles Angebot.
 
 ### Einleitungstext
 
-Erledigt. Der Text nennt jetzt in drei Stufen: den Anlass („Wer eine KI einfach
-so fragt, bekommt eine allgemeine Antwort."), die Leistung der Anwendung und —
-als eigentlichen Mangel der Vorfassung — den Ablauf: Thema eintragen, Prompt
-kopieren, in eine KI einfügen.
+Erledigt. Der Text nennt in drei Stufen den Anlass, die Leistung der
+Anwendung und den Ablauf: Thema eintragen, Prompt kopieren, in eine KI
+einfügen.
+
+**Seit dem 12.09.2026 lautet der Anlass GIGO** — „Garbage in, garbage out.
+Wenn du die KI mit Müll fütterst, bekommst du auch Müll zurück. Hier entsteht
+das Gegenteil." Die Vorfassung („Wer eine KI einfach so fragt, bekommt eine
+allgemeine Antwort.") beschrieb das Problem, ohne den Nutzen zu nennen, und
+belehrte dabei.
 
 ### Logo: die Schrift muss größer — erledigt
 
