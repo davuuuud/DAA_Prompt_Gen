@@ -35,8 +35,13 @@
 
   onMount(async () => {
     // Im Entwicklungsbetrieb gibt es keinen Service Worker; der Aufruf
-    // liefe ins Leere.
-    if (!('serviceWorker' in navigator)) return;
+    // liefe ins Leere. Ebenso in der Einzeldatei (npm run build:datei), die
+    // per Doppelklick geöffnet wird: Ohne Server kein Service Worker, und das
+    // nachgeladene Modul läge nicht neben der Datei.
+    const einzeldatei =
+      location.protocol === 'file:' ||
+      (window as { __FRAGENSCHMIEDE_EINZELDATEI__?: boolean }).__FRAGENSCHMIEDE_EINZELDATEI__ === true;
+    if (!('serviceWorker' in navigator) || einzeldatei) return;
 
     const { registerSW } = await import('virtual:pwa-register');
     neuLaden = registerSW({

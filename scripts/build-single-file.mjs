@@ -19,18 +19,29 @@ import { fileURLToPath } from 'node:url';
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = join(wurzel, 'dist');
 const ziel = join(wurzel, 'dist-datei');
-const dateiname = 'IHK-Lernassistent.html';
+
+// Die Fassung gehört in den Dateinamen: Eine Kopie auf einem Stick bekommt
+// keinen Hinweis auf neue Fassungen (ohne Server kein Service Worker). Der
+// Name ist die einzige Stelle, an der man von außen sieht, ob sie veraltet.
+// Aus package.json gelesen, damit er nie wieder stehen bleibt — der frühere
+// feste Name "IHK-Lernassistent.html" hatte die Umbenennung überdauert.
+const { version } = JSON.parse(await readFile(join(wurzel, 'package.json'), 'utf8'));
+const dateiname = `Fragenschmiede-${version}.html`;
 
 let html = await readFile(join(dist, 'index.html'), 'utf8');
 
 // --- Bausteine einsammeln ---------------------------------------------------
 const assets = await readdir(join(dist, 'assets'));
-const jsDatei = assets.find((n) => n.endsWith('.js'));
+// Die Einstiegsdatei steht im Skript-Verweis von index.html. Nicht einfach
+// die erstbeste .js-Datei nehmen: Seit dem Hinweis auf neue Fassungen liegen
+// in dist/assets mehrere Skripte, und welches zuerst kommt, ist Zufall.
+const einstieg = /<script[^>]*type="module"[^>]*src="[^"]*?assets\/([^"]+\.js)"/.exec(html);
+const jsDatei = einstieg?.[1];
 const cssDatei = assets.find((n) => n.endsWith('.css'));
 if (!jsDatei || !cssDatei) {
   throw new Error('In dist/assets fehlt JavaScript oder CSS - erst "npm run build" ausführen.');
 }
-const js = await readFile(join(dist, 'assets', jsDatei), 'utf8');
+let js = await readFile(join(dist, 'assets', jsDatei), 'utf8');
 const css = await readFile(join(dist, 'assets', cssDatei), 'utf8');
 const favicon = await readFile(join(dist, 'favicon.svg'), 'utf8');
 
@@ -45,6 +56,23 @@ html = html.replace(/<link[^>]*rel="apple-touch-icon"[^>]*>/g, '');
 // Symbol als Daten-URI, damit keine Datei danebenliegen muss.
 const faviconUri = `data:image/svg+xml;base64,${Buffer.from(favicon, 'utf8').toString('base64')}`;
 html = html.replace(/<link[^>]*rel="icon"[^>]*>/g, `<link rel="icon" href="${faviconUri}" />`);
+
+// Logo als Daten-URI. Es wird nicht in index.html, sondern im Programmcode
+// eingesetzt ("./logo-144.png"); ohne diesen Schritt zeigte die Einzeldatei
+// im Kopf ein zerbrochenes Bild, weil keine Datei danebenliegt.
+for (const bild of ['logo-144.png', 'logo-288.png']) {
+  const uri = `data:image/png;base64,${(await readFile(join(dist, bild))).toString('base64')}`;
+  js = js.split(`./${bild}`).join(uri);
+}
+
+// Die Einzeldatei hat keinen Service Worker. Das Kennzeichen sagt dem
+// Hinweis auf neue Fassungen, dass er gar nicht erst nachzuladen braucht —
+// unabhängig davon, ob die Datei per Doppelklick oder von einem Server
+// geöffnet wird.
+html = html.replace(
+  '</head>',
+  '    <script>window.__FRAGENSCHMIEDE_EINZELDATEI__ = true;</script>\n  </head>',
+);
 
 // Stylesheet einbetten.
 html = html.replace(
@@ -66,7 +94,7 @@ html = html.replace(
 );
 
 // --- Prüfen und schreiben ---------------------------------------------------
-for (const verboten of ['/assets/', 'registerSW.js', 'manifest.webmanifest']) {
+for (const verboten of ['/assets/', 'registerSW.js', 'manifest.webmanifest', './logo-']) {
   if (html.includes(verboten)) {
     throw new Error(`Verweis auf "${verboten}" blieb stehen - die Datei wäre nicht eigenständig.`);
   }
