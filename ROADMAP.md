@@ -68,7 +68,7 @@ Verantwortung für fremde Daten.
 
 **Die Anwendung bleibt ohne API-Schlüssel vollwertig.**
 Ohne Schlüssel baut sie den Prompt und übergibt ihn per Teilen-Dialog an die
-ChatGPT-App — auf dem Telefon ein Tippen. Wer einen eigenen Schlüssel
+App einer KI — auf dem Telefon ein Tippen. Wer einen eigenen Schlüssel
 hinterlegt, bekommt die Antwort zusätzlich direkt in der Anwendung. Niemand
 braucht ein Bezahlkonto, um das Werkzeug zu benutzen.
 
@@ -260,8 +260,8 @@ sich durch alle weiteren Etappen und wird bei Etappe 4 grundsätzlich.
 - **Keine Aufrufe fremder Server.** Im gebauten Programm gibt es keinen
   einzigen Netzwerkaufruf: kein `fetch`, keine Zählpixel, keine
   Nutzungsstatistik, keine Schriftarten von Google. Externe Adressen kommen
-  nur als Verweise vor, die jemand anklicken muss: `chatgpt.com` hinter der
-  Schaltfläche sowie GitHub und `docs.github.com` in den Rechtstexten. Von
+  nur als Verweise vor, die jemand anklicken muss: die Startseiten von
+  ChatGPT, Copilot, Gemini und Le Chat unter „Öffnen in" sowie GitHub und `docs.github.com` in den Rechtstexten. Von
   allein ruft die Anwendung keine davon auf.
 - **Kein Einwilligungsbanner nötig.** Gespeichert wird ausschließlich im
   Gerätespeicher und ausschließlich das, was die Anwendung zum Funktionieren

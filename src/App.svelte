@@ -33,7 +33,7 @@
   import type { BerufId } from './lib/domain/types';
   import { MAX_ANZAHL, MIN_ANZAHL, toCRLF } from './lib/domain/text';
   import { copyText } from './lib/platform/clipboard';
-  import { canShare, openChatGPT, shareText } from './lib/platform/share';
+  import { canShare, KI_ANBIETER, shareText } from './lib/platform/share';
   import { ANKER, navigation } from './lib/state/route.svelte';
   import {
     auswahlWiederherstellen,
@@ -270,7 +270,7 @@
       statt Paragraphen zu erfinden.
     </p>
     <p class="ablauf">
-      Thema eintragen, fertigen Prompt kopieren, in ChatGPT oder eine andere KI einfügen.
+      Thema eintragen, fertigen Prompt kopieren, in eine KI deiner Wahl einfügen.
       Alles geschieht auf diesem Gerät: kein Konto, keine Anmeldung, keine Datenübertragung.
     </p>
   </header>
@@ -523,8 +523,17 @@
         {#if teilenMoeglich}
           <button type="button" onclick={teilen} disabled={!prompt}>Teilen</button>
         {/if}
-        <button type="button" onclick={openChatGPT}>ChatGPT öffnen</button>
       </div>
+
+      <!-- Verweise statt Knöpfe: „Kopieren" bleibt der Hauptschritt, und
+           geöffnet wird nur die Startseite — eingefügt wird dort selbst. -->
+      <p class="anbieter">
+        <span class="anbieter-titel">Öffnen in:</span>
+        {#each KI_ANBIETER as anbieter, i (anbieter.name)}
+          {#if i > 0}<span class="trenner" aria-hidden="true">·</span>{/if}
+          <a href={anbieter.url} target="_blank" rel="noopener noreferrer">{anbieter.name}</a>
+        {/each}
+      </p>
 
       <!-- Der stärkste Hebel gegen erfundene Paragraphen, und der einzige,
            den der Prompt selbst nicht ziehen kann: Er steht deshalb hier,
@@ -792,6 +801,29 @@
     gap: 0.5rem;
   }
 
+  .anbieter {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 0.35rem;
+    font-size: 0.9rem;
+    color: var(--text-schwach);
+  }
+
+  .anbieter-titel {
+    margin-right: 0.15rem;
+  }
+
+  /* Großzügige Trefferfläche: Auf dem Telefon sind das Tippziele. */
+  .anbieter a {
+    display: inline-block;
+    padding-block: 0.4rem;
+    color: var(--akzent);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
   .status {
     margin: 0;
     min-height: 1.2rem;
@@ -857,6 +889,11 @@
   @media (max-width: 30rem) {
     .aktionen button {
       flex: 1 1 8rem;
+    }
+
+    /* Sonst bricht der letzte Anbieter allein in die zweite Zeile. */
+    .anbieter-titel {
+      flex-basis: 100%;
     }
 
     /* Auf dem Telefon ist die Vorschau zweitrangig - der Weg zu "Teilen"

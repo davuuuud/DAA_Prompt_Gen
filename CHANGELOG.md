@@ -5,6 +5,11 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 
 ## Unveröffentlicht
 
+- **Vier KI-Dienste statt nur ChatGPT.** Unter dem Prompt steht jetzt
+  „Öffnen in: ChatGPT · Copilot · Gemini · Le Chat" — alphabetisch, ohne
+  Empfehlung, alle ohne Anmeldung nutzbar. Le Chat ist das europäische
+  Angebot von Mistral. Geöffnet wird nur die Startseite; eingefügt wird der
+  kopierte Prompt dort selbst. Der Knopf „ChatGPT öffnen" entfällt.
 - **FISI und SFA stehen nicht mehr zur Auswahl.** Fachinformatiker –
   Systemintegration und Steuerfachangestellte ruhen. Ihre Angaben und
   Quellen bleiben erhalten, sodass sich beide wieder aufnehmen lassen. Wer

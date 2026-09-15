@@ -52,7 +52,7 @@
 
     <h2>Haftung für Links</h2>
     <p>
-      Die Anwendung verweist an einzelnen Stellen auf externe Seiten, etwa auf ChatGPT oder auf
+      Die Anwendung verweist an einzelnen Stellen auf externe Seiten, etwa auf KI-Dienste oder auf
       den Quellcode bei GitHub. Auf deren Inhalte habe ich keinen Einfluss. Für sie ist
       ausschließlich der jeweilige Anbieter verantwortlich. Rechtswidrige Inhalte waren zum
       Zeitpunkt der Verlinkung nicht erkennbar; werden mir welche bekannt, entferne ich den
@@ -66,7 +66,8 @@
       aber nicht zur Nutzung freigegeben: Alle Rechte bleiben vorbehalten, die Einzelheiten
       stehen in der Datei LICENSE. Die Anwendung selbst darf zur eigenen Lernvorbereitung
       verwendet werden. Namen und Zeichen Dritter — insbesondere
-      IHK und ChatGPT — sind Kennzeichen ihrer jeweiligen Inhaber und werden hier nur zur
+      IHK, ChatGPT, Copilot, Gemini und Le Chat — sind Kennzeichen ihrer jeweiligen Inhaber
+      und werden hier nur zur
       Beschreibung verwendet.
     </p>
 

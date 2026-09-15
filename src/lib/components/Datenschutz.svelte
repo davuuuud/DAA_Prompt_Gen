@@ -106,11 +106,12 @@
 
     <h2>5. Wenn Sie den Prompt weitergeben</h2>
     <p>
-      Die Schaltflächen „Kopieren“, „Teilen“ und „ChatGPT öffnen“ übergeben den erzeugten Text an
-      eine Stelle außerhalb dieser Anwendung — an die Zwischenablage, an die Teilen-Funktion Ihres
-      Geräts oder an den Browser, der eine fremde Seite öffnet. „ChatGPT öffnen“ ruft dabei nur
-      die Startseite auf; der Prompt wird nicht automatisch mitgeschickt, sondern erst dann
-      verarbeitet, wenn Sie ihn dort selbst einfügen und absenden.
+      Die Schaltflächen „Kopieren“ und „Teilen“ übergeben den erzeugten Text an eine Stelle
+      außerhalb dieser Anwendung — an die Zwischenablage oder an die Teilen-Funktion Ihres Geräts.
+      Die Verweise unter „Öffnen in“ (ChatGPT, Copilot, Gemini, Le Chat) rufen nur die Startseite
+      des jeweiligen Anbieters in einem neuen Fenster auf; der Prompt wird nicht mitgeschickt,
+      sondern erst dann verarbeitet, wenn Sie ihn dort selbst einfügen und absenden. Die
+      Reihenfolge ist alphabetisch und keine Empfehlung.
     </p>
     <p>
       Ab diesem Moment gilt die Datenschutzerklärung des jeweiligen KI-Anbieters, nicht diese
