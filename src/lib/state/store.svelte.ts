@@ -13,9 +13,19 @@ import {
   type Auswahl,
   type Settings,
 } from '../domain/settings';
+import { fruehereEintraegeUebernehmen, SCHLUESSEL } from './speicherschluessel';
 
-const SETTINGS_KEY = 'ihk-lernassistent.einstellungen';
-const DRAFT_KEY = 'ihk-lernassistent.entwurf';
+const SETTINGS_KEY = SCHLUESSEL.einstellungen;
+const DRAFT_KEY = SCHLUESSEL.entwurf;
+
+// Vor dem ersten Lesen: Einträge unter den früheren Schlüsseln übernehmen.
+if (typeof localStorage !== 'undefined') {
+  try {
+    fruehereEintraegeUebernehmen(localStorage);
+  } catch {
+    /* ohne Speicherzugriff startet die Anwendung mit den Standardwerten */
+  }
+}
 
 export interface Draft {
   thema: string;

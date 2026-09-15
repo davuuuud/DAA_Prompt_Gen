@@ -23,7 +23,7 @@ const APP_BESCHREIBUNG =
 
 // Der Basispfad lässt sich beim Bauen setzen, weil GitHub Pages die Seite
 // unter /projektname/ ausliefert und nicht im Wurzelverzeichnis:
-//   npm run build -- --base=/ihk-lernassistent/
+//   npm run build -- --base=/Fragenschmiede/
 // Ohne Angabe wird ins Wurzelverzeichnis gebaut.
 
 export default defineConfig({

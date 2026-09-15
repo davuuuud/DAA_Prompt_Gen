@@ -10,6 +10,10 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
   Telefon installiert hat, muss sie unter der neuen erneut hinzufügen —
   GitHub Pages leitet nicht weiter.
 - **Rückmeldungen gehen an fragenschmiede@tinytux.de.**
+- **Interne Namen aufgeräumt.** Projekt und Gerätespeicher heißen nicht mehr
+  nach dem alten Arbeitstitel „IHK-Lernassistent". Gespeicherte Einstellungen
+  und ein angefangener Entwurf werden beim ersten Start übernommen — niemand
+  fängt deshalb von vorn an.
 - **Bedienbar mit Tastatur und Vorleseprogramm beim Seitenwechsel.** Nach
   einem Klick auf „Impressum", „Datenschutz" oder „Was die Felder bewirken"
   springt der Fokus auf die Überschrift der neuen Seite, ebenso zurück zur
