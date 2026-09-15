@@ -61,9 +61,11 @@
 
     <h2>Urheberrecht</h2>
     <p>
-      Der Quelltext der Anwendung ist offen einsehbar unter
-      <a href={FEEDBACK.url} rel="noopener" target="_blank">github.com/davuuuud/DAA_Prompt_Gen</a>
-      und steht unter der dort angegebenen Lizenz. Namen und Zeichen Dritter — insbesondere DAA,
+      Der Quelltext der Anwendung ist einsehbar unter
+      <a href={FEEDBACK.url} rel="noopener" target="_blank">github.com/davuuuud/DAA_Prompt_Gen</a>,
+      aber nicht zur Nutzung freigegeben: Alle Rechte bleiben vorbehalten, die Einzelheiten
+      stehen in der Datei LICENSE. Die Anwendung selbst darf zur eigenen Lernvorbereitung
+      verwendet werden. Namen und Zeichen Dritter — insbesondere DAA,
       IHK und ChatGPT — sind Kennzeichen ihrer jeweiligen Inhaber und werden hier nur zur
       Beschreibung verwendet.
     </p>

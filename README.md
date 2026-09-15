@@ -124,3 +124,14 @@ Offen und nicht durch Programmieren zu lösen:
   Bilder und OneNote
 - **OneNote** — lässt sich im Browser nicht lesen, Export nach PDF nötig;
   zurückgestellt mit Etappe 3, im Fahrplan festgehalten
+
+## Lizenz
+
+**Alle Rechte vorbehalten.** Der Quellcode ist öffentlich einsehbar, aber
+nicht zur Nutzung, Veränderung oder Weitergabe freigegeben — die Einzelheiten
+stehen in [LICENSE](LICENSE). Die Anwendung selbst darf zur eigenen
+Lernvorbereitung verwendet werden.
+
+Bewusst keine offene Lizenz: Eine einmal vergebene freie Lizenz lässt sich
+nicht zurücknehmen, und eine spätere Vermarktung soll nicht ausgeschlossen
+sein. Anfragen zu Nutzungsrechten an daa-mww-ki-genies@tinytux.de.
