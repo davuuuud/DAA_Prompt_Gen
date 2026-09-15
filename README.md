@@ -1,7 +1,5 @@
 # Fragenschmiede
 
-*Eine Anwendung der DAA MWW (Mitte-West-West)*
-
 **→ [davuuuud.github.io/DAA_Prompt_Gen](https://davuuuud.github.io/DAA_Prompt_Gen/)**
 
 GIGO: Garbage in, garbage out. Wenn du die KI mit Müll fütterst, bekommst du

@@ -7,11 +7,14 @@ import { readFileSync } from 'node:fs';
 // unter der Modulauflösung NodeNext nicht zulässig.
 const { version } = JSON.parse(readFileSync('./package.json', 'utf8')) as { version: string };
 
-// Name und Träger stehen hier an einer Stelle und werden von dort sowohl in
-// das Web-Manifest als auch in den Programmcode eingesetzt. Einzige Stelle,
-// die zusätzlich gepflegt werden muss: der <title> in index.html.
+// Der Name steht hier an einer Stelle und wird von dort sowohl in das
+// Web-Manifest als auch in den Programmcode eingesetzt. Einzige Stelle, die
+// zusätzlich gepflegt werden muss: der <title> in index.html.
+//
+// Bis zum 15.09.2026 stand daneben ein Trägername. Er ist entfallen: Die
+// Fragenschmiede ist ein privates Projekt und soll nicht wie das Angebot
+// eines Bildungsträgers auftreten (Issue #38).
 const APP_NAME = 'Fragenschmiede';
-const APP_ORG = 'DAA MWW';
 const APP_BESCHREIBUNG =
   'Garbage in, garbage out: Wer die KI mit Müll füttert, bekommt Müll zurück. Die ' +
   'Fragenschmiede baut aus deinem Thema eine Frage, die Ausbildungsberuf, Niveau und ' +
@@ -35,7 +38,6 @@ export default defineConfig({
       new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' }),
     ),
     __APP_NAME__: JSON.stringify(APP_NAME),
-    __APP_ORG__: JSON.stringify(APP_ORG),
   },
 
   plugins: [
@@ -66,9 +68,7 @@ export default defineConfig({
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
 
       manifest: {
-        name: `${APP_NAME} – ${APP_ORG}`,
-        // Kurzform für den Startbildschirm: Android kürzt ab etwa 12 Zeichen,
-        // der Trägerhinweis hätte dort ohnehin keinen Platz.
+        name: APP_NAME,
         short_name: APP_NAME,
         description: APP_BESCHREIBUNG,
         lang: 'de',

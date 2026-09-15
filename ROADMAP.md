@@ -195,28 +195,21 @@ jemand die Ränder je benutzt, zeigt erst die Erprobung (#34).
 
 ### Name der Anwendung
 
-Erledigt: Die Anwendung heißt „Fragenschmiede – DAA MWW".
+**Die Anwendung heißt Fragenschmiede — ohne Zusatz.** Bis zum 15.09.2026 trug
+sie im Titel und im Logo zusätzlich einen Trägernamen. Der Zusatz ist überall
+entfallen (Issue #38): Die Fragenschmiede ist ein privates
+Projekt, außerhalb der Arbeitszeit entwickelt, und soll nicht wie das Angebot
+eines Bildungsträgers auftreten.
 
-Der bisherige Arbeitstitel „IHK-Lernassistent" war unzutreffend, seit auch
+Der frühere Arbeitstitel „IHK-Lernassistent" war unzutreffend, seit auch
 nicht-kaufmännische Berufe und mit den Steuerfachangestellten ein Beruf im
 Katalog stehen, den nicht die IHK prüft. „IHK" ist zudem eine geschützte
 Bezeichnung.
 
-**Offen bleibt:** Der Trägername lässt die DAA als Anbieterin erscheinen. Im
-Impressum steht dazu inzwischen ein ausdrücklicher Hinweis, dass es sich um
-ein privates Projekt handelt. Das ersetzt aber keine Abstimmung mit der DAA
-selbst — die sollte vor einer breiteren Verteilung erfolgen, weil auch das
-Logo ihren Namen trägt.
-
-Der ursprüngliche Hinweis zur Sache: Der Name erscheint in der
-Fensterleiste, unter dem Symbol auf dem Startbildschirm und in der Anwendung
-selbst — ein Wechsel ist später zwar möglich, aber jeder, der die Anwendung
-schon installiert hat, behält den alten Namen unter dem Symbol.
-
-*Also besser früh entscheiden.* Zu beachten: „IHK" ist eine geschützte
-Bezeichnung; eine Anwendung, die nicht von einer Industrie- und
-Handelskammer stammt, sollte nicht den Eindruck erwecken, es handle sich um
-ein offizielles Angebot.
+**Offen aus #38:** ob „Fragenschmiede" als Marke frei ist (DPMA-Register), und
+ob Repository und Adresse (`DAA_Prompt_Gen`) umbenannt werden. Eine neue
+Adresse entwertet bereits installierte Anwendungen auf den Telefonen —
+deshalb vor der Erprobung entscheiden, nicht danach.
 
 ### Einleitungstext
 
@@ -230,22 +223,17 @@ das Gegenteil." Die Vorfassung („Wer eine KI einfach so fragt, bekommt eine
 allgemeine Antwort.") beschrieb das Problem, ohne den Nutzen zu nennen, und
 belehrte dabei.
 
-### Logo: die Schrift muss größer — erledigt
+### Logo
 
-**Erledigt mit der Vorlage `Logo_App2.png`.** Der ursprüngliche Punkt lautete:
-Die Schrift ist bei der dargestellten Größe zu klein, und die Ursache liegt in
-der Vorlage — großzügige Ränder und vier bis fünf Textzeilen verkleinern die
-Buchstaben, sobald die Kachel auf Kopfzeilengröße schrumpft.
+**Seit dem 15.09.2026 zeigt die Kopfzeile das App-Symbol** — die blaue Kachel
+mit Blatt und Eingabepfeil, ohne Text. Das frühere Logo trug den Trägernamen
+und ist mit ihm entfallen (Issue #38).
 
-Die neue Vorlage löst genau das: enge Ränder, zwei Wortgruppen zu je zwei
-Zeilen („DAA MWW" und „KI Genies") statt vieler kurzer. Bei 96 Pixeln im
-Kopfbereich sind beide lesbar.
-
-Was davon **bestehen bleibt:** Das Logo wird trotzdem **kein App-Symbol.** Bei
-48 Pixeln ist sein Text nachweislich unlesbar, und daran ändert auch eine
-größere Schrift nichts. Ebenso bleibt es dabei, dass die Kachel in der
-Anwendung nicht weiter wachsen sollte — sie würde den Kopfbereich beherrschen
-und auf dem Telefon das Formular nach unten drängen.
+Das Symbol hat einen Vorzug, den das Logo nie hatte: Es bleibt bei jeder Größe
+erkennbar, vom Browser-Tab bis zum Startbildschirm. Ein eigenes Logo für die
+Fragenschmiede ist denkbar, aber nicht nötig — wenn, dann ohne Text oder mit
+dem Namen allein, und nicht größer als die heutige Kachel, damit der
+Kopfbereich auf dem Telefon das Formular nicht nach unten drängt.
 
 ---
 
@@ -280,7 +268,7 @@ sich durch alle weiteren Etappen und wird bei Etappe 4 grundsätzlich.
 **Impressum** (`#/impressum`) und **Datenschutzerklärung** (`#/datenschutz`)
 sind eigenständige Seiten, aus der Fußzeile jeder Ansicht erreichbar. Als
 Anbieter tritt eine Privatperson auf; beide Seiten stellen ausdrücklich klar,
-dass es sich **nicht** um ein Angebot der DAA handelt. Als zweiter
+dass es sich **nicht** um das Angebot eines Bildungsträgers handelt. Als zweiter
 Kontaktweg neben der E-Mail-Adresse steht eine Rückrufzusage statt einer
 Telefonnummer.
 
@@ -709,7 +697,7 @@ weiter oben im Abschnitt [Inhaltliche
 
 Zwei zusätzliche Fassungen sind angedacht:
 
-**GK — Grundkompetenzen.** Ein Vorbereitungsangebot der DAA für Menschen, deren
+**GK — Grundkompetenzen.** Ein Vorbereitungsangebot für Menschen, deren
 letzter Schulbesuch länger zurückliegt und die eine Ausbildung, Umschulung,
 Teilqualifizierung oder berufsspezifische Weiterbildung anstreben. Drei bis
 sechs Monate, gefördert über Bildungsgutschein.

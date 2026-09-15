@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { APP_NAME, APP_ORG, FEEDBACK } from '../config';
+  import { APP_NAME, FEEDBACK } from '../config';
   import { ANKER } from '../state/route.svelte';
   import Rechtsseite from './Rechtsseite.svelte';
 </script>
@@ -8,9 +8,9 @@
   <div class="rechtstext">
     <div class="kasten">
       <p>
-        <strong>Dies ist ein privates Projekt.</strong> Die {APP_NAME} ist kein offizielles
-        Angebot der DAA und wird von ihr weder betrieben noch verantwortet. Der Hinweis auf
-        „{APP_ORG}“ nennt nur den Zusammenhang, aus dem die Idee stammt.
+        <strong>Dies ist ein privates Projekt.</strong> Die {APP_NAME} ist kein Angebot eines
+        Bildungsträgers und wird von keinem betrieben oder verantwortet. Sie entsteht in der
+        Freizeit ihrer Urheber.
       </p>
       <p>
         Das Angebot ist unentgeltlich und verfolgt keine geschäftlichen Zwecke. Eine
@@ -65,7 +65,7 @@
       <a href={FEEDBACK.url} rel="noopener" target="_blank">github.com/davuuuud/DAA_Prompt_Gen</a>,
       aber nicht zur Nutzung freigegeben: Alle Rechte bleiben vorbehalten, die Einzelheiten
       stehen in der Datei LICENSE. Die Anwendung selbst darf zur eigenen Lernvorbereitung
-      verwendet werden. Namen und Zeichen Dritter — insbesondere DAA,
+      verwendet werden. Namen und Zeichen Dritter — insbesondere
       IHK und ChatGPT — sind Kennzeichen ihrer jeweiligen Inhaber und werden hier nur zur
       Beschreibung verwendet.
     </p>

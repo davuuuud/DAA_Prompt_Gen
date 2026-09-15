@@ -6,7 +6,7 @@
   import Impressum from './lib/components/Impressum.svelte';
   import NeueFassung from './lib/components/NeueFassung.svelte';
   import QuellenWahl from './lib/components/QuellenWahl.svelte';
-  import { APP_NAME, APP_ORG, APP_VERSION, BUILD_DATE, FEEDBACK } from './lib/config';
+  import { APP_NAME, APP_VERSION, BUILD_DATE, FEEDBACK } from './lib/config';
   import {
     aufgabenNachGruppe,
     BERUFE,
@@ -231,19 +231,11 @@
   {:else}
   <header>
     <div class="kopfzeile">
-      <!-- Das Logo steht als Marke daneben, nicht als Ersatz für den
-           Trägernamen: Bei dieser Größe ist sein Text nicht mehr lesbar. -->
-      <img
-        class="logo"
-        src="{import.meta.env.BASE_URL}logo-144.png"
-        srcset="{import.meta.env.BASE_URL}logo-144.png 1x, {import.meta.env
-          .BASE_URL}logo-288.png 2x"
-        width="96"
-        height="96"
-        alt="Logo {APP_ORG} – KI Genies"
-      />
+      <!-- Das App-Symbol statt des früheren Logos mit Trägernamen: Die
+           Fragenschmiede ist ein privates Projekt (Issue #38). Das Symbol trägt
+           keinen Text und bleibt deshalb in jeder Größe erkennbar. -->
+      <img class="logo" src="{import.meta.env.BASE_URL}favicon.svg" width="96" height="96" alt="" />
       <div class="kopftext">
-        <p class="traeger">{APP_ORG}</p>
         <h1>{APP_NAME}</h1>
         <p class="urheber">Eine Idee von Mick Jagger, John Lennon und Douglas Adams</p>
       </div>
@@ -587,15 +579,6 @@
     border-radius: 12px;
     /* Auf dunklem Grund würde die blaue Kachel sonst hart abbrechen. */
     box-shadow: 0 0 0 1px var(--rand);
-  }
-
-  .traeger {
-    margin: 0 0 0.2rem;
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--akzent);
   }
 
   h1 {

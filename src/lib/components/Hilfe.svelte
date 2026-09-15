@@ -5,7 +5,7 @@
   // Alles hier kommt aus den Katalogen, nichts ist abgeschrieben. Wird eine
   // Aufgabe ergänzt oder eine Beschreibung geändert, ändert sich diese Seite
   // mit; eine abgetippte Tabelle wäre nach der ersten Änderung falsch.
-  import { APP_NAME, APP_ORG, APP_VERSION } from '../config';
+  import { APP_NAME, APP_VERSION } from '../config';
   import {
     aufgabenNachGruppe,
     DARSTELLUNGEN,
@@ -36,11 +36,10 @@
 
 <Rechtsseite titel="Was die Felder bewirken" stand="September 2026">
   <div class="rechtstext">
-    <!-- Nur auf dem Ausdruck: Träger, Titel und Herkunft des Blattes. -->
+    <!-- Nur auf dem Ausdruck: Symbol, Titel und Herkunft des Blattes. -->
     <div class="druckkopf">
-      <img src="{import.meta.env.BASE_URL}logo-144.png" width="48" height="48" alt="" />
+      <img src="{import.meta.env.BASE_URL}favicon.svg" width="48" height="48" alt="" />
       <div>
-        <p class="traeger">{APP_ORG}</p>
         <p class="blatt">{APP_NAME} — Was die Felder bewirken</p>
         <p class="herkunft">{adresse} · Fassung {APP_VERSION}</p>
       </div>
@@ -315,13 +314,6 @@
 
     .druckkopf p {
       margin: 0;
-    }
-
-    .druckkopf .traeger {
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
     }
 
     .druckkopf .blatt {

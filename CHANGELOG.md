@@ -5,6 +5,15 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 
 ## Unveröffentlicht
 
+- **Die Anwendung heißt nur noch Fragenschmiede.** Der Trägername ist aus
+  Titel, Kopfzeile, Startbildschirm, Logo, Hilfeseite, Merkblatt, Impressum,
+  LICENSE und README entfernt (Issue #38). Die Fragenschmiede ist ein
+  privates Projekt und soll nicht wie das Angebot eines Bildungsträgers
+  auftreten.
+- **Das App-Symbol ersetzt das Logo** in der Kopfzeile, im Druckkopf und im
+  Merkblatt. Es trägt keinen Text und bleibt in jeder Größe erkennbar.
+- **Die Einzeldatei heißt Fragenschmiede-<Fassung>.html** und zeigt ihr Symbol
+  wieder richtig an.
 - **Zwei neue Qualitätsregeln im Prompt.** Die KI geht ihre Antwort vor der
   Ausgabe noch einmal durch (stimmt jede Vorschrift, ist jede Zahl
   nachgerechnet, widerspricht sich nichts?) und schließt mit einer Zeile
@@ -158,7 +167,7 @@ ist.
 - **Impressum und Datenschutzerklärung** als eigene Seiten, erreichbar über
   die Fußzeile.
 - Berufsliste nach Kürzeln sortiert, Niveaustufen nummeriert, neues Logo,
-  Trägername auf DAA MWW berichtigt (vorher „Mitte-West").
+  Trägername in Kopfzeile und Logo berichtigt.
 
 ### Unter der Haube
 

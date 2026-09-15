@@ -141,17 +141,16 @@ function merkmale(aufgabe) {
 
 const inhalt = [];
 
-// Kopf: Logo, Träger, Titel, Herkunft.
+// Kopf: Symbol, Titel, Herkunft.
 inhalt.push(
   new Paragraph({
     spacing: { after: 60 },
     children: [
       new ImageRun({
         type: 'png',
-        data: readFileSync(join(projekt, 'public', 'logo-144.png')),
+        data: readFileSync(join(projekt, 'public', 'icon-192.png')),
         transformation: { width: 44, height: 44 },
       }),
-      new TextRun({ text: '   DAA MWW', bold: true, size: 18, characterSpacing: 30 }),
     ],
   }),
   new Paragraph({

@@ -4,7 +4,6 @@
 declare const __APP_VERSION__: string;
 declare const __BUILD_DATE__: string;
 declare const __APP_NAME__: string;
-declare const __APP_ORG__: string;
 
 export const APP_VERSION: string = __APP_VERSION__;
 
@@ -14,9 +13,6 @@ export const BUILD_DATE: string = __BUILD_DATE__;
 
 /** Name der Anwendung, z. B. für Überschrift und Betreffzeilen. */
 export const APP_NAME: string = __APP_NAME__;
-
-/** Bildungsträger, der die Anwendung bereitstellt. */
-export const APP_ORG: string = __APP_ORG__;
 
 /**
  * Ziel für Rückmeldungen aus der Anwendung.

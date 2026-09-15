@@ -239,7 +239,7 @@ describe('docText – Textbereiche', () => {
   const kommentar = 'Bitte prüfen.\r';
   const endnote = 'Stand 2004.\r';
   const textfeld = 'Merke: Soll links, Haben rechts.\r';
-  const kopfTextfeld = 'DAA Logo\r';
+  const kopfTextfeld = 'Firmenlogo\r';
 
   const daten = bauDoc({
     stuecke: [
@@ -272,7 +272,7 @@ describe('docText – Textbereiche', () => {
   it('lässt Kopf- und Fußzeilen weg — dort stehen am ehesten Namen', () => {
     expect(text).not.toContain('Seite 1');
     expect(text).not.toContain('Muster');
-    expect(text).not.toContain('DAA Logo');
+    expect(text).not.toContain('Firmenlogo');
   });
 
   it('lässt Kommentare weg', () => {

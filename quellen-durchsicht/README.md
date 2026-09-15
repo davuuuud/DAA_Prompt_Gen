@@ -132,9 +132,10 @@ jemand durchgesehen oder nur durchgeklickt hat.
 6. `src/lib/domain/quellenkatalog.ts` und `voreinstellung.ts` anpassen und
    die Bögen neu erzeugen.
 
-Schritt 2 ist eine Sperre, kein Häkchen: Das Werkzeug trägt „DAA MWW" im Namen
-und im Logo. Wer außerhalb von Mitte-West-West angeschrieben wird, bekommt ein
-Projekt zugeschickt, das für seinen Bereich nicht gedacht ist.
+Schritt 2 ist eine Sperre, kein Häkchen: Die Bögen gehen an Kolleginnen und
+Kollegen aus dem eigenen Umfeld, und die Anfrage beruht auf diesem
+Zusammenhang. Wer außerhalb angeschrieben wird, bekommt ein Projekt
+zugeschickt, das für seinen Bereich nicht gedacht ist.
 
 ## Anschreiben
 

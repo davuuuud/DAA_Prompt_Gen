@@ -44,6 +44,7 @@ if (!jsDatei || !cssDatei) {
 let js = await readFile(join(dist, 'assets', jsDatei), 'utf8');
 const css = await readFile(join(dist, 'assets', cssDatei), 'utf8');
 const favicon = await readFile(join(dist, 'favicon.svg'), 'utf8');
+const faviconUri = `data:image/svg+xml;base64,${Buffer.from(favicon, 'utf8').toString('base64')}`;
 
 // --- Ersetzen ---------------------------------------------------------------
 // Reihenfolge beachten: erst entfernen, was rausfliegt, dann einbetten.
@@ -54,16 +55,13 @@ html = html.replace(/<link[^>]*rel="manifest"[^>]*>/g, '');
 html = html.replace(/<link[^>]*rel="apple-touch-icon"[^>]*>/g, '');
 
 // Symbol als Daten-URI, damit keine Datei danebenliegen muss.
-const faviconUri = `data:image/svg+xml;base64,${Buffer.from(favicon, 'utf8').toString('base64')}`;
 html = html.replace(/<link[^>]*rel="icon"[^>]*>/g, `<link rel="icon" href="${faviconUri}" />`);
 
-// Logo als Daten-URI. Es wird nicht in index.html, sondern im Programmcode
-// eingesetzt ("./logo-144.png"); ohne diesen Schritt zeigte die Einzeldatei
-// im Kopf ein zerbrochenes Bild, weil keine Datei danebenliegt.
-for (const bild of ['logo-144.png', 'logo-288.png']) {
-  const uri = `data:image/png;base64,${(await readFile(join(dist, bild))).toString('base64')}`;
-  js = js.split(`./${bild}`).join(uri);
-}
+// Das Symbol in der Kopfzeile und im Druckkopf der Hilfeseite wird nicht in
+// index.html, sondern im Programmcode eingesetzt ("./favicon.svg"). Ohne
+// diesen Schritt zeigte die Einzeldatei ein zerbrochenes Bild, weil keine
+// Datei danebenliegt.
+js = js.split('./favicon.svg').join(faviconUri);
 
 // Die Einzeldatei hat keinen Service Worker. Das Kennzeichen sagt dem
 // Hinweis auf neue Fassungen, dass er gar nicht erst nachzuladen braucht —
@@ -94,7 +92,7 @@ html = html.replace(
 );
 
 // --- Prüfen und schreiben ---------------------------------------------------
-for (const verboten of ['/assets/', 'registerSW.js', 'manifest.webmanifest', './logo-']) {
+for (const verboten of ['/assets/', 'registerSW.js', 'manifest.webmanifest', './favicon.svg', 'logo-']) {
   if (html.includes(verboten)) {
     throw new Error(`Verweis auf "${verboten}" blieb stehen - die Datei wäre nicht eigenständig.`);
   }
