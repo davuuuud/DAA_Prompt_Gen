@@ -63,7 +63,7 @@ const {
 } = kataloge;
 
 const { version } = JSON.parse(readFileSync(join(projekt, 'package.json'), 'utf8'));
-const ADRESSE = 'davuuuud.github.io/DAA_Prompt_Gen';
+const ADRESSE = 'davuuuud.github.io/Fragenschmiede';
 const STAND = new Date().toLocaleDateString('de-DE', { month: 'long', year: 'numeric' });
 
 // --- Bausteine --------------------------------------------------------------

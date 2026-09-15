@@ -62,7 +62,7 @@
     <h2>Urheberrecht</h2>
     <p>
       Der Quelltext der Anwendung ist einsehbar unter
-      <a href={FEEDBACK.url} rel="noopener" target="_blank">github.com/davuuuud/DAA_Prompt_Gen</a>,
+      <a href={FEEDBACK.url} rel="noopener" target="_blank">github.com/davuuuud/Fragenschmiede</a>,
       aber nicht zur Nutzung freigegeben: Alle Rechte bleiben vorbehalten, die Einzelheiten
       stehen in der Datei LICENSE. Die Anwendung selbst darf zur eigenen Lernvorbereitung
       verwendet werden. Namen und Zeichen Dritter — insbesondere

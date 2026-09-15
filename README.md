@@ -1,6 +1,6 @@
 # Fragenschmiede
 
-**→ [davuuuud.github.io/DAA_Prompt_Gen](https://davuuuud.github.io/DAA_Prompt_Gen/)**
+**→ [davuuuud.github.io/Fragenschmiede](https://davuuuud.github.io/Fragenschmiede/)**
 
 GIGO: Garbage in, garbage out. Wenn du die KI mit Müll fütterst, bekommst du
 auch Müll zurück. **Hier entsteht das Gegenteil.**
@@ -111,7 +111,7 @@ Was sich von Fassung zu Fassung geändert hat, steht in den
 **Etappe 3** (eigene Unterlagen durchsuchbar machen) ist seit dem 12.09.2026
 zurückgestellt: Taugt die Anwendung etwas, kommt sie ohne die Unterlagen der
 Dozenten aus. Als Nächstes zählt deshalb die Güte der Prompts selbst
-([Issue #34](https://github.com/davuuuud/DAA_Prompt_Gen/issues/34)).
+([Issue #34](https://github.com/davuuuud/Fragenschmiede/issues/34)).
 
 Offen und nicht durch Programmieren zu lösen:
 
@@ -132,4 +132,4 @@ Lernvorbereitung verwendet werden.
 
 Bewusst keine offene Lizenz: Eine einmal vergebene freie Lizenz lässt sich
 nicht zurücknehmen, und eine spätere Vermarktung soll nicht ausgeschlossen
-sein. Anfragen zu Nutzungsrechten an daa-mww-ki-genies@tinytux.de.
+sein. Anfragen zu Nutzungsrechten an fragenschmiede@tinytux.de.

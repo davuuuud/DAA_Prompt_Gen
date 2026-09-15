@@ -18,7 +18,7 @@ const kontext: FeedbackKontext = {
   umfang: 'Mittel',
   darstellung: 'Stichpunkte',
   browser: 'Chrome 141, Windows',
-  adresse: 'https://davuuuud.github.io/DAA_Prompt_Gen/',
+  adresse: 'https://davuuuud.github.io/Fragenschmiede/',
 };
 
 describe('Anhang zur Einordnung', () => {

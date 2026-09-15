@@ -26,6 +26,6 @@ export const APP_NAME: string = __APP_NAME__;
  * private.
  */
 export const FEEDBACK = {
-  email: 'daa-mww-ki-genies@tinytux.de',
-  url: 'https://github.com/davuuuud/DAA_Prompt_Gen/issues',
+  email: 'fragenschmiede@tinytux.de',
+  url: 'https://github.com/davuuuud/Fragenschmiede/issues',
 } as const;

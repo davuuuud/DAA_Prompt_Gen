@@ -17,7 +17,7 @@ keine Festlegung.
 | 3a | Eigene PDF-Unterlagen durchsuchbar machen | zurückgestellt |
 
 Die Anwendung läuft unter
-[davuuuud.github.io/DAA_Prompt_Gen](https://davuuuud.github.io/DAA_Prompt_Gen/),
+[davuuuud.github.io/Fragenschmiede](https://davuuuud.github.io/Fragenschmiede/),
 lässt sich auf dem Telefon zum Startbildschirm hinzufügen und funktioniert
 ohne Internetverbindung. Die Fachlogik ist durch 170 Tests abgedeckt.
 
@@ -207,7 +207,7 @@ Katalog stehen, den nicht die IHK prüft. „IHK" ist zudem eine geschützte
 Bezeichnung.
 
 **Offen aus #38:** ob „Fragenschmiede" als Marke frei ist (DPMA-Register), und
-ob Repository und Adresse (`DAA_Prompt_Gen`) umbenannt werden. Eine neue
+ob Repository und Adresse (`Fragenschmiede`) umbenannt werden. Eine neue
 Adresse entwertet bereits installierte Anwendungen auf den Telefonen —
 deshalb vor der Erprobung entscheiden, nicht danach.
 

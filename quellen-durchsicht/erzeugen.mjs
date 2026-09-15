@@ -49,6 +49,10 @@ const ZIEL = join(HIER, 'blaetter');
 // Fehlt sie, entstehen nur die Bögen je Beruf — der Ablauf funktioniert
 // auch ohne sie.
 const EMPFAENGER_DATEI = join(HIER, 'ansprechpartner.local.mjs');
+// Versand nur an ausgewählte Personen: "ausgewaehlt: true" in der Liste.
+// Die frühere Kennzeichnung "mww: true" gilt weiter als ausgewählt.
+const ausgewaehlt = (empfaenger) => empfaenger.ausgewaehlt === true || empfaenger.mww === true;
+
 const EMPFAENGER = existsSync(EMPFAENGER_DATEI)
   ? (await import('./ansprechpartner.local.mjs')).EMPFAENGER
   : [];
@@ -706,7 +710,7 @@ irreführend sind? Dann kann die Anwendung dort besonders warnen.</p>
 
 <footer>
   <p>Fragenschmiede — ein privates Projekt, kein Angebot eines Bildungsträgers.
-  Rückmeldung an daa-mww-ki-genies@tinytux.de.
+  Rückmeldung an fragenschmiede@tinytux.de.
   Dieser Bogen speichert Ihre Eingaben nur in diesem Browser und sendet
   nichts von allein.</p>
 </footer>
@@ -870,7 +874,7 @@ if (EMPFAENGER.length > 0) {
     const einzeln = berufe.reduce((s, b) => s + ALLGEMEIN.length + b.quellen.length, 0);
     const ersparnis = einzeln > zeilen ? ` (statt ${einzeln} einzeln)` : '';
     const marken = [];
-    if (!empfaenger.mww) marken.push('MWW UNGEPRUEFT');
+    if (!ausgewaehlt(empfaenger)) marken.push('NICHT AUSGEWÄHLT');
     if (empfaenger.offen) marken.push('Zuständigkeit offen');
     console.log(
       `  ${empfaenger.name.padEnd(12)} ${berufe.map((b) => b.kuerzel).join(' + ').padEnd(12)} ` +
@@ -879,13 +883,13 @@ if (EMPFAENGER.length > 0) {
     );
   }
 
-  // Der Versand ist gesperrt, solange die Zugehörigkeit zur DAA
-  // Mitte-West-West nicht für jede Person bestätigt ist.
-  const ungeprueft = EMPFAENGER.filter((e) => !e.mww);
-  if (ungeprueft.length > 0) {
+  // Versand nur an ausgewählte Personen. Wer auf der Liste steht, aber nicht
+  // ausdrücklich ausgewählt ist, bekommt keinen Bogen.
+  const nichtAusgewaehlt = EMPFAENGER.filter((e) => !ausgewaehlt(e));
+  if (nichtAusgewaehlt.length > 0) {
     console.log(
-      `\nNICHT VERSENDEN an ${ungeprueft.length} von ${EMPFAENGER.length}: ` +
-        `${ungeprueft.map((e) => e.name).join(', ')} — MWW-Zugehörigkeit ungeprüft.`,
+      `\nNICHT VERSENDEN an ${nichtAusgewaehlt.length} von ${EMPFAENGER.length}: ` +
+        `${nichtAusgewaehlt.map((e) => e.name).join(', ')} — nicht ausgewählt.`,
     );
   }
 

@@ -5,6 +5,11 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 
 ## Unveröffentlicht
 
+- **Neue Adresse: davuuuud.github.io/Fragenschmiede.** Das Repository heißt
+  jetzt Fragenschmiede. Wer die Anwendung unter der alten Adresse auf dem
+  Telefon installiert hat, muss sie unter der neuen erneut hinzufügen —
+  GitHub Pages leitet nicht weiter.
+- **Rückmeldungen gehen an fragenschmiede@tinytux.de.**
 - **Die Anwendung heißt nur noch Fragenschmiede.** Der Trägername ist aus
   Titel, Kopfzeile, Startbildschirm, Logo, Hilfeseite, Merkblatt, Impressum,
   LICENSE und README entfernt (Issue #38). Die Fragenschmiede ist ein
@@ -31,7 +36,7 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 
 ## 0.3.0 — 13.09.2026
 
-- **Neue Adresse für Rückmeldungen:** daa-mww-ki-genies@tinytux.de. Die
+- **Neue Adresse für Rückmeldungen.** Die
   Durchsichtsbögen für die Dozenten nennen sie ebenfalls.
 - **Die Rückmeldemail fragt jetzt nach dem Zusammenhang** („Woran hast du
   gerade gearbeitet?"), nennt zusätzlich die eingestellten Fachbegriffe und

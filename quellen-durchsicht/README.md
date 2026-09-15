@@ -1,6 +1,6 @@
 # Durchsicht des Quellenkatalogs
 
-Vorbereitung für [Issue #1](https://github.com/davuuuud/DAA_Prompt_Gen/issues/1)
+Vorbereitung für [Issue #1](https://github.com/davuuuud/Fragenschmiede/issues/1)
 — den wichtigsten offenen Punkt des Projekts.
 
 ## Warum das nötig ist
@@ -124,18 +124,18 @@ jemand durchgesehen oder nur durchgeklickt hat.
 ## Ablauf
 
 1. Je Beruf einen Ansprechpartner benennen.
-2. **Liste prüfen: Nur Personen der DAA Mitte-West-West anschreiben.**
-   Andere entfernen und die Bögen neu erzeugen.
+2. **Versand nur an ausgewählte Personen.** Wer angeschrieben werden soll,
+   trägt in der Liste `ausgewaehlt: true`; alle anderen bekommen keinen Bogen.
 3. Bogen und Anschreiben verschicken.
 4. Rückläufe sammeln.
 5. Auswerten (Regeln unten).
 6. `src/lib/domain/quellenkatalog.ts` und `voreinstellung.ts` anpassen und
    die Bögen neu erzeugen.
 
-Schritt 2 ist eine Sperre, kein Häkchen: Die Bögen gehen an Kolleginnen und
-Kollegen aus dem eigenen Umfeld, und die Anfrage beruht auf diesem
-Zusammenhang. Wer außerhalb angeschrieben wird, bekommt ein Projekt
-zugeschickt, das für seinen Bereich nicht gedacht ist.
+Schritt 2 ist eine Sperre, kein Häkchen: Die Anfrage geht bewusst an einen
+kleinen, ausgewählten Kreis. Der Erzeuger meldet bei jedem Lauf, wer auf der
+Liste steht, aber nicht ausgewählt ist — solange diese Meldung erscheint, wird
+an diese Personen nichts verschickt.
 
 ## Anschreiben
 
