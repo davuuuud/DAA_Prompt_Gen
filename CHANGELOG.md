@@ -10,6 +10,10 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
   Telefon installiert hat, muss sie unter der neuen erneut hinzufügen —
   GitHub Pages leitet nicht weiter.
 - **Rückmeldungen gehen an fragenschmiede@tinytux.de.**
+- **Bedienbar mit Tastatur und Vorleseprogramm beim Seitenwechsel.** Nach
+  einem Klick auf „Impressum", „Datenschutz" oder „Was die Felder bewirken"
+  springt der Fokus auf die Überschrift der neuen Seite, ebenso zurück zur
+  Anwendung. Vorher blieb er auf dem verschwundenen Verweis stehen.
 - **Die Anwendung heißt nur noch Fragenschmiede.** Der Trägername ist aus
   Titel, Kopfzeile, Startbildschirm, Logo, Hilfeseite, Merkblatt, Impressum,
   LICENSE und README entfernt (Issue #38). Die Fragenschmiede ist ein

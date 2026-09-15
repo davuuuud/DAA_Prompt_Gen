@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { untrack } from 'svelte';
+  import { tick, untrack } from 'svelte';
   import Aufklappbereich from './lib/components/Aufklappbereich.svelte';
   import Datenschutz from './lib/components/Datenschutz.svelte';
   import Hilfe from './lib/components/Hilfe.svelte';
@@ -151,6 +151,25 @@
     document.title = SEITENTITEL[navigation.seite] ?? APP_NAME;
   });
 
+  // --- Fokus beim Seitenwechsel -------------------------------------------------
+  // Ein Wechsel über den Adressanker lädt keine neue Seite. Ohne Zutun bliebe
+  // der Tastaturfokus auf dem angeklickten Verweis in der Fußzeile — und der
+  // ist nach dem Wechsel verschwunden. Wer mit Tastatur oder Vorleseprogramm
+  // arbeitet, stünde dann im Nichts. Deshalb springt der Fokus auf die
+  // Überschrift der neuen Seite; ein Vorleseprogramm liest sie vor.
+  //
+  // Nicht beim ersten Aufruf: Dort beginnt der Browser ohnehin oben, und ein
+  // Fokussprung ohne Anlass wäre eher störend.
+  let ersterAufruf = true;
+  $effect(() => {
+    navigation.seite; // Abhängigkeit: bei jedem Seitenwechsel neu
+    if (ersterAufruf) {
+      ersterAufruf = false;
+      return;
+    }
+    void tick().then(() => document.getElementById('seitenkopf')?.focus({ preventScroll: true }));
+  });
+
   function melde(text: string) {
     status = text;
     clearTimeout(statusTimer);
@@ -236,7 +255,7 @@
            keinen Text und bleibt deshalb in jeder Größe erkennbar. -->
       <img class="logo" src="{import.meta.env.BASE_URL}favicon.svg" width="96" height="96" alt="" />
       <div class="kopftext">
-        <h1>{APP_NAME}</h1>
+        <h1 id="seitenkopf" tabindex="-1">{APP_NAME}</h1>
         <p class="urheber">Eine Idee von Mick Jagger, John Lennon und Douglas Adams</p>
       </div>
     </div>
@@ -585,6 +604,12 @@
     margin: 0;
     font-size: 2.1rem;
     line-height: 1.15;
+  }
+
+  /* Die Überschrift nimmt den Fokus nur als Sprungziel beim Seitenwechsel
+     auf; ein Rahmen darum sähe wie ein Bedienelement aus. */
+  h1:focus {
+    outline: none;
   }
 
   .urheber {

@@ -14,7 +14,7 @@
 
 <article>
   <a class="zurueck" href={ANKER.app}>&larr; Zurück zur Anwendung</a>
-  <h1>{titel}</h1>
+  <h1 id="seitenkopf" tabindex="-1">{titel}</h1>
   <p class="stand">Stand: {stand}</p>
   {@render children()}
 </article>
@@ -44,6 +44,11 @@
     margin: 0;
     font-size: 1.8rem;
     line-height: 1.2;
+  }
+
+  /* Sprungziel beim Seitenwechsel, kein Bedienelement — siehe App.svelte. */
+  h1:focus {
+    outline: none;
   }
 
   .stand {
