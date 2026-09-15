@@ -2,7 +2,8 @@
 //
 // Die Quellen selbst stehen im Katalog der Anwendung
 // (src/lib/domain/quellenkatalog.ts). Kürzel und Name müssen mit dem Katalog
-// der Berufe übereinstimmen; ein Test prüft das.
+// der Berufe übereinstimmen; ein Test prüft das — auch, ob ein Beruf ruht.
+// Ruhende Berufe bekommen keinen Bogen.
 
 export const STAND = "September 2026";
 
@@ -25,6 +26,7 @@ export const BERUFE = [
     "kuerzel": "FISI",
     "name": "Fachinformatiker – Systemintegration",
     "pruefstelle": "IHK",
+    "ruht": true,
     "bemerkung": "Technischer Beruf, aber nicht ohne kaufmännischen Anteil: Der Rahmenlehrplan von 2020 beginnt mit LF 1 \"Das Unternehmen und die eigene Rolle im Betrieb beschreiben\" und endet mit LF 12b \"Kundenspezifische Systemintegration durchführen\" — also mit Angebot, Kalkulation und Abnahme eines Kundenauftrags. Die allgemeine Liste ist hier deshalb nicht gegenstandslos, aber ihr Rechnungswesenteil vermutlich schon. Bitte gezielt auf Streichungen achten."
   },
   {
@@ -88,6 +90,7 @@ export const BERUFE = [
   {
     "id": "steuerfach",
     "kuerzel": "SFA",
+    "ruht": true,
     "name": "Steuerfachangestellte",
     "pruefstelle": "Steuerberaterkammer",
     "bemerkung": "Prüft NICHT die IHK, sondern die Steuerberaterkammer. Prüfungsordnung, Aufgabenstil und Termine unterscheiden sich. Außerdem der einzige Beruf, bei dem Rechtsprechung und Verwaltungsanweisungen zum täglichen Handwerkszeug gehören."

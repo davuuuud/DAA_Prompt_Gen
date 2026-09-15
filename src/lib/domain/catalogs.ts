@@ -21,7 +21,12 @@ import { plural } from './text';
 // Angezeigt wird der geschlechtsneutrale Plural. Für den Satz im Prompt
 // („Umschulung zum/zur …") wird die Einzahlform gebraucht, weil der Plural sich
 // dort nicht einsetzen ließe.
-export const BERUFE: Beruf[] = [
+//
+// Ein Beruf mit `ruht: true` wird nicht angeboten, bleibt aber mit allen
+// Angaben, Quellen und Voreinstellungen im Katalog. Seit dem 15.09.2026 ruhen
+// FISI und SFA. Wieder aufnehmen: die Zeile `ruht: true` löschen — sonst ist
+// nichts zu tun; die Tests prüfen ruhende Berufe weiter mit.
+export const ALLE_BERUFE: Beruf[] = [
   { id: 'kgq', kuerzel: 'KGQ', label: 'Kaufmännische Grundqualifikation' },
   {
     id: 'einzelhandel',
@@ -34,6 +39,7 @@ export const BERUFE: Beruf[] = [
     kuerzel: 'FISI',
     label: 'Fachinformatiker – Systemintegration',
     singular: 'Fachinformatiker/-in für Systemintegration',
+    ruht: true,
   },
   {
     id: 'lagerlogistik',
@@ -95,6 +101,7 @@ export const BERUFE: Beruf[] = [
     label: 'Steuerfachangestellte',
     singular: 'Steuerfachangestellte/-r',
     pruefstelle: 'Steuerberaterkammer',
+    ruht: true,
   },
   {
     id: 'spedition',
@@ -103,6 +110,9 @@ export const BERUFE: Beruf[] = [
     singular: 'Kaufmann/-frau für Spedition und Logistikdienstleistung',
   },
 ];
+
+/** Die Berufe, die die Anwendung anbietet — alle, die nicht ruhen. */
+export const BERUFE: Beruf[] = ALLE_BERUFE.filter((beruf) => !beruf.ruht);
 
 /** Anzeige in der Auswahlliste: „IMK — Immobilienkaufleute". */
 export function berufBeschriftung(beruf: Beruf): string {
@@ -446,7 +456,9 @@ function lookup<T extends { id: string }>(list: T[], id: string): T {
   return list.find((entry) => entry.id === id) ?? list[0];
 }
 
-export const findBeruf = (id: string) => lookup(BERUFE, id);
+// Nachgeschlagen wird im ganzen Katalog: Welcher Beruf gewählt werden kann,
+// entscheiden die Einstellungen (normalizeSettings), nicht das Nachschlagen.
+export const findBeruf = (id: string) => lookup(ALLE_BERUFE, id);
 export const findAufgabe = (id: string) => lookup(AUFGABEN, id);
 export const findNiveau = (id: string) => lookup(NIVEAUS, id);
 export const findUmfang = (id: string) => lookup(UMFAENGE, id);

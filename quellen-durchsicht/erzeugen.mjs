@@ -37,7 +37,9 @@ function bogenZeile(quelle) {
 
 const ALLE = [...KATALOG, ...NUR_IM_BOGEN];
 const ALLGEMEIN = ALLE.filter((quelle) => !quelle.berufe).map(bogenZeile);
-const BERUFE = BERUF_ANGABEN.map((beruf) => ({
+// Ruhende Berufe stehen nicht in der Anwendung und bekommen keinen Bogen.
+const RUHEND = BERUF_ANGABEN.filter((beruf) => beruf.ruht);
+const BERUFE = BERUF_ANGABEN.filter((beruf) => !beruf.ruht).map((beruf) => ({
   ...beruf,
   quellen: ALLE.filter((quelle) => quelle.berufe?.includes(beruf.id)).map(bogenZeile),
 }));
@@ -797,22 +799,24 @@ ${grenzfaelle
 
 <h2>Worauf beim Auswerten zu achten ist</h2>
 <div class="hinweiskasten">
-  <p><strong>FISI und FKS sind die Ausreißer.</strong> Beide sind nicht
-  kaufmännisch. Wenn dort die halbe allgemeine Liste gestrichen wird, ist das
-  kein Fehler der Rückmeldung, sondern ein Hinweis darauf, dass "allgemein"
-  in Wahrheit "allgemein kaufmännisch" heißt.</p>
+  <p><strong>Ruhend: ${RUHEND.map((beruf) => schuetzen(beruf.kuerzel)).join(', ')}.</strong>
+  Diese Berufe stehen nicht in der Anwendung und bekommen keinen Bogen. Die
+  Grenzfall-Zahlen oben sind über alle ${BERUF_ANGABEN.length} Berufe
+  geschätzt, die ruhenden eingeschlossen.</p>
+
+  <p><strong>FKS ist der Ausreißer.</strong> Nicht kaufmännisch. Wenn dort die
+  halbe allgemeine Liste gestrichen wird, ist das kein Fehler der Rückmeldung,
+  sondern ein Hinweis darauf, dass "allgemein" in Wahrheit "allgemein
+  kaufmännisch" heißt.</p>
 
   <p><strong>KGQ ist ein Sonderfall.</strong> Keine Kammerprüfung, keine
   Ausbildungsordnung. Hier ist eine kurze Liste vermutlich besser als eine
   vollständige.</p>
 
-  <p><strong>SFA gehört nicht zur IHK.</strong> Prüfungsordnung und
-  Aufgabenmaterial kommen von der Steuerberaterkammer.</p>
-
   <p><strong>Rechtsprechung ist die schwächste Kategorie.</strong> Die meisten
-  Kammerprüfungen fragen Regeln ab, nicht Urteile. Ausnahmen sind IMK
-  (Mietrecht) und SFA (BFH). Wenn dort niemand Urteile nennt, kann die
-  Kategorie ganz entfallen.</p>
+  Kammerprüfungen fragen Regeln ab, nicht Urteile. Ausnahme ist IMK
+  (Mietrecht). Wenn dort niemand Urteile nennt, kann die Kategorie ganz
+  entfallen.</p>
 </div>
 
 <footer>
@@ -828,6 +832,11 @@ ${grenzfaelle
 
 mkdirSync(ZIEL, { recursive: true });
 
+// Bögen ruhender Berufe aus früheren Läufen wegräumen.
+for (const beruf of RUHEND) {
+  rmSync(join(ZIEL, `${beruf.kuerzel}.html`), { force: true });
+}
+
 for (const beruf of BERUFE) {
   const datei = join(ZIEL, `${beruf.kuerzel}.html`);
   writeFileSync(datei, bogen(beruf), 'utf8');
@@ -839,6 +848,9 @@ for (const beruf of BERUFE) {
 
 writeFileSync(join(ZIEL, '_uebersicht.html'), uebersicht(), 'utf8');
 console.log(`\n${BERUFE.length} Bögen und eine Übersicht in ${ZIEL}`);
+if (RUHEND.length > 0) {
+  console.log(`Ruhend, ohne Bogen: ${RUHEND.map((beruf) => beruf.kuerzel).join(', ')}`);
+}
 
 // --- Bögen je Ansprechpartner ---------------------------------------------
 // Wer mehrere Berufe betreut, füllt die allgemeine Liste nur einmal aus.
@@ -886,14 +898,25 @@ if (EMPFAENGER.length > 0) {
   rmSync(VERSAND, { recursive: true, force: true });
 
   for (const empfaenger of EMPFAENGER) {
-    const berufe = empfaenger.berufe.map((id) => {
-      const treffer = BERUFE.find((beruf) => beruf.id === id);
-      if (!treffer) throw new Error(`Unbekannte Beruf-Kennung: ${id}`);
-      abgedeckt.add(id);
-      return treffer;
-    });
-
     const datei = join(ZIEL, `fuer-${dateiname(empfaenger.name)}.html`);
+    const berufe = empfaenger.berufe
+      .filter((id) => {
+        if (RUHEND.some((beruf) => beruf.id === id)) return false;
+        if (!BERUFE.some((beruf) => beruf.id === id)) throw new Error(`Unbekannte Beruf-Kennung: ${id}`);
+        return true;
+      })
+      .map((id) => {
+        abgedeckt.add(id);
+        return BERUFE.find((beruf) => beruf.id === id);
+      });
+
+    // Betreut jemand nur ruhende Berufe, gibt es nichts zu verschicken.
+    if (berufe.length === 0) {
+      rmSync(datei, { force: true });
+      console.log(`  ${empfaenger.name.padEnd(12)} ${empfaenger.berufe.length} ruhender Beruf — kein Bogen`);
+      continue;
+    }
+
     const inhalt = bogen(berufe, empfaenger);
     writeFileSync(datei, inhalt, 'utf8');
 

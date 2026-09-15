@@ -25,6 +25,7 @@ Berufe tatsächlich unterrichten.
 | `blaetter/<KÜRZEL>.html` | Ein Bogen je Beruf. |
 | `blaetter/fuer-<name>.html` | Ein Bogen je Ansprechpartner. Das, was verschickt wird. Nicht im Repository. |
 | `blaetter/_uebersicht.html` | Nur zur eigenen Vorbereitung, **nicht** verschicken. |
+| *(ruhende Berufe)* | FISI und SFA ruhen seit dem 15.09.2026 (`"ruht": true` in `berufe.mjs`, `ruht: true` im Katalog der Anwendung). Sie bekommen keinen Bogen; wer nur sie betreut, bekommt keine Mail. Wieder aufnehmen: beide Zeilen löschen und neu erzeugen. |
 | `versand/` | **Die Versandmappe.** Nur die Bögen der ausgewählten Personen, je Person ein Ordner mit verständlich benanntem Anhang, dazu `VERSANDLISTE.md` mit Empfänger, Betreff, Anhang, Mailtext-Abschnitt und dem, was vor dem Absenden noch fehlt. Wird bei jedem Lauf neu angelegt. Nicht im Repository. |
 | `ansprechpartner.local.mjs` | Wer welchen Beruf betreut. Nicht im Repository — siehe unten. |
 | `anschreiben.local.md` | Die Mailtexte, eine je Person. Ebenfalls nicht im Repository. |

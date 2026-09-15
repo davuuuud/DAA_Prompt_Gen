@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   AUFGABEN,
   aufgabenNachGruppe,
+  ALLE_BERUFE,
   BERUFE,
   berufBeschriftung,
   DARSTELLUNGEN,
@@ -53,7 +54,7 @@ function hatAbschnitt(prompt: string, titel: string): boolean {
 describe('Kataloge', () => {
   it('enthaelt genau die vom Bildungstraeger vorgegebenen Berufe', () => {
     // Kaufmaennische Grundqualifikation voran, alle uebrigen nach Kuerzel.
-    expect(BERUFE.map((b) => b.id)).toEqual([
+    expect(ALLE_BERUFE.map((b) => b.id)).toEqual([
       'kgq', // KGQ
       'einzelhandel', // EHK
       'fachinformatik', // FISI
@@ -71,8 +72,17 @@ describe('Kataloge', () => {
     ]);
   });
 
+  it('bietet alle Berufe an, die nicht ruhen', () => {
+    // FISI und SFA ruhen seit dem 15.09.2026: nicht in der Auswahl, aber
+    // mit allen Angaben im Katalog, damit sie sich wieder aufnehmen lassen.
+    expect(ALLE_BERUFE.filter((b) => b.ruht).map((b) => b.kuerzel)).toEqual(['FISI', 'SFA']);
+    expect(BERUFE.map((b) => b.kuerzel)).toEqual([
+      'KGQ', 'EHK', 'FKL', 'FKS', 'GAM', 'IK', 'IMK', 'KBM', 'KEC', 'KIG', 'PDK', 'SL',
+    ]);
+  });
+
   it('ist ab dem zweiten Eintrag alphabetisch nach Kuerzel sortiert', () => {
-    const ohneGrundqualifikation = BERUFE.slice(1).map((b) => b.kuerzel);
+    const ohneGrundqualifikation = ALLE_BERUFE.slice(1).map((b) => b.kuerzel);
     // Ohne Beachtung der Gross- und Kleinschreibung: Ein Kuerzel mit
     // Kleinbuchstaben (frueher "KiG") stuende sonst hinter allen anderen.
     const sortiert = [...ohneGrundqualifikation].sort((a, b) =>
@@ -82,9 +92,9 @@ describe('Kataloge', () => {
   });
 
   it('fuehrt zu jedem Beruf ein eindeutiges Kuerzel', () => {
-    const kuerzel = BERUFE.map((b) => b.kuerzel);
+    const kuerzel = ALLE_BERUFE.map((b) => b.kuerzel);
     expect(new Set(kuerzel).size).toBe(kuerzel.length);
-    for (const b of BERUFE) {
+    for (const b of ALLE_BERUFE) {
       expect(b.kuerzel.trim(), `${b.id} ohne Kuerzel`).not.toBe('');
     }
     // Vorgabe des Bildungstraegers.
@@ -95,7 +105,7 @@ describe('Kataloge', () => {
   });
 
   it('stellt in der Auswahlliste das Kuerzel voran', () => {
-    const immo = BERUFE.find((b) => b.id === 'immobilien')!;
+    const immo = ALLE_BERUFE.find((b) => b.id === 'immobilien')!;
     expect(berufBeschriftung(immo)).toBe('IMK — Immobilienkaufleute');
   });
 
@@ -107,7 +117,7 @@ describe('Kataloge', () => {
   });
 
   it('fuehrt zu jedem Beruf ausser der Grundqualifikation eine Einzahlform', () => {
-    for (const beruf of BERUFE.filter((b) => b.id !== 'kgq')) {
+    for (const beruf of ALLE_BERUFE.filter((b) => b.id !== 'kgq')) {
       expect(beruf.singular, `${beruf.id} hat keine Einzahlform`).toBeTruthy();
       // Der Plural taugt nicht fuer "Umschulung zum/zur ...".
       expect(beruf.singular).not.toBe(beruf.label);
@@ -115,7 +125,7 @@ describe('Kataloge', () => {
   });
 
   it('haben durchgehend Beschriftungen und eindeutige Bezeichner', () => {
-    for (const liste of [BERUFE, AUFGABEN, NIVEAUS, UMFAENGE, DARSTELLUNGEN]) {
+    for (const liste of [ALLE_BERUFE, AUFGABEN, NIVEAUS, UMFAENGE, DARSTELLUNGEN]) {
       expect(liste.length).toBeGreaterThan(0);
       const ids = liste.map((e) => e.id);
       expect(new Set(ids).size).toBe(ids.length);

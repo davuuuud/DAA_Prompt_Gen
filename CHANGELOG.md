@@ -5,6 +5,11 @@ nicht der Commits. Die Fassungsnummer steht in der Anwendung unten links.
 
 ## Unveröffentlicht
 
+- **FISI und SFA stehen nicht mehr zur Auswahl.** Fachinformatiker –
+  Systemintegration und Steuerfachangestellte ruhen. Ihre Angaben und
+  Quellen bleiben erhalten, sodass sich beide wieder aufnehmen lassen. Wer
+  einen der beiden gewählt hatte, landet beim nächsten Start bei der
+  Kaufmännischen Grundqualifikation.
 - **Neue Adresse: davuuuud.github.io/Fragenschmiede.** Das Repository heißt
   jetzt Fragenschmiede. Wer die Anwendung unter der alten Adresse auf dem
   Telefon installiert hat, muss sie unter der neuen erneut hinzufügen —

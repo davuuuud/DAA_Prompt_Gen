@@ -83,6 +83,12 @@ export interface Beruf {
    * Steuerberaterkammer.
    */
   pruefstelle?: string;
+  /**
+   * Der Beruf ruht: Er steht nicht in der Auswahlliste, seine Angaben und
+   * Quellen bleiben aber vollständig erhalten. Wieder aufnehmen heißt, diese
+   * eine Zeile zu löschen.
+   */
+  ruht?: true;
 }
 
 /** Wonach man in der Auswahlliste sucht: erst verstehen, dann wiederholen,

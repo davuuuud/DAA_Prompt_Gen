@@ -5,7 +5,7 @@ import {
   HINWEISE,
   NUR_IM_BOGEN,
 } from '../../../quellen-durchsicht/durchsicht.mjs';
-import { BERUFE } from './catalogs';
+import { ALLE_BERUFE, BERUFE } from './catalogs';
 import { buildPrompt } from './prompt';
 import {
   promptBezeichnung,
@@ -34,7 +34,7 @@ describe('Quellenkatalog', () => {
   });
 
   it('verweist nur auf existierende Berufe', () => {
-    const bekannt = new Set(BERUFE.map((b) => b.id));
+    const bekannt = new Set(ALLE_BERUFE.map((b) => b.id));
     for (const quelle of KATALOG) {
       for (const beruf of quelle.berufe ?? []) {
         expect(bekannt.has(beruf), `${quelle.id} nennt unbekannten Beruf ${beruf}`).toBe(true);
@@ -52,7 +52,7 @@ describe('Quellenkatalog', () => {
 
   it('zeigt jedem Beruf die allgemeinen Quellen', () => {
     const allgemeine = QUELLEN.filter((q) => !q.berufe).map((q) => q.id);
-    for (const beruf of BERUFE) {
+    for (const beruf of ALLE_BERUFE) {
       const verfuegbar = quellenFuerBeruf(beruf.id).map((q) => q.id);
       for (const id of allgemeine) expect(verfuegbar).toContain(id);
     }
@@ -78,7 +78,7 @@ describe('Quellenkatalog', () => {
   });
 
   it('gruppiert ohne leere Gruppen', () => {
-    for (const beruf of BERUFE) {
+    for (const beruf of ALLE_BERUFE) {
       for (const eintrag of quellenNachGruppe(beruf.id)) {
         expect(eintrag.quellen.length).toBeGreaterThan(0);
         expect(eintrag.gruppe.trim()).not.toBe('');
@@ -108,7 +108,7 @@ describe('Nur im Durchsichtsbogen', () => {
   it('lässt Hinweise an die Dozenten nie in den Prompt', () => {
     // Die Hinweise enthalten Fragen wie "Nach welchem Lehrwerk wird
     // gerechnet?" oder "WICHTIG: … welche gilt für Ihre Gruppe?".
-    for (const beruf of BERUFE) {
+    for (const beruf of ALLE_BERUFE) {
       const alle = quellenFuerBeruf(beruf.id).map((q) => q.id);
       const prompt = buildPrompt({
         ...toPromptInput(defaultSettings(), { thema: 'Test', zusatz: '' }),
@@ -126,7 +126,7 @@ describe('Nur im Durchsichtsbogen', () => {
 
   it('nennt im Prompt keine Kürzel des Bildungsträgers', () => {
     // "Rahmenlehrplan EHK" wäre für ein Sprachmodell ein Rätsel.
-    const kuerzel = BERUFE.map((b) => b.kuerzel);
+    const kuerzel = ALLE_BERUFE.map((b) => b.kuerzel);
     for (const quelle of QUELLEN) {
       const text = promptBezeichnung(quelle);
       for (const k of kuerzel) {
@@ -140,7 +140,7 @@ describe('Voreinstellung', () => {
   it('nennt als nebensächlich nur Quellen, die der Beruf auch zu sehen bekommt', () => {
     // Ein Tippfehler im Bezeichner bliebe sonst unbemerkt — und die Quelle
     // stillschweigend angehakt.
-    for (const beruf of BERUFE) {
+    for (const beruf of ALLE_BERUFE) {
       const verfuegbar = new Set(quellenFuerBeruf(beruf.id).map((q) => q.id));
       for (const id of NEBENSAECHLICH[beruf.id]) {
         expect(verfuegbar.has(id), `${beruf.id}: ${id}`).toBe(true);
@@ -149,7 +149,7 @@ describe('Voreinstellung', () => {
   });
 
   it('hakt lieber mehr als weniger an — aber nicht alles', () => {
-    for (const beruf of BERUFE) {
+    for (const beruf of ALLE_BERUFE) {
       const verfuegbar = quellenFuerBeruf(beruf.id).length;
       const standard = standardQuellen(beruf.id);
       expect(new Set(standard).size, beruf.id).toBe(standard.length);
@@ -172,7 +172,7 @@ describe('Voreinstellung', () => {
   });
 
   it('beginnt bei jedem Beruf außer KGQ mit Ausbildungsordnung und Rahmenlehrplan', () => {
-    for (const beruf of BERUFE.filter((b) => b.id !== 'kgq')) {
+    for (const beruf of ALLE_BERUFE.filter((b) => b.id !== 'kgq')) {
       const ersteZwei = standardQuellen(beruf.id)
         .slice(0, 2)
         .map((id) => QUELLEN.find((q) => q.id === id)!);
@@ -192,7 +192,7 @@ describe('Voreinstellung', () => {
   it('enthält über die Vorgaben hinaus mindestens zwei eigene Fachquellen', () => {
     // Sonst wäre die Voreinstellung für alle Berufe dieselbe.
     const allgemein = new Set(['gesetze-im-internet-de', 'gabler']);
-    for (const beruf of BERUFE) {
+    for (const beruf of ALLE_BERUFE) {
       const fach = standardQuellen(beruf.id).filter((id) => {
         const q = QUELLEN.find((eintrag) => eintrag.id === id)!;
         return q.art !== 'vorgabe' && !allgemein.has(id);
@@ -241,11 +241,13 @@ describe('Durchsichtsbögen', () => {
   it('führen dieselben Berufe mit denselben Kürzeln wie die Anwendung', () => {
     // Die Bögen haben eine eigene Liste mit Bemerkungen je Beruf. Weichen
     // Kürzel oder Namen ab, laufen App und Bögen auseinander.
-    expect(BERUF_DURCHSICHT.map((b) => b.id)).toEqual(BERUFE.map((b) => b.id));
-    for (const beruf of BERUFE) {
+    expect(BERUF_DURCHSICHT.map((b) => b.id)).toEqual(ALLE_BERUFE.map((b) => b.id));
+    for (const beruf of ALLE_BERUFE) {
       const bogen = BERUF_DURCHSICHT.find((b) => b.id === beruf.id)!;
       expect(bogen.kuerzel, beruf.id).toBe(beruf.kuerzel);
       expect(bogen.name, beruf.id).toBe(beruf.label);
+      // Ein ruhender Beruf bekommt auch keinen Bogen.
+      expect(bogen.ruht === true, beruf.id).toBe(beruf.ruht === true);
     }
   });
 });
@@ -254,6 +256,14 @@ describe('Einstellungen', () => {
   it('sind in der Vorgabe in sich stimmig', () => {
     const s = defaultSettings();
     expect(normalizeSettings(s)).toEqual(s);
+  });
+
+  it('führen einen gespeicherten ruhenden Beruf auf die Vorgabe zurück', () => {
+    // Wer vorher FISI gewählt hatte, landet bei der Grundqualifikation —
+    // mit deren Quellen, nicht mit denen der Systemintegration.
+    const s = normalizeSettings({ ...defaultSettings(), beruf: 'fachinformatik', quellen: ['urhg'] });
+    expect(s.beruf).toBe('kgq');
+    expect(s.quellen).toEqual(defaultSettings().quellen);
   });
 
   it('überstehen Unsinn aus dem Gerätespeicher', () => {
@@ -286,18 +296,19 @@ describe('Einstellungen', () => {
   });
 
   it('entfernt Quellen, die zum gespeicherten Beruf nicht passen', () => {
-    const s = normalizeSettings({ beruf: 'fachinformatik', quellen: ['weg', 'urhg', 'bgb'] });
-    expect(s.quellen).toEqual(['urhg', 'bgb']);
+    const s = normalizeSettings({ beruf: 'spedition', quellen: ['weg', 'cmr', 'bgb'] });
+    expect(s.quellen).toEqual(['cmr', 'bgb']);
   });
 
   it('fällt auf die Voreinstellung des Berufs zurück, wenn nichts Gültiges übrig bleibt', () => {
-    const s = normalizeSettings({ beruf: 'fachinformatik', quellen: ['weg', 'mabv'] });
-    expect(new Set(s.quellen)).toEqual(new Set(standardQuellen('fachinformatik')));
+    const s = normalizeSettings({ beruf: 'spedition', quellen: ['weg', 'mabv'] });
+    expect(new Set(s.quellen)).toEqual(new Set(standardQuellen('spedition')));
   });
 
   it('ersetzt eine nie angefasste frühere Voreinstellung durch die aktuelle', () => {
     // Sonst erreichte die neue Voreinstellung genau die nicht, die sich auf
-    // die alte verlassen haben.
+    // die alte verlassen haben. Nur angebotene Berufe: Ein ruhender wird
+    // ohnehin auf die Vorgabe zurückgeführt.
     for (const beruf of BERUFE) {
       for (const frueher of fruehereVoreinstellungen(beruf.id)) {
         const umgestellt = [...frueher].reverse(); // Reihenfolge zählt nicht

@@ -149,6 +149,12 @@ zwei Stufen so dicht beieinander, dass niemand sie unterscheiden kann?
 **Erledigt:**
 
 - **Berufe** sind nach Kürzel sortiert, KGQ steht voran.
+- **FISI und SFA ruhen** (15.09.2026): nicht in der Auswahl, aber mit allen
+  Angaben, Quellen und Voreinstellungen im Katalog; die Tests prüfen sie
+  weiter mit. Wieder aufnehmen: `ruht: true` in
+  `src/lib/domain/catalogs.ts` und `"ruht": true` in
+  `quellen-durchsicht/berufe.mjs` löschen, Bögen neu erzeugen. Wer einen der
+  beiden gespeichert hatte, landet bei KGQ.
 - **Niveau** ist nummeriert: „3 — Niveau der Abschlussprüfung". Die Zahl
   steht nur in der Liste, nicht im Prompt — für ein Sprachmodell wäre sie
   ohne die Skala nichtssagend.
