@@ -25,6 +25,7 @@ Berufe tatsächlich unterrichten.
 | `blaetter/<KÜRZEL>.html` | Ein Bogen je Beruf. |
 | `blaetter/fuer-<name>.html` | Ein Bogen je Ansprechpartner. Das, was verschickt wird. Nicht im Repository. |
 | `blaetter/_uebersicht.html` | Nur zur eigenen Vorbereitung, **nicht** verschicken. |
+| `versand/` | **Die Versandmappe.** Nur die Bögen der ausgewählten Personen, je Person ein Ordner mit verständlich benanntem Anhang, dazu `VERSANDLISTE.md` mit Empfänger, Betreff, Anhang, Mailtext-Abschnitt und dem, was vor dem Absenden noch fehlt. Wird bei jedem Lauf neu angelegt. Nicht im Repository. |
 | `ansprechpartner.local.mjs` | Wer welchen Beruf betreut. Nicht im Repository — siehe unten. |
 | `anschreiben.local.md` | Die Mailtexte, eine je Person. Ebenfalls nicht im Repository. |
 
@@ -126,7 +127,8 @@ jemand durchgesehen oder nur durchgeklickt hat.
 1. Je Beruf einen Ansprechpartner benennen.
 2. **Versand nur an ausgewählte Personen.** Wer angeschrieben werden soll,
    trägt in der Liste `ausgewaehlt: true`; alle anderen bekommen keinen Bogen.
-3. Bogen und Anschreiben verschicken.
+3. Aus der Versandmappe verschicken: `versand/VERSANDLISTE.md` Eintrag für Eintrag
+   abarbeiten, den Anhang aus dem jeweiligen Ordner nehmen.
 4. Rückläufe sammeln.
 5. Auswerten (Regeln unten).
 6. `src/lib/domain/quellenkatalog.ts` und `voreinstellung.ts` anpassen und

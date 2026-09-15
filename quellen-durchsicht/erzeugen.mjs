@@ -12,7 +12,7 @@
 // sie am Bildschirm ausfüllt, kann die Kästchen anklicken und über "Drucken →
 // Als PDF speichern" zurückschicken.
 
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 // Node lädt die TypeScript-Datei direkt; sie importiert zur Laufzeit nur Typen.
@@ -855,9 +855,35 @@ function dateiname(name) {
     .replace(/^-|-$/g, '');
 }
 
+// --- Versandmappe ----------------------------------------------------------
+// Enthält NUR die Bögen der ausgewählten Personen, dazu eine Versandliste mit
+// Empfänger, Betreff, Anhang und dem, was vor dem Absenden noch fehlt. Wer aus
+// dieser Mappe verschickt, kann keinen Bogen einer nicht ausgewählten Person
+// versehentlich anhängen. Die Mappe wird bei jedem Lauf neu angelegt — wer
+// nicht mehr ausgewählt ist, verschwindet daraus von selbst.
+const VERSAND = join(HIER, 'versand');
+const ANSCHREIBEN = join(HIER, 'anschreiben.local.md');
+
+/** Überschrift des passenden Abschnitts in anschreiben.local.md, falls vorhanden. */
+function abschnittImAnschreiben(empfaenger) {
+  if (!existsSync(ANSCHREIBEN)) return null;
+  const zeilen = readFileSync(ANSCHREIBEN, 'utf8').split(/\r?\n/);
+  const treffer = zeilen.find((z) => /^## \d+\./.test(z) && z.includes(empfaenger.name));
+  return treffer ? treffer.replace(/^## /, '').replace(/\*/g, '') : null;
+}
+
+/** Vorschlag für die Rückmeldefrist: zwei Wochen ab heute. */
+function fristVorschlag() {
+  const tag = new Date();
+  tag.setDate(tag.getDate() + 14);
+  return tag.toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' });
+}
+
 if (EMPFAENGER.length > 0) {
   console.log('\nBögen je Ansprechpartner:');
   const abgedeckt = new Set();
+  const versand = [];
+  rmSync(VERSAND, { recursive: true, force: true });
 
   for (const empfaenger of EMPFAENGER) {
     const berufe = empfaenger.berufe.map((id) => {
@@ -868,7 +894,18 @@ if (EMPFAENGER.length > 0) {
     });
 
     const datei = join(ZIEL, `fuer-${dateiname(empfaenger.name)}.html`);
-    writeFileSync(datei, bogen(berufe, empfaenger), 'utf8');
+    const inhalt = bogen(berufe, empfaenger);
+    writeFileSync(datei, inhalt, 'utf8');
+
+    // In die Versandmappe nur Ausgewählte. Der Anhang bekommt einen Namen, der
+    // für den Empfänger verständlich ist — "fuer-name.html" wäre es nicht.
+    if (ausgewaehlt(empfaenger)) {
+      const ordner = join(VERSAND, dateiname(empfaenger.name));
+      mkdirSync(ordner, { recursive: true });
+      const anhang = `Fragenschmiede-Quellen-${berufe.map((b) => b.kuerzel).join('-')}.html`;
+      writeFileSync(join(ordner, anhang), inhalt, 'utf8');
+      versand.push({ empfaenger, berufe, anhang, ordner: dateiname(empfaenger.name) });
+    }
 
     const zeilen = ALLGEMEIN.length + berufe.reduce((s, b) => s + b.quellen.length, 0);
     const einzeln = berufe.reduce((s, b) => s + ALLGEMEIN.length + b.quellen.length, 0);
@@ -898,5 +935,50 @@ if (EMPFAENGER.length > 0) {
     console.log(
       `\nOhne Ansprechpartner: ${offen.map((beruf) => beruf.kuerzel).join(', ')}`,
     );
+  }
+
+  // --- Versandliste ---------------------------------------------------------
+  if (versand.length > 0) {
+    const frist = fristVorschlag();
+    const eintraege = versand.map(({ empfaenger, berufe, anhang, ordner }, i) => {
+      const fehlt = [];
+      if (!empfaenger.email) fehlt.push('E-Mail-Adresse');
+      if (!empfaenger.vorname) fehlt.push('Vorname für die Anrede ([VORNAME])');
+      fehlt.push('Rückmeldefrist ([DATUM])');
+      if (empfaenger.offen) fehlt.push('Zuständigkeit ist nicht bestätigt — Weiterleitungs-Absatz verwenden');
+      const abschnitt = abschnittImAnschreiben(empfaenger);
+      return [
+        `## ${i + 1}. ${empfaenger.vorname ? empfaenger.vorname + ' ' : ''}${empfaenger.name}`,
+        '',
+        `- **An:** ${empfaenger.email || '— fehlt —'}`,
+        `- **Betreff:** Kurze fachliche Durchsicht: Welche Quellen gehören zu ${berufe.map((b) => b.name).join(' und ')}?`,
+        `- **Anhang:** \`${ordner}/${anhang}\``,
+        `- **Mailtext:** anschreiben.local.md, Abschnitt „${abschnitt ?? 'nicht gefunden — bitte ergänzen'}"`,
+        `- **Vor dem Absenden noch eintragen:** ${fehlt.join('; ')}`,
+        empfaenger.hinweis ? `- **Hinweis:** ${empfaenger.hinweis}` : null,
+        '',
+      ].filter((z) => z !== null).join('\n');
+    });
+    const liste = [
+      '# Versandliste — Quellen-Durchsicht',
+      '',
+      `Erzeugt am ${new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })} von erzeugen.mjs. Nicht von Hand ändern — beim nächsten Lauf neu.`,
+      '',
+      '**Nicht im Repository** — enthält Namen und Adressen Dritter.',
+      '',
+      `In dieser Mappe liegen ausschließlich die Bögen der **${versand.length} ausgewählten** von ${EMPFAENGER.length} Personen. Wer hier fehlt, ist nicht ausgewählt und bekommt nichts.`,
+      '',
+      `**Vorschlag für die Rückmeldefrist:** ${frist} (zwei Wochen), Erinnerung nach zehn Tagen.`,
+      '',
+      '**Rückmeldungen** kommen als Antwort auf die Mail oder an fragenschmiede@tinytux.de.',
+      '',
+      '---',
+      '',
+      ...eintraege,
+    ].join('\n');
+    writeFileSync(join(VERSAND, 'VERSANDLISTE.md'), liste, 'utf8');
+    console.log(`\nVersandmappe: ${versand.length} von ${EMPFAENGER.length} → ${VERSAND}`);
+  } else {
+    console.log('\nVersandmappe: leer — niemand ist ausgewählt.');
   }
 }
